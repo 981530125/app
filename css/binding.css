@@ -1,0 +1,37 @@
+body{
+	background-color: #fff;
+}
+.mui-content{
+	background-color: #fff;
+}
+
+#input-test::-webkit-input-placeholder{
+        font-size: 16px;
+}
+#input-test::-moz-placeholder{  //不知道为何火狐的placeholder的颜色是粉红色，怎么改都不行，希望有大牛路过帮忙指点
+        font-size: 16px;        
+}
+#input-test:-ms-input-placeholder{  //由于我的IE刚好是IE9，支持不了placeholder，所以也测试不了(⊙﹏⊙)，有IE10以上的娃可以帮我试试
+       font-size: 16px;       
+}
+.typeitem{
+	font-size: 14px;
+	display: flex;
+	justify-content:space-between;
+	width: 90%;
+	height: 0.8rem;
+	line-height: 0.8rem;
+	margin: 0 auto;
+	margin-top: 1rem;
+}
+.item-style{
+	flex: 0 0 30%;
+	border:1px solid #ccc;
+	text-align: center;
+	border-radius: 0.8rem;
+}
+.item-active{
+	background:  #209fd8;
+	color: #fff;
+	border: 1px solid #d3d3d3;
+}

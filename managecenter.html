@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>管理中心</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<script type="text/javascript" src="common/rem.js"></script>
+		<link rel="stylesheet" href="css/managecenter.css" />
+		<link rel="stylesheet" href="common/css/footer.css" />
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+		<script src="js/handlebars.js"></script>
+		<script type="text/javascript" src="common/common.js"></script>
+		
+		<script src="js/mui.min.js"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#29a3da;box-shadow: none;">
+			<a href="javascript:void(0);" ontouchend="toedit()" class="mui-icon mui-pull-right mui-a-color"><img src="img/edit.png" style="margin-right: 3px;" width="16px" /></a>
+			<h1 class="mui-title" style="color: #fff;font-weight: bold;">管理中心</h1>
+		</header>
+		<!--头部导航条-->
+		<div class="mui-content" id="center-content">
+			<!--在此添加模板-->
+		</div>
+		<div class="footer">
+			<div class="footer-tab" >
+				<a class="footer-tabitem" href="javascript:void(0);" onclick="toindex()">
+					<img src="img/homepage.png" class="footer-tabimga"/>
+					<p class="footer-tabtitle" >首页</p>
+				</a>
+			</div>
+			<div class="footer-tab">
+				<a class="footer-tabitem" href="javascript:void(0);" onclick="toarround()">
+					<img src="img/nearby.png" class="footer-tabimgb"/>
+					<p class="footer-tabtitle" >附近</p>
+				</a>
+			</div>
+			<div class="footer-tab">
+				<a class="footer-tabitem" href="javascript:void(0);" onclick="toaim()">
+					<img src="img/mine2.png" class="footer-tabimgc"/>
+					<p class="footer-tabtitle footer-tab-active" >我的</p>
+				</a>
+			</div>
+		</div>
+		<!--模板-->
+		<script id="content-template" type="text/x-handlebars-template">
+			<div class="top-info">
+				<div class="width-content">
+					<div class="manage-info-style"><img src="img/managelogo.png" class="manage-info-logo"></div>
+					<p class="manage-info-name">{{user_info.name}}</p>
+					<p class="manage-info-work" >#{{user_info.role.role_name}}-{{user_info.admin_office.name}}#</p>
+					<div style="width: 100%;margin: 0 auto;text-align: center;display: none;">  
+						<!--暂时隐藏-->
+						<button class="button1" id="shopcenter">
+							<img src="img/seller.png" width="15px" style="vertical-align: middle;" />企业中心
+						</button>
+						<button class="button2" id="managecenter">
+							<img src="img/manage.png" width="15px" style="vertical-align: middle;" />个人中心
+						</button>
+					</div>
+				</div>
+			</div>
+			<!--我的任务-->
+			<div class="task-item">
+				<div class="width-content">
+					<div class="task-iten-title"><img src="img/task.png" class="task-icon-style"/><span class="task-item-title">我的任务</span></div>
+					<div class="task-flex-all">
+						<div class="task-flex my-task-unitem" data-url = "task-wait.html" data-id="0" data-tasktype="wait">
+							<p class="task-flex-num">{{isnull stastic.investigate_task.wait}}</p>
+							<p class="task-flex-type">待处理</p>
+						</div>
+						<div class="task-flex my-task-unitem" data-url = "task-process.html" data-id="1" data-tasktype="process">
+							<p class="task-flex-num">{{isnull stastic.investigate_task.process}}</p>
+							<p class="task-flex-type">处理中</p>
+						</div>
+						<div class="task-flex my-task-unitem" data-url = "task-finished.html" data-id="2" data-tasktype="finished">
+							<p class="task-flex-num">{{isnull stastic.investigate_task.finished}}</p>
+							<p class="task-flex-type">已完成</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--我的检查记录-->
+			<div class="task-item">
+				<div class="width-content">
+					<div class="task-iten-title"><img src="img/regular-check.png" class="task-icon-style"/><span class="task-item-title">我的检查记录</span></div>
+					<div class="task-flex-all">
+						<div class="task-flex my-record-unitem" data-url = "records-month.html" data-id="0" data-tasktype="month">
+							<p class="task-flex-num check-color" >{{stastic.investigate_record.month}}</p>
+							<p class="task-flex-type">本月</p>
+						</div>
+						<div class="task-flex my-record-unitem" data-url = "records-year.html" data-id="1" data-tasktype="year">
+							<p class="task-flex-num check-color" >{{stastic.investigate_record.year}}</p>
+							<p class="task-flex-type">本年</p>
+						</div>
+						<div class="task-flex my-record-unitem" data-url = "records-all.html" data-id="2" data-tasktype="all">
+							<p class="task-flex-num check-color" >{{stastic.investigate_record.all}}</p>
+							<p class="task-flex-type">累计</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--列表-->
+			<div class="list-top">
+				<div class="list-item">
+					<ul class="mui-table-view list-top">
+						<li class="mui-table-view-cell list-size-style" style="display: none;">
+					    	<img src="img/recondsicon.png" class="list-icon-left icon-styleb" />信息通知
+					        <span class="mui-navigate-right list-item-right">{{stastic.message_number}}条</span>
+					    </li>
+					    <li class="mui-table-view-cell list-size-style tosetbusiness" style="cursor: pointer;">
+					    	<img src="img/rule.png" class="list-icon-left"/>管辖企业
+					        <span class="mui-navigate-right list-item-right">{{stastic.shop_number}}家</span>
+					        <!--<span class="mui-navigate-right list-item-right">3720家</span>-->
+					    </li>
+					    <li class="mui-table-view-cell list-size-style shopauxiliary" style="cursor: pointer;">
+					    	<img src="img/help.png" class="list-icon-left icon-stylea"/>辅助材料
+					        <span class="mui-navigate-right list-item-right">{{stastic.investigate_record_file_number}}份</span>
+					    </li>
+					    <li class="mui-table-view-cell list-size-style asda" data-url = "records-year.html" data-id="1" data-tasktype="year" style="display: none;">
+					    	<img src="img/recondsicon.png" class="list-icon-left icon-styleb"/>检查记录
+					        <span class="mui-navigate-right list-item-right asd">{{stastic.investigate_record_num}}次</span>
+					    </li>
+					    <li class="mui-table-view-cell list-size-style" ontouchend="run()">
+					    	<img src="img/recondsicon.png" class="list-icon-left icon-styleb"/>检查记录1
+					        <span class="mui-navigate-right list-item-right asd">{{stastic.investigate_record_num}}次</span>
+					    </li>
+					</ul>
+				</div>
+			</div>
+			<div class="list-top" style="display: none;">
+				<div class="list-item">
+					<ul class="mui-table-view list-top">
+					    <li class="mui-table-view-cell list-size-style">
+					    	<img src="img/personicon.png" class="list-icon-left icon-stylec"/>个人资料
+					        <span class="mui-navigate-right list-item-right"></span>
+					    </li>
+					    <li class="mui-table-view-cell list-size-style">
+					    	<img src="img/changemm.png" class="list-icon-left icon-styled"/>密码修改
+					        <span class="mui-navigate-right list-item-right"></span>
+					    </li>
+					</ul>
+				</div>
+			</div>
+			<div class="list-top">
+				<div class="exit-all">
+					<div class="exit-btn" id="quit">退出登录</div>
+				</div>
+			</div>
+		</script>
+		<!--模板-->
+		<script type="text/javascript" src="js/managecenter.js"></script>
+	</body>
+</html>

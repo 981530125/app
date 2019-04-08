@@ -1,0 +1,40 @@
+.addicon-style{
+	background: url('../img/addicon.png') no-repeat 0.33rem 0.33rem;
+	background-size: 0.99rem;
+	display: inline-block;
+	margin: 0 auto;
+	border: none;
+	max-width:1.65rem!important;
+	width: 1.65rem!important;;
+	padding-left:0;
+	height: 1.65rem!important;;
+}
+.mui-table-view:after{
+	background-color: #fff;
+}
+.upload-img{
+	width: 7.02rem;
+	padding: 0.32rem 0 0.32rem 0;
+	margin: 0 auto;
+	display: flex;
+	flex-wrap: wrap;
+	border-bottom: 1px solid #e5e5e5;
+}
+.imageup{
+	width: 1.65rem;
+	height: 1.65rem;
+	position:relative;
+	margin:0 0.3rem 0.2rem 0.3rem;
+}
+.imageitem{
+	width: 1.65rem;
+	height: 1.65rem;
+	position:relative;
+	margin:0 0.3rem 0.2rem 0.3rem;
+}
+.delete-btn{
+	position: absolute;
+	top: -0.15rem;
+	width: 0.4rem;
+	right: 0.1rem;
+}

@@ -1,0 +1,21 @@
+.list-size-style{
+	font-size: 14px;
+	color: #666666;
+}
+.list-item-right{
+	float: right;
+	margin-right: 0.4rem;
+	padding-top: 4px;
+	color: #b2b2b2;
+}
+.select-btn{
+	font-size: 14px;
+	height: 1rem;
+	line-height: 1rem;
+	background-color: #fff;
+	width: 100%;
+}
+.select-array{
+	font-size: 14px;
+	display: none;
+}

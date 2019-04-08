@@ -1,0 +1,53 @@
+body{
+	background-color: #fff;
+	font-size: 0px;
+	margin: 0;
+	padding: 0;
+}
+.f14{
+	font-size: 14px;
+}
+.inputfile{
+	width: 1.65rem;
+	height: 1.65rem;
+	border: 1px solid #000;
+	position:absolute;
+	left:0;
+	opacity: 0;
+}
+.chage-btn{
+	width: 7.02rem;
+	height: 0.88rem;
+	border-radius: 3px;
+	margin: 0 auto;
+	background-color: #209fd8;
+	font-size: 16px;
+	line-height: 0.88rem;
+	text-align: center;
+	color:#fff;
+	margin-top: 0.32rem;
+}
+.image-item{
+	width: 7.02rem;
+	padding: 0.32rem 0 0.32rem 0;
+	margin: 0 auto;
+	display: flex;
+	border-bottom: 1px solid #e5e5e5;
+}
+.image-src{
+	width: 1.65rem;
+	height: 1.65rem;
+	position:relative;
+}
+.addmaterial-btn{
+	width: 7.02rem;
+	height: 0.88rem;
+	border-radius: 3px;
+	margin: 0 auto;
+	background-color: #209fd8;
+	font-size: 16px;
+	line-height: 0.88rem;
+	text-align: center;
+	color:#fff;
+	margin-top: 0.32rem;
+}

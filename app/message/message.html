@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>信息列表</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<script type="text/javascript" src="../../common/rem.js"></script>
+		<link rel="stylesheet" href="../../common/css/mui.picker.css" />
+		<link rel="stylesheet" href="../../css/notice.css" />
+		<link rel="stylesheet" href="../../common/css/mui.poppicker.css" />
+		<script type="text/javascript" src="../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../common/common.js"></script>
+		<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/mui.picker.js"></script>
+		<script src="../../common/mui.poppicker.js"></script>
+		<script src="../js/message/notice.js"></script>
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			.all-item{
+				width: 100%;
+				padding: 0;
+				margin: 0;
+				display: flex;
+			}
+			.all-item li{
+				list-style-type: none;
+				text-align: center;
+				height: 40px;
+				line-height: 40px;
+				font-size: 16px;
+			}
+			.all-active{
+				position: relative;
+				font-weight: bold;
+				color: #209fd8;
+			}
+			.all-active:after{
+				content: '';
+				width: 32px;
+				height: 2px;
+				position: absolute;
+				bottom: 0;
+				left: calc(50% - 16px);
+				background-color: #209fd8;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#2ca5db;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 class="mui-title" style="color: #fff;font-weight: bold;">信息列表</h1>
+			<div class="mui-pull-right" style="width: 72px;" id='showmessagePicker'>
+				<a href="#" class="mui-icon mui-pull-right mui-icon mui-icon-arrowdown" style="color: #D1F0FD"></a>
+				<a href="#" class="mui-title" id="messageResult" style="font-size: 14px;color: #D1F0FD;left: auto;">全部</a>
+			</div>
+			<div class="mui-pull-right" style="width: 72px;display: none;" id='showUserPicker'>
+				<a href="#" class="mui-icon mui-pull-right mui-icon mui-icon-arrowdown" style="color: #D1F0FD"></a>
+				<a href="#" class="mui-title" id="userResult" style="font-size: 14px;color: #D1F0FD;left: auto;">全部</a>
+			</div>
+		</header>
+		<div style="width: 100%;margin: 0 auto;border-bottom: 1px solid #e0e0e0;position: fixed;top: 44px;z-index: 1000;background-color: #fff;">
+			<ul class="all-item mui-bar-tab" style="height: 40px;">
+				<li class="all-li all-active" data-url ="messageall.html" data-id="messageall" style="flex: 1;" data-typeid="0" data-tasktype="notice">通知信息<span class="mui-badge mui-badge-primary messagenum" style="vertical-align:top;margin-top: 0.19rem;margin-left: 0.1rem;">0</span></li>
+				<li class="all-li" data-url = "pushnotice.html" data-id="pushnotice" style="flex: 1;" data-typeid="1" data-tasktype="push">推送记录<span class="mui-badge mui-badge-primary notifynum" style="vertical-align:top;margin-top: 0.19rem;margin-left: 0.1rem;">0</span></li>
+			</ul>
+			<input id="messagetype" type="hidden" name="messagetype" value="0"/>
+		</div>
+		<script src="../../../js/mui.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				var stasticmessage = self.stasticmessage;
+				console.log(JSON.stringify(stasticmessage));
+				if(stasticmessage.message_number == ''||stasticmessage.message_number == 'null'){
+					$('.messagenum').html(0);
+				}else{
+					$('.messagenum').html(stasticmessage.message_number);
+				}
+				if(stasticmessage.notify_num == ''||stasticmessage.notify_num == 'null'){
+					$('.notifynum').html(0);
+				}else{
+					$('.notifynum').html(stasticmessage.notify_num);
+				}
+				
+				
+				
+				var subpages = [{
+						url:'messageall.html',
+						id:'messageall',
+					},{
+						url:'pushnotice.html',
+						id:'pushnotice',
+					}];
+				
+				var subpage_style = {
+					top: '85px',
+					bottom: '0px'
+				};
+
+				// 根据id查询子页面的信息
+				var getSubInfoById = function(infoList, id) {
+					var result = null;
+					for(var i = 0, len = infoList.length; i < len; i++) {
+						var _info = infoList[i];
+						if(_info.id === id) {
+							result = _info;
+							break;
+						}
+					}
+					return result;
+				};
+
+				var mainWv = plus.webview.currentWebview();
+				var titleEL = document.querySelector('.mui-title');
+				var activeTab = '';
+
+				// 默认只加载首页webview
+				var homeWv = plus.webview.create(subpages[0].url, subpages[0].id, subpage_style);
+				mainWv.append(homeWv);
+				activeTab = subpages[0].id;
+				
+				
+				// 点击切换，动态创建其它webview；
+				mui('.mui-bar-tab').on('tap', 'li', function(e) {
+					var targetTab = this.getAttribute('data-url');
+					var activeid = this.getAttribute('data-typeid');
+					var tasktype = this.getAttribute('data-tasktype');
+					console.log(activeid);
+					$('#messagetype').val(activeid);
+					if(activeid == '0'){
+						$('#showmessagePicker').show();
+						$('#showUserPicker').hide();
+					}else{
+						$('#showmessagePicker').hide();
+						$('#showUserPicker').show();
+					}
+					var _self = this;
+					var targetTab = _self.getAttribute('data-id');
+					if(targetTab === activeTab) {
+						return;
+					}
+					gettypeitem(activeid);
+//					titleEL.innerText = this.querySelector('.mui-tab-label').getAttribute('data-describe');
+					var _subWv = plus.webview.getWebviewById(targetTab);
+					// 若webview不存在，则创建；
+					if(!_subWv) {
+						var _subInfo = getSubInfoById(subpages, targetTab);
+
+						_subWv = plus.webview.create(_subInfo.url, _subInfo.id, subpage_style);
+						mainWv.append(_subWv);
+					}
+					_subWv.show();
+					// 隐藏之前的webview
+					plus.webview.getWebviewById(activeTab).hide('none');
+					activeTab = targetTab;
+				});
+			});
+		
+//			//根据id切换选项卡样式
+			function gettypeitem(id){
+				var len = $(".menulist").length;
+				for(var n = 0;n<len;n++){
+					$(".menulist").eq(n).hide();
+				}
+				$(".menulist").eq(id).show();
+				$('.all-li').eq(id).siblings('.all-li').removeClass('all-active');
+				$('.all-li').eq(id).addClass('all-active');
+			}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,134 @@
+body {
+	margin: 0;
+	background-color: white;
+}
+
+.a {
+	color: black;
+	text-decoration: none;
+}
+
+.dspl {
+	color: #209FD8;
+	display: inline-block;
+	border-bottom: 2px solid #209FD8;
+}
+
+.active {
+	background: #209FD8;
+	padding: 10px;
+	height: 80px;
+}
+
+.span {
+	display: inline-block;
+	border-bottom: 2px solid #209FD8;
+}
+.p {
+	text-align: center;
+	margin-bottom: -100px;
+	padding-top: 10px;
+}
+
+.p2 {
+	padding-left: 300px;
+	padding-top: 60px;
+}
+.span2 {
+	display: inline-block;
+	margin: 0 80px;
+}
+
+.Dishname {
+	margin-left: 5px;
+	margin-bottom: 0px;
+	font-size: 14px;
+	color: #333333;
+}
+
+.introduce {
+	color: #999999;
+	font-size: 11px;
+	margin: 0 0 0 5px;
+}
+.rate{
+	color: #ff5339;
+	font-size: 8px;
+	margin: 0 0 0 5px;
+}
+.change-list{
+	width: 100%;
+}
+.menulist{
+	width: 93.6%;
+	margin: 0 auto;
+}
+.menuitem{
+	padding: 0.32rem 0;
+	width: 100%;
+	border-bottom: 1px solid #e0e0e0;
+}
+.present{
+	font-size: 13px;
+	color: #666666;
+}
+.shopimg{
+	width: 1.65rem;
+	height: 1.33rem;
+	display: inline-block;
+	border-radius: 5px;
+}
+.shopimg-list{
+	padding: 0;
+	margin: 0;
+	height: 1.33rem;
+	line-height: 1.33rem;
+	white-space:nowrap;
+}
+.shopimg-list span{
+	margin: 0;
+	height: 1.33rem;
+	width: 1.65rem;
+	line-height: 1.33rem;
+	display: inline-block;
+	margin-left: 0.24rem;
+}
+.flex-play{
+	display: flex;
+}
+.flex-info-left{
+	font-size: 14px;
+	color: #999999;
+	flex: 1;
+	text-align: left;
+}
+.flex-info-right{
+	font-size: 14px;
+	color: #333333;
+	flex: 3;
+	text-align: right;
+}
+.bus-title{
+	font-size: 14px;
+	color: #999999;
+}
+.bus-border{
+	border-top: 0.16rem solid #ebebeb;
+	border-bottom: 0.16rem solid #ebebeb;
+}
+.report-div{
+	padding: 0.42rem 0.24rem 0.48rem;
+}
+.report-btn{
+	width: 100%;
+	height:0.88rem;
+	color: #fff;
+	font-weight: bold;
+	border: 0;
+	background-color: #ffc000;
+}
+.a-form-style{
+	display: block;
+	font-size: 14px;
+	color: #8f8f94;
+}

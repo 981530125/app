@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>企业选择主页面</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../../css/mui.min.css">
+		<script type="text/javascript" src="../../../common/rem.js"></script>
+		<link rel="stylesheet" href="../../../css/mui.picker.min.css" />
+		<script src="../../../js/mui.min.js"></script>
+		<script src="../../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../../js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="../../../common/common.js"></script>
+		<link rel="stylesheet" href="../../../css/addtask.css" />
+		<link rel="stylesheet" href="../../../css/setbusiness.css" />
+		<link rel="stylesheet" href="../../../css/newrecords.css" />
+		<script type="text/javascript" src="../../../common/mui.pullToRefresh.js"></script>
+		<script type="text/javascript" src="../../../common/mui.pullToRefresh.material.js"></script>
+		<script type="text/javascript" src="../../../js/mui.picker.min.js"></script>
+		<script type="text/javascript" src="../../js/managecenter/newrecord.js"></script>
+		
+		
+		
+		<link rel="stylesheet" href="../../../common/css/mui.picker.css" />
+		<link rel="stylesheet" href="../../../common/css/mui.poppicker.css" />
+		<link rel="stylesheet" href="../../../css/statistics.css" />
+		<link rel="stylesheet" href="../../../css/mui.picker.min.css" />
+		<script src="../../../common/mui.picker.js"></script>
+		<script src="../../../common/mui.poppicker.js"></script>
+		<script type="text/javascript" src="../../../js/mui.picker.min.js"></script>
+		<script src="../../js/managecenter/statics.js"></script>
+		
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+				font-size: 14px;
+			}
+			p {
+				text-indent: 22px;
+			}
+			span.mui-icon {
+				font-size: 14px;
+				color: #007aff;
+				margin-left: -15px;
+				padding-right: 10px;
+			}
+			#allshop{
+				color: #fff;
+				font-size: 14px;
+				height: 44px;
+				line-height: 44px;
+				padding-top: 0;
+				padding-bottom: 0;
+				margin-right: 0.08rem;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav" style="background-color:#2ca5db;box-shadow: none;">
+			<!--<a class="mui-action-menu mui-icon mui-icon-bars mui-pull-right" style="color: #fff;"></a>-->
+			<a class="mui-action-back mui-icon mui-icon-back mui-pull-left" style="color: #fff;"></a>
+			<a href="#" class="mui-icon mui-pull-right mui-a-color" id="choice-finish">完成</a>
+			<a href="#" class="mui-icon mui-pull-right mui-a-color" id="allshop">全选</a>
+			<a href="#" class="mui-icon mui-pull-right mui-a-color change-chioe" id="choice-all" data-type="0">选择</a>
+			<h1 class="mui-title" style="color: #fff;">企业选择</h1>
+		</header>
+		<!--遮罩层-->
+		<div class="mui-backdrop" style="display: none;" id="my-mask">
+			<div class="mui-loading" style="position: absolute;top: calc(50% - 12px);left: calc(50% - 12px);">
+				<div class="mui-spinner">
+				</div>
+			</div>
+		</div>
+		<div class="jurisarea" style="height: 60px;position: fixed;top:44px;left:0;z-index:100;width: 100%;text-align: center;padding:0.2rem;background-color: #fff;border-bottom:1px solid #ccc;text-indent: 0px;">
+			<span class="mui-ellipsis areacontent" style="width: 100%;height:100%;display: inline-block;border: #ccc 1px solid;">局级</span>
+			<input type="hidden" id="selectareaid" value="" />
+			<img src="../../../img/cos.png" class="upimg" />
+		</div>
+		<div style="height: 60px;position: fixed;top:104px;left:0;z-index:100;width: 100%;text-align: center;background-color: #fff;border-bottom:1px solid #ccc;">
+			<div style="border-left:none;border-right:none;height: 100%;width: 86%;float: left;">
+				<input type="text" class="searchkey" placeholder="请填写关键字搜索" value="" style="width: 96%;text-indent: 10px;height: 40px;display: inline-block;border: 1px solid #CCC;margin:0 auto;margin-top: 10px;">
+				<div class="search-btn" style="font-size: 14px;width: 40px;height: 40px;line-height: 40px;text-align: center;position: absolute;top: 15px;right: 70px;">
+					<img src="../../../img/search.png" style="width: 16px;height: 17px;"/>
+				</div>
+			</div>
+			<div style="float: left;width: 14%;height: 100%;vertical-align: top;">
+				<a class="mui-action-menu mui-icon mui-icon-bars mui-pull-right" style="color: #ccc;text-align: center;margin-top: 18px;margin-right: 20px;"></a>
+			</div>
+		</div>
+		<div class="mui-content" style="padding-left: 0.32rem;padding-right: 0.32rem;margin-top: 2.7rem;">
+			<div style="width: 100%;height: 2.7rem;position: fixed;top: 44px;left: 0;z-index: 200;background-color: #efeff4;">
+				<div style="position: relative;height: 1rem;margin: 0 0.32rem;background-color: #fff;margin-top: 0.3rem;">
+					<input type="text" name="searchkey" class="search-key" placeholder="请输入关键字" value="" style="width: 85%;height: 1rem;border: none;font-size: 16px;text-indent: 10px;"/>
+					<div class="search-btn" style="position: absolute;top: 0px;right: 0px;height: 100%;padding-left: 0.32rem;padding-right: 0.32rem;">
+						<img src="../../../img/search.png" style="width: 0.38rem;height: 0.38rem;vertical-align: top;margin-top: 0.31rem;"/>
+					</div>
+				</div>
+				<div style="height: 1rem;display: flex;padding-left: 0.32rem;padding-right: 0.32rem;margin-top: 0.1rem;">
+					<div class="time timestyle">
+						<span>2018-01-09</span>
+						<input type="hidden" class="start" value=""/>
+					</div>
+					<div class="symbol">~</div>
+					<div class="time timestyle">
+						<span>2018-01-09</span>
+						<input type="hidden" class="end" value=""/>
+					</div>
+				</div>
+				<div style="height: 60px;position: fixed;top:104px;left:0;z-index:100;width: 100%;text-align: center;background-color: #fff;border-bottom:1px solid #ccc;">
+					<div style="border-left:none;border-right:none;height: 100%;width: 86%;float: left;">
+						<input type="text" class="searchkey" placeholder="请填写关键字搜索" value="" style="width: 96%;text-indent: 10px;height: 40px;display: inline-block;border: 1px solid #CCC;margin:0 auto;margin-top: 10px;">
+						<div class="search-btn" style="font-size: 14px;width: 40px;height: 40px;line-height: 40px;text-align: center;position: absolute;top: 15px;right: 70px;">
+							<img src="../../../img/search.png" style="width: 16px;height: 17px;"/>
+						</div>
+					</div>
+					<div style="float: left;width: 14%;height: 100%;vertical-align: top;">
+						<a class="mui-action-menu mui-icon mui-icon-bars mui-pull-right" style="color: #ccc;text-align: center;margin-top: 18px;margin-right: 20px;"></a>
+					</div>
+				</div>
+			</div>
+			<div id="refreshlist" class="mui-content mui-scroll-wrapper" style="margin-top: 0.15rem;padding-bottom: 2rem;">
+				<div class="mui-scroll">
+					<div class="list-wrapper" id="list-content">
+					</div>
+				</div>
+			</div>
+		</div>
+		<script id="mydata-template" type="text/x-handlebars-template">
+			{{#each data}}
+			<div class="census-item">
+				<div class="census-item-leftborder"></div>
+				<div class="census-item-content">
+					<p class="census-item-contenttitle">{{name}}</p>
+					<p class="census-item-contentfinish">已完成:{{record_num}}</p>
+				</div>
+				<div class="census-item-content">
+					<p class="census-item-all">记录总量:{{check_times_total}}</p>
+					<p class="census-item-percent">完成比:{{decimal rate 2}}%</p>
+				</div>
+			</div>
+			{{/each}}
+		</script>
+		<script id="cerbooktype-template" type="text/x-handlebars-template">
+			<select class="bad-rightstyle selectname" id="selectype" name="selectype">
+				{{#each this}} {{#if_eq name '全部'}}
+				<option value="{{type}}" selected="selected">{{name}}</option>
+				{{else}}
+				<option value="{{type}}">{{name}}</option>
+				{{/if_eq}} {{/each}}
+			</select>
+		</script>
+		<script>
+			var main,menu, mask = mui.createMask(_closeMenu);
+			var showMenu = false,
+				mode = 'menu-move';
+
+			 //整体滑动暂不支持android手机，因为两个页面的移动动画，无法保证同步性；
+			if (!mui.os.android) {
+				//整体滑动暂不支持android手机，因为两个页面的移动动画，无法保证同步性；
+				document.getElementById("move-togger").classList.remove('mui-hidden');
+				var spans = document.querySelectorAll('.android-only');
+				for (var i=0,len=spans.length;i<len;i++) {
+					spans[i].style.display = "none";
+				}
+			}
+
+			mui.init({
+				swipeBack: false,
+				beforeback: back
+			});
+
+			function back() {
+					if (showMenu) {
+						//菜单处于显示状态，返回键应该先关闭菜单,阻止主窗口执行mui.back逻辑；
+						closeMenu();
+						return false;
+					} else {
+						//菜单处于隐藏状态，执行返回时，要先close菜单页面，然后继续执行mui.back逻辑关闭主窗口；
+						menu.close('none');
+						return true;
+					}
+				}
+			//plusReady事件后，自动创建menu窗口；
+			mui.plusReady(function() {
+				main = plus.webview.currentWebview();
+				//setTimeout的目的是等待窗体动画结束后，再执行create webview操作，避免资源竞争，导致窗口动画不流畅；
+				setTimeout(function () {
+					menu = mui.preload({
+						id: 'offcanvas-drag-left-plus-menu',
+						url: 'offcanvas-drag-left-plus-menu.html',
+						styles: {
+							left: "30%",
+							width: '70%',
+							zindex: 9997
+						}
+					});
+				},300);
+			});
+
+			/*
+			 * 显示菜单菜单
+			 */
+			function openMenu() {
+					if (!showMenu) {
+						//解决android 4.4以下版本webview移动时，导致fixed定位元素错乱的bug;
+						if (mui.os.android && parseFloat(mui.os.version) < 4.4) {
+							document.querySelector("header.mui-bar").style.position = "static";
+							//同时需要修改以下.mui-contnt的padding-top，否则会多出空白；
+							document.querySelector(".mui-bar-nav~.mui-content").style.paddingTop = "0px";
+						}
+
+						//侧滑菜单处于隐藏状态，则立即显示出来；
+						//显示完毕后，根据不同动画效果移动窗体；
+						menu.show('none', 0, function() {
+							switch (mode){
+								case 'main-move':
+									//主窗体开始侧滑；
+									main.setStyle({
+										left: '-70%',
+										transition: {
+											duration: 150
+										}
+									});
+									break;
+								case 'menu-move':
+									menu.setStyle({
+										left: '30%',
+										transition: {
+											duration: 150
+										}
+									});
+									break;
+								case 'all-move':
+									main.setStyle({
+										left: '-70%',
+										transition: {
+											duration: 150
+										}
+									});
+									menu.setStyle({
+										left: '30%',
+										transition: {
+											duration: 150
+										}
+									});
+									break;
+							}
+						});
+						//显示主窗体遮罩
+						mask.show();
+						showMenu = true;
+					}
+				}
+			function closeMenu () {
+				//窗体移动
+				_closeMenu();
+				//关闭遮罩
+				mask.close();
+			}
+			
+			/**
+			 * 关闭侧滑菜单(业务部分)
+			 */
+			function _closeMenu() {
+				if (showMenu) {
+					//解决android 4.4以下版本webview移动时，导致fixed定位元素错乱的bug;
+					if (mui.os.android && parseFloat(mui.os.version) < 4.4) {
+						document.querySelector("header.mui-bar").style.position = "fixed";
+						//同时需要修改以下.mui-contnt的padding-top，否则会多出空白；
+						document.querySelector(".mui-bar-nav~.mui-content").style.paddingTop = "44px";
+					}
+
+					switch (mode){
+						case 'main-move':
+							//主窗体开始侧滑；
+							main.setStyle({
+								left: '0',
+								transition: {
+									duration: 150
+								}
+							});
+							break;
+						case 'menu-move':
+							//主窗体开始侧滑；
+							menu.setStyle({
+								left: '100%',
+								transition: {
+									duration: 150
+								}
+							});
+							break;
+						case 'all-move':
+							//主窗体开始侧滑；
+							main.setStyle({
+								left: '0',
+								transition: {
+									duration: 150
+								}
+							});
+							//menu页面同时移动
+							menu.setStyle({
+								left: '100%',
+								transition: {
+									duration: 150
+								}
+							});
+							
+							break;
+					}
+					//等窗体动画结束后，隐藏菜单webview，节省资源；
+					setTimeout(function() {
+						menu.hide();
+					}, 300);
+					showMenu = false;
+				}
+			}
+			
+			//变换侧滑动画移动效果；
+			mui('.mui-input-group').on('change', 'input', function() {
+				if (this.checked) {
+					switch (this.value) {
+						case 'main-move':
+							//仅主窗口移动的时候，menu页面的zindex值要低一点；
+							menu.setStyle({left:'30%',zindex:9997});
+//							menu.hide();
+							mode = 'main-move';
+							break;
+						case 'menu-move':
+							menu.setStyle({left:'100%',zindex:9999});
+							mode = 'menu-move';
+							break;
+						case 'all-move':
+							//切换为整体移动
+							//变换menu界面初始化位置，整体移动时，Menu界面left需要在-70%的地方；
+							menu.setStyle({
+								left: '100%'
+							});
+							mode = 'all-move';
+							break;
+					}
+				}
+			});
+			
+//			document.getElementById("show-btn").addEventListener('tap',openMenu);
+			 //点击侧滑图标，打开侧滑菜单；
+			document.querySelector('.mui-action-menu').addEventListener('tap', openMenu);
+			 //在android4.4中的swipe事件，需要preventDefault一下，否则触发不正常
+			 //故，在dragleft，dragright中preventDefault
+			window.addEventListener('dragright', function(e) {
+				e.detail.gesture.preventDefault();
+			});
+			window.addEventListener('dragleft', function(e) {
+				e.detail.gesture.preventDefault();
+			});
+			 //主界面向左滑动，若菜单未显示，则显示菜单；否则不做任何操作；，有bug下滑时有时会触发
+//			window.addEventListener("swipeleft", openMenu);
+			 //主界面向右滑动，若菜单已显示，则关闭菜单；否则，不做任何操作；
+			window.addEventListener("swiperight", closeMenu);
+			 //menu页面向右滑动，关闭菜单；
+			window.addEventListener("menu:swiperight", closeMenu);
+
+			 //重写mui.menu方法，Android版本menu按键按下可自动打开、关闭侧滑菜单；
+			mui.menu = function() {
+				if (showMenu) {
+					closeMenu();
+				} else {
+					openMenu();
+				}
+			}
+		</script>
+	</body>
+</html>

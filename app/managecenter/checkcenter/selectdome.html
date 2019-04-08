@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>domeselect人员</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../../css/mui.min.css" />
+		<script type="text/javascript" src="../../../common/rem.js"></script>
+		<script src="../../../js/mui.min.js"></script>
+		<link rel="stylesheet" href="../../../css/checkcenter.css" />
+		<link rel="stylesheet" href="../../../common/css/mui.picker.css" />
+		<link rel="stylesheet" href="../../../common/css/mui.poppicker.css" />
+		<link rel="stylesheet" href="../../../common/css/footer.css" />
+		<script type="text/javascript" src="../../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../../common/common.js"></script>
+		<script src="../../../common/mui.picker.js"></script>
+		<script src="../../../common/mui.poppicker.js"></script>
+		<style>
+			.f14{
+				font-size: 14px;
+			}
+			.mui-table-view-cell{
+				padding: 10px 15px;
+			}
+			.mui-table-view-cell:before{
+				height: 0;
+			}
+			.mui-table-view-cell:after{
+				height: 0;
+			}
+			.mui-table-view:before{
+				height: 0;
+			}
+			.mui-table-view:after{
+				height: 0;
+			}
+			
+			.li-item{
+				padding: 5px 0px;
+				width: 90%;
+				position: relative;
+				display: inline-block;
+			}
+			
+			.mui-table-view-cell{
+				padding-top: 0;
+				padding-bottom: 0;
+				border-top: 1px solid #ccc;
+				/*height: 1rem;*/
+				line-height: 1rem;
+			}
+			.mui-isselect{
+				position: absolute;
+				top: 0.3rem;
+				right: 0.1rem;
+				font-weight: bold;
+				color: #007AFF;
+				font-size: 36px;
+				display: none;
+			}
+			
+			 .wrapper{width: 100% height: 400px; overflow-x: scroll;margin: 0 auto;}
+	        .fold{ display:none;}
+	        .aiui .checkbox{ width: 25px; height: 25px; border: 1px solid #dadada; border-radius: 2px; -webkit-border-radius: 2px; -moz-border-radius: 2px; margin:2px 5px 0 0;cursor: pointer; }
+	        .aiui .c-selected{ border: 1px solid #27b0f2; position: relative;}
+	        .aiui .c-selected:after{ content:''; display:block; width:100%; height:100%; position: absolute; left: 0; top: 0; background:#27b0f2 url("ai_icon.png") no-repeat -36px -1px; }
+	        .aiui .c-selected:after{ background-position: -1px -1px;}
+	        .aiui .checkbox > input{ margin: 0; visibility: hidden;}
+	        .pull-left{ float: left;display: block;height:32px;line-height: 32px;}
+	        .c-f:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+	         ul,li,i{ list-style:none; padding:0; margin:0; font-style:normal;vertical-align: top;}
+	        .ai-treenav{ width:100%;}
+	        /*.ai-treenav ul{ margin-left:20px;}*/
+	        .ai-treenav i{width:14px; height:14px; margin:0 15px 0 0; float: left}
+	        .ai-treenav i.unfold, .ai-treenav .item-name-last > i{width:14px; height:14px;}
+	        .ai-treenav a{display:block; font-size:14px; height:42px; padding:3px 0; color:#666; overflow:hidden;}
+	        .nav-trunk{ margin-left:20px;}
+	        .ai-treenav .checkbox{ margin-top: 0;}
+	        .ai-treenav .filename,.ai-treenav .filename-open{ padding-left: 25px; width: 50%;white-space: nowrap; text-overflow: ellipsis; overflow: hidden;}
+	        .ai-treenav .filename-open{ background-position: 0 -52px;}
+	        .ai-treenav li.unfold{min-width: 250px;}
+	        .ai-treenav li.unfold > ul li .filename{ width: 60%;}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color:#2ca5db;box-shadow: none;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 class="mui-title" style="color: #fff;">选择接收人</h1>
+			<a id='done' class="mui-btn mui-btn-link mui-pull-right mui-btn-blue mui-disabled" style="color: #fff;">完成<span class="getnum"></span></a>
+		</header>
+		<!--<div class="wrapper">
+			<div class="aiui">
+			    <div class="ai-treenav">
+			        <ul>
+			            <li>
+			                <ul class="nav-trunk">
+			                    <li ><a  class="item-name c-f"><i><span class="mui-icon mui-icon-plusempty"></span></i><span class="pull-left"><div class="checkbox c-selected"><input type="checkbox"></div></span><span class="pull-left filename">一级目录名称</span></a>
+			                        <ul class="nav-trunk fold ">
+			                            <li ><a  class="item-name c-f" title="二级目录名称二级目录名称二级目录名称"><i><span class="mui-icon mui-icon-plusempty"></span></i><span class="pull-left"><div class="checkbox"><input type="checkbox"></div></span><span class="pull-left filename" >二级目录名称好长好长好长呀</span></a>
+			                                <ul class="nav-trunk fold">
+			                                    <li> <a  class="item-name c-f"><i><span class="mui-icon mui-icon-plusempty"></span></i><span class="pull-left"><div class="checkbox"><input type="checkbox"></div></span><span class="pull-left filename">三级目录名称</span></a>
+			                                       <ul class="nav-trunk fold" >
+			                                           <li><a  class="item-name c-f"><i><span class="mui-icon mui-icon-plusempty"></span></i><span class="pull-left"><div class="checkbox"><input type="checkbox"></div></span><span class="pull-left filename">四级目录名称</span></a>
+			                                             <ul class="nav-trunk fold">
+			                                                 <li><a  class="item-name item-name-last  c-f"><i><span class="mui-icon mui-icon-plusempty"></span></i><span class="pull-left"><div class="checkbox"><input type="checkbox"></div></span><span class="pull-left filename">五级目录名称</span></a></li>
+			                                             </ul>
+			                                           </li>
+			                                       </ul>
+			                                    </li>
+			                                </ul>
+			                            </li>
+			                        </ul>
+			                    </li>
+			                    <li ><a  class="item-name c-f"><i><span class="mui-icon mui-icon-plusempty"></span></i><span class="pull-left"><div class="checkbox"><input type="checkbox"></div></span><span class="pull-left filename">一级目录名称</span></a>
+			                        <ul class="nav-trunk fold ">
+			                            <li ><a  class="item-name c-f"><i><span class="mui-icon mui-icon-plusempty"></span></i><span class="pull-left"><div class="checkbox"><input type="checkbox"></div></span><span class="pull-left filename">二级目录名称</span></a>
+			                                <ul class="nav-trunk fold">
+			                                    <li> <a  class="item-name  item-name-last c-f"><i><span class="mui-icon mui-icon-plusempty"></span></i><span class="pull-left"><div class="checkbox"><input type="checkbox"></div></span><span class="pull-left filename">三级目录名称</span></a>
+			                                    </li>
+			                                </ul>
+			                            </li>
+			                        </ul>
+			                    </li>
+			                    <li ><a  class="item-name c-f"><i><span class="mui-icon mui-icon-plusempty"></span></i><span class="pull-left"><div class="checkbox"><input type="checkbox"></div></span><span class="pull-left filename">一级目录名称</span></a>
+			                        <ul class="nav-trunk fold ">
+			                            <li ><a  class="item-name c-f"><i><span class="mui-icon mui-icon-plusempty"></span></i><span class="pull-left"><div class="checkbox"><input type="checkbox"></div></span><span class="pull-left filename">二级目录名称</span></a>
+			                                <ul class="nav-trunk fold">
+			                                    <li> <a  class="item-name  item-name-last c-f"><i><span class="mui-icon mui-icon-plusempty"></span></i><span class="pull-left"><div class="checkbox"><input type="checkbox"></div></span><span class="pull-left filename">三级目录名称</span></a>
+			                                    </li>
+			                                    <li> <a  class="item-name  item-name-last c-f"><i><span class="mui-icon mui-icon-plusempty"></span></i><span class="pull-left"><div class="checkbox"><input type="checkbox"></div></span><span class="pull-left filename">三级目录名称</span></a>
+			                                    </li>
+			                                    <li> <a  class="item-name  item-name-last c-f"><i><span class="mui-icon mui-icon-plusempty"></span></i><span class="pull-left"><div class="checkbox"><input type="checkbox"></div></span><span class="pull-left filename">三级目录名称</span></a>
+			                                    </li>
+			                                </ul>
+			                            </li>
+			                        </ul>
+			                    </li>
+			                </ul>
+			            </li>
+			        </ul>
+			    </div>
+			</div>
+		</div>-->
+		
+		
+		
+		<div class="mui-content" id="dome" style="font-size: 14px;margin-top: 0;">
+			
+		</div>
+	</body>
+	<script id="dome-template" type="text/x-handlebars-template">
+		<ul class="mui-table-view f14" style="border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;margin-top: 0;">
+			{{#each this}}
+		    <li class="mui-table-view-cell">
+		    	{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}
+		    	<p class="li-item" data-name="{{name}}" data-id="{{id}}" data-select="0" style="">
+		    		<!--{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}-->
+		    		<span>{{name}}</span>
+		    		<span class="mui-icon mui-icon-checkmarkempty mui-isselect"></span>
+		    	</p>
+		    	{{#ifarrnull children}}
+		    	<ul class="mui-table-view f14" style="display: none;">
+		    		{{#each children}}
+				    <li class="mui-table-view-cell" style="">
+				    	{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}
+				    	<p class="li-item" data-name="{{name}}" data-id="{{id}}" data-select="0">
+				    		<!--{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}-->
+				    		<span>{{name}}</span>
+		    				<span class="mui-icon mui-icon-checkmarkempty mui-isselect"></span>
+				    	</p>
+				    	{{#ifarrnull children}}
+				    	<ul class="mui-table-view f14" style="display: none;">
+				    		{{#each children}}
+						    <li class="mui-table-view-cell">
+						    	{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}
+						    	<p class="li-item" data-name="{{name}}" data-id="{{id}}" data-select="0">
+						    		<!--{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}-->
+						    		<span>{{name}}</span>
+						    		<span class="mui-icon mui-icon-checkmarkempty mui-isselect"></span>
+						    	</p>
+						    	{{#ifarrnull children}}
+						    	<ul class="mui-table-view f14" style="display: none;">
+						    		{{#each children}}
+								    <li class="mui-table-view-cell">
+								    	{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}
+								    	<p class="li-item" data-name="{{name}}" data-id="{{id}}" data-select="0">
+								    		<!--{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}-->
+								    		<span>{{name}}</span>
+								    		<span class="mui-icon mui-icon-checkmarkempty mui-isselect"></span>
+								    	</p>
+								    	{{#ifarrnull children}}
+								    	<ul class="mui-table-view f14" style="display: none;">
+								    		{{#each children}}
+										    <li class="mui-table-view-cell">
+										    	{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}
+										    	<p class="li-item" data-name="{{name}}" data-id="{{id}}" data-select="0">
+										    		<span>{{name}}</span>
+										    		<span class="mui-icon mui-icon-checkmarkempty mui-isselect"></span>
+										    	</p>
+										    	{{#ifarrnull children}}
+										    	<ul class="mui-table-view f14" style="display: none;">
+										    		{{#each children}}
+												    <li class="mui-table-view-cell">
+												    	{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}
+												    	<p class="li-item" data-name="{{name}}" data-id="{{id}}" data-select="0">
+												    		<!--{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}-->
+												    		<span>{{name}}</span>
+												    		<span class="mui-icon mui-icon-checkmarkempty mui-isselect"></span>
+												    	</p>
+												    	{{#ifarrnull children}}
+												    	<ul class="mui-table-view f14" style="display: none;">
+												    		{{#each children}}
+														    <li class="mui-table-view-cell">
+														    	{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}
+														    	<p class="li-item" data-name="{{name}}" data-id="{{id}}" data-select="0">
+														    		<!--{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}-->
+														    		<span>{{name}}</span>
+														    		<span class="mui-icon mui-icon-checkmarkempty mui-isselect"></span>
+														    	</p>
+														    </li>
+														    {{/each}}
+														</ul>
+														{{/ifarrnull}}
+												    </li>
+												    {{/each}}
+												</ul>
+												{{/ifarrnull}}
+										    </li>
+										    {{/each}}
+										</ul>
+										{{/ifarrnull}}
+								    </li>
+								    {{/each}}
+								</ul>
+								{{/ifarrnull}}
+						    </li>
+						    {{/each}}
+						</ul>
+						{{/ifarrnull}}
+				    </li>
+				    {{else}}
+					{{/each}}
+				</ul>
+				{{/ifarrnull}}
+		    </li>
+		    {{/each}}
+		</ul>
+	</script>
+	<script>
+		$(function(){
+			//获取跳转参数
+			mui.plusReady(function(){
+			    var self = plus.webview.currentWebview();
+		//	    var jlist = JSON.parse(self.receive_admin_group);
+			    console.log(JSON.stringify(self.receive_admin_group));
+			    var receive_admin_group = self.receive_admin_group;
+			    getoriginlist(receive_admin_group);
+			})
+			
+			
+		    $(".item-name > i").click(function(){
+		        $(this).parent().parent().toggleClass("unfold")
+		        $(this).parent().parent().find("ul:first").slideToggle(500);
+		        $(this).toggleClass("unfold");
+		        $(this).parent().children(".filename").toggleClass("filename-open");
+		    });
+	        $(".checkbox").click(function (){
+	            $(this).toggleClass("c-selected");
+	        });
+			
+			
+			$('html').on('click','.addtoshow',function(){
+				var showid = $(this).attr('data-id');
+				if(showid == '0'){
+					$(this).parent().children('ul').show();
+					$(this).attr('data-id','1');
+				}else{
+					$(this).parent().children('ul').hide();
+					$(this).attr('data-id','0');
+				}
+			})
+			
+			$('html').on('click','.li-item',function(){
+				console.log($(this).attr('data-name'));
+				var isselect = $(this).attr('data-select');
+				console.log(isselect);
+				if(isselect == '0'){
+					$(this).children('.mui-isselect').show();
+					$(this).attr('data-select','1');
+				}else{
+					$(this).children('.mui-isselect').hide();
+					$(this).attr('data-select','0');
+				}
+				var selectnum = $('.li-item');
+				var truenum = 0;
+				for(var ia = 0;ia<selectnum.length;ia++){
+					if(selectnum.eq(ia).attr('data-select') == '1'){
+						truenum = truenum+1;
+					}
+				}
+				if(truenum>0){
+					$('#done').removeClass('mui-disabled');
+					$('.getnum').html('('+truenum+')');
+				}else{
+					$('#done').addClass('mui-disabled');
+				}
+				console.log(truenum);
+				
+			})
+			
+//			点击完成
+			$('html').on('click','#done',function(){
+				console.log($(this).hasClass('mui-disabled'));
+				
+				if($(this).hasClass('mui-disabled')){
+					console.log($(this).hasClass('mui-disabled'));
+				}else{
+					var namearr = [];
+					var numarr = [];
+					var selectnum = $('.li-item');
+					for(var ia = 0;ia<selectnum.length;ia++){
+						if(selectnum.eq(ia).attr('data-select') == '1'){
+							var name = selectnum.eq(ia).attr('data-name');
+							var num = selectnum.eq(ia).attr('data-id');
+							namearr.push(name);
+							numarr.push(num);
+						}
+					}
+					var checkedValues = namearr.join(',');
+					var numvalue = numarr.join('，');
+					console.log(checkedValues);
+					
+					
+					var btnArray = ['否', '是'];
+					mui.confirm('你选择了 : ' + checkedValues+' ?', '选择接收人', btnArray, function(e) {
+						if (e.index == 1) {
+							alert('你刚确认MUI是个好框架');
+						}
+					})
+				}
+			})
+			
+			function getoriginlist(){
+				console.log('12121');
+				var url = rooturl+'index.php/Api/Apps/Jingkaiqu/Admin/getAdminTree'; //获取信息列表
+				$.ajax({
+					url: url,
+					data: {
+						mobile: mobile,
+						userType: userType,
+						clientId: clientId,
+						clientType: clientType,
+						accessToken: accessToken,
+						searchkey:''
+					},
+					type: 'post',
+					dataType: 'json',
+					crossDomain: true,
+					cache: true,
+					beforeSend: function(xhr) { //beforeSend定义全局变量
+						xhr.setRequestHeader("If-Modified-Since", "0"); //If-Modified-Since HTTP请求头标签,即比较浏览器缓存页面时间
+					},
+					success: function(res) {
+						console.log(JSON.stringify(res.data));
+						// 抓取模板数据
+						var contenttpl = $("#dome-template").html();
+						// 编译模板
+						
+						var domeTemplate = Handlebars.compile(contenttpl);
+						var context = res.data;
+						var filelistCompiledHtml = domeTemplate(context);
+						$("#dome").append(filelistCompiledHtml);
+						
+					},
+					error: function(res){
+						console.log(JSON.stringify(res));
+						console.log(res.message);
+						console.log(res.data);
+						mui.toast(res.message,{ duration:'long', type:'div' });
+					}
+				})
+			}
+		})
+	</script>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<script type="text/javascript" src="../../common/rem.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<link rel="stylesheet" href="../../common/css/mui.picker.css" />
+		<link rel="stylesheet" href="../../common/css/mui.poppicker.css" />
+		<script type="text/javascript" src="../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../common/common.js"></script>
+		<script src="../../common/mui.picker.js"></script>
+		<script src="../../common/mui.poppicker.js"></script>
+		<script src="../js/message/userlist.js"></script>
+		<style>
+			.mui-isselect{
+				position: absolute;
+				top: 0.3rem;
+				right: 0.1rem;
+				font-weight: bold;
+				color: #007AFF;
+				font-size: 36px;
+				display: none;
+			}
+			.search-li{
+				border-top: 1px solid #ccc;
+				height: 0.9rem;
+				line-height: 0.9rem;
+				text-indent: 0.2rem;
+				position: relative;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#35a8dc;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<a id='done' class="mui-btn mui-btn-link mui-pull-right mui-btn-blue mui-disabled" style="color: #fff;">完成<span class="getnum"></span></a>
+			<h1 class="mui-title" style="color: #fff;font-weight: bold;">信息列表</h1>
+		</header>
+		<div class="mui-content mui-scroll-wrapper" id="pullrefresh">
+			<div id="userlist"></div>
+		</div>
+		<script id="userlist-template" type="text/x-handlebars-template">
+			<ul class="mui-table-view f14" style="font-size: 14px;">
+	    		{{#each this}}
+			    <li class="search-li" data-id = "{{id}}"  data-name = "{{name}}" data-notify_cid = "{{notify_cid}}" {{#if checked}}data-select="1"{{else}}data-select="0"{{/if}}>
+					<span>{{name}}</span>
+					{{#if_eq notify_cid null}}<span style="font-size: 10px;color: #EA2F10;margin-left: 10px;">未绑定</span>{{else}}<span style="font-size: 10px;color: #007AFF;">已绑定</span>{{/if_eq}}
+					{{#if checked}}<span class="mui-icon mui-icon-checkmarkempty mui-isselect" style="position: absolute;top: 0;display: block;"></span>{{else}}<span class="mui-icon mui-icon-checkmarkempty mui-isselect" style="position: absolute;top: 0;"></span>{{/if}}
+					<!--<span class="mui-icon mui-icon-checkmarkempty mui-isselect" style="position: absolute;top: 0;"></span>-->
+				</li>
+			    {{/each}}
+			</ul>
+		</script>
+		<script>
+			$('html').on('click','.li-item',function(){
+				console.log($(this).attr('data-name'));
+				var isselect = $(this).attr('data-select');
+				console.log(isselect);
+				if(isselect == '0'){
+					$(this).children('.mui-isselect').show();
+					$(this).attr('data-select','1');
+				}else{
+					$(this).children('.mui-isselect').hide();
+					$(this).attr('data-select','0');
+				}
+				var selectnum = $('.li-item');
+				var truenum = 0;
+				for(var ia = 0;ia<selectnum.length;ia++){
+					if(selectnum.eq(ia).attr('data-select') == '1'){
+						truenum = truenum+1;
+					}
+				}
+				if(truenum>0){
+					$('#done').removeClass('mui-disabled');
+					$('.getnum').html('('+truenum+')');
+				}else{
+					$('#done').addClass('mui-disabled');
+				}
+				console.log(truenum);
+				
+			})
+			
+			$('html').on('click','.search-li',function(){
+				var id = $(this).attr('data-id');
+				var isselect = $(this).attr('data-select');
+				if(isselect == '0'){
+					$(this).children('.mui-isselect').show();
+					$(this).attr('data-select','1');
+				}else{
+					$(this).children('.mui-isselect').hide();
+					$(this).attr('data-select','0');
+				}
+				getalllist();
+			})
+			
+			
+			function getalllist(){
+				var selectnum = $('.search-li');
+				var truenum = 0;
+				for(var ia = 0;ia<selectnum.length;ia++){
+					if(selectnum.eq(ia).attr('data-select') == '1'){
+						truenum = truenum+1;
+					}
+				}
+				if(truenum>0){
+					$('#done').removeClass('mui-disabled');
+					$('.getnum').html('('+truenum+')');
+				}else{
+					$('.getnum').html('');
+					$('#done').addClass('mui-disabled');
+				}
+			}
+			
+			
+//			点击完成
+			$('html').on('click','#done',function(){
+				console.log($(this).hasClass('mui-disabled'));
+				var selectarr = [];
+				if($(this).hasClass('mui-disabled')){
+					console.log($(this).hasClass('mui-disabled'));
+				}else{
+					var namearr = [];
+					var numarr = [];
+					var selectnum = $('.search-li');
+					for(var ia = 0;ia<selectnum.length;ia++){
+						if(selectnum.eq(ia).attr('data-select') == '1'){
+							var name = selectnum.eq(ia).attr('data-name');
+							var num = selectnum.eq(ia).attr('data-id');
+							var notify_cid = selectnum.eq(ia).attr('data-notify_cid');
+							namearr.push(name);
+							numarr.push(num);
+							var arr = {
+								id:num,
+								name:name,
+								notify_cid:notify_cid,
+								type: 'user'
+							}
+							selectarr.push(arr);
+						}
+					}
+					console.log(JSON.stringify(selectarr));
+					var checkedValues = namearr.join(',');
+					var numvalue = numarr.join(',');
+					console.log(checkedValues);
+					
+					var btnArray = ['否', '是'];
+					mui.confirm('你选择了 : ' + checkedValues+' ?', '选择接收人', btnArray, function(e) {
+						if (e.index == 1) {
+							//获取父页面A.html
+							var cityName = selectarr;
+				            var main = plus.webview.currentWebview().opener();
+				            //自定义事件,事件名为changeCity
+				            mui.fire(main,'selectman',{cityName:cityName,type:'user'});
+				            //关闭子页面
+				            mui.back();
+						}else{
+							mui.toast('取消',{ duration:'short', type:'div' });
+						}
+					})
+				}
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>登录</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<script type="text/javascript" src="../../common/rem.js"></script>
+		<link rel="stylesheet" href="../../css/entry.css" />
+		<script type="text/javascript" src="../../js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../common/common.js"></script>
+	</head>
+	<body>
+		<div>
+			<header class="mui-bar mui-bar-nav" style="box-shadow: none;background: none;">
+				<a class="mui-icon mui-icon-left-nav mui-pull-left"></a>
+			</header>
+			<div class="mui-backdrop" style="display: none;" id="my-mask">
+				<div class="mui-loading" style="position: absolute;top: calc(50% - 12px);left: calc(50% - 12px);">
+					<div class="mui-spinner">
+					</div>
+				</div>
+			</div>
+			<div style="padding: 0 0.24rem;">
+				<img class="img1" src="img/logo2.png" alt="" style="width: 1.03rem;height: 1.40rem;" />
+				<h4 style="color: #333333;font-weight: bold;font-size: 21px;margin-top: 0.18rem;margin-bottom: 0.42rem;">食安滨海</h4>
+				<form id="form1">
+					<div id="huiyuan">
+						<input type="text" name="mobile" value="" id="mobile" class="accountNumber" style="" placeholder="请输入用户名或手机号码"/>
+						<input type="password" value="" name="password" id="password" placeholder="请输入密码"  class="password" />
+					</div>
+					<ul style="width: 100%;letter-spacing:-8px;padding-top: 0.58rem;">
+						<li class="usertype">
+							<button class="btn-slect" id="user" value="user" type="button">会员</button>
+						</li>
+						<li class="usertype">
+							<button class="btn-slect" id="shop" value="shop" type="button">企业</button>
+						</li>
+						<li>
+							<button class="btn-slect btn-active" id="admin" value="admin" type="button">管理</button>
+						</li>
+					</ul>
+					<input type="hidden" name="userType" value="admin" class="userType">
+					<button type="button" id="submit" class="input4 btn-submit" style="margin-top: 0.58rem;"/>确认登录</button>
+				</form>
+			</div>
+			<div style="display: flex;padding: 0 0.24rem;margin-top: 0.36rem;">
+				<div style="flex:1;text-align: left;">
+					<span style="color: #b2b2b2;font-size: 14px;">还没有账号?</span>
+					<a href="Register.html" style="font-size: 14px;color: #209fd8;">立即注册</a>
+				</div>
+				<div style="flex:1;text-align: right;">
+					<a href="Retrieve.html" style="font-size: 14px;color: #209fd8;">忘记密码</a>
+				</div>
+			</div>
+			<p style="margin-top: 2.04rem;font-size: 14px;color: #333333;">温州经济技术开发区市场监督管理局</p>
+			<script src="../../js/mui.min.js"></script>
+			<script type="text/javascript" src="../../js/signup.js"></script>
+			<script type="text/javascript">
+				mui.init()
+			</script>
+	</body>
+
+</html>

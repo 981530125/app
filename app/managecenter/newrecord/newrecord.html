@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>右侧侧边菜单栏(未完成)</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../../css/mui.min.css">
+		<script type="text/javascript" src="../../../common/rem.js"></script>
+		<link rel="stylesheet" href="../../../css/mui.picker.min.css" />
+		<script src="../../../js/mui.min.js"></script>
+		<script src="../../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../../js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="../../../common/common.js"></script>
+		<link rel="stylesheet" href="../../../css/addtask.css" />
+		<link rel="stylesheet" href="../../../css/setbusiness.css" />
+		<link rel="stylesheet" href="../../../css/newrecords.css" />
+		<script type="text/javascript" src="../../../common/mui.pullToRefresh.js"></script>
+		<script type="text/javascript" src="../../../common/mui.pullToRefresh.material.js"></script>
+		<script type="text/javascript" src="../../../js/mui.picker.min.js"></script>
+		<script type="text/javascript" src="../../js/managecenter/newrecord.js"></script>
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			p {
+				text-indent: 22px;
+			}
+			
+			span.mui-icon {
+				font-size: 14px;
+				color: #007aff;
+				margin-left: -15px;
+				padding-right: 10px;
+			}
+			
+			.mui-off-canvas-right {
+				color: #000;
+				font-size: 14px;
+				background-color: #fff;
+			}
+			
+			.title {
+				margin: 35px 15px 10px;
+			}
+			
+			.title+.content {
+				margin: 10px 15px 35px;
+				color: #bbb;
+				text-indent: 1em;
+				font-size: 14px;
+				line-height: 24px;
+			}
+			
+			input {
+				color: #000;
+			}
+			
+			.mui-checkbox label {
+				color: #000;
+			}
+			
+			.mui-radio label {
+				color: #000;
+			}
+			.mui-bar~.mui-content .mui-fullscreen {
+				top: 44px;
+				height: auto;
+			}
+			.mui-pull-top-tips {
+				position: absolute;
+				top: -20px;
+				left: 50%;
+				margin-left: -25px;
+				width: 40px;
+				height: 40px;
+				border-radius: 100%;
+				z-index: 1;
+			}
+			.mui-bar~.mui-pull-top-tips {
+				top: 24px;
+			}
+			.mui-pull-top-wrapper {
+				width: 42px;
+				height: 42px;
+				display: block;
+				text-align: center;
+				background-color: #efeff4;
+				border: 1px solid #ddd;
+				border-radius: 25px;
+				background-clip: padding-box;
+				box-shadow: 0 4px 10px #bbb;
+				overflow: hidden;
+			}
+			.mui-pull-top-tips.mui-transitioning {
+				-webkit-transition-duration: 200ms;
+				transition-duration: 200ms;
+			}
+			.mui-pull-top-tips .mui-pull-loading {
+				/*-webkit-backface-visibility: hidden;
+				-webkit-transition-duration: 400ms;
+				transition-duration: 400ms;*/
+				
+				margin: 0;
+			}
+			.mui-pull-top-wrapper .mui-icon,
+			.mui-pull-top-wrapper .mui-spinner {
+				margin-top: 7px;
+			}
+			.mui-pull-top-wrapper .mui-icon.mui-reverse {
+				/*-webkit-transform: rotate(180deg) translateZ(0);*/
+			}
+			.mui-pull-bottom-tips {
+				text-align: center;
+				background-color: #efeff4;
+				font-size: 15px;
+				line-height: 40px;
+				color: #777;
+			}
+			.mui-pull-top-canvas {
+				overflow: hidden;
+				background-color: #fafafa;
+				border-radius: 40px;
+				box-shadow: 0 4px 10px #bbb;
+				width: 40px;
+				height: 40px;
+				margin: 0 auto;
+			}
+			.mui-pull-top-canvas canvas {
+				width: 40px;
+			}
+			.mui-slider-indicator.mui-segmented-control {
+				background-color: #efeff4;
+			}
+			.mui-scroll{
+				transform: translate3d(0px, px, 0px) translateZ(0px)!important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--侧滑菜单容器-->
+		<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-slide-in">
+			<!--菜单部分-->
+			<aside id="offCanvasSide" class="mui-off-canvas-right">
+				<div id="offCanvasSideScroll" class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<div class="title">筛选</div>
+						<div class="content">
+							<div style="margin-bottom: 0.1rem;">
+								<div style="text-indent: 0;color: #000;height: 0.8rem;line-height: 0.8rem;">证书类型</div>
+								<div id="selectype" style="display: flex; flex-wrap:wrap;justify-content:space-between;align-items: top;">
+									<!--模板-->
+								</div>
+							</div>
+							<div style="margin-bottom: 0.1rem;">
+								<div style="text-indent: 0;color: #000;height: 0.8rem;line-height: 0.8rem;">证书有效期</div>
+								<div>
+									<div class="mui-input-row mui-checkbox">
+										<label>正常</label>
+										<input name="license_valid_arr" value="Item 1" type="checkbox">
+									</div>
+									<div class="mui-input-row mui-checkbox">
+										<label>注销</label>
+										<input name="license_valid_arr" value="Item 1" type="checkbox">
+									</div>
+									<div class="mui-input-row mui-checkbox">
+										<label>失效</label>
+										<input name="license_valid_arr" value="Item 1" type="checkbox">
+									</div>
+									<div class="mui-input-row mui-checkbox">
+										<label>特殊(过期、其他)</label>
+										<input name="license_valid_arr" value="Item 1" type="checkbox">
+									</div>
+								</div>
+							</div>
+							<div style="margin-bottom: 0.1rem;">
+								<div style="text-indent: 0;color: #000;height: 0.8rem;line-height: 0.8rem;">本次动态等级</div>
+								<div>
+									<div class="mui-input-row mui-checkbox">
+										<label>优秀</label>
+										<input name="check_level_arr" value="Item 1" type="checkbox">
+									</div>
+									<div class="mui-input-row mui-checkbox">
+										<label>良好</label>
+										<input name="check_level_arr" value="Item 1" type="checkbox">
+									</div>
+									<div class="mui-input-row mui-checkbox">
+										<label>一般</label>
+										<input name="check_level_arr" value="Item 1" type="checkbox">
+									</div>
+									<div class="mui-input-row mui-checkbox">
+										<label>整改中</label>
+										<input name="check_level_arr" value="Item 1" type="checkbox">
+									</div>
+									<div class="mui-input-row mui-checkbox">
+										<label>待评定</label>
+										<input name="check_level_arr" value="Item 1" type="checkbox">
+									</div>
+								</div>
+							</div>
+							<div style="margin-bottom: 0.1rem;">
+								<div style="text-indent: 0;color: #000;height: 0.8rem;line-height: 0.8rem;">年度量化综合等级</div>
+								<div>
+									<div class="mui-input-row mui-checkbox">
+										<label>A</label>
+										<input name="grade_arr" value="Item 1" type="checkbox">
+									</div>
+									<div class="mui-input-row mui-checkbox">
+										<label>B</label>
+										<input name="grade_arr" value="Item 1" type="checkbox">
+									</div>
+									<div class="mui-input-row mui-checkbox">
+										<label>C</label>
+										<input name="grade_arr" value="Item 1" type="checkbox">
+									</div>
+									<div class="mui-input-row mui-checkbox">
+										<label>待评定</label>
+										<input name="grade_arr" value="Item 1" type="checkbox">
+									</div>
+								</div>
+							</div>
+							<div style="margin-bottom: 0.1rem;">
+								<div style="text-indent: 0;color: #000;height: 0.8rem;line-height: 0.8rem;">当年风险分级</div>
+								<div>
+									<div class="mui-input-row mui-checkbox">
+										<label>A</label>
+										<input name="risk_level_arr" value="Item 1" type="checkbox">
+									</div>
+									<div class="mui-input-row mui-checkbox">
+										<label>B</label>
+										<input name="risk_level_arr" value="Item 1" type="checkbox">
+									</div>
+									<div class="mui-input-row mui-checkbox">
+										<label>C</label>
+										<input name="risk_level_arr" value="Item 1" type="checkbox">
+									</div>
+									<div class="mui-input-row mui-checkbox">
+										<label>C</label>
+										<input name="risk_level_arr" value="Item 1" type="checkbox">
+									</div>
+									<div class="mui-input-row mui-checkbox">
+										<label>待评定</label>
+										<input name="risk_level_arr" value="Item 1" type="checkbox">
+									</div>
+								</div>
+							</div>
+							<div style="margin-bottom: 0.1rem;">
+								<div style="text-indent: 0;color: #000;height: 0.8rem;line-height: 0.8rem;">上年度风险分级</div>
+								<div>
+									<div class="mui-input-row mui-checkbox">
+										<label>A</label>
+										<input name="risk_level_arr" value="Item 1" type="checkbox">
+									</div>
+									<div class="mui-input-row mui-checkbox">
+										<label>B</label>
+										<input name="risk_level_arr" value="Item 1" type="checkbox">
+									</div>
+									<div class="mui-input-row mui-checkbox">
+										<label>C</label>
+										<input name="risk_level_arr" value="Item 1" type="checkbox">
+									</div>
+									<div class="mui-input-row mui-checkbox">
+										<label>C</label>
+										<input name="risk_level_arr" value="Item 1" type="checkbox">
+									</div>
+									<div class="mui-input-row mui-checkbox">
+										<label>待评定</label>
+										<input name="risk_level_arr" value="Item 1" type="checkbox">
+									</div>
+								</div>
+							</div>
+							<div style="margin-bottom: 0.1rem;">
+								<div style="text-indent: 0;color: #000;height: 0.8rem;line-height: 0.8rem;">企业公开状态</div>
+								<div>
+									<div class="mui-input-row mui-radio">
+										<label>全部</label>
+										<input name="is_open" type="radio">
+									</div>
+									<div class="mui-input-row mui-radio">
+										<label>是</label>
+										<input name="is_open" type="radio">
+									</div>
+									<div class="mui-input-row mui-radio">
+										<label>否</label>
+										<input name="is_open" type="radio">
+									</div>
+								</div>
+							</div>
+							<div style="margin-bottom: 0.1rem;">
+								<div style="text-indent: 0;color: #000;height: 0.8rem;line-height: 0.8rem;">三小管理状态</div>
+								<div>
+									<div class="mui-input-row mui-radio">
+										<label>全部</label>
+										<input name="three_small_status" type="radio">
+									</div>
+									<div class="mui-input-row mui-radio">
+										<label>是</label>
+										<input name="three_small_status" type="radio">
+									</div>
+									<div class="mui-input-row mui-radio">
+										<label>否</label>
+										<input name="three_small_status" type="radio">
+									</div>
+								</div>
+							</div>
+							<div style="margin-bottom: 0.1rem;">
+								<div style="text-indent: 0;color: #000;height: 0.8rem;line-height: 0.8rem;">任务情况时间范围</div>
+								<div style="display: flex;justify-content:center;align-content:space-around;">
+									<div style="flex: 2;border:1px solid #f7f6fb;justify-content:center;">
+										<span class="style-time time">开始时间</span>
+										<input type="hidden" value="" name="task_and_record_time_start" class="" />
+									</div>
+									<div style="flex: 1;align-items: center;justify-content:center;text-align: center;text-indent: 0;">——</div>
+									<div style="flex: 2;border:1px solid #f7f6fb;justify-content:center;">
+										<span class="style-time time">结束时间</span>
+										<input type="hidden" value="" name="task_and_record_time_end" class="" />
+									</div>
+								</div>
+							</div>
+							<div style="margin-bottom: 0.1rem;">
+								<div style="text-indent: 0;color: #000;height: 0.8rem;line-height: 0.8rem;">已下达任务数</div>
+								<div style="display: flex;justify-content:center;align-content:space-around;">
+									<div style="flex: 2;background-color: #f7f6fb;justify-content:center;text-indent: 0;">
+										<!--<span style="color: #ccc;text-align: center;">开始时间</span>-->
+										<input type="text" value="" placeholder="大于等于" name="task_num_delivered" class="areamore" style="" />
+									</div>
+									<div style="flex: 1;align-items: center;justify-content:center;text-align: center;text-indent: 0;">——</div>
+									<div style="flex: 2;background-color: #f7f6fb;justify-content:center;text-indent: 0;">
+										<!--<span style="color: #ccc;text-align: center;">结束时间</span>-->
+										<input type="text" value="" placeholder="小于等于" name="start" class="arealess" style="" />
+									</div>
+								</div>
+							</div>
+							<div style="margin-bottom: 0.1rem;">
+								<div style="text-indent: 0;color: #000;height: 0.8rem;line-height: 0.8rem;">已完成任务数</div>
+								<div style="display: flex;justify-content:center;align-content:space-around;">
+									<div style="flex: 2;background-color: #f7f6fb;justify-content:center;text-indent: 0;">
+										<!--<span style="color: #ccc;text-align: center;">开始时间</span>-->
+										<input type="text" value="" placeholder="大于等于" name="task_num_delivered" class="areamore" style="" />
+									</div>
+									<div style="flex: 1;align-items: center;justify-content:center;text-align: center;text-indent: 0;">——</div>
+									<div style="flex: 2;background-color: #f7f6fb;justify-content:center;text-indent: 0;">
+										<!--<span style="color: #ccc;text-align: center;">结束时间</span>-->
+										<input type="text" value="" placeholder="小于等于" name="start" class="arealess" style="" />
+									</div>
+								</div>
+							</div>
+							<div style="margin-bottom: 0.1rem;">
+								<div style="text-indent: 0;color: #000;height: 0.8rem;line-height: 0.8rem;">已完成监督数</div>
+								<div style="display: flex;justify-content:center;align-content:space-around;">
+									<div style="flex: 2;background-color: #f7f6fb;justify-content:center;text-indent: 0;">
+										<!--<span style="color: #ccc;text-align: center;">开始时间</span>-->
+										<input type="text" value="" placeholder="大于等于" name="task_num_delivered" class="areamore" style="" />
+									</div>
+									<div style="flex: 1;align-items: center;justify-content:center;text-align: center;text-indent: 0;">——</div>
+									<div style="flex: 2;background-color: #f7f6fb;justify-content:center;text-indent: 0;">
+										<!--<span style="color: #ccc;text-align: center;">结束时间</span>-->
+										<input type="text" value="" placeholder="小于等于" name="start" class="arealess" style="" />
+									</div>
+								</div>
+							</div>
+							<p style="margin: 10px 15px;">
+								<button id="offCanvasHide" type="button" class="mui-btn mui-btn-danger mui-btn-block" style="padding: 5px 20px;">关闭</button>
+							</p>
+						</div>
+					</div>
+				</div>
+			</aside>
+			<div class="mui-inner-wrap">
+				<header class="mui-bar mui-bar-nav" style="background-color:#2ca5db;box-shadow: none;">
+					<a class="mui-action-back mui-icon mui-icon-back mui-pull-left" style="color: #fff;"></a>
+					<a id="offCanvasBtn" href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-right" style="color: #fff;"></a>
+					<h1 class="mui-title" style="color: #fff;">侧滑导航</h1>
+				</header>
+				<div style="height: 60px;position: fixed;top:44px;left:0;z-index:100;width: 100%;border: 1px solid #CCC;text-align: center;background-color: #fff;">
+					<input type="text" class="searchkey" value="" style="width: 96%;text-indent: 10px;height: 40px;display: inline-block;border: 1px solid #CCC;margin:0 auto;margin-top: 10px;">
+					<div class="search-btn" style="font-size: 14px;width: 40px;height: 40px;line-height: 40px;text-align: center;position: absolute;top: 15px;right: 10px;">
+						<img src="../../../img/search.png" style="width: 16px;height: 17px;"/>
+					</div>
+				</div>
+				<div class="mui-off-canvas-backdrop"></div>
+				<!--<div id="offCanvasContentScroll" class="mui-content">-->
+					<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+						<p style="position: fixed;font-size: 14px;width: 100%;">sasasa</p>
+						<div class="mui-scroll" id="list-content" style="padding-top: 60px;">
+							<div class="mui-content-padded" style="border: 1px solid #000000">
+								<p>这是可拖动式右滑导航示例，主页面和菜单在一个HTML文件中， 优点是支持拖动手势（跟手），缺点是不支持菜单内容在多页面的复用； 当前页面为主界面，你可以在主界面放置任何内容； 打开侧滑菜单有多种方式： 1、在当前页面向右拖动； 2、点击页面左上角的
+									<span class="mui-icon mui-icon-bars"></span> 图标； 3、通过JS API触发（例如点击如下蓝色按钮体验）；
+									<span class="android-only">4、Android手机按menu键；</span>
+								</p>
+								<p style="padding: 5px 20px;margin-bottom: 5px;">
+									<button id="offCanvasShow" type="button" class="mui-btn mui-btn-primary mui-btn-block" style="padding: 10px;">
+										显示侧滑菜单
+									</button>
+								</p>
+								<p>侧滑菜单的移动动画，支持多种效果，切换如下选项体验不同动画效果：</p>
+							</div>
+							<div class="mui-content-padded">
+								<p>这是可拖动式右滑导航示例，主页面和菜单在一个HTML文件中， 优点是支持拖动手势（跟手），缺点是不支持菜单内容在多页面的复用； 当前页面为主界面，你可以在主界面放置任何内容； 打开侧滑菜单有多种方式： 1、在当前页面向右拖动； 2、点击页面左上角的
+									<span class="mui-icon mui-icon-bars"></span> 图标； 3、通过JS API触发（例如点击如下蓝色按钮体验）；
+									<span class="android-only">4、Android手机按menu键；</span>
+								</p>
+								<p style="padding: 5px 20px;margin-bottom: 5px;">
+									<button id="offCanvasShow" type="button" class="mui-btn mui-btn-primary mui-btn-block" style="padding: 10px;">
+										显示侧滑菜单
+									</button>
+								</p>
+								<p>侧滑菜单的移动动画，支持多种效果，切换如下选项体验不同动画效果：</p>
+							</div>
+							<div class="mui-content-padded">
+								<p>这是可拖动式右滑导航示例，主页面和菜单在一个HTML文件中， 优点是支持拖动手势（跟手），缺点是不支持菜单内容在多页面的复用； 当前页面为主界面，你可以在主界面放置任何内容； 打开侧滑菜单有多种方式： 1、在当前页面向右拖动； 2、点击页面左上角的
+									<span class="mui-icon mui-icon-bars"></span> 图标； 3、通过JS API触发（例如点击如下蓝色按钮体验）；
+									<span class="android-only">4、Android手机按menu键；</span>
+								</p>
+								<p style="padding: 5px 20px;margin-bottom: 5px;">
+									<button id="offCanvasShow" type="button" class="mui-btn mui-btn-primary mui-btn-block" style="padding: 10px;">
+										显示侧滑菜单
+									</button>
+								</p>
+								<p>侧滑菜单的移动动画，支持多种效果，切换如下选项体验不同动画效果：</p>
+							</div>
+							<div class="mui-content-padded">
+								<p>这是可拖动式右滑导航示例，主页面和菜单在一个HTML文件中， 优点是支持拖动手势（跟手），缺点是不支持菜单内容在多页面的复用； 当前页面为主界面，你可以在主界面放置任何内容； 打开侧滑菜单有多种方式： 1、在当前页面向右拖动； 2、点击页面左上角的
+									<span class="mui-icon mui-icon-bars"></span> 图标； 3、通过JS API触发（例如点击如下蓝色按钮体验）；
+									<span class="android-only">4、Android手机按menu键；</span>
+								</p>
+								<p style="padding: 5px 20px;margin-bottom: 5px;">
+									<button id="offCanvasShow" type="button" class="mui-btn mui-btn-primary mui-btn-block" style="padding: 10px;">
+										显示侧滑菜单
+									</button>
+								</p>
+								<p>侧滑菜单的移动动画，支持多种效果，切换如下选项体验不同动画效果：</p>
+							</div>
+							<div id="list-content" style="padding-top: 60px;">
+								<p style="padding: 5px 32px;margin-top: 15px;">
+									<button type="button" class="mui-btn mui-btn-primary mui-btn-block" style="padding: 5px;">
+											确认新建
+										</button>
+								</p>
+								<div class="mui-content-padded">
+									<p style="padding: 5px 20px;margin-bottom: 5px;">
+										<button id="offCanvasShow" type="button" class="mui-btn mui-btn-primary mui-btn-block" style="padding: 5px;">
+											显示侧滑菜单
+										</button>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- off-canvas backdrop -->
+			<div class="mui-off-canvas-backdrop"></div>
+		</div>
+		</div>
+		<script id="type-template" type="text/x-handlebars-template">
+			<div style="display: flex; flex-wrap:wrap;justify-content:flex-start;align-items: top;">
+				{{#each data}}
+				<span class="flex-type-item checkval" data-is='0' data-name="{{name}}" data-type="{{type}}">{{name}}</span> {{/each}}
+			</div>
+		</script>
+		<script id="shoplist-template" type="text/x-handlebars-template">
+			<ul class="mui-table-view" style="padding: 0;" id="list">
+				{{#each data}}
+				<div style="display: flex;" class="mui-table-view-item">
+					<div class="mui-checkbox left-checkbox" style="display: none;">
+						<input type="checkbox" class="item-check" style="position: static;margin-top: 5px;" name="licenseId" value="{{#each licenses}}{{#if @first}}{{id}}{{/if}}{{/each}}" />
+					</div>
+					<li class="mui-table-view-cell mui-collapse bussiness-item">
+						<a class="f14" href="#">
+							<img class="mui-media-object mui-pull-left left-shopimg" src="{{#if_eq avatar null}}../../../img/shoplogo.png{{else}}{{../rooturl}}{{avatar.access_path}}{{/if_eq}}">
+							<div class="mui-media-body">
+								<p class='mui-ellipsis mui-text-left item-top-title' style="text-indent: 0;">{{#each licenses}}{{#if @first}}{{corp_name}}{{/if}}{{else}}{{/each}}</p>
+								<div style="height: 100%;text-align: left;">
+									<span class="interval mui-text-left">{{#if distance}}{{decimal distance 2}}{{else}}{{#each licenses}}{{#if @first}}{{#if distance}}{{decimal distance 2}}{{else}}0{{/if}}{{/if}}{{else}}{{/each}}{{/if}}km</span>
+									<p class='mui-ellipsis mui-inline mui-text-left' style="width: 76.4%;">{{#if corporation_address}}{{corporation_address}}{{else}}{{#each licenses}}{{#if @first}}{{corporation_address}}{{/if}}{{else}}{{/each}}{{/if}}</p>
+								</div>
+								<div style="height: 100%;text-align: left;">
+									{{#if_eq id 'null'}}<span class="mui-text-left item-say" style="color: #000;vertical-align: top;">未完善</span>{{else}}{{#each licenses}}{{#if @first}}{{#if_eq allowed_login '1'}}<span class="mui-text-left item-say" style="color: #4cd964;vertical-align: top;">正常</span>{{else}}<span class="mui-text-left item-say" style="color: #FA0000;vertical-align: top;">注销</span>{{/if_eq}}{{/if}}{{else}}无{{/each}}{{/if_eq}}</span>
+									<span class="mui-text-left item-level">
+			                			<!--<img src="img/selectmessage.png" class="item-level-img"/>-->
+			                			{{#each licenses}}
+				                			{{#if @first}}
+					                			{{#if_eq check_level '优秀'}}
+					                				<img src="../../../img/selectgood.png" class="item-level-img"/>{{check_level}}
+					                			{{/if_eq}}
+					                			{{#if_eq check_level '良好'}}
+					                				<img src="../../../img/selectwell.png" class="item-level-img"/>{{check_level}}
+					                			{{/if_eq}}
+					                			{{#if_eq check_level '一般'}}
+					                				<img src="../../../img/selectsoso.png" class="item-level-img"/>{{check_level}}
+					                			{{/if_eq}}
+					                			{{#if_eq check_level '整改中'}}
+					                				<img src="../../../img/selectwait.png" class="item-level-img"/>{{check_level}}
+					                			{{/if_eq}}
+					                			{{#if_eq check_level ''}}
+					                				<img src="../../../img/selectmessage.png" class="item-level-img"/>待评定
+					                			{{/if_eq}}
+				                			{{/if}}
+			                			{{/each}}
+			                		</span>
+									<p class='mui-ellipsis mui-inline mui-text-left item-say'>{{#each licenses}}{{#if @first}}{{type_info.name}}{{/if}}{{else}}无{{/each}}</p>
+								</div>
+							</div>
+						</a>
+						<div class="mui-collapse-content pop-top">
+							<div class="pop-all">
+								<div class="write-btn" style="text-align: left;">
+									{{#each licenses}}{{#if @first}}
+									<a href="javascript:void(0);" class="a-btn" style="margin-right: 0.2rem;" onclick="lookdetail('{{id}}')">{{/if}}{{else}}无{{/each}}
+										<!--<a href="javascript:void(0);" class="a-btn" style="margin-right: 0.2rem;" onclick="lookdetail({{id}})">-->
+										<img style="vertical-align: middle;" src="../../../img/record.png" width="12" />
+										<span class="lookup">资料编辑</span>
+									</a>
+									<a href="javascript:void(0);" class="a-btn" onclick="lookallshop('{{#each licenses}}{{#if_eq @index 0}}{{id}}{{/if_eq}}{{/each}}','{{id}}')">
+										<img style="vertical-align: middle;" src="../../../img/recordlist.png" width="12" />
+										<span class="lookup">查看详情</span>
+									</a>
+									<a href="javascript:void(0);" class="a-btn" style="display: none;">
+										<img style="vertical-align: middle;" src="../../../img/recordlist.png" width="12" />
+										<span class="lookup">监管记录</span>
+									</a>
+								</div>
+								<div class="nav-btn" style="display: none;">
+									<a href="javascript:void(0);" class="a-btn" style="background-color: #209fd8;border: none;">
+										<img style="vertical-align: middle;" src="../../../img/route.png" width="12" />
+										<span class="lookup" style="color: #fff;">导航</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</li>
+				</div>
+				{{/each}}
+			</ul>
+		</script>
+
+		<script>
+			mui.init({
+				swipeBack: false,
+			});
+			//侧滑容器父节点
+			var offCanvasWrapper = mui('#offCanvasWrapper');
+			//主界面容器
+			var offCanvasInner = offCanvasWrapper[0].querySelector('.mui-inner-wrap');
+			//菜单容器
+			var offCanvasSide = document.getElementById("offCanvasSide");
+
+			//			offCanvasWrapper.offCanvas('show');
+
+			document.getElementById('offCanvasShow').addEventListener('tap', function() {
+				offCanvasWrapper.offCanvas('show');
+			});
+			document.getElementById('offCanvasHide').addEventListener('tap', function() {
+				offCanvasWrapper.offCanvas('close');
+			});
+			//主界面和侧滑菜单界面均支持区域滚动;
+			mui('#offCanvasSideScroll').scroll();
+			mui('#refreshContainer').scroll();
+			//日期时间选择器，公用
+			var times = document.getElementsByClassName('time');
+			for(var ti = 0; ti < times.length; ti++) {
+				document.getElementsByClassName('time')[ti].addEventListener('tap', function() {
+					var that = $(this);
+					var dtpicker = new mui.DtPicker({
+						type: "date", //设置日历初始视图模式 
+						beginDate: new Date(1015, 04, 25), //设置开始日期 
+						endDate: new Date(3016, 04, 25), //设置结束日期 
+					})
+					dtpicker.show(function(e) {
+						that.html(e.value);
+						that.parent().find('input').val(e.value);
+					});
+				});
+			}
+		</script>
+		<script>
+			function pullfresh(){
+				console.log('1212');
+			}
+			
+			document.getElementById('refreshContainer').addEventListener('scrollend', function(e) {
+//				mui('#refreshContainer').scroll().scrollTo(0,100,0);
+				var n = '0';
+				if(e.detail.y<=e.detail.maxScrollY){
+					
+					console.log(e.detail.y);
+					console.log(e.detail.maxScrollY);
+					console.log('底部');
+				//滚动到底部
+				}
+				if(e.detail.y>0){
+					console.log(e.detail.y);
+					console.log(e.detail.maxScrollY);
+					
+//					document.getElementById("list-content").style.translate = 'translate3d(0px, 50px, 0px) translateZ(0px)';
+					console.log(e.detail.y);
+					console.log('顶部');
+				//滚动到顶部
+				}
+			});
+		</script>
+	</body>
+
+</html>

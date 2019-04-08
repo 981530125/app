@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>我的检查</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../../css/mui.min.css">
+		<script type="text/javascript" src="../../../js/jquery-1.11.0.min.js"></script>
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			.all-item{
+				width: 100%;
+				padding: 0;
+				margin: 0;
+				display: flex;
+			}
+			.all-item li{
+				list-style-type: none;
+				text-align: center;
+				height: 40px;
+				line-height: 40px;
+				font-size: 16px;
+			}
+			.all-active{
+				position: relative;
+				font-weight: bold;
+				color: #209fd8;
+			}
+			.all-active:after{
+				content: '';
+				width: 32px;
+				height: 2px;
+				position: absolute;
+				bottom: 0;
+				left: calc(50% - 16px);
+				background-color: #209fd8;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#2ca5db;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 class="mui-title" style="color: #fff;font-weight: bold;">我的检查</h1>
+		</header>
+		<div style="width: 100%;margin: 0 auto;border-bottom: 1px solid #e0e0e0;position: fixed;top: 44px;z-index: 1000;background-color: #fff;">
+			<ul class="all-item mui-bar-tab" style="height: 40px;">
+				<li class="all-li all-active" data-url = "records-month.html" data-id="records-month" style="flex: 1;" data-typeid="0" data-tasktype="month">本月</li>
+				<li class="all-li" data-url = "records-year.html" data-id="records-year" style="flex: 1;" data-typeid="1" data-tasktype="year">本年</li>
+				<li class="all-li" data-url = "records-all.html" data-id="records-all" style="flex: 1;" data-typeid="2" data-tasktype="all" >累计</li>
+			</ul>
+		</div>
+		<script src="../../../js/mui.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				var typeid = self.typeid;
+				var targetTab = self.activeTab;
+				if(self.tasktype) {
+					var tasktype = self.tasktype;
+				} else {
+					var tasktype = 'month';
+				}
+				
+				
+				gettypeitem(typeid);
+				
+				var subpages = [{
+						url:'records-month.html',
+						id:'records-month',
+					},{
+						url:'records-year.html',
+						id:'records-year',
+					},{
+						url:'records-all.html',
+						id:'records-all'
+				}];
+				
+				var subpage_style = {
+					top: '85px',
+					bottom: '0px'
+				};
+
+				// 根据id查询子页面的信息
+				var getSubInfoById = function(infoList, id) {
+					var result = null;
+					for(var i = 0, len = infoList.length; i < len; i++) {
+						var _info = infoList[i];
+						if(_info.id === id) {
+							result = _info;
+							break;
+						}
+					}
+					return result;
+				};
+
+				var mainWv = plus.webview.currentWebview();
+				var titleEL = document.querySelector('.mui-title');
+				var activeTab = '';
+
+				// 默认只加载首页webview
+				var homeWv = plus.webview.create(subpages[typeid].url, subpages[typeid].id, subpage_style);
+				mainWv.append(homeWv);
+				activeTab = subpages[typeid].id;
+				
+				
+				// 点击切换，动态创建其它webview；
+				mui('.mui-bar-tab').on('tap', 'li', function(e) {
+					var targetTab = this.getAttribute('data-url');
+					var activeid = this.getAttribute('data-typeid');
+					var tasktype = this.getAttribute('data-tasktype');
+					
+					var _self = this;
+					var targetTab = _self.getAttribute('data-id');
+					if(targetTab === activeTab) {
+						return;
+					}
+					gettypeitem(activeid);
+//					titleEL.innerText = this.querySelector('.mui-tab-label').getAttribute('data-describe');
+					var _subWv = plus.webview.getWebviewById(targetTab);
+					// 若webview不存在，则创建；
+					if(!_subWv) {
+						var _subInfo = getSubInfoById(subpages, targetTab);
+
+						_subWv = plus.webview.create(_subInfo.url, _subInfo.id, subpage_style);
+						mainWv.append(_subWv);
+					}
+					_subWv.show();
+					// 隐藏之前的webview
+					plus.webview.getWebviewById(activeTab).hide('none');
+					activeTab = targetTab;
+				});
+			});
+		
+//			//根据id切换选项卡样式
+			function gettypeitem(id){
+				var len = $(".menulist").length;
+				for(var n = 0;n<len;n++){
+					$(".menulist").eq(n).hide();
+				}
+				$(".menulist").eq(id).show();
+				$('.all-li').eq(id).siblings('.all-li').removeClass('all-active');
+				$('.all-li').eq(id).addClass('all-active');	
+			}
+		</script>
+	</body>
+
+</html>

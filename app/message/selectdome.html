@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>选择接收人</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<script type="text/javascript" src="../../common/rem.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<link rel="stylesheet" href="../../css/checkcenter.css" />
+		<link rel="stylesheet" href="../../common/css/mui.picker.css" />
+		<link rel="stylesheet" href="../../common/css/mui.poppicker.css" />
+		<link rel="stylesheet" href="../../common/css/footer.css" />
+		<script type="text/javascript" src="../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../common/common.js"></script>
+		<script src="../../common/mui.picker.js"></script>
+		<script src="../../common/mui.poppicker.js"></script>
+		<style>
+			.f14{
+				font-size: 14px;
+			}
+			.mui-table-view-cell{
+				padding: 10px 15px;
+			}
+			.mui-table-view-cell:before{
+				height: 0;
+			}
+			.mui-table-view-cell:after{
+				height: 0;
+			}
+			.mui-table-view:before{
+				height: 0;
+			}
+			.mui-table-view:after{
+				height: 0;
+			}
+			
+			.li-item{
+				padding: 5px 0px;
+				width: 86%;
+				position: relative;
+				display: inline-block;
+				font-size: 16px;
+			}
+			
+			.mui-table-view-cell{
+				padding-top: 0;
+				padding-bottom: 0;
+				border-top: 1px solid #ccc;
+				/*height: 1rem;*/
+				line-height: 1rem;
+			}
+			.mui-isselect{
+				position: absolute;
+				top: 0.3rem;
+				right: 0.1rem;
+				font-weight: bold;
+				color: #007AFF;
+				font-size: 36px;
+				display: none;
+			}
+			.searchlist{
+				width: 100%;
+				background-color: #fff;
+				box-shadow: 0px 0px 2px #ccc;
+			}
+			.searchkey{
+				width: calc(100% - 0.82rem);
+				height:0.76rem;;
+				line-height: 0.76rem;
+				text-indent: 0.2rem;
+				border: none;
+				vertical-align: top;
+				display: inline-block;
+			}
+			.search-btn{
+				position: absolute;
+				width: 0.82rem;
+				height: 0.78rem;
+				line-height: 0.78rem;
+				top: 0;
+				right: 0;
+				text-align: center;
+			}
+			.btnstyle{
+				color: #000;
+				height: 100%;
+				font-size: 15px;
+				padding-left: 0.2rem;
+				padding-right: 0.2rem;
+			}
+			.bordferright{
+				position: relative;
+			}
+			.bordferright:after{
+				position: absolute;
+				content: '';
+				height: 0.4rem;
+				width: 1px;
+				background-color: #ccc;
+				right: 0;
+				top: 0.25rem;
+			}
+			.search-li{
+				border-top: 1px solid #ccc;
+				height: 0.9rem;
+				line-height: 0.9rem;
+				text-indent: 0.2rem;
+				position: relative;
+			}
+			.binding{
+				font-size: 12px;
+				color: #007AFF;
+				margin-left: 0.2rem;
+			}
+			.unbinding{
+				font-size: 12px;
+				color: #EA2F10;
+				margin-left: 0.2rem;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color:#2ca5db;box-shadow: none;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 class="mui-title" style="color: #fff;">选择接收人</h1>
+			<a id='done' class="mui-btn mui-btn-link mui-pull-right mui-btn-blue mui-disabled" style="color: #fff;">完成<span class="getnum"></span></a>
+			<div style="width: 100%;position: fixed;top: 44px;left:0;background-color: #fff;padding:0.2rem;border-bottom: 1px solid #ccc;">
+				<div style="width: 100%;height:0.8rem;border: 1px solid #ccc;position: relative;">
+					<input type="text" value="" class="searchkey" style="vertical-align: top;height:0.76rem;"/>
+					<div id="search-btn" class="search-btn">
+						<img src="../../img/search.png" style="width: 0.32rem;height: 0.32rem;text-align: center;vertical-align: top;margin-top: 0.23rem;"/>
+					</div>
+					<div class="searchlist" style="position: absolute;top: 0.78rem;width: 100%;display: none;">
+						<div id="searchlist" style="max-height: 4.5rem;overflow: hidden;overflow-y: scroll;">
+						
+						</div>
+						<div style="width: 100%;border: 1px solid #ccc;display: flex;justify-content:flex-end;background-color: #eee;height: 0.8rem;line-height: 0.8rem;">
+							<p class="btnstyle bordferright btnright">确认</p>
+							<p class="btnstyle btnclose">关闭</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+		<div class="mui-content" id="dome" style="font-size: 14px;margin-top: 1.24rem;">
+			
+		</div>
+	</body>
+	<script id="dome-template" type="text/x-handlebars-template">
+		<ul class="mui-table-view f14" style="border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;margin-top: 0;">
+			<li class="mui-table-view-cell">
+		    	<p class="li-item" style="width: 100%;" data-name="全部" data-id="-1" data-enforcement_number = "无" {{#if checked}}data-select="1"{{else}}data-select="0"{{/if}}>
+		    		<span>全部</span>
+		    		{{#if checked}}<span class="mui-icon mui-icon-checkmarkempty mui-isselect" style="display: block"></span>{{else}}<span class="mui-icon mui-icon-checkmarkempty mui-isselect"></span>{{/if}}
+		    	</p>
+		    </li>
+			{{#each this}}
+		    <li class="mui-table-view-cell">
+		    	{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}
+		    	<p class="li-item" data-name="{{name}}" data-id="{{id}}" data-enforcement_number = "{{enforcement_number}}" {{#if checked}}data-select="1"{{else}}data-select="0"{{/if}} style="">
+		    		<!--{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}-->
+		    		<span>{{name}}</span>{{#if_eq notify_cid null}}<span class="unbinding" >未绑定</span>{{else}}<span class="binding">已绑定</span>{{/if_eq}}
+		    		{{#if checked}}<span class="mui-icon mui-icon-checkmarkempty mui-isselect" style="display: block"></span>{{else}}<span class="mui-icon mui-icon-checkmarkempty mui-isselect"></span>{{/if}}
+		    	</p>
+		    	{{#ifarrnull children}}
+		    	<ul class="mui-table-view f14" style="display: none;">
+		    		{{#each children}}
+				    <li class="mui-table-view-cell" style="">
+				    	{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}
+				    	<p class="li-item" data-name="{{name}}" data-id="{{id}}" data-enforcement_number = "{{enforcement_number}}" {{#if checked}}data-select="1"{{else}}data-select="0"{{/if}}>
+				    		<!--{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}-->
+				    		<span>{{name}}</span>{{#if_eq notify_cid null}}<span class="unbinding" >未绑定</span>{{else}}<span class="binding">已绑定</span>{{/if_eq}}
+		    				{{#if checked}}<span class="mui-icon mui-icon-checkmarkempty mui-isselect" style="display: block"></span>{{else}}<span class="mui-icon mui-icon-checkmarkempty mui-isselect" ></span>{{/if}}
+				    	</p>
+				    	{{#ifarrnull children}}
+				    	<ul class="mui-table-view f14" style="display: none;">
+				    		{{#each children}}
+						    <li class="mui-table-view-cell">
+						    	{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}
+						    	<p class="li-item" data-name="{{name}}" data-id="{{id}}" data-enforcement_number = "{{enforcement_number}}" {{#if checked}}data-select="1"{{else}}data-select="0"{{/if}}>
+						    		<!--{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}-->
+						    		<span>{{name}}</span>{{#if_eq notify_cid null}}<span class="unbinding" >未绑定</span>{{else}}<span class="binding">已绑定</span>{{/if_eq}}
+						    		{{#if checked}}<span class="mui-icon mui-icon-checkmarkempty mui-isselect" style="display: block"></span>{{else}}<span class="mui-icon mui-icon-checkmarkempty mui-isselect"></span>{{/if}}
+						    	</p>
+						    	{{#ifarrnull children}}
+						    	<ul class="mui-table-view f14" style="display: none;">
+						    		{{#each children}}
+								    <li class="mui-table-view-cell">
+								    	{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}
+								    	<p class="li-item" data-name="{{name}}" data-id="{{id}}" data-enforcement_number = "{{enforcement_number}}" {{#if checked}}data-select="1"{{else}}data-select="0"{{/if}}>
+								    		<!--{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}-->
+								    		<span>{{name}}</span>{{#if_eq notify_cid null}}<span class="unbinding" >未绑定</span>{{else}}<span class="binding">已绑定</span>{{/if_eq}}
+								    		{{#if checked}}<span class="mui-icon mui-icon-checkmarkempty mui-isselect" style="display: block"></span>{{else}}<span class="mui-icon mui-icon-checkmarkempty mui-isselect"></span>{{/if}}
+								    	</p>
+								    	{{#ifarrnull children}}
+								    	<ul class="mui-table-view f14" style="display: none;">
+								    		{{#each children}}
+										    <li class="mui-table-view-cell">
+										    	{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}
+										    	<p class="li-item" data-name="{{name}}" data-id="{{id}}" data-enforcement_number = "{{enforcement_number}}" {{#if checked}}data-select="1"{{else}}data-select="0"{{/if}}>
+										    		<span>{{name}}</span>{{#if_eq notify_cid null}}<span class="unbinding" >未绑定</span>{{else}}<span class="binding">已绑定</span>{{/if_eq}}
+										    		{{#if checked}}<span class="mui-icon mui-icon-checkmarkempty mui-isselect" style="display: block"></span>{{else}}<span class="mui-icon mui-icon-checkmarkempty mui-isselect"></span>{{/if}}
+										    	</p>
+										    	{{#ifarrnull children}}
+										    	<ul class="mui-table-view f14" style="display: none;">
+										    		{{#each children}}
+												    <li class="mui-table-view-cell">
+												    	{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}
+												    	<p class="li-item" data-name="{{name}}" data-id="{{id}}" data-enforcement_number = "{{enforcement_number}}" {{#if checked}}data-select="1"{{else}}data-select="0"{{/if}}>
+												    		<!--{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}-->
+												    		<span>{{name}}</span>{{#if_eq notify_cid null}}<span class="unbinding" >未绑定</span>{{else}}<span class="binding">已绑定</span>{{/if_eq}}
+												    		{{#if checked}}<span class="mui-icon mui-icon-checkmarkempty mui-isselect" style="display: block"></span>{{else}}<span class="mui-icon mui-icon-checkmarkempty mui-isselect"></span>{{/if}}
+												    	</p>
+												    	{{#ifarrnull children}}
+												    	<ul class="mui-table-view f14" style="display: none;">
+												    		{{#each children}}
+														    <li class="mui-table-view-cell">
+														    	{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}
+														    	<p class="li-item" data-name="{{name}}" data-id="{{id}}" data-enforcement_number = "{{enforcement_number}}" {{#if checked}}data-select="1"{{else}}data-select="0"{{/if}}>
+														    		<!--{{#ifarrnull children}}<span class="mui-icon mui-icon-plusempty addtoshow" data-id="0" style="font-size: 26px;color: #F08A24;"></span>{{/ifarrnull}}-->
+														    		<span>{{name}}</span>{{#if_eq notify_cid null}}<span class="unbinding" >未绑定</span>{{else}}<span class="binding">已绑定</span>{{/if_eq}}
+														    		{{#if checked}}<span class="mui-icon mui-icon-checkmarkempty mui-isselect" style="display: block"></span>{{else}}<span class="mui-icon mui-icon-checkmarkempty mui-isselect"></span>{{/if}}
+														    	</p>
+														    </li>
+														    {{/each}}
+														</ul>
+														{{/ifarrnull}}
+												    </li>
+												    {{/each}}
+												</ul>
+												{{/ifarrnull}}
+										    </li>
+										    {{/each}}
+										</ul>
+										{{/ifarrnull}}
+								    </li>
+								    {{/each}}
+								</ul>
+								{{/ifarrnull}}
+						    </li>
+						    {{/each}}
+						</ul>
+						{{/ifarrnull}}
+				    </li>
+				    {{else}}
+					{{/each}}
+				</ul>
+				{{/ifarrnull}}
+		    </li>
+		    {{/each}}
+		</ul>
+	</script>
+	<script id="searchlist-template" type="text/x-handlebars-template">
+		<ul style="font-size: 14px;">
+			{{#each this}}
+			<li class="search-li" data-id = "{{id}}"  data-name = "{{name}}" data-enforcement_number = "{{enforcement_number}}" {{#if checked}}data-select="1"{{else}}data-select="0"{{/if}}>
+				<span>{{name}}</span>
+				{{#if checked}}<span class="mui-icon mui-icon-checkmarkempty mui-isselect" style="position: absolute;top: 0;display: block;"></span>{{else}}<span class="mui-icon mui-icon-checkmarkempty mui-isselect" style="position: absolute;top: 0;"></span>{{/if}}
+				<!--<span class="mui-icon mui-icon-checkmarkempty mui-isselect" style="position: absolute;top: 0;"></span>-->
+			</li>
+			{{/each}}
+		</ul>
+		<div style="border-top: 1px solid #ccc;display: flex;justify-content:flex-end;background-color: #eee;height: 0.8rem;line-height: 0.8rem;">
+			<p class="btnstyle bordferright btnright">确认</p>
+			<p class="btnstyle btnclose">关闭</p>
+		</div>
+	</script>
+	<script>
+		$(function(){
+			window.searchallinfo = [];
+			//获取跳转参数
+			mui.plusReady(function(){
+			    var self = plus.webview.currentWebview();
+		//	    var jlist = JSON.parse(self.receive_admin_group);
+			    console.log(JSON.stringify(self.receive_admin_group));
+			    var receive_admin_group = self.receive_admin_group;
+			    getoriginlist(receive_admin_group);
+			})
+			
+		    $(".item-name > i").click(function(){
+		        $(this).parent().parent().toggleClass("unfold")
+		        $(this).parent().parent().find("ul:first").slideToggle(500);
+		        $(this).toggleClass("unfold");
+		        $(this).parent().children(".filename").toggleClass("filename-open");
+		    });
+	        $(".checkbox").click(function (){
+	            $(this).toggleClass("c-selected");
+	        });
+			
+			
+			$('html').on('click','.addtoshow',function(){
+				var showid = $(this).attr('data-id');
+				if(showid == '0'){
+					$(this).parent().children('ul').show();
+					$(this).attr('data-id','1');
+					$(this).css('color','#000');
+				}else{
+					$(this).parent().children('ul').hide();
+					$(this).attr('data-id','0');
+					$(this).css('color','#F08A24');
+				}
+			})
+			
+			$('html').on('click','.li-item',function(){
+				console.log($(this).attr('data-name'));
+				var isselect = $(this).attr('data-select');
+				console.log(isselect);
+				if(isselect == '0'){
+					$(this).children('.mui-isselect').show();
+					$(this).attr('data-select','1');
+				}else{
+					$(this).children('.mui-isselect').hide();
+					$(this).attr('data-select','0');
+				}
+				var selectnum = $('.li-item');
+				var truenum = 0;
+				for(var ia = 0;ia<selectnum.length;ia++){
+					if(selectnum.eq(ia).attr('data-select') == '1'){
+						truenum = truenum+1;
+					}
+				}
+				if(truenum>0){
+					$('#done').removeClass('mui-disabled');
+					$('.getnum').html('('+truenum+')');
+				}else{
+					$('#done').addClass('mui-disabled');
+				}
+				console.log(truenum);
+				
+			})
+			
+//			点击完成
+			$('html').on('click','#done',function(){
+				console.log($(this).hasClass('mui-disabled'));
+				var selectarr = [];
+				if($(this).hasClass('mui-disabled')){
+					console.log($(this).hasClass('mui-disabled'));
+				}else{
+					var namearr = [];
+					var numarr = [];
+					var selectnum = $('.li-item');
+					for(var ia = 0;ia<selectnum.length;ia++){
+						if(selectnum.eq(ia).attr('data-select') == '1'){
+							var name = selectnum.eq(ia).attr('data-name');
+							var num = selectnum.eq(ia).attr('data-id');
+							var enforcement_number = selectnum.eq(ia).attr('data-enforcement_number');
+							namearr.push(name);
+							numarr.push(num);
+							var arr = {
+								id:num,
+								name:name,
+								enforcement_number:enforcement_number
+							}
+							selectarr.push(arr);
+						}
+					}
+					var checkedValues = namearr.join(',');
+					var numvalue = numarr.join(',');
+					console.log(checkedValues);
+					
+					
+					var btnArray = ['否', '是'];
+					mui.confirm('你选择了 : ' + checkedValues+' ?', '选择接收人', btnArray, function(e) {
+						if (e.index == 1) {
+							//获取父页面A.html
+							var cityName = selectarr;
+				            var main = plus.webview.currentWebview().opener();
+				            //自定义事件,事件名为changeCity
+				            mui.fire(main,'selectman',{cityName:cityName,type:'admin'});
+				            //关闭子页面
+				            mui.back();
+						}else{
+							mui.toast('取消',{ duration:'short', type:'div' });
+						}
+					})
+				}
+			})
+			
+			
+			function getoriginlist(limitobj){
+				var url = rooturl+'index.php/Api/Apps/Jingkaiqu/Admin/getAdminTree'; //获取信息列表
+				$.ajax({
+					url: url,
+					data: {
+						mobile: mobile,
+						userType: userType,
+						clientId: clientId,
+						clientType: clientType,
+						accessToken: accessToken,
+						searchkey:''
+					},
+					type: 'post',
+					dataType: 'json',
+					crossDomain: true,
+					cache: true,
+					beforeSend: function(xhr) { //beforeSend定义全局变量
+						xhr.setRequestHeader("If-Modified-Since", "0"); //If-Modified-Since HTTP请求头标签,即比较浏览器缓存页面时间
+					},
+					success: function(res) {
+						console.log(JSON.stringify(res.data));
+						var info = res.data;
+						for(var n in info){
+							info[n].checked= false;
+							if(info[n].children.length>0){
+								childisnocheck(info[n].children);
+							}
+						}
+						console.log(JSON.stringify(info));
+						
+						
+						for(var n in info){
+							for(var m in limitobj){
+								if(info[n].id == limitobj[m].id){
+									info[n].checked= true;
+								}
+								if(info[n].children.length>0){
+									childischeck(info[n].children,limitobj);
+								}
+							}
+						}
+						
+						
+						console.log(JSON.stringify(info));
+						
+						// 抓取模板数据
+						var contenttpl = $("#dome-template").html();
+						// 编译模板
+						
+						var domeTemplate = Handlebars.compile(contenttpl);
+						var context = info;
+						var filelistCompiledHtml = domeTemplate(context);
+						$("#dome").html(filelistCompiledHtml);
+						var truenum = 0;
+						var selectnum = $('.li-item');
+						for(var ia = 0;ia<selectnum.length;ia++){
+							if(selectnum.eq(ia).attr('data-select') == '1'){
+								truenum = truenum+1;
+							}
+						}
+						if(truenum>0){
+							$('#done').removeClass('mui-disabled');
+							$('.getnum').html('('+truenum+')');
+						}else{
+							$('#done').addClass('mui-disabled');
+						}
+					},
+					error: function(res){
+						console.log(JSON.stringify(res));
+						console.log(res.message);
+						console.log(res.data);
+						mui.toast(res.message,{ duration:'long', type:'div' });
+					}
+				})
+			}
+			
+			function childisnocheck(obj){
+				for(var n in obj){
+					obj[n].checked= false;
+					if(obj[n].children.length>0){
+						childischeck(obj[n].children);
+					}
+				}
+				return false;
+			}
+			function childischeck(obj,limitobj){
+				for(var n in obj){
+					for(var m in limitobj){
+						if(obj[n].id == limitobj[m].id){
+							obj[n].checked= true;
+						}
+						if(obj[n].children.length>0){
+							childischeck(obj[n].children,limitobj)
+						}
+					}
+				}
+				return false;
+			}
+			
+			$("html").on('click','#search-btn',function(){
+				var searchkey = $(".searchkey").val();
+				getsearchlist(searchkey);
+			})
+			
+//			$('html').on('blur','.searchkey',function(){
+//				console.log('');
+//			})
+			
+			
+			function getsearchlist(searchkey){
+				var url = rooturl+'index.php/Api/Apps/Jingkaiqu/Admin/allData'; //获取信息列表
+				$.ajax({
+					url: url,
+					data: {
+						mobile: mobile,
+						userType: userType,
+						clientId: clientId,
+						clientType: clientType,
+						accessToken: accessToken,
+						searchkey:searchkey
+					},
+					type: 'post',
+					dataType: 'json',
+					crossDomain: true,
+					cache: true,
+					beforeSend: function(xhr) { //beforeSend定义全局变量
+						xhr.setRequestHeader("If-Modified-Since", "0"); //If-Modified-Since HTTP请求头标签,即比较浏览器缓存页面时间
+					},
+					success: function(res) {
+						console.log(JSON.stringify(res));
+						var infoarr = res.data;
+						var lastinfoarr = [];
+						//搜索框中所有搜索到的数据
+						for(var r = 0;r<infoarr.length;r++){
+							var rar = {
+								'id':infoarr[r].id,
+								'name':infoarr[r].name,
+								'enforcement_number':infoarr[r].enforcement_number
+							}
+							lastinfoarr.push(rar);
+						}
+						
+						window.searchallinfo = lastinfoarr;
+						
+						
+						var selectarr = [];
+						var selectnum = $('.li-item');
+						for(var sl = 0;sl<selectnum.length;sl++){
+							if(selectnum.eq(sl).attr('data-select') == '1'){
+								var num = selectnum.eq(sl).attr('data-id');
+								var arr = {
+									id:num,
+								}
+								selectarr.push(arr);
+							}
+						}
+						
+						for(a = 0;a<infoarr.length;a++){
+							infoarr[a].checked = false;
+						}
+						
+						for(var m = 0;m<infoarr.length;m++){
+							for(var s = 0;s<selectarr.length;s++){
+								if(infoarr[m].id == selectarr[s].id){
+									infoarr[m].checked = true;
+								}
+							}
+						}
+						
+//						console.log(JSON.stringify(infoarr));
+//						return false;
+						
+						// 抓取模板数据
+						var contenttpl = $("#searchlist-template").html();
+						// 编译模板
+						var domeTemplate = Handlebars.compile(contenttpl);
+						var context = infoarr;
+						var filelistCompiledHtml = domeTemplate(context);
+						$("#searchlist").html(filelistCompiledHtml);
+						$('#searchlist').show();
+						$('.searchlist').show();
+					},
+					error: function(res){
+						console.log(JSON.stringify(res));
+						console.log(res.message);
+						console.log(res.data);
+						mui.toast(res.message,{ duration:'long', type:'div' });
+					}
+				})
+			}
+			
+			$('html').on('click','.btnclose',function(){
+				$('#searchlist').hide();
+				$('.searchlist').hide();
+			})
+			
+			$('html').on('click','.btnright',function(){
+				var searchnum = 0;
+				var searchallarr = [];
+				var selectarr = [];
+				var searchli = $('.search-li');
+				
+				
+				//接收人列表中的对象
+				var selectnum = $('.li-item');
+				for(var sl = 0;sl<selectnum.length;sl++){
+					if(selectnum.eq(sl).attr('data-select') == '1'){
+						var allnum = selectnum.eq(sl).attr('data-id');
+						var allname = selectnum.eq(sl).attr('data-name');
+						var allenforcement_number = selectnum.eq(sl).attr('data-enforcement_number');
+						var arr = {
+							"id":allnum,
+							"name":allname,
+							"enforcement_number":allenforcement_number
+						}
+						selectarr.push(arr);
+					}
+				}
+				
+				console.log(JSON.stringify(selectarr));
+				
+				
+				
+				
+				//搜索框中搜索到的所有数据
+				var searchallinfo = window.searchallinfo;
+				
+				for(var a = 0;a<selectarr.length;a++){
+					for(var b = 0;b<searchallinfo.length;b++){
+						if(selectarr[a].id == searchallinfo[b].id){
+							selectarr[a] = {};
+						}
+					}
+				}
+				console.log('移除hou'+JSON.stringify(selectarr));
+				
+				//搜索框中选中的对象
+				for(var n = 0;n<searchli.length;n++){
+					if(searchli.eq(n).attr('data-select') == '1'){
+						searchnum = searchnum+1;
+						var id = searchli.eq(n).attr('data-id');
+						var name = searchli.eq(n).attr('data-name');
+						console.log(name);
+						
+						var enforcement_number = searchli.eq(n).attr('data-enforcement_number');
+						var searcharr = {
+							"id":id,
+							"name":name,
+							"enforcement_number":enforcement_number
+						}
+						selectarr.push(searcharr);
+						
+					}
+				}
+				
+				for(var al = 0;al<selectarr.length;al++){
+					if(selectarr[al].id){
+						searchallarr.push(selectarr[al]);
+					}
+				}
+				
+				getoriginlist(searchallarr);
+				$('#searchlist').hide();
+				$('.searchlist').hide();
+			})
+			$('html').on('click','.search-li',function(){
+				var id = $(this).attr('data-id');
+				var isselect = $(this).attr('data-select');
+				if(isselect == '0'){
+					$(this).children('.mui-isselect').show();
+					$(this).attr('data-select','1');
+				}else{
+					$(this).children('.mui-isselect').hide();
+					$(this).attr('data-select','0');
+				}
+			})
+		})
+	</script>
+</html>

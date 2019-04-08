@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>添加任务</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../../css/mui.min.css" />
+		<script type="text/javascript" src="../../../common/rem.js"></script>
+		<link rel="stylesheet" href="../../../css/mui.picker.min.css" />
+		<script type="text/javascript" src="../../../js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="../../../js/mui.min.js"></script>
+		<script src="../../../js/handlebars.js"></script>
+		<link rel="stylesheet" href="../../../css/addtask.css" />
+		<script type="text/javascript" src="../../../common/common.js"></script>
+		<script type="text/javascript" src="../../../js/mui.picker.min.js"></script>
+		<script type="text/javascript" src="../../js/managecenter/addtask.js"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#2ca5db;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 class="mui-title" style="color: #fff;font-weight: bold;">新建任务</h1>
+		</header>
+		<div class="mui-content">
+			<form id="newtask">
+			<ul class="mui-table-view" style="margin-top: 0;">
+			    <li class="mui-table-view-cell flex-play">
+			    	<span class="flex-info-left">标题</span>
+			    	<input class="flex-info-righr input-border" placeholder="请填写标题" name="title" value="" />
+			    </li>
+			    <li class="mui-table-view-cell flex-play">
+			    	<span class="flex-info-left">开始时间</span>
+			        <span class="flex-info-righr input-border time f14" style="width: 3rem;display: inline-block;"></span>
+			    	<input type="hidden" name="check_start_at" value="">
+			    </li>
+			    <li class="mui-table-view-cell flex-play">
+			    	<span class="flex-info-left">结束时间</span>
+			        <span class="flex-info-righr input-border time f14"  style="width: 3rem;display: inline-block;"></span>
+			    	<input type="hidden" name="check_end_at" time value="">
+			    </li>
+			    <li class="mui-table-view-cell flex-play">
+			    	<span class="flex-info-left">检查次数</span>
+			        <input class="flex-info-righr input-border" placeholder="请填写检查次数" name="check_times" value="" />
+			    </li>
+			    <li class="mui-table-view-cell flex-play">
+			    	<span class="flex-info-left">辖区<span style="color: #FA0000;font-size: 14px;">(发布到该辖区内所有企业)</span></span>
+			        <span class="flex-info-righr input-border f14 jurisarea"  style="width: 3rem;display: inline-block;">请选择辖区</span>
+			    	<input type="hidden" name="area_group_ids" class="area_group_ids" value="">
+			    </li>
+			    <li class="mui-table-view-cell flex-play">
+			    	<span class="flex-info-left">企业选择</span>
+			        <span class="flex-info-righr input-border f14 shopselect"  style="width: 3rem;display: inline-block;">请选择企业</span>
+			    </li>
+			    <li class="mui-table-view-cell list-size-style shoplist" style="display: block;">
+			    	<div style="font-size: 14px;">企业</div>
+			    	<ul id="shopnamelist" class="mui-table-view mui-grid-view mui-grid-9" style="background-color: #fff;border: none;height: 3.4rem;overflow-y: scroll;">
+			    		
+					</ul>
+			    </li>
+			    <li class="mui-table-view-cell flex-play">
+			    	<span class="flex-info-left">接受人</span>
+			        <span class="flex-info-righr input-border f14 getman"  style="width: 3rem;display: inline-block;">请选择接受人</span>
+			    </li>
+			    <li class="mui-table-view-cell list-size-style shoplist" style="display: block;">
+			    	<div style="font-size: 14px;">接受人</div>
+			    	<ul id="managenamelist" class="mui-table-view mui-grid-view mui-grid-9" style="background-color: #fff;border: none;min-height: 3.4rem;">
+			    		
+					</ul>
+			    </li>
+			    <div style="padding: 0.32rem;">
+			    	<div class="f14">任务详情</div>
+			    	<textarea placeholder="请输入内容" name="content" class="f14" style="height: 2rem;line-height: 0.3rem;"></textarea>
+			    </div>
+			    <div style="padding: 0.32rem;">
+			    	<div class="mui-btn-primary f14 submit-btn" style="height: 1rem;line-height: 1rem;text-align: center;border-radius: 0.1rem;color: #FFF;">发布</div>
+			    </div>
+			</ul>
+			</form>
+		</div>
+		<script id="namelist" type="text/x-handlebars-template">
+			{{#each this}}
+			<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-3" style="border: none;position: relative;">
+				<div class="mui-media-body f14 " style="width: 3.22rem;height: 0.8rem;line-height:0.4rem;display: inline-block;background-color: #209fd8;color: #fff;"><p style="color: #fff;font-size: 12px;">{{name}}</p><p style="color: #fff;font-size: 12px;">{{#if_eq enforcement_number ''}}无编号{{else}}{{enforcement_number}}{{/if_eq}}</p></div>
+				<input type="hidden" value="{{id}}" name="receive_admin_group_ids" />
+				<div class="deletecheckman" data-id = "{{id}}" data-type="admin" style="position: absolute;top: 0.2rem;right: 0.01rem;"><img src="../../../img/delete.png" style="width: 0.4rem;height: 0.4rem;"/></div>
+			</li>
+			{{/each}}
+		</script>
+		<script id="shoplist" type="text/x-handlebars-template">
+			{{#each this.context}}
+			<li class="mui-table-view-cell mui-media" style="border: 1px solid #ccc;position: relative;">
+				<div class="" style="display: flex;justify-content: space-between;">
+					<div style="flex:0 0 25%;">
+						<img src="{{#if_eq imgurl ''}}../../../img/shoplogo.png{{else}}{{../rooturl}}{{imgurl}}{{/if_eq}}" style="width: 100%;" />
+					</div>
+					<div style="flex: 0 0 73%;font-size: 14px;">
+						<div style="text-align: left;">{{name}}</div>
+					</div>
+				</div>
+				<!--<div class="mui-media-body f14 " style="width: 3.22rem;height: 0.8rem;line-height:0.8rem;display: inline-block;background-color: #209fd8;color: #fff;"><p style="color: #fff;font-size: 12px;">{{name}}</p></div>-->
+				<input type="hidden" value="{{id}}" name="received_shop_id" />
+				<input type="hidden" value="{{license}}" name="license_group_ids" />
+				<div class="deletecheckman" data-id = "{{id}}" data-type="{{type}}" style="position: absolute;top: 0.2rem;right: 0.01rem;"><img src="../../../img/delete.png" style="width: 0.4rem;height: 0.4rem;"/></div>
+			</li>
+			{{/each}}
+		</script>
+		<script id="allshoplist" type="text/x-handlebars-template">
+			{{#each this.context}}
+			<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-3" style="border: none;position: relative;">
+				<div class="mui-media-body f14 " style="width: 3.22rem;height: 0.8rem;line-height:0.8rem;display: inline-block;background-color: #209fd8;color: #fff;"><p style="color: #fff;font-size: 12px;">{{name}}</p></div>
+				<input type="hidden" value="{{id}}" name="received_shop_id" />
+				<div class="deletecheckman" data-id = "{{id}}" data-type="{{type}}" style="position: absolute;top: 0.2rem;right: 0.01rem;"><img src="../../../img/delete.png" style="width: 0.4rem;height: 0.4rem;"/></div>
+			</li>
+			{{/each}}
+		</script>
+	</body>
+</html>

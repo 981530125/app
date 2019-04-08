@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<script type="text/javascript" src="../../common/rem.js"></script>
+		<!--<link rel="stylesheet" href="../../css/shoppage.css" />-->
+		<script type="text/javascript" src="../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../common/common.js"></script>
+		<script type="text/javascript" src="../js/notice/noticecontent.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<style>
+			body{
+				background-color: #fff;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#35a8dc;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 class="mui-title" style="color: #fff;font-weight: bold;">通知消息</h1>
+		</header>
+		<div class="mui-content" id="messagecontent" style="background-color: #fff;">
+			
+		</div>
+		<!--模板-->
+		<script id="content-template" type="text/x-handlebars-template">
+			<div style="width: 7.02rem;margin: 0 auto;padding: 0.3rem 0;">
+				<div style="width: 100%;text-align: center;font-weight: bold;color: #000000;font-size: 16px;">{{title}}<span class="mui-badge mui-badge-primary" style="font-size: 12px;margin-left: 10px;">已读</span></div>
+				<div style="width: 100%;text-align: center;color: #ccc;font-size: 12px;">{{created_at}}</div>
+				<div style="width: 100%;overflow-x:hidden;font-size: 14px;color: #999999;word-break: break-word;word-wrap: break-word;">{{{content}}}</div>
+			</div>
+		</script>
+	</body>
+</html>

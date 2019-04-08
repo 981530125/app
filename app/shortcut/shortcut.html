@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>快捷输入(未完成)</title>
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<link rel="stylesheet" href="../../common/css/footer.css" />
+		<link rel="stylesheet" href="../../common/css/shortcut.css" />
+		<script type="text/javascript" src="../../common/rem.js"></script>
+		<script type="text/javascript" src="../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../common/common.js"></script>
+		<style>
+			.sentence{
+				padding: 0.2rem 0.3rem;
+				font-size: 16px;
+				border-bottom:1px solid #ccc;
+				line-height: 0.6rem;
+				word-break: break-all;
+				word-wrap: break-word;
+				padding: 0.2rem 0.3rem;
+				font-size: 16px;
+				border-bottom:1px solid #ccc;
+				line-height: 0.6rem;
+				word-break: break-all;
+				word-wrap: break-word;
+			}
+			.myshortcut{
+				background-color: #fff;
+				padding: 0 0.3rem;
+				position: fixed;
+				bottom: 0;
+				z-index:999;
+				width: 100%;
+				height: 1rem;
+				text-align: left;
+				line-height: 1rem;
+				color: #000;
+				font-size: 16px;
+				font-weight: bold;
+				display: none;
+			}
+			.bodytoheight{
+				margin-bottom: 1rem;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#2ca5db;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 class="mui-title" style="color: #fff;font-weight: bold;">常用短语(未完成)</h1>
+		</header>
+		<nav class="mui-bar mui-bar-tab">
+			<a id="defaultTab" class="mui-tab-item" data-id="tab-webview-subpage-about" href="tab-webview-subpage-about.html">
+				<span class="mui-icon"><img src="../../img/homepage.png" data-origin="../../img/homepage.png" data-active="../../img/home.png" class="footer-tabimga tab-footer-icon" style="margin-top: 0;"/></span>
+				<span class="mui-tab-label" data-id="0" data-describe="首页">首页</span>
+			</a>
+			<a class="mui-tab-item" id="shoplist" data-id="tab-webview-subpage-chat" href="tab-webview-subpage-chat.html">
+				<span class="mui-icon"><img src="../../img/nearby.png" data-origin="../../img/nearby.png" data-active="../../img/nearby2.png" class="footer-tabimgb tab-footer-icon" style="margin-top: 0;"/></span>
+				<span class="mui-tab-label" data-id="1" data-describe="附近企业">附近</span>
+			</a>
+			<a class="mui-tab-item mui-active" id="centerid" data-id="tab-webview-subpage-chat"  href="tab-webview-subpage-contact.html">
+				<span class="mui-icon"><img src="../../img/mine.png" data-origin="../../img/mine.png" data-active="../../img/mine2.png" class="footer-tabimgc tab-footer-icon" style="margin-top: 0;"/></span>
+				<span class="mui-tab-label" data-id="2" data-describe="管理中心">我的</span>
+			</a>
+		</nav>
+		<!--快捷输入-->
+		<div class="mypop" style="position: relative;display: none;">
+			<div style="position: fixed;left: 0;bottom: 0;z-index: 999;height: 5.5rem;width: 100%;background-color: #fff;overflow: hidden;box-shadow: 0 -1px 2px #ccc;">
+            	<div style="width: 100%;height: 1rem;display:flex;padding: 0.2rem 0.3rem;border-top:1px solid #ccc;border-bottom:1px solid #ccc;box-shadow: 0 0 1px #ccc;">
+            		<div style="font-size: 16px;height: 100%;line-height: 0.6rem;flex: 1;">快捷输入</div>
+            		<div style="flex: 1;">
+            			<select class="selecttype" id="myselecttype">
+            				<option value="self">自己</option>
+							<option value="system">系统</option>
+							<option value="other">其他人</option>
+							<option value="all">全部</option>
+						</select>
+            		</div>
+            		<div style="flex: 1;">
+            			<select class="selecttype" id="classify">
+						</select>
+            		</div>
+            		<div style="flex: 1;text-align: right;">
+            			<img src="../../img/tokeyboard.png" style="width: 32px;" class="tokeyset"/>
+            		</div>
+            	</div>
+            	<div class="mui-scroll-wrapper" style="position: absolute;width: 100%;top: 1rem;bottom: 0rem;">
+					<div class="mui-scroll" id="inputpop">
+						<!--添加模板-->
+					</div>
+				</div>
+            </div>
+		</div>
+		<!--快捷输入-->
+		
+		<!--快捷列表-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll" id="all">
+			<!--添加模板-->
+			<input type="text" value="" name="shortcut" class="shortcut" style="margin: 0 auto;width: 80%;height: 1rem;text-indent: 1rem;"/>
+			
+			</div>
+		</div>
+		<!--快捷列表-->
+		<div id="errMsg"></div>
+		<!--快捷输入全部列表-->
+		<script id="tolist-template" type="text/x-handlebars-template">
+			<ul>
+				<li class="sentence editshortcut" ><img src="../../img/sentence.png" style="vertical-align:middle;width: 0.4rem;margin-right: 0.1rem;"/>添加/编辑常用短语</li>
+				{{#each data}}
+				<li class="sentence toimport">{{content}}</li>
+				{{/each}}
+			</ul>
+			<div>
+				<button class="post" style="width: 100%;height: 1rem;border:1px solid #000000;">121212</button>
+			</div>
+
+		</script>
+		<!--快捷输入选择列表-->
+		<script id="poplist-template" type="text/x-handlebars-template">
+			<ul>
+				<li class="sentence editshortcut" ><img src="../../img/sentence.png" style="vertical-align:middle;width: 0.4rem;margin-right: 0.1rem;"/>添加/编辑常用短语</li>
+				{{#each data}}
+				<li class="sentence toimport">{{content}}</li>
+				{{/each}}
+			</ul>
+		</script>
+		<script id="poptype-template" type="text/x-handlebars-template">
+			<option value="">全部</option>
+			{{#each this}}
+			<option value="{{id}}">{{name}}</option>
+			{{/each}}
+		</script>
+		<script type="text/javascript" src="../../common/shortcut.js"></script>
+		<script>
+			mui('.mui-scroll-wrapper').scroll({
+				deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+			});
+		</script>
+	</body>
+</html>

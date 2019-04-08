@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>右侧菜单栏</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../../css/mui.min.css">
+		<script type="text/javascript" src="../../../common/rem.js"></script>
+		<link rel="stylesheet" href="../../../css/mui.picker.min.css" />
+		<script src="../../../js/mui.min.js"></script>
+		<script src="../../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../../js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="../../../common/common.js"></script>
+		<link rel="stylesheet" href="../../../css/addtask.css" />
+		<link rel="stylesheet" href="../../../css/setbusiness.css" />
+		<link rel="stylesheet" href="../../../css/newrecords.css" />
+		<script type="text/javascript" src="../../../common/mui.pullToRefresh.js"></script>
+		<script type="text/javascript" src="../../../common/mui.pullToRefresh.material.js"></script>
+		<script type="text/javascript" src="../../../js/mui.picker.min.js"></script>
+		<script type="text/javascript" src="../../js/managecenter/selectitem.js"></script>
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			p {
+				text-indent: 22px;
+			}
+			
+			span.mui-icon {
+				font-size: 14px;
+				color: #007aff;
+				margin-left: -15px;
+				padding-right: 10px;
+			}
+			
+			.mui-off-canvas-right {
+				color: #000;
+				font-size: 14px;
+				background-color: #fff;
+			}
+			
+			.title {
+				margin: 0;
+			}
+			
+			.title+.content {
+				margin-left: 15px;
+				margin-right: 15px;
+				color: #bbb;
+				text-indent: 1em;
+				font-size: 14px;
+				line-height: 24px;
+			}
+			
+			input {
+				color: #000;
+			}
+			
+			.mui-checkbox label {
+				color: #000;
+			}
+			
+			.mui-radio label {
+				color: #000;
+			}
+			.mui-bar~.mui-content .mui-fullscreen {
+				top: 44px;
+				height: auto;
+			}
+			.mui-pull-top-tips {
+				position: absolute;
+				top: -20px;
+				left: 50%;
+				margin-left: -25px;
+				width: 40px;
+				height: 40px;
+				border-radius: 100%;
+				z-index: 1;
+			}
+			.mui-bar~.mui-pull-top-tips {
+				top: 24px;
+			}
+			.mui-pull-top-wrapper {
+				width: 42px;
+				height: 42px;
+				display: block;
+				text-align: center;
+				background-color: #efeff4;
+				border: 1px solid #ddd;
+				border-radius: 25px;
+				background-clip: padding-box;
+				box-shadow: 0 4px 10px #bbb;
+				overflow: hidden;
+			}
+			.mui-pull-top-tips.mui-transitioning {
+				-webkit-transition-duration: 200ms;
+				transition-duration: 200ms;
+			}
+			.mui-pull-top-tips .mui-pull-loading {
+				/*-webkit-backface-visibility: hidden;
+				-webkit-transition-duration: 400ms;
+				transition-duration: 400ms;*/
+				margin: 0;
+			}
+			.mui-pull-top-wrapper .mui-icon,
+			.mui-pull-top-wrapper .mui-spinner {
+				margin-top: 7px;
+			}
+			.mui-pull-top-wrapper .mui-icon.mui-reverse {
+				/*-webkit-transform: rotate(180deg) translateZ(0);*/
+			}
+			.mui-pull-bottom-tips {
+				text-align: center;
+				background-color: #efeff4;
+				font-size: 15px;
+				line-height: 40px;
+				color: #777;
+			}
+			.mui-pull-top-canvas {
+				overflow: hidden;
+				background-color: #fafafa;
+				border-radius: 40px;
+				box-shadow: 0 4px 10px #bbb;
+				width: 40px;
+				height: 40px;
+				margin: 0 auto;
+			}
+			.mui-pull-top-canvas canvas {
+				width: 40px;
+			}
+			.mui-slider-indicator.mui-segmented-control {
+				background-color: #efeff4;
+			}
+			.item-title{
+				text-indent: 0;
+				color: #000;
+				font-weight: bold;
+				height: 0.8rem;
+				line-height: 0.8rem;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content" style="padding-top: 0px;">
+			<div class="title" style="color: #000;font-size: 14px;padding:10px 15px;font-size: 16px;">企业筛选</div>
+			<div class="content">
+				<div style="margin-bottom: 0.1rem;">
+					<div class="item-title">证书类型</div>
+					<div id="selectype" style="display: flex; flex-wrap:wrap;justify-content:space-between;align-items: top;">
+						<!--模板-->
+					</div>
+				</div>
+				<div style="margin-bottom: 0.1rem;">
+					<div class="item-title">证书有效期</div>
+					<div>
+						<div class="mui-input-row mui-checkbox">
+							<label>正常</label>
+							<input name="license_valid_arr" value="正常" type="checkbox">
+						</div>
+						<div class="mui-input-row mui-checkbox">
+							<label>注销</label>
+							<input name="license_valid_arr" value="注销" type="checkbox">
+						</div>
+						<div class="mui-input-row mui-checkbox">
+							<label>失效</label>
+							<input name="license_valid_arr" value="失效" type="checkbox">
+						</div>
+						<div class="mui-input-row mui-checkbox">
+							<label>特殊(过期、其他)</label>
+							<input name="license_valid_arr" value="特殊" type="checkbox">
+						</div>
+					</div>
+				</div>
+				<div style="margin-bottom: 0.1rem;">
+					<div class="item-title">本次动态等级</div>
+					<div>
+						<div class="mui-input-row mui-checkbox">
+							<label>优秀</label>
+							<input name="check_level_arr" value="优秀" type="checkbox">
+						</div>
+						<div class="mui-input-row mui-checkbox">
+							<label>良好</label>
+							<input name="check_level_arr" value="良好" type="checkbox">
+						</div>
+						<div class="mui-input-row mui-checkbox">
+							<label>一般</label>
+							<input name="check_level_arr" value="一般" type="checkbox">
+						</div>
+						<div class="mui-input-row mui-checkbox">
+							<label>整改中</label>
+							<input name="check_level_arr" value="整改中" type="checkbox">
+						</div>
+						<div class="mui-input-row mui-checkbox">
+							<label>待评定</label>
+							<input name="check_level_arr" value="待评定" type="checkbox">
+						</div>
+					</div>
+				</div>
+				<div style="margin-bottom: 0.1rem;">
+					<div class="item-title">年度量化综合等级</div>
+					<div>
+						<div class="mui-input-row mui-checkbox">
+							<label>A</label>
+							<input name="grade_arr" value="A" type="checkbox">
+						</div>
+						<div class="mui-input-row mui-checkbox">
+							<label>B</label>
+							<input name="grade_arr" value="B" type="checkbox">
+						</div>
+						<div class="mui-input-row mui-checkbox">
+							<label>C</label>
+							<input name="grade_arr" value="C" type="checkbox">
+						</div>
+						<div class="mui-input-row mui-checkbox">
+							<label>待评定</label>
+							<input name="grade_arr" value="待评定" type="checkbox">
+						</div>
+					</div>
+				</div>
+				<div style="margin-bottom: 0.1rem;">
+					<div class="item-title">当年风险分级</div>
+					<div>
+						<div class="mui-input-row mui-checkbox">
+							<label>A</label>
+							<input name="risk_level_arr" value="A" type="checkbox">
+						</div>
+						<div class="mui-input-row mui-checkbox">
+							<label>B</label>
+							<input name="risk_level_arr" value="B" type="checkbox">
+						</div>
+						<div class="mui-input-row mui-checkbox">
+							<label>C</label>
+							<input name="risk_level_arr" value="C" type="checkbox">
+						</div>
+						<div class="mui-input-row mui-checkbox">
+							<label>D</label>
+							<input name="risk_level_arr" value="D" type="checkbox">
+						</div>
+						<div class="mui-input-row mui-checkbox">
+							<label>待评定</label>
+							<input name="risk_level_arr" value="待评定" type="checkbox">
+						</div>
+					</div>
+				</div>
+				<div style="margin-bottom: 0.1rem;">
+					<div class="item-title">上年度风险分级</div>
+					<div>
+						<div class="mui-input-row mui-checkbox">
+							<label>A</label>
+							<input name="first_half_year_risk_level_arr" value="A" type="checkbox">
+						</div>
+						<div class="mui-input-row mui-checkbox">
+							<label>B</label>
+							<input name="first_half_year_risk_level_arr" value="B" type="checkbox">
+						</div>
+						<div class="mui-input-row mui-checkbox">
+							<label>C</label>
+							<input name="first_half_year_risk_level_arr" value="C" type="checkbox">
+						</div>
+						<div class="mui-input-row mui-checkbox">
+							<label>D</label>
+							<input name="first_half_year_risk_level_arr" value="D" type="checkbox">
+						</div>
+						<div class="mui-input-row mui-checkbox">
+							<label>待评定</label>
+							<input name="first_half_year_risk_level_arr" value="待评定" type="checkbox">
+						</div>
+					</div>
+				</div>
+				<div style="margin-bottom: 0.1rem;">
+					<div class="item-title">企业公开状态</div>
+					<div>
+						<div class="mui-input-row mui-radio">
+							<label>全部</label>
+							<input name="is_open" value="-1" type="radio">
+						</div>
+						<div class="mui-input-row mui-radio">
+							<label>公开</label>
+							<input name="is_open" value="1" type="radio">
+						</div>
+						<div class="mui-input-row mui-radio">
+							<label>不公开</label>
+							<input name="is_open" value="0" type="radio">
+						</div>
+					</div>
+				</div>
+				<div style="margin-bottom: 0.1rem;">
+					<div class="item-title">三小管理状态</div>
+					<div>
+						<div class="mui-input-row mui-radio">
+							<label>全部</label>
+							<input name="three_small_status" value="-1" type="radio">
+						</div>
+						<div class="mui-input-row mui-radio">
+							<label>公开</label>
+							<input name="three_small_status" value="1" type="radio">
+						</div>
+						<div class="mui-input-row mui-radio">
+							<label>不公开</label>
+							<input name="three_small_status" value="0" type="radio">
+						</div>
+					</div>
+				</div>
+				<div style="margin-bottom: 0.1rem;">
+					<div class="item-title">任务情况时间范围</div>
+					<div style="display: flex;justify-content:center;align-content:space-around;">
+						<div style="flex: 2;border:1px solid #f7f6fb;background-color: #fff;justify-content:center;padding: 0.2rem;">
+							<span class="style-time time" style="text-indent: 0;display: block;">开始时间</span>
+							<input type="hidden" value="" name="task_and_record_time_start" class="" />
+						</div>
+						<div style="flex: 1;align-items: center;justify-content:center;text-align: center;text-indent: 0;">——</div>
+						<div style="flex: 2;border:1px solid #f7f6fb;background-color: #fff;justify-content:center;padding: 0.2rem;">
+							<span class="style-time time" style="text-indent: 0;display: block;">结束时间</span>
+							<input type="hidden" value="" name="task_and_record_time_end" class="" />
+						</div>
+					</div>
+				</div>
+				<div style="margin-bottom: 0.1rem;">
+					<div class="item-title">已下达任务数</div>
+					<div style="display: flex;justify-content:center;align-content:space-around;">
+						<div style="flex: 2;background-color: #f7f6fb;justify-content:center;text-indent: 0;">
+							<input type="text" value="" placeholder="大于等于" name="task_num_delivered_greater" class="areamore" style="height: 0." />
+						</div>
+						<div style="flex: 1;align-items: center;justify-content:center;text-align: center;text-indent: 0;">——</div>
+						<div style="flex: 2;background-color: #f7f6fb;justify-content:center;text-indent: 0;">
+							<input type="text" value="" placeholder="小于等于" name="task_num_delivered_less" class="arealess" style="" />
+						</div>
+					</div>
+				</div>
+				<div style="margin-bottom: 0.1rem;">
+					<div class="item-title">已完成任务数</div>
+					<div style="display: flex;justify-content:center;align-content:space-around;">
+						<div style="flex: 2;background-color: #f7f6fb;justify-content:center;text-indent: 0;">
+							<input type="text" value="" placeholder="大于等于" name="task_num_finished_greater" class="areamore" style="" />
+						</div>
+						<div style="flex: 1;align-items: center;justify-content:center;text-align: center;text-indent: 0;">——</div>
+						<div style="flex: 2;background-color: #f7f6fb;justify-content:center;text-indent: 0;">
+							<input type="text" value="" placeholder="小于等于" name="task_num_finished_less" class="arealess" style="" />
+						</div>
+					</div>
+				</div>
+				<div style="margin-bottom: 0.1rem;">
+					<div class="item-title">已完成监督数</div>
+					<div style="display: flex;justify-content:center;align-content:space-around;">
+						<div style="flex: 2;background-color: #fff;justify-content:center;text-indent: 0;">
+							<input type="text" value="" placeholder="大于等于" name="record_num_finished_greater" class="areamore" style="background-color: #fff;" />
+						</div>
+						<div style="flex: 1;align-items: center;justify-content:center;text-align: center;text-indent: 0;">——</div>
+						<div style="flex: 2;background-color: #fff;justify-content:center;text-indent: 0;">
+							<input type="text" value="" placeholder="小于等于" name="record_num_finished_less" class="arealess" style="background-color: #fff;" />
+						</div>
+					</div>
+				</div>
+				<p style="margin: 30px 15px;">
+					<button id="close-btn" type="button" class="mui-btn mui-btn-danger mui-btn-block" style="padding: 5px 20px;">确定</button>
+				</p>
+			</div>
+		</div>
+		<script id="type-template" type="text/x-handlebars-template">
+			<div style="display: flex; flex-wrap:wrap;justify-content:flex-start;align-items: top;">
+				{{#each data}}
+				<span class="flex-type-item checkval" data-is='0' data-name="{{name}}" data-type="{{type}}" style="padding: 0.2rem">{{name}}</span>
+				{{/each}}
+			</div>
+		</script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			//关闭back、menu按键监听，这样侧滑主界面会自动获得back和memu的按键事件，仅在主界面处理按键逻辑即可；
+			mui.init({
+				keyEventBind: {
+					backbutton: false,
+					menubutton: false
+				}
+			});
+			var main = null;
+			mui.plusReady(function() {
+				main = plus.webview.currentWebview().opener();
+				
+//				传递参数
+				var w_menu = plus.webview.currentWebview(); //菜单页
+				var w_main = w_menu.opener(); //主页面
+				window.w_main = w_menu.opener(); //主页面
+			})
+
+			function closeMenu() {
+				mui.fire(main, "menu:swiperight");
+			}
+
+			//左滑显示出来的菜单，只需监听右滑，然后将菜单关闭即可；在该菜单上左滑，不做任何操作；
+			window.addEventListener("swiperight", closeMenu);
+
+//			document.getElementById("close-btn").addEventListener('tap', function(){
+//				//自定义事件,事件名为changeCity
+//				mui.fire(main,'changeCity',{cityName:cityName});
+//			});
+
+			document.getElementById("close-btn").addEventListener('tap', function(){
+				
+				console.log('121');
+				
+				//证书类型
+				var selectAllLicenseType = $(".flex-type-item");
+				var alljson = {};
+				var license_valid_arr = {};
+				var check_level_arr = {};
+				var grade_arr = {};
+				var risk_level_arr = {};
+				var first_half_year_risk_level_arr = {};
+				
+				
+//              证书类型				
+				for(var m = 0;m<selectAllLicenseType.length;m++){
+					$(".flex-type-item").length;
+					var isselect = $(".flex-type-item").eq(m).attr('data-is');
+					var typename = $(".flex-type-item").eq(m).attr('data-type');
+					if(isselect == '1'){
+						var seletarr = {
+							[typename]:'true'
+						};
+					}else{
+						var seletarr = {
+							[typename]:'false'
+						};
+					}
+					alljson = $.extend(alljson, seletarr);
+				}
+				console.log(JSON.stringify(alljson));
+				
+				
+//				证书有效性
+				$('input[name="license_valid_arr"]').each(function(){
+					var licensename = $(this).val();
+					if($(this).is(':checked')){
+						var licensetarr = {
+							[licensename]:'true'
+						};
+					}else{
+						var licensetarr = {
+							[licensename]:'false'
+						};
+					}
+					license_valid_arr = $.extend(license_valid_arr, licensetarr);
+				});
+				
+				console.log(JSON.stringify(license_valid_arr));
+				
+//				本次动态等级
+				$('input[name="check_level_arr"]').each(function(){
+					var check_levelname = $(this).val();
+					if($(this).is(':checked')){
+						var check_level = {
+							[check_levelname]:'true'
+						};
+					}else{
+						var check_level = {
+							[check_levelname]:'false'
+						};
+					}
+					check_level_arr = $.extend(check_level_arr, check_level);
+				});
+				
+				console.log(JSON.stringify(check_level_arr));
+				
+				
+//				年度量化综合等级
+				$('input[name="grade_arr"]').each(function(){
+					var gradename = $(this).val();
+					if($(this).is(':checked')){
+						var grade = {
+							[gradename]:'true'
+						};
+					}else{
+						var grade = {
+							[gradename]:'false'
+						};
+					}
+					grade_arr = $.extend(grade_arr, grade);
+				});
+				
+				console.log(JSON.stringify(grade_arr));				
+
+//				当年风险分级
+				$('input[name="risk_level_arr"]').each(function(){
+					var risk_levelname = $(this).val();
+					if($(this).is(':checked')){
+						var risk_level = {
+							[risk_levelname]:'true'
+						};
+					}else{
+						var risk_level = {
+							[risk_levelname]:'false'
+						};
+					}
+					risk_level_arr = $.extend(risk_level_arr, risk_level);
+				});
+				
+				console.log(JSON.stringify(risk_level_arr));
+				
+//				上年度风险分级
+				$('input[name="first_half_year_risk_level_arr"]').each(function(){
+					var first_half_yearname = $(this).val();
+					if($(this).is(':checked')){
+						var first_half_year = {
+							[first_half_yearname]:'true'
+						};
+					}else{
+						var first_half_year = {
+							[first_half_yearname]:'false'
+						};
+					}
+					first_half_year_risk_level_arr = $.extend(first_half_year_risk_level_arr, first_half_year);
+				});
+				
+				console.log(JSON.stringify(first_half_year_risk_level_arr));
+				
+//				企业公开状态
+				var is_open = $("input[name='is_open']").val();
+				
+				console.log(is_open);
+//				三小管理状态
+				var three_small_status = $("input[name='three_small_status']").val();
+				
+//				任务情况时间范围：开始
+				var task_and_record_time_start = $("input[name='task_and_record_time_start']").val();
+				
+//				任务情况时间范围：截至
+				var task_and_record_time_end = $("input[name='task_and_record_time_end']").val();				
+				
+//				已下达任务数
+				var task_num_delivered_greater = $("input[name='task_num_delivered_greater']").val();
+				var task_num_delivered_less = $("input[name='task_num_delivered_less']").val();
+				var task_num_delivered  = {
+					"greater_than":task_num_delivered_greater,
+					"less_than":task_num_delivered_less
+				}
+				
+//				已完成任务数
+				var task_num_finished_greater = $("input[name='task_num_finished_greater']").val();
+				var task_num_finished_less = $("input[name='task_num_finished_less']").val();
+				var task_num_finished  = {
+					"greater_than":task_num_finished_greater,
+					"less_than":task_num_finished_less
+				}			
+				
+//				已完成监督数	
+				var record_num_finished_greater = $("input[name='record_num_finished_greater']").val();
+				var record_num_finished_less = $("input[name='record_num_finished_less']").val();
+				var record_num_finished  = {
+					"greater_than":record_num_finished_greater,
+					"less_than":record_num_finished_less
+				}
+				
+				
+				
+				var allselectdata = [{
+					alljson:alljson,
+					'license_valid_arr':license_valid_arr,
+					"check_level_arr":check_level_arr,
+					'grade_arr':grade_arr,
+					'risk_level_arr':risk_level_arr,
+					'first_half_year_risk_level_arr':first_half_year_risk_level_arr,
+					'is_open':is_open,
+					'three_small_status':three_small_status,
+					'task_and_record_time_start':task_and_record_time_start,
+					'task_and_record_time_end':task_and_record_time_end,
+					'task_num_delivered':task_num_delivered,
+					'task_num_finished':task_num_finished,
+					'record_num_finished':record_num_finished
+					}];
+				
+				//自定义事件,事件名为changeCity
+				if(window.w_main){
+					mui.fire(window.w_main,'changedata',{allselectdata:allselectdata,isdata:'1'});
+					closeMenu();
+				}
+			});
+
+		</script>
+	</body>
+
+</html>

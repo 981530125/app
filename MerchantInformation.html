@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>首页</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/MerchantInformation.css" />
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript">
+			document.addEventListener('plusready', function() {
+				$('#jian').addClass('jianguan');
+				$('.a').click(function() {
+					$(this).addClass('jianguan').siblings().removeClass('jianguan');
+				})
+			});
+		</script>
+	</head>
+
+	<body style="background-color: white;">
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<div class="active">
+			<header class="mui-bar mui-bar-nav" style="box-shadow: none;background: none;padding: 0px;position: static;">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;margin-right: 230px;padding-top: 0;"></a>
+				<a href="#"><img src="img/route.png" style="margin-right: 3px;" width="16px" /></a>
+				<a href="#"><img src="img/phone2.png" style="margin-right: 5px;" width="20px" /></a>
+				<a href="#"><img src="img/fenxiang.png" style="margin-right: 3px;" width="20px" /></a>
+				<p class="p"><img src="img/healthfood.png" width="70px" /></p>
+				<p class="p2"><img src="img/shoucang.png" width="30px" /></p>
+
+			</header>
+		</div>
+		<p class="shangjianame">花季语寿司(新城店)</p>
+		<p class="youhui">满30减5,满88减10</p>
+		<p class="juzhong">
+			<a href="ShopPage.html" class="a">点菜</a>
+			<a href="RegulatoryRecord.html" class="a" style="margin: 0 80px;">监管任务</a>
+			<a href="#" class="a" id="jian">商家</a>
+		</p>
+		<hr />
+		<div>
+			<p style="text-align: center;"><img src="img/beijing.png" width="350px" /></p>
+			<p class="present">寿司小店是街角的一家寿司老店,虽然 不是处在闹市区,但却每日都是客满为患,玩家有幸成为这里的寿司师傅,...</p>
+			<p style="text-align: center;">
+				<a href="#" style="color: #999999;t">查看商家简介></a>
+			</p>
+		</div>
+		<div style="border-bottom: 10px solid #E0E0E0;">
+			<ul style="margin: 0;padding: 0;border-top: 10px solid #E0E0E0;">
+				<p style="padding-left: 5px;">商家图片</p>
+				<div style="text-align: center;">
+					<li><img src="img/beijing2.png" width="85px"height="84.594px" style="border-radius: 5px;"/></li>
+					<li><img src="img/beijing3.png" width="85px" height="84.594px" /></li>
+					<li><img src="img/beijing4.png" width="85px" height="84.594px" /></li>
+					<li><img src="img/beijing5.png" width="85px" height="84.594px" /></li>
+				</div>
+			</ul>
+			<div style="border-top: 10px solid #E0E0E0;">
+				<div class="kuang">
+					<p class="shangjia"><span>商家名称</span></p>
+					<p class="mingzi"><span>花季语寿司</span></p>
+				</div>
+				<div class="kuang">
+					<p class="shangjia"><span>商家品类</span></p>
+					<p class="mingzi"><span>日料/小吃</span></p>
+				</div>
+				<div class="kuang">
+					<p class="shangjia" style="padding-top: 20px;"><span>商家地址</span>
+						<div class="mingzi">
+							<p style="margin: 0;padding-top: 20px;">温州高新技术产业开发区雁荡</p>
+							<p style="margin:0;">山东路230号邻里广场一楼</p>
+							<p style="margin: 0;">41号正茂大厦斜对面</p>
+						</div>
+					</p>
+				</div>
+				<div class="kuang">
+					<p class="shangjia"><span>商家电话</span></p>
+					<p class="mingzi"><span>花季语寿司店</span></p>
+				</div>
+				<div class="kuang">
+					<p class="shangjia" style="padding-top:10px ;"><span>营业时间</span>
+						<div class="mingzi">
+							<p style="margin: 0;margin-top: 10px;">工作日 09:00-20:30</p>
+							<p style="margin: 0;">双休日 10:00-22:00</p>
+						</div>
+					</p>
+				</div>
+			</div>
+		</div>
+		<a href="BusinessQualification.html" class="kuangz">
+			<p class="shangjia" style="color: black;vertical-align: middle;">营业资质</p>
+			<p class="mingzi">></p>
+		</a>
+		<div class="last">
+			<button class="jubao">举报商家</button>
+		</div>
+	</body>
+
+</html>

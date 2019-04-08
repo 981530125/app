@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>监管列表</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../../css/mui.min.css" />
+		<script type="text/javascript" src="../../../common/rem.js"></script>
+		<link rel="stylesheet" href="../../../common/css/mui.picker.css" />
+		<link rel="stylesheet" href="../../../css/notice.css" />
+		<link rel="stylesheet" href="../../../common/css/mui.poppicker.css" />
+		<script type="text/javascript" src="../../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../../common/common.js"></script>
+		<script src="../../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../../common/mui.picker.js"></script>
+		<script src="../../../common/mui.poppicker.js"></script>
+		<script src="../../js/message/notice.js"></script>
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			.all-item{
+				width: 100%;
+				padding: 0;
+				margin: 0;
+				display: flex;
+			}
+			.all-item li{
+				list-style-type: none;
+				text-align: center;
+				height: 40px;
+				line-height: 40px;
+				font-size: 16px;
+			}
+			.all-active{
+				position: relative;
+				font-weight: bold;
+				color: #209fd8;
+			}
+			.all-active:after{
+				content: '';
+				width: 32px;
+				height: 2px;
+				position: absolute;
+				bottom: 0;
+				left: calc(50% - 16px);
+				background-color: #209fd8;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#2ca5db;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<a class="mui-icon mui-pull-right mui-icon-plusempty" id="add-records" style="color: #fff;"></a>
+			<h1 class="mui-title" style="color: #fff;font-weight: bold;">监管列表</h1>
+		</header>
+		<div style="width: 100%;margin: 0 auto;border-bottom: 1px solid #e0e0e0;position: fixed;top: 44px;z-index: 1000;background-color: #fff;">
+			<ul class="all-item mui-bar-tab" style="height: 40px;">
+				<li class="all-li all-active" data-url ="shoptask.html" data-id="shoptask" style="flex: 1;" data-typeid="0" data-tasktype="task">监管任务</li>
+				<li class="all-li" data-url = "recordslist.html" data-id="recordslist" style="flex: 1;" data-typeid="1" data-tasktype="list">监管记录</li>
+			</ul>
+			<input id="messagetype" type="hidden" name="messagetype" value="0"/>
+		</div>
+		<script src="../../../js/mui.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.plusReady(function() {
+				//	权限判断
+			var rootpower = [{
+					obj:'#add-records',
+					apiurl:'/index.php/Api/Apps/Jingkaiqu/Investigate_record/createRecordByLicenseId'
+				}];
+				
+				
+				var self = plus.webview.currentWebview();
+				var licenseId = self.licenseId;
+				var residence = self.residence;
+				var corp_name = self.corp_name;
+				var allinfo = self.allinfo;
+				
+				window.licenseId = licenseId;
+				window.residence = residence;
+				window.corp_name = corp_name;
+				window.allinfo = allinfo;
+				
+				
+//				获取当前类型
+				var currentid = $('#messagetype').val();
+				if(currentid == '1'){
+					$('#add-records').show();
+				}else{
+					$('#add-records').hide();
+				}
+				
+				
+				var subpages = [{
+						url:'shoptask.html',
+						id:'shoptask',
+					},{
+						url:'recordslist.html',
+						id:'recordslist',
+					}];
+				
+				var subpage_style = {
+					top: '85px',
+					bottom: '0px'
+				};
+
+				// 根据id查询子页面的信息
+				var getSubInfoById = function(infoList, id) {
+					console.log(id);
+					
+					var result = null;
+					for(var i = 0, len = infoList.length; i < len; i++) {
+						var _info = infoList[i];
+						if(_info.id === id) {
+							result = _info;
+							break;
+						}
+					}
+					return result;
+				};
+
+				var mainWv = plus.webview.currentWebview();
+				var titleEL = document.querySelector('.mui-title');
+				var activeTab = '';
+
+				// 默认只加载首页webview
+				var homeWv = plus.webview.create(subpages[0].url, subpages[0].id, subpage_style,{licenseId: window.licenseId,residence:window.residence,corp_name:window.corp_name,allinfo:window.allinfo});
+				mainWv.append(homeWv);
+				activeTab = subpages[0].id;
+				
+				
+				// 点击切换，动态创建其它webview；
+				mui('.mui-bar-tab').on('tap', 'li', function(e) {
+					var targetTab = this.getAttribute('data-url');
+					var activeid = this.getAttribute('data-typeid');
+					var tasktype = this.getAttribute('data-tasktype');
+					console.log(activeid);
+					$('#messagetype').val(activeid);
+					
+					if(activeid == '0'){
+						$('#showmessagePicker').show();
+						$('#showUserPicker').hide();
+						$('#add-records').hide();
+					}else{
+						$('#showmessagePicker').hide();
+						$('#showUserPicker').show();
+						$('#add-records').show();
+						for(var itemn in rootpower){
+							ispower(rootpower[itemn].obj,rootpower[itemn].apiurl);
+						}
+						
+						
+					}
+					var _self = this;
+					var targetTab = _self.getAttribute('data-id');
+					if(targetTab === activeTab) {
+						return;
+					}
+					gettypeitem(activeid);
+//					titleEL.innerText = this.querySelector('.mui-tab-label').getAttribute('data-describe');
+					var _subWv = plus.webview.getWebviewById(targetTab);
+					// 若webview不存在，则创建；
+					if(!_subWv) {
+						var _subInfo = getSubInfoById(subpages, targetTab);
+						_subWv = plus.webview.create(_subInfo.url, _subInfo.id, subpage_style,{licenseId: window.licenseId,residence:window.residence,corp_name:window.corp_name,allinfo:window.allinfo});
+						mainWv.append(_subWv);
+					}
+					_subWv.show();
+					
+					// 隐藏之前的webview
+					plus.webview.getWebviewById(activeTab).hide('none');
+					activeTab = targetTab;
+				});
+			});
+		
+//			//根据id切换选项卡样式
+			function gettypeitem(id){
+				var len = $(".menulist").length;
+				for(var n = 0;n<len;n++){
+					$(".menulist").eq(n).hide();
+				}
+				$(".menulist").eq(id).show();
+				$('.all-li').eq(id).siblings('.all-li').removeClass('all-active');
+				$('.all-li').eq(id).addClass('all-active');
+			}
+			
+			$('html').on('click','#add-records',function(){
+				var licenseId = window.licenseId;
+				var residence = window.residence;
+				var corp_name = window.corp_name;
+				console.log(clientId);
+				console.log(accessToken);
+				
+				console.log('1212');
+				addform(licenseId,residence,corp_name);
+			})
+			
+			//获取表类型
+			function getformtype(){
+				var url = rooturl+'index.php/Api/Apps/Jingkaiqu/Checklist_tables/checklistTables';
+				$.ajax({
+					type: "post",
+					url: url,
+					async: true,
+					data: {
+						mobile: mobile,
+						userType: userType,
+						clientType: clientType,
+						clientId: clientId,
+						accessToken: accessToken,
+					},
+					dataType: 'json',
+					success: function(res) {
+						if(res.code && res.code == '1000') {
+							var allformlisttype = JSON.stringify(res.data);
+							localStorage.setItem('allformlisttype',allformlisttype);
+							console.log(JSON.stringify(allformlisttype));
+							console.log('222');
+						} else {
+							console.log(res.message);
+						}
+					},
+					error: function(res) {
+						console.log(res.message);
+					}
+				});
+			}
+			
+			function addform(id,residence,corp_name){
+				getformtype();
+				
+				var admininfo  = JSON.parse(localStorage.getItem('admininfo'));
+				var admindata = admininfo.user_info;
+		
+				var url = rooturl+'index.php/Api/Apps/Jingkaiqu/Admin/allData';
+				$.ajax({
+					type: "post",
+					url: url,
+					async: true,
+					data: {
+						mobile: mobile,
+						userType: userType,
+						clientType: clientType,
+						clientId: clientId,
+						accessToken: accessToken,
+						searchkey:admindata.name
+					},
+					dataType: 'json',
+					success: function(res) {
+						if(res.code && res.code == '1000') {					
+							objinfo = {
+								"id": '',
+					            "name": "",
+					            "corp_name": corp_name,
+					            "residence": residence,
+					            "investigate_task_id": id,
+					            "is_recheck": "",
+					            "status": "",
+					            "conclusion": null,
+					            "check_start_at": "请输入时间",
+					            "check_end_at": "请输入时间",
+					            "score": null,
+					            "ids_of_operate_admin": "",
+					            "created_admin_id": "",
+					            "sort": "0",
+					            "note": "",
+					            "display": "0",
+					            "created_at": "",
+					            "updated_at": "",
+					            "deleted_at": null,
+					            "finished_at": "",
+					            "is_open": "0",
+					            "parent_id": null,
+					            "operate_admin": [
+					                {
+					                    "id": res.data[0].id,
+					                    "name": res.data[0].name,
+					                    "enforcement_number": res.data[0].enforcement_number
+					                }
+					            ]
+							}
+					
+							var licenseinfo = window.allinfo;
+							var type_info = licenseinfo.type_info;
+							mui.openWindow({
+							    url:'../../managecenter/checkform/checkform.html',   
+							    id:'checkform',
+							    extras: {
+							    	objinfo:objinfo,
+							    	type_of:type_info,
+							    	licenseinfo:licenseinfo,
+							    	alone:'alone'
+							    }
+							});
+						} else {
+							mui.toast(res.message,{ duration:'long', type:'div' });
+						}
+					},
+					error: function(res) {
+						mui.toast(res.message,{ duration:'long', type:'div' });
+					}
+				});
+			}
+			
+			
+		</script>
+	</body>
+
+</html>

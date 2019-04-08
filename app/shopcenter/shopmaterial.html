@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>辅助材料</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<script type="text/javascript" src="../../common/rem.js"></script>
+		<link rel="stylesheet" href="../../css/shopmaterial.css" />
+		<link rel="stylesheet" href="../../common/css/footer.css" />
+		<script type="text/javascript" src="../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../common/common.js"></script>
+		<script type="text/javascript" src="../js/shopcenter/material.js"></script>
+		<script src="../../js/mui.min.js"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#29a3da;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<!--<a href="#" class=" mui-icon mui-pull-right mui-a-color add" style="color: #fff;font-size: 14px;height: 44px;line-height: 44px;padding-top: 0px;padding-bottom: 0px;"><img src="../../../img/down.png" style="margin-right: 3px;" width="16px" />添加</a>-->
+			<h1 class="mui-title" style="color: #fff;font-weight: bold;">辅助材料</h1>
+		</header>
+		<!--头部导航条-->
+		<!--遮罩层-->
+		<div class="mui-backdrop" style="display: none;" id="my-mask">
+			<div class="mui-loading" style="position: absolute;top: calc(50% - 12px);left: calc(50% - 12px);">
+				<div class="mui-spinner">
+				</div>
+			</div>
+		</div>
+		<div class="mui-content" style="background-color: #fff;padding-bottom: 0.88rem;">
+			<form id="cerhelper">
+				<div id="filelist">
+					<!--插入模版-->
+				</div>
+				<div class='img-btn-style imageup'>
+					<div class="img-btn-bgk">
+						<div style="padding-top: 0.32rem;">
+							<img src="../../img/downfile.png" class="img-submit-icon" />
+						</div>
+						<div style="font-size: 14px;color: #999999;">选择图片并上传</div>
+					</div>
+				</div>
+			<div class="chage-btn">确认修改</div>
+		</form>
+		</div>
+		<!--模版-->
+		<script id="filelist-template" type="text/x-handlebars-template">
+			{{#each data}}
+			<div style="width: 7.02rem;padding: 0.32rem 0 0.32rem 0;margin: 0 auto;display: flex;border-bottom: 1px solid #e5e5e5;">
+				<div style="width: 1.65rem;height: 1.65rem;position:relative;">
+					<img src="{{../url}}{{access_path}}" class="imgsrc" style="width: 100%;height: 100%;"/>
+					<img src="../../img/delete.png" style="width: 0.44rem;height: 0.44rem;position: absolute;top: 0.1rem;right: 0.1rem;" data-id="啊是大" class="delete-item"/>
+					<input type="hidden" class="author_name" value="{{author_name}}" name="author_name" />		
+					<input type="hidden" value="{{id}}" name="id">
+					<input type="hidden" value="{{investigate_record_id}}" name="investigate_record_id"/>
+					<input type="hidden" value="{{license_id}}" name="license_id" />
+					<input type="hidden" value="{{deleted_at}}" name="deleted_at" class="deleted_at" />
+					<input type="hidden" value="{{lat}}" name="lat" />
+					<input type="hidden" value="{{lng}}" name="lng" />
+					<!--<input type="hidden" value="{{original_name}}" name="original_name" style="position: relative:top;"/>-->
+				</div>
+				<div style="margin-left: 0.33rem;width: 5.04rem;">
+					<div style="height: 1.2rem;">
+						<span class="f14" style="width: 30%;">文件名：</span><input type="text" value="{{original_name}}" name="original_name" style="width: 70%;height: 0.5rem;line-height: 0.5rem;"/>
+						<textarea name="note" placeholder="添加备注" class="f14" style="width: 100%;height: 100%;margin:0;border: 1px solid #ccc;">{{note}}</textarea>
+					</div>
+					<div style="width: 100%;height: 0.56rem;display: flex;line-height:0.56rem;justify-content:space-between;margin-top: 30px">
+						<div style="height: 0.56rem;font-size: 14px;color: #b2b2b2;">{{author_name}}</div>
+						<div style="height: 0.56rem;font-size: 14px;color: #b2b2b2;margin-left: 0.25rem;">{{prettifyDate created_at 10}}</div>
+						<div id="txtBtn" style="text-align:right;margin-top: 3px;">
+							<span style="height: 22px;font-size: 12px;margin-right: 15px; line-height: 22px;vertical-align: top;color: #b2b2b2;">是否可见</span>
+							{{#if_eq is_open '0'}}
+							<div class="mui-switch mui-switch-mini" id="switch" style="width: 36px;height: 22px;display:inline-block;">
+							  <div class="mui-switch-handle" style="width: 18px;height: 19px;"></div>
+							  <input type="hidden" class="is_open" name="is_open" value="{{is_open}}">
+							</div>
+							{{else}}
+							<div class="mui-switch mui-switch-mini mui-active" id="switch" style="width: 36px;height: 22px;display:inline-block;">
+							  <div class="mui-switch-handle" style="width: 18px;height: 19px;"></div>
+							  <input type="hidden" class="is_open" name="is_open" value="{{is_open}}">
+							</div>
+							{{/if_eq}}
+						</div>
+					</div>
+				</div>
+			</div>
+			{{/each}}
+		</script>
+		<script id="add-template" type="text/x-handlebars-template">
+			
+			<div class="image-item">
+				<div class="image-src">
+					<img src="{{rooturl}}{{access_path}}" class="imgsrc" style="width: 100%;height: 100%;"/>
+					<input type="hidden" class="id" value="{{id}}" name="id">
+					<input type="hidden" class="investigate_record_id" value="" name="investigate_record_id"/>
+					<input type="hidden" class="license_id" value="{{license_id}}" name="license_id" />
+					<input type="hidden" class="deleted_at" value="" name="deleted_at" class="deleted_at"/>
+					<input type="hidden" class="lat" value="" name="lat" />
+					<input type="hidden" class="lng" value="" name="lng" />
+					<!--<input type="hidden" class="original_name" value="" name="original_name" />-->
+					<input type="hidden" class="author_name" value="" name="author_name" />
+				</div>
+				<div style="margin-left: 0.33rem;width: 5.04rem;">
+					<div style="height: 1.2rem;" class="findfilename">
+						<span class="f14" style="width: 30%;">文件名：</span><input type="text" class="original_name" value="{{original_name}}" name="original_name" style="width: 70%;height: 0.5rem;line-height: 0.5rem;"/>
+						<textarea name="note" placeholder="添加备注" class="f14" style="width: 100%;height: 100%;margin:0;border: 1px solid #ccc;">{{note}}</textarea>
+					</div>
+					<div style="width: 100%;height: 0.56rem;display: flex;line-height:0.56rem;justify-content:space-between;margin-top: 30px;">
+						<div style="height: 0.56rem;font-size: 14px;color: #b2b2b2;">{{author_name}}</div>
+						<div style="height: 0.56rem;font-size: 14px;color: #b2b2b2;margin-left: 0.25rem;"></div>
+						<div id="txtBtn" style="text-align:right;margin-top: 3px;">
+							<span style="height: 22px;font-size: 12px;margin-right: 15px; line-height: 22px;vertical-align: top;color: #b2b2b2;">是否可见</span>
+							<div class="mui-switch mui-switch-mini" id="switch" style="width: 36px;height: 22px;display: inline-block;">
+							  <div class="mui-switch-handle" style="width: 18px;height: 19px;"></div>
+							  <input type="hidden" class="is_open" name="is_open" value="{{is_open}}">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</script>
+		<!--模版-->
+		
+		
+		<script>
+		 	$(document).ready(function(){
+		 		$('html').on('click','.mui-switch',function(event){
+		 			console.log($('.mui-switch').length);
+		 			console.log($(this).hasClass('mui-active'));
+		 			if($(this).hasClass('mui-active')){
+		 				$(this).removeClass('mui-active');
+		 				$(this).find(".is_open").val('0');
+		 			}else{
+		 				$(this).addClass('mui-active');
+		 				$(this).find(".is_open").val('1');
+		 			}
+		 		})
+		 	})
+		</script>
+	</body>
+</html>

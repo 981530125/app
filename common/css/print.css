@@ -1,0 +1,21 @@
+/*浮动打印*/
+.printf-btn{
+	font-size: 16px;
+	height: 1rem;
+	line-height: 1rem;
+	border-bottom:1px solid #ccc;
+	text-align: center;
+	background-color: #fff;
+}
+.transit{
+	line-height:50px;
+	box-shadow:0 0 4px #999;
+	text-align: center;
+	position: fixed;
+	bottom:30px;
+	right:30px;
+	z-index: 1000;
+	border-radius: 50%;
+	background-color: #fff;
+	display: none;
+}

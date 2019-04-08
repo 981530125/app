@@ -1,0 +1,352 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>用户中心</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<script type="text/javascript" src="../../common/rem.js"></script>
+		<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" href="../../css/Inddividualcenter.css" />
+		<link rel="stylesheet" href="../../common/css/footer.css" />
+		<script type="text/javascript" src="../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../common/common.js"></script>
+	</head>
+	<body>
+		<!--头部导航条-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll" id="user-content">
+
+			</div>
+		</div>
+		<!--模板引擎-->
+		<script id="user-template" type="text/x-handlebars-template">
+			<div>
+				<div class="div1" style="background-color: #2ca5db;height: 300px;padding: 44px;margin: 0 auto;position: relative;">
+					<img src="{{#if_eq user_info.avatar null }}../../img/mrlogo.png{{else}}{{#if_eq user_info.avatar.access_path null}}../../img/mrlogo.png{{else}}{{rooturl}}{{user_info.avatar.access_path}}{{/if_eq}}{{/if_eq}}" id="userlogo" class="manage-info-logo" onerror="this.onerror=null;this.src='../../img/mrlogo.png'"/>
+					<div class='logo-item' id="notice">
+						<img src='../../img/leavea.png' class='img-style' />
+						<div class="mui-badge num-icon">{{arithmetic stastic.message_number '+' stastic.notify_num}}</div>
+					</div>
+					<p class="userinfoname">{{#if_eq user_info.name null}}未设置{{else}}{{user_info.name}}{{/if_eq}}</p>
+					<p style="margin:  0 0 10px 0;">
+						<img src="../../img/phone.png" width="10px" style="vertical-align: middle;" />
+						<span class="userinfomobile">{{#if_eq user_info.mobile null}}未设置{{else}}{{user_info.mobile}}{{/if_eq}}</span>
+					</p>
+					<button class="button1" id="shopcenter">
+						<img src="../../img/seller.png" width="15px" style="vertical-align: middle;margin-right: 0.1rem;" />企业中心
+					</button>
+					<button class="button2" id="managecenter">
+						<img src="../../img/manage.png" width="15px" style="vertical-align: middle;margin-right: 0.1rem;" />管理中心
+					</button>
+				</div>
+				<div class="div2">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell changepwd">
+							<a class="mui-navigate-right" style="font-size: 16px;padding-left: 10px;">
+								<img src="../../img/alter.png" width="15" style="vertical-align: middle;margin-right: 5px;border-radius: 100%;" />修改密码
+							</a>
+						</li>
+						<li class="mui-table-view-cell userinfo">
+							<a class="mui-navigate-right" style="font-size: 16px;padding-left: 10px;">
+								<img src="../../img/setup.png" width="15" style="vertical-align: middle;margin-right: 5px;" />个人设置
+							</a>
+						</li>
+						<li class="mui-table-view-cell myupdate">
+							<a class="mui-navigate-right" style="font-size: 16px;padding-left: 10px;">
+								<img src="../../img/update.png" width="15" style="vertical-align: middle;margin-right: 5px;" />检查更新
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div style="text-align: center;padding: 16px 12px 0;">
+					<button class="quit" id="quit" style="height: 44px;">退出登录</button>
+				</div>
+			</div>
+		</script>
+	
+		<script type="text/javascript" src="../../js/new_file.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/user/minecenter.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			//	获取参数
+			mui.plusReady(function() {
+		  		//首页返回键处理
+		  		//处理逻辑：2秒内，连续两次按返回键，则退出应用
+		  		mui.back = function() {
+			  		var first = null;
+			  		plus.key.addEventListener('backbutton', function(){
+			  			//首次按键，提示‘再按一次退出应用’
+			  			if(!first){
+			  				first = new Date().getTime();
+			  				mui.toast('再按一次退出应用');
+			  				setTimeout(function(){
+			  					first = null;
+			  				},2000);
+			  			} else {
+			  				if(new Date().getTime() - first < 2000){
+			  					plus.runtime.quit();
+			  				}
+			  			}
+			  		}, false);
+			  	}
+				
+				
+				// 获取本地应用资源版本号
+			    plus.runtime.getProperty(plus.runtime.appid,function(inf){
+			        window.wgtVer=inf.version;
+			        window.appid = inf.appid
+			        console.log("当前应用版本："+wgtVer);
+			    });
+			    var info = plus.push.getClientInfo();
+	    		window.notifyCid = info.clientid;
+			})
+			mui.init({
+				swipeBack: false,
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						auto:true,
+						style:'circle',
+						callback: pulldownRefresh
+					}
+				}
+			});
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				pulldown = 'false';
+				getcenter();
+			}
+
+			function getcenter() {
+				if(loginway == 'weixin'){
+					accessToken = openid;
+				}
+				
+				var url = rooturl + 'index.php/Api/Apps/Jingkaiqu/Api_apps_logged/userCenter'; //获取账号中心首页
+				$.ajax({
+					url: url,
+					data: {
+						mobile: mobile,
+						userType: userType,
+						clientId: clientId,
+						clientType: clientType,
+						accessToken: accessToken,
+						loginway:loginway
+					},
+					type: 'post',
+					dataType: 'json',
+					crossDomain: true,
+					cache: true,
+					beforeSend: function(xhr) { //beforeSend定义全局变量
+						xhr.setRequestHeader("If-Modified-Since", "0"); //If-Modified-Since HTTP请求头标签,即比较浏览器缓存页面时间
+					},
+					success: function(res) {
+						if(res.code && res.code == 1000) {
+							var userinfo = JSON.stringify(res.data);
+							localStorage.setItem("userinfo",userinfo);
+							res.data.rooturl = rooturl;
+							var userinfodata = res.data;
+							
+							var tpl = $("#user-template").html();
+							// 编译模板
+							var rtp = Handlebars.compile(tpl);
+							// 把数据传送到模板
+							var text = rtp(userinfodata);
+							// 更新到模板
+							$('#user-content').html(text);
+							
+							window.stasticmessage = res.data.stastic;
+							
+							checkversion();
+							if(mobile&&userType&&userType&&accessToken){
+								var tokens = [{
+								"mobile":mobile,
+								"userType":userType,
+								"clientId":clientId,
+								"accessToken":accessToken
+								}]
+							}else{
+								var tokens = [];
+							}
+		//					发送推送
+							sendnotifycid(tokens,window.notifyCid,clientType);
+						} else {
+							mui.alert(res.message);
+							if(res.code == '9999'){
+								localStorage.setItem("accessToken",'');
+								plus.runtime.restart();
+							}
+						}
+						mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+					},
+					error: function(res) {
+						mui.toast(res.message, {
+							duration: 'long',
+							type: 'div'
+						});
+						mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+					}
+				})
+			}
+
+			//	检测更新方法
+			function checkversion(clicknum){
+				var url = rooturl + 'index.php/Api_resource/appUpdate'; //获取app最新版本
+				$.ajax({
+					url: url,
+					data: {
+					},
+					type: 'post',
+					dataType: 'json',
+					crossDomain: true,
+					cache: true,
+					beforeSend: function(xhr) { //beforeSend定义全局变量
+						xhr.setRequestHeader("If-Modified-Since", "0"); //If-Modified-Since HTTP请求头标签,即比较浏览器缓存页面时间
+					},
+					success: function(res) {
+						//					prompt('asas',JSON.stringify(res));
+						if(res.code && res.code == 1000) {
+							//		当前版本
+							var newversion = res.data.version;
+							var wgtVer = window.wgtVer;
+							
+							if(newversion&&wgtVer&&newversion!= wgtVer){
+								plus.nativeUI.showWaiting("检测到更新...");
+								
+								var wgtUrl = rooturl+res.data.url;
+								
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									var btnArray = ['否', '是'];
+									mui.confirm('当前版本为'+wgtVer+',检测到最新版本'+newversion+',修复'+res.data.note+',是否进行更新?', '检测更新', btnArray, function(e) {
+										if (e.index == 1) {
+		//									var wgtUrl = 'http://jk.cnvp.com/apps/apk/H5026F447.wgt';
+		//									plus.nativeUI.alert("暂未完成^-^！");
+											downWgt(wgtUrl);  // 下载升级包
+										} else {
+											mui.toast('取消');
+										}
+									})
+								}, 1000)
+							}
+							if(clicknum == '1'){
+								if(newversion&&wgtVer&&newversion == wgtVer){
+									mui.alert('当前为最新版本'+wgtVer+'!')
+								}
+							}
+						} else {
+							console.log(res.message);
+						}
+						mui.toast(res.message,{ duration:'long', type:'div' });
+					},
+					error: function(res) {
+						console.log(res.message);
+						mui.toast(res.message,{ duration:'long', type:'div' });
+					}
+				})
+			}
+			
+		//	点击检测更新
+			$('html').on('click','.myupdate',function(){
+		//		当前版本
+				var wgtVer = window.wgtVer;
+				console.log(wgtVer);
+				var clicknum = '1';
+				checkversion(clicknum)
+			})
+			
+			// 下载wgt文件
+		//	var wgtUrl="http://demo.dcloud.net.cn/test/update/H5EF3C469.wgt";
+			function downWgt(wgtUrl){
+			    plus.nativeUI.showWaiting("下载更新文件...");
+			    plus.downloader.createDownload( wgtUrl, {filename:"_doc/update/"}, function(d,status){
+			        if ( status == 200 ) {
+			            console.log("下载wgt成功："+d.filename);
+			            installWgt(d.filename); // 安装wgt包
+			        } else {
+			            console.log("下载wgt失败！");
+			            plus.nativeUI.alert("下载更新文件失败！");
+			        }
+			        plus.nativeUI.closeWaiting();
+			    }).start();
+			}
+			
+			// 更新应用资源
+			function installWgt(path){
+			    plus.nativeUI.showWaiting("安装wgt文件...");
+			    plus.runtime.install(path,{},function(){
+			        plus.nativeUI.closeWaiting();
+			        console.log("安装更新文件成功！");
+			        plus.nativeUI.alert("应用资源更新完成！",function(){
+			            plus.runtime.restart();
+			        });
+			    },function(e){
+			        plus.nativeUI.closeWaiting();
+			        console.log("安装wgt文件失败["+e.code+"]："+e.message);
+			        plus.nativeUI.alert("安装更新文件失败["+e.code+"]："+e.message);
+			    });
+			}
+			
+			//修改密码
+			$('html').on('click', '.changepwd', function() {
+				var skipurl = '../changepwd/changemanpwd.html';
+				mui.openWindow({
+				    url:skipurl,
+				    extras:{
+				    	type: userType
+				      //自定义扩展参数，可以用来处理页面间传值
+				    },
+				    createNew:false,//是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+				    show:{
+				      autoShow:true,//页面loaded事件发生后自动显示，默认为true
+				      aniShow:'slide-in-right',//页面显示动画，默认为”slide-in-right“；
+				      duration:100//页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
+				    }
+				})
+			})
+
+			$('html').on('click', '#quit', function() {
+				var btnArray = ['取消', '确认'];
+				mui.confirm('是否确定退出登录？', '', btnArray, function(e) {
+					if(e.index == 1) {
+						localStorage.removeItem("userinfo");
+						localStorage.removeItem("mobile");
+						localStorage.removeItem("accessToken");
+						localStorage.removeItem('loginway');
+						if(localStorage.getItem("adminmobile") && localStorage.getItem("adminaccessToken")) {
+							localStorage.setItem('userType', 'admin');
+						} else if(localStorage.getItem("shopmobile") && localStorage.getItem("shopaccessToken")) {
+							localStorage.setItem('userType', 'shop');
+						} else {
+							localStorage.setItem('userType', '');
+						}
+
+						if(userType == 'user') {
+							mui.toast('退出失败');
+						} else {
+							mui.toast('退出成功');
+							var userType = localStorage.getItem("userType");
+							plus.runtime.restart();
+
+//							//在关闭窗口代码上加入延迟
+//							setTimeout(function() {
+//								plus.webview.currentWebview().close('none');
+//							}, 1000)
+						}
+					} else {
+						mui.toast('取消退出');
+					}
+				})
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>搜索企业</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<script type="text/javascript" src="../../js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="../../common/rem.js"></script>
+		<script type="text/javascript" src="../../common/common.js"></script>
+		<script src="../../js/handlebars.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/Nearbyshops/searchshop.js"></script>
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" href="../../common/css/footer.css" />
+		<link rel="stylesheet" href="../../css/shoplist.css" />
+		<!--快捷输入-->
+		<link rel="stylesheet" href="../../common/css/shortcut.css" />
+		<!--快捷输入-->
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			.title {
+				padding: 20px 15px 10px;
+				color: #6d6d72;
+				font-size: 15px;
+				background-color: #fff;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--快捷输入-->
+		<div class="mypop" style="position: relative;display: none;">
+			<div style="position: fixed;left: 0;bottom: 0;z-index: 999;height: 5.5rem;width: 100%;background-color: #fff;overflow: hidden;box-shadow: 0 -1px 2px #ccc;">
+            	<div style="width: 100%;height: 1rem;display:flex;padding: 0.2rem 0.3rem;border-top:1px solid #ccc;border-bottom:1px solid #ccc;box-shadow: 0 0 1px #ccc;">
+            		<div style="font-size: 16px;height: 100%;line-height: 0.6rem;flex: 1;">快捷输入</div>
+            		<div style="flex: 1;">
+            			<select class="selecttype" id="myselecttype">
+            				<option value="self">自己</option>
+							<option value="system">系统</option>
+							<option value="other">其他人</option>
+							<option value="all">全部</option>
+						</select>
+            		</div>
+            		<div style="flex: 1;">
+            			<select class="selecttype" id="classify">
+						</select>
+            		</div>
+            		<div style="flex: 1;text-align: right;">
+            			<img src="../../img/tokeyboard.png" style="width: 32px;" class="tokeyset"/>
+            		</div>
+            	</div>
+            	<div class="mui-scroll-wrapper" style="position: absolute;width:100%;top: 1rem;bottom: 0rem;">
+					<div class="mui-scroll" id="inputpop">
+						<!--添加模板-->
+					</div>
+				</div>
+            </div>
+		</div>
+		<!--快捷输入-->
+		<!--遮罩层-->
+		<div class="mui-backdrop" style="display: none;" id="my-mask">
+			<div class="mui-loading" style="position: absolute;top: calc(50% - 12px);left: calc(50% - 12px);">
+				<div class="mui-spinner">
+				</div>
+			</div>
+		</div>
+		<div class="head" style="background-color: #fff;position: fixed;top: 0;z-index: 99;">
+			<div style="width: calc(100% - 0.48rem);margin: 0 auto;">
+				<div style="position: relative;vertical-align: top;display: inline-block; width: 100%;padding: 0.08rem 0 0.32rem;">
+					<input class="search" id="search" type="text" size="30" placeholder="输入关键词进行搜索" style="background-color: #efefef;width: 88%;"/>
+					<div class="searchimg" id="search-btn"><img class="searchimg search-icon" src="../../img/search.png"/></div>
+				</div>
+			</div>
+		</div>
+		<div class="mui-content" id="center-content" style="padding-top: 1.4rem;">
+			<div id="shop" style="padding-bottom: 44px;">
+				<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+					<div class="mui-scroll" id="shoplist">
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--模板-->
+		<script id="example-template" type="text/x-handlebars-template">
+			<ul class="mui-table-view" style="padding: 0;">
+				<!-- data -->
+				<!-- 直接使用每个people的数据 -->
+				{{#each data}}
+				<li class="mui-collapse mui-table-view-cell mui-collapse li-after" style="padding: 3.2%">
+					<a href="#" style="height: 14%;padding: 0;margin: 0;">
+						<img class="mui-media-object mui-pull-left" src="{{#if_eq avatar null}}../../img/shoplogo.png{{else}}{{../rooturl}}{{avatar.access_path}}{{/if_eq}}" style="max-width: 21%;width: 21%;height: 9.7%;;">
+						<div class="mui-media-body">
+							<p class='mui-ellipsis mui-text-left'>{{#each licenses}}{{#if_eq @index 0}}{{corp_name_thumb}}{{/if_eq}}{{/each}}</p>
+							<div style="height: 100%;text-align: left;">
+								<span class="interval mui-text-left" style="font-size: 14px; vertical-align: top;">{{#if_eq distance null}}{{#each licenses}}{{#if_eq @index 0}}{{decimal distance 2}}{{/if_eq}}{{/each}}{{else}}{{decimal distance 2}}{{/if_eq}}km</span>
+								<p class='mui-ellipsis mui-inline mui-text-left' style="width: 72%;">{{#each licenses}}{{#if_eq @index 0}}{{prod_address}}{{/if_eq}}{{/each}}</p>
+							</div>
+							<p class="favourable mui-text-left" style="font-size: 12px;">{{stringactitvity}}</p>
+						</div>
+					</a>
+					<div class="mui-collapse-content">
+						<div class="select" style="width:100%;display: flex;justify-content: space-between">
+							<div style="flex: 1;text-align: left;">
+								<a href="javascript:void(0);" style="text-decoration: none;width: 2.18rem;height: 0.72rem;line-height: 0.7rem;text-align: left;margin-top: 0.24rem;" onclick="lookdetail('{{#each licenses}}{{#if_eq @index 0}}{{id}}{{/if_eq}}{{/each}}','{{id}}')">
+									<img style="vertical-align: middle;" src="../../img/details.png" width="12" />
+									<span class="lookup">查看详情</span>
+								</a>
+							</div>
+							<div style="flex: 1;">
+								<a class="record-style" href="javascript:void(0);" onclick="writerecords('{{#each licenses}}{{#if_eq @index 0}}{{id}}{{/if_eq}}{{/each}}','{{id}}')">
+									<img style="vertical-align: top;height: 0.24rem;width: 0.24rem;margin-top: 0.24rem;" src="../../img/record.png" />
+									<span class="lookup">监管记录</span>
+								</a>
+							</div>
+							<div style="flex: 1;">
+								<a href="javascript:void(0);" class="way-style nav-path">
+									<img style="vertical-align: top;height: 0.24rem;width: 0.2rem;margin-top: 0.24rem;" src="../../img/route.png" width="12" />
+									<span class="lookup" style="color: #fff;">导航</span>
+									<input type="hidden" value="{{lat}}" class="way-lat" />
+									<input type="hidden" value="{{lng}}" class="way-lng" />
+									<input type="hidden" value="{{#each licenses}}{{#if_eq @index 0}}{{id}}{{/if_eq}}{{/each}}" id="way-id" />
+									<input type="hidden" value="{{#if_eq corporation_name null}}{{#each licenses}}{{#if_eq @index 0}}{{corp_name}}{{/if_eq}}{{/each}}{{else}}{{corporation_name}}{{/if_eq}}" id="way-name" />
+								</a>
+							</div>
+						</div>
+					</div>
+				</li>
+				{{/each}}
+			</ul>
+		</script>
+		<script id="menu-template" type="text/x-handlebars-template">
+			<!-- 商家分类data -->
+			{{#each data}} {{#if_eq root_level 1}}
+			<div class="mui-control-item mui-active" data-type="{{id}}">
+				{{name}}
+			</div>
+			{{else}}
+			<div class="mui-control-item" data-type="{{id}}">
+				{{name}}
+			</div>
+			{{/if_eq}} {{/each}}
+			<input type="hidden" name="type" id="type" value="" />
+		</script>
+		<script id="noneinfo-template" type="text/x-handlebars-template">
+			<div style="font-size: 14px;text-align: center;padding-top: 2rem;">{{this}}</div>
+		</script>
+		<!--快捷输入选择列表-->
+		<script id="poplist-template" type="text/x-handlebars-template">
+			<ul>
+				<li class="sentence editshortcut" style="display: none;"><img src="../../img/sentence.png" style="vertical-align:middle;width: 0.4rem;margin-right: 0.1rem;"/>添加/编辑常用短语</li>
+				{{#each data}}
+				<li class="sentence toimport">{{content}}</li>
+				{{/each}}
+			</ul>
+		</script>
+		<script id="poptype-template" type="text/x-handlebars-template">
+			<option value="">全部</option>
+			{{#each this}}
+			<option value="{{id}}">{{name}}</option>
+			{{/each}}
+		</script>
+		<!--快捷输入选择列表-->
+		<script type="text/javascript" src="../../common/shortcut.js"></script>
+		<script>
+			mui('.mui-scroll-wrapper').scroll({
+				deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+			});
+		</script>
+		<!--模板-->
+		<script type="text/javascript">
+			mui.init()
+			document.addEventListener('plusready', function() {
+				$(function() {
+					mui.ready(function() {
+						$('#all').addClass('color');
+						$('.subheading').click(function() {
+							$(this).addClass('color').siblings().removeClass('color');
+						});
+						$('.d').click(function() {
+							$('.hide').show();
+							$(this).parent().siblings().children('.hide').hide();
+						});
+					})
+				})
+			});
+		</script>
+	</body>
+
+</html>

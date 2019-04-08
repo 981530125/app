@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<script type="text/javascript" src="../../js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="../../common/rem.js"></script>
+		<script src="../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../common/common.js"></script>
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" href="../../css/mui.picker.min.css" />
+		<link rel="stylesheet" href="../../css/addactivity.css">
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/mui.picker.min.js"></script>
+		<script type="text/javascript" src="../js/shopcenter/addactivity.js"></script>
+		<style>
+			body{
+				background-color: #fff;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color:#29a3da;box-shadow: none;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 id="title" class="mui-title" style="color: #fff;font-weight: bold;">活动管理</h1>
+		</header>
+		<div class="mui-content">
+			<form id="add">
+				<input type="hidden" name="id" value=""/>
+				<ul class="mui-table-view" style="margin-top: 0;">
+				    <li class="mui-table-view-cell" style="height: 1.2rem;">
+				        <input type="text" class="flex-info-right mui-input-clear " style="width: 100%;height: 100%;line-height: 1rem;font-size: 16px;display: block;border: none;" placeholder="请输入活动标题" name="name" value=""/>
+				    </li>
+				    <li class="mui-table-view-cell mui-input-row" style="height: 1.2rem;">
+				        <label style="font-size: 14px;line-height: 0.5rem;">是否上架</label>
+				    	<div class="mui-switch mui-switch-blue mui-active" id="mySwitch">
+							<div class="mui-switch-handle"></div>
+							<input type="hidden" name="is_release" class="is_release" value="1">
+						</div>
+				    </li>
+				    <li class="mui-table-view-cell" style="height: 1.2rem;display: flex;">
+				    	<div style="font-size: 14px;flex: 1;line-height: 1rem;">活动开始时间</div>
+				    	<div class="flex-info-right mui-input-clear time" style="flex: 1;line-height: 1rem;font-size: 16px;display: block;border: none;"></div>
+				        <input type="hidden" class="flex-info-right mui-input-clear settime" style="width: 100%;height: 100%;line-height: 1rem;font-size: 16px;display: block;" placeholder="请输入活动开始时间" name="start_at" value=""/>
+				    </li>
+				    <li class="mui-table-view-cell" style="height: 1.2rem;display: flex;">
+				    	<div style="font-size: 14px;flex: 1;line-height: 1rem;">活动结束时间</div>
+				        <div class="flex-info-right mui-input-clear time" style="flex: 1;line-height: 1rem;font-size: 16px;display: block;border: none;"></div>
+				        <input type="hidden" class="flex-info-right mui-input-clear settime" style="width: 100%;height: 100%;line-height: 1rem;font-size: 16px;display: block;border: none;" placeholder="请输入活动结束时间" name="end_at" value=""/>
+				    </li>
+				    <p style="background-color: #ebebeb;color: #b2b2b2;border: none;height: 0.78rem;line-height: 0.78rem;text-indent: 0.25rem;">请填写活动内容</p>
+					<li class="mui-table-view-cell" style="padding-top: 0.2rem;">
+				        <textarea name="content" placeholder="请填写活动内容" style="height: 2rem;"></textarea>
+				    </li>
+				    <p style="background-color: #ebebeb;color: #b2b2b2;border: none;height: 0.78rem;line-height: 0.78rem;text-indent: 0.25rem;">请上传活动展示图片(建议尺寸702*300)</p>
+					<div class="upload-img">
+						<div style="position: relative;">
+							<div class="imageup">
+								<img class="imgsrc addicon-style" style="width: 100%;height: 100%;"/>
+							</div>
+						</div>
+					</div>
+				</ul>
+				<div style="background-color: #fff;padding-bottom: 1rem;">
+			    	<input id="returnbtn" class="returnbtn" type="button" value="提交审核" />
+			    </div>
+			<form>
+		</div>
+		<!--模板-->
+		<script id="addimg-template" type="text/x-handlebars-template">
+			<div style="position: relative;">
+				<div class="imageitem">
+					<img class="imgsrc addicon-style" style="width: 100%;height: 100%;" src="{{src}}"/>
+					<input type="hidden" class="imgid" name="imgid" value="{{id}}"/>
+				</div>
+				<img src="../../img/delete.png" class="delete-btn">
+			</div>
+		</script>
+		<script id="edit-template" type="text/x-handlebars-template">
+			<input type="hidden" name="id" value="{{id}}"/>
+			<ul class="mui-table-view" style="margin-top: 0;">
+			    <li class="mui-table-view-cell" style="height: 1.2rem;">
+			        <input type="text" class="flex-info-right mui-input-clear " style="width: 100%;height: 100%;line-height: 1rem;font-size: 16px;display: block;border: none;" placeholder="请输入活动标题" name="name" value="{{name}}"/>
+			    </li>
+			    <li class="mui-table-view-cell mui-input-row" style="height: 1.2rem;">
+			        <label style="font-size: 14px;line-height: 0.5rem;">是否上架</label>
+			       {{#if_eq is_release 0}}
+			    	<div class="mui-switch mui-switch-blue" id="myeditSwitch">
+						<div class="mui-switch-handle"></div>
+						<input type="hidden" name="is_release" class="is_release" value="0">
+					</div>
+					{{else}}
+					<div class="mui-switch mui-switch-blue mui-active" id="myeditSwitch">
+						<div class="mui-switch-handle"></div>
+						<input type="hidden" name="is_release" class="is_release" value="1">
+					</div>
+					{{/if_eq}}
+			    </li>
+			    <li class="mui-table-view-cell" style="height: 1.2rem;display: flex;">
+			    	<div style="font-size: 14px;flex: 1;line-height: 1rem;">活动开始时间</div>
+			    	<div class="flex-info-right mui-input-clear time" style="flex: 1;line-height: 1rem;font-size: 16px;display: block;border: none;">{{start_at}}</div>
+			        <input type="hidden" class="flex-info-right mui-input-clear settime" style="width: 100%;height: 100%;line-height: 1rem;font-size: 16px;display: block;" placeholder="请输入活动开始时间" name="start_at" value="{{start_at}}"/>
+			    </li>
+			    <li class="mui-table-view-cell" style="height: 1.2rem;display: flex;">
+			    	<div style="font-size: 14px;flex: 1;line-height: 1rem;">活动结束时间</div>
+			        <div class="flex-info-right mui-input-clear time" style="flex: 1;line-height: 1rem;font-size: 16px;display: block;border: none;">{{end_at}}</div>
+			        <input type="hidden" class="flex-info-right mui-input-clear settime" style="width: 100%;height: 100%;line-height: 1rem;font-size: 16px;display: block;border: none;" placeholder="请输入活动结束时间" name="end_at" value="{{end_at}}"/>
+			    </li>
+			    <p style="background-color: #ebebeb;color: #b2b2b2;border: none;height: 0.78rem;line-height: 0.78rem;text-indent: 0.25rem;">请填写活动内容</p>
+				<li class="mui-table-view-cell" style="padding-top: 0.2rem;">
+			        <textarea name="content" placeholder="请填写活动内容" style="height: 2rem;">{{content}}</textarea>
+			    </li>
+			    <p style="background-color: #ebebeb;color: #b2b2b2;border: none;height: 0.78rem;line-height: 0.78rem;text-indent: 0.25rem;">请上传活动展示图片(建议尺寸702*300)</p>
+				<div class="upload-img">
+					{{#each images}}
+					<div style="position: relative;">
+						<div class="imageitem">
+							<img class="imgsrc addicon-style" style="width: 100%;height: 100%;" src="{{../rooturl}}{{access_path}}"/>
+							<input type="hidden" class="imgid" name="imgid" value="{{id}}"/>
+						</div>
+						<img src="../../img/delete.png" class="delete-btn">
+					</div>
+					{{/each}}
+					<div style="position: relative;">
+						<div class="imageup">
+							<img class="imgsrc addicon-style" style="width: 100%;height: 100%;"/>
+						</div>
+					</div>
+				</div>
+				<p style="background-color: #ebebeb;color: #b2b2b2;border: none;height: 0.78rem;line-height: 0.78rem;text-indent: 0.25rem;margin-bottom: 0;">审核状态</p>
+				{{#if_eq review_status '0'}}
+				<div class="f14" style="text-indent: 0.32rem;height: 0.7rem;line-height: 0.7rem;margin-top: 0;border-bottom: 1px solid #ebebeb;">审核中</div>
+				{{/if_eq}}
+				{{#if_eq review_status '1'}}
+				<div class="f14" style="text-indent: 0.32rem;height: 0.7rem;line-height: 0.7rem;margin-top: 0;color: #007aff;border-bottom: 1px solid #ebebeb;">已通过</div>
+				{{/if_eq}}
+				{{#if_eq review_status '2'}}
+				<div class="f14" style="text-indent: 0.32rem;height: 0.7rem;line-height: 0.7rem;margin-top: 0;color: #FA0000;border-bottom: 1px solid #ebebeb;">未通过</div>
+				{{/if_eq}}
+				{{#if_eq review_record null}}
+				{{else}}
+				<p style="background-color: #ebebeb;color: #b2b2b2;border: none;height: 0.78rem;line-height: 0.78rem;text-indent: 0.25rem;">审查意见</p>
+				<div style="font-size: 14px;padding: 0.32rem;min-height: 2rem;border-bottom: 1px solid #ebebeb;">
+					<div style="height: 0.5rem;line-height: 0.5rem;">
+						<span style="margin-right: 0.3rem;">审核人:</span>
+						<span>{{review_record.author_name}}</span>
+					</div>
+					<div disabled="disabled" style="background-color: #fff;min-height: 2rem;line-height: 0.5rem;">
+						<div>审核内容:</div>
+						<div style="text-indent: 0.3rem;">
+							{{review_record.content}}
+						</div>
+					</div>
+					<div style="text-align: right;">审核时间：{{review_record.created_at}}</div>
+				</div>
+				{{/if_eq}}
+			</ul>
+			<div style="background-color: #fff;padding-top: 0.5rem;">
+				{{#if_eq review_status '0'}}
+		    	<input id="returnbtn" class="returnbtn" type="button" value="修改" />
+		    	{{/if_eq}}
+		    	{{#if_eq review_status '1'}}
+		    	<!--<input id="returnbtn" class="returnbtn" type="button" value="修改" />-->
+		    	<input class="returnbtn btnall exit-btn" type="button" value="返 回" style="display: block;background-color: #f0ad4e;color: #fff;"/>
+		    	{{/if_eq}}
+		    	{{#if_eq review_status '2'}}
+		    	<input id="returnbtn" class="returnbtn" type="button" value="提交审核" />
+		    	{{/if_eq}}
+		    	<input id="deletebtn" class="deletebtn" type="button" data-id="{{id}}" value="删 除" />
+		    </div>
+		</script>
+		<!--模板-->
+	</body>
+</html>

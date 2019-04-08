@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<script type="text/javascript" src="common/rem.js"></script>
+		<link rel="stylesheet" href="css/shoppage.css" />
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+		<script src="js/handlebars.js"></script>
+		<script type="text/javascript" src="common/common.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$('.all-li').click(function() {
+					$(this).addClass('all-active');
+					$(this).siblings('.all-li').removeClass('all-active');
+				})
+			})
+			document.addEventListener('plusready', function() {
+				$('#jian').addClass('dspl');
+				
+			});
+		</script>
+		<script src="js/mui.min.js"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#35a8dc;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<!--<a class="mui-action-back mui-icon mui-pull-right mui-a-color"><img src="img/fenxiang.png" style="margin-right: 3px;" width="20px" /></a>-->
+			
+			<!--<a href="#" class="mui-icon mui-pull-right mui-icon mui-icon-arrowdown" style="color: #D1F0FD"></a>-->
+			<!--<a href="#" class="mui-title" style="font-size: 14px;color: #D1F0FD;left: auto;">全部</a>-->
+			<!--<h1 class="mui-title" style="color: #fff;right: auto;font-weight: bold;">通知消息(2条未读)</h1>-->
+		</header>
+		<div style="width: 100%;height: 44px;"></div>
+		<div style="width: 7.02rem;margin: 0 auto;padding: 0.3rem 0;">
+			<div style="width: 100%;text-align: center;font-weight: bold;color: #000000;font-size: 16px;">2018展开第一轮检查通知<span class="mui-badge mui-badge-primary" style="font-size: 12px;">已读</span></div>
+			<div style="width: 100%;text-align: center;color: #ccc;font-size: 12px;">2018-08-01 12:30:00</div>
+			<div style="width: 100%;font-size: 14px;color: #999999;word-break: break-word;word-wrap: break-word;">121未发完达维登科，肌肤不哈看积分哈低洼博文服务器飞机不好擦上课了防护kerhfkqlewfhwqi</div>
+		</div>
+	</body>
+</html>

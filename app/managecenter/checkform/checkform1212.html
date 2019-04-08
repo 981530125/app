@@ -1,0 +1,1878 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="../../../css/mui.min.css" />
+	<script type="text/javascript" src="../../../common/rem.js"></script>
+	<link rel="stylesheet" href="../../../css/checkform.css" />
+	<link rel="stylesheet" href="../../../css/template.css" />
+	<link rel="stylesheet" href="../../../common/css/footer.css" />
+	<link rel="stylesheet" href="../../../css/mui.picker.min.css" />
+	<script type="text/javascript" src="../../../js/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript" src="../../../js/mui.min.js"></script>
+	<script src="../../../js/handlebars.js"></script>
+	<script type="text/javascript" src="../../../common/common.js"></script>
+	<script type="text/javascript" src="../../../js/mui.picker.min.js"></script>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#2ca5db;box-shadow: none;">
+		<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+		<h1 class="mui-title" style="color: #fff;font-weight: bold;">检查表</h1>
+	</header>
+	<!--遮罩层-->
+		<div class="mui-backdrop" style="display: none;" id="my-mask">
+			<div class="mui-loading" style="position: absolute;top: calc(50% - 12px);left: calc(50% - 12px);">
+				<div class="mui-spinner">
+				</div>
+			</div>
+		</div>
+		<form id="formsubmit">	
+			<div class="mui-backdrop my-mui-mask" id="my-mui-mask" style="display: none;" ></div>
+			<div class="mask-pop" style="display: none;">
+				<div id="form-content" class="form-content">
+					<!--模板-->
+				</div>
+				<div class="bottom-btn">
+					<div class="form-btn" id="formbtn-cancel" style="border-right: 1px solid #dee5e7;">取消</div>
+					<div class="form-btn" id="getformdata">确认</div>
+				</div>
+			</div>
+			<!--遮罩层-->
+			<div class="mui-content" id="recordform-content">
+				
+			</div>
+		</form>
+		<!--模板-->
+		<script id="recordform-template" type="text/x-handlebars-template">
+			<ul class="mui-table-view" style="margin-top: 44px;">
+				<input type="hidden" class="investigate_task_id" name="investigate_task_id" value="{{investigate_task_id}}">
+			    <input type="hidden" class="investigate_record_id" name="investigate_record_id" value="{{id}}">
+			    <div id='result' class="ui-alert"></div>
+			    <li class="mui-table-view-cell flex-play">
+			    	<span class="flex-info-left">记录表</span>
+			        <input class="flex-info-right input-border name" name="name" value="{{recordname name}}" />
+			    </li>
+			    <li class="mui-table-view-cell flex-play">
+			    	<span class="flex-info-left" style="line-height: 36px;">公众端可见</span>
+			    	<span class="flex-info-right">
+			    		<!--<div class="mui-switch mui-switch-blue" id="my-switch">
+						  <div class="mui-switch-handle"></div>
+						</div>-->
+			    		{{#each is_openitem}}
+				    	<div class="mui-input-row mui-radio" style="display: inline-block;">
+							<label>{{value}}</label>
+							{{#if checked}}
+							<input name="is_open" class="is_open" type="radio" value="1" checked="checked">
+							{{else}}
+							<input name="is_open" class="is_open" type="radio" value="0" >
+							{{/if}}
+						</div>
+						{{/each}}
+					</span>
+			    </li>
+			    <li class="mui-table-view-cell flex-play">
+			    	<span class="flex-info-left">被检查单位</span> 
+			        <input class="flex-info-right input-border corp_name" name="corp_name" value="{{corp_name}}" />
+			    </li>
+			    <li class="mui-table-view-cell flex-play">
+			    	<span class="flex-info-left">被检查地址</span>
+			        <input class="flex-info-right input-border residence" name="residence" value="{{residence}}" />
+			    </li>
+			    <li class="mui-table-view-cell flex-play">
+			    	<span class="flex-info-left">检查开始时间</span> 
+			        <input type="button" style="border: none;" class="flex-info-right input-border starttime" name="check_start_at" value="{{check_start_at}}" />
+			    </li>
+			    <li class="mui-table-view-cell flex-play">
+			    	<span class="flex-info-left">检查结束时间</span> 
+			        <input type="button" style="border: none;"  class="flex-info-right input-border endtime" name="check_end_at" value="{{check_end_at}}" />
+			    </li>
+			    <li class="mui-table-view-cell list-size-style getorigin">操作人
+			        <span class="mui-navigate-right list-item-right">选择操作人</span>
+			    </li>
+			    <li class="mui-table-view-cell list-size-style">
+			    	<div>检查人员（执法证编号）</div>
+			    	<ul id="managenamelist" class="mui-table-view mui-grid-view mui-grid-9" style="background-color: #fff;border: none;min-height: 1.2rem">
+			    		{{#each operate_admin}}
+						<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-3" style="border: none;position: relative;">
+							<div class="mui-media-body f14 " style="width: 3.22rem;height: 0.8rem;line-height:0.4rem;display: inline-block;background-color: #209fd8;color: #fff;"><p style="color: #fff;font-size: 12px;">{{name}}</p><p style="color: #fff;font-size: 12px;">{{#if_eq enforcement_number ''}}无编号{{else}}{{enforcement_number}}{{/if_eq}}</p></div>
+							<input type="hidden" value="{{id}}" name="ids_of_operate_admin" />
+							<div class="deletecheckman" data-id = "{{id}}" style="position: absolute;top: 0.2rem;right: 0.01rem;"><img src="../../../img/delete.png" style="width: 0.4rem;height: 0.4rem;"/></div>
+						</li>
+						{{/each}}
+					</ul>
+			    </li>
+			    <li class="mui-table-view-cell mui-collapse" style="border-top: 0.2rem solid #efeff4;">
+		            <a class="mui-navigate-right" href="#" style="font-size: 14px;color: #333333;">
+		            	<div class="form-title" style="">
+		            		<div class="form-title-style">检查表</div>
+		            	</div>
+		            </a>
+		            <div id="formlistadd">
+		            	{{#each checklist}}
+			            <div class="mui-collapse-content" style="border-top: 1px solid #cccccc;">
+			                <p onclick="templateform('{{checklist_type.en_name}}')">{{checklist_type.comment}}</p>
+			            </div>
+			            {{else}}
+			            <div class="mui-collapse-content" style="border-top: 1px solid #cccccc;">
+			                <p>无消息</p>
+			            </div>
+			            {{/each}}
+			            <div class="mui-collapse-content bordertop" id="userResult" onclick="addformitem()">
+			                <p class="addform" style="cursor: pointer;"><span class="mui-icon mui-icon-plus"></span>添加</p>
+			            </div>
+		            </div>
+		       	</li>
+		       	<li class="upstyle">图片上传</li>
+		        <div id="addimg">
+		        	<!--模版-->
+		        	{{#each filelist}}
+		        	<div style="padding: 0.4rem 0.2rem;border-bottom: 1px solid #ccc;">
+			        	<div class="addimg-div imageup"><img src="{{../rooturl}}{{access_path}}" class="addicon-style imgsrc" /></div>
+			        	<div style="display: inline-block;"><textarea class="textnote">{{note}}</textarea></div>
+			        	<div id="txtBtn" style="text-align:right;margin-top: 3px;">
+							<span style="height: 22px;display:inline-block;font-size: 12px;margin-right: 15px; line-height: 22px;color: #b2b2b2;vertical-align: middle;">是否可见</span>
+							{{#if_eq is_open 0}}
+							<div class="mui-switch mui-switch-mini" id="switch" style="width: 36px;height: 22px;display: inline-block;vertical-align: middle;">
+							  <div class="mui-switch-handle" style="width: 18px;height: 19px;"></div>
+							  <input type="hidden" class="img_is_open" name="img_is_open" value="{{is_open}}">
+							  <input type="hidden" class="img_deleted_at" name="img_deleted_at" value="{{deleted_at}}">
+							</div>
+							{{else}}
+							<div class="mui-switch mui-switch-mini mui-active" id="switch" style="width: 36px;height: 22px;display: inline-block;vertical-align: middle;">
+							  <div class="mui-switch-handle" style="width: 18px;height: 19px;"></div>
+							  <input type="hidden" class="img_is_open" name="img_is_open" value="{{is_open}}">
+							  <input type="hidden" class="img_deleted_at" name="img_deleted_at" value="{{deleted_at}}">	
+							</div>
+							{{/if_eq}}
+						</div>
+			        </div>
+			        {{/each}}
+		        </div>
+		        <div id="addbtn-img" style="cursor: pointer;">添加</div>
+		        <li class="upstyle" style="display: none;">文件上传</li>
+		        <div id="addfile">
+		        	<!--模版-->
+		        </div>
+		        <div id="addbtn-file" class="f14 filediv" style="cursor: pointer;display: none;"><img src="../../../img/downfile.png" class="downfilestyle" />选择文件并上传</div>
+		   		<!--地图-->
+		   		<div class="mui-input-group input-item-style" >
+				    <label class="input-item-title">定位数据</label>
+				    <input type="text" name="corporation_address" id="corporation_address" class="mui-input-clear input-item-content f14" value="{{corporation_address}}">
+				    <input name="lat" id="lat" type="hidden" value="{{lat}}"/>
+				    <input name="lng" id="lng" type="hidden" value="{{lng}}"/>
+				    <input name="corporation_address_components" id="corporation_address_components" type="hidden" value="{{corporation_address_components}}"/>
+				</div>
+				<div class="mui-input-group input-item-style" style="position: relative;">
+				    <input type="text" class="mui-input-clear input-item-content search-contentinfo" style="border: 1px solid #CCCCCC;" id="addresskey" placeholder="小区/写字楼/学校" value="">
+					<img src="../../../img/shopsearch.png" id="searchAddress" class="search-icon"/>
+				</div>
+				<div class="mui-input-group input-item-style">
+					<div style="width:100%;height:300px" id="container"></div>
+				</div>
+		   		
+		   		
+		   		<li class="mui-table-view-cell" style="border-top: 0.2rem solid #efeff4;">
+			    	<span class="flex-info-left">备注</span>
+			    	<textarea class="text-note note" name="note">{{note}}</textarea>
+			    </li>
+			    <li class="mui-table-view-cell" style="border-top: 0.2rem solid #efeff4;">
+			    	<input type="button" style="background-color: #007AFF;color: #fff;border: none;" value="确认" class="returnbtn"/>
+			    </li>
+			    <li class="mui-table-view-cell" style="border-top: 0.2rem solid #efeff4;">
+			    	<input type="button" style="background-color: #fff;color: #000;border: 1px solid #CCCCCC;" value="取消" class="calcel"/>
+			    </li>
+			</ul>
+			<script type="application/javascript">
+				$(function(){
+					$(".starttime").on("click",function(){
+						var dtpicker = new mui.DtPicker({
+						    type: "hour",//设置日历初始视图模式 
+						    beginDate: new Date(1015, 04, 25),//设置开始日期 
+						    endDate: new Date(3016, 04, 25),//设置结束日期 
+						}) 
+						dtpicker.show(function(e) {
+						    console.log(JSON.stringify(e.value));
+						    $(".starttime").val(e.value);
+						}) 
+					});
+					$(".endtime").on("click",function(){
+						console.log('11111');
+						var dtpicker = new mui.DtPicker({
+						    type: "hour",//设置日历初始视图模式 
+						    beginDate: new Date(1015, 04, 25),//设置开始日期 
+						    endDate: new Date(3016, 04, 25),//设置结束日期 
+						}) 
+						dtpicker.show(function(e) {
+						    console.log(JSON.stringify(e.value));
+						    $(".endtime").val(e.value);
+						}) 
+					});
+				})
+			</script>
+		</script>
+		<script id="checklist__check_point__food_sale__circulation__unit" type="text/x-handlebars-template">
+			<!--食品销售日常监督检查要点表-->
+			<div class="pop" style="width: 100%;height: 100px;">
+				<div class="weui-cells weui-cells_after-title new-none-after">
+			    	<div class="weui-cell new-cell">
+					    <div class="weui-cell__bd new-bd">
+					    	<input type="hidden" value="{{id}}" name="id"/>
+					    	<input type="hidden" value="{{en_name}}" name="table_name"/>
+					    	<div style="width: 100%;font-size: 14px;padding:0.1rem 0.3rem;">{{name}}</div>
+					    	<div style="padding:0.1rem 0.3rem;margin: 0;">
+					    		<p style="width: 100%;line-height: 0.4rem;font-size: 14px;margin: 0;padding: 0;">食品通用检查项目：重点项（ * ）1 2 项，一般项 2 2 项，共 3 4 项。</p>
+								<p style="width: 100%;line-height: 0.4rem;font-size: 14px;margin: 0;padding: 0;">特殊场所和特殊食品检查项目：共 19 项。</p>
+					    	</div>
+					    	<div style="padding:0.1rem 0.3rem;margin: 0;text-align: center;">
+					    		<!--开发程度-->
+					    		{{#if_eq userType 'user'}}
+					    		 <!--用户-->
+					    		{{else}}
+					    		{{#each is_open}}
+					    		{{#if checked}}
+					    		<span style="font-size: 14px;">{{value}}</span><input type="radio" name="is_open" value="{{name}}" checked="checked">
+					    		{{else}}
+					    		<span style="font-size: 14px;">{{value}}</span><input type="radio" name="is_open" value="{{name}}">
+					    		{{/if}}
+					    		{{/each}}
+					    		{{/if_eq}}
+					    		<!--开发程度-->
+					    	</div>
+					        <div class="table">
+					          	{{#each radiolist}}
+					          	{{#if_eq @index 0}}
+					          	<div class="ts title">食品通用检查项目（34项）</div>
+					          	<div class="tr">
+					              	<div class="thd" style="width: 15%;">检查项目</div>
+					              	<div style="width: 85%">
+					                	<div style='display: flex;height:100%;'>
+					                  		<div class="thd" style="width: 10%;">序号</div>
+					                  		<div class="thd" style="width: 45%;">检查内容</div>
+					                  		<div class="thd" style="width: 20%;">评价</div>
+					                  		<div class="thd" style="width: 25%;border-right: 0;">备注</div>
+					                	</div>
+					              	</div>
+					          	</div>
+					          	{{/if_eq}}
+					          	{{#if_eq @index 7}}
+					          	<div class="ts title">特殊场所和特殊食品检查项目（19项）</div>
+					          	<div class="tr">
+					              	<div class="thd" style="width: 15%;">检查项目</div>
+					              	<div style="width: 85%">
+					                	<div style='display: flex;height:100%;'>
+					                  		<div class="thd" style="width: 10%;">序号</div>
+					                  		<div class="thd" style="width: 45%;">检查内容</div>
+					                  		<div class="thd" style="width: 20%;">评价</div>
+					                  		<div class="thd" style="width: 25%;border-right: 0;">备注</div>
+					                	</div>
+					              	</div>
+					          	</div>
+					          	{{/if_eq}}
+					          	<div class="tr">
+						            <div class="thd" style="width: 15%;">{{comment}}</div>
+						            <div style='width: 85%;height: 100%' >
+						            	{{#each childlist}}
+						                <div style='display: flex;'>
+						                  	<div class="thd" style="width: 10%;">
+						                  		{{#if_eq is_important 1}}
+						                  		<text>*</text>
+						                  		{{/if_eq}}
+						                  	{{index}}</div>
+						                  	<div class="thd" style="width: 45%;">{{name}}</div>
+						                  	<div class="thd" style="width: 20%;">
+						                  		{{#each newcheck}}
+							                  		{{#if_eq ../chexkboxval value}}
+								                  		{{#if_eq ../../../userType 'user'}}
+								                  		<input type="radio" name="{{../en_name}}" value="{{value}}" disabled="disabled" checked="checked"/>{{name}}
+								                  		{{else}}
+								                  		<input type="radio" name="{{../en_name}}" value="{{value}}" checked="checked"/>{{name}}
+								                  		{{/if_eq}}
+							                  		{{else}}
+								                  		{{#if_eq ../../../userType 'user'}}
+								                  		<input type="radio" name="{{../en_name}}" disabled="disabled" value="{{value}}"/>{{name}}
+								                  		{{else}}
+								                  		<input type="radio" name="{{../en_name}}" value="{{value}}"/>{{name}}
+								                  		{{/if_eq}}
+								                  		{{userType}}
+							                  		{{/if_eq}}
+						                  		{{/each}}
+						                  	</div>
+						                  	<div class="thd" style="width: 25%;">
+						                  		{{#if_eq ../../userType 'user'}}
+						                  		<textarea name="note.{{en_name}}" class="text-area" disabled="disabled">{{note}}</textarea>
+						                  		{{else}}
+						                  		<textarea name="note.{{en_name}}" class="text-area">{{note}}</textarea>
+						                  		{{/if_eq}}
+						                  	</div>
+						                </div>
+						                {{/each}}
+						            </div>
+						        </div>
+						        {{/each}}
+					        </div>
+					    </div>
+				    </div>
+				</div>
+			</div>
+		</script>
+		<script id="checklist__check_result" type="text/x-handlebars-template">
+			<!--省（区、市）市县（市、区）食品药品监督管理局食品生产经营日常监督检查结果记录表-->
+			<div class="pop" style="width: 100%;height: 100px;">
+				<div class="weui-cells weui-cells_after-title new-none-after">
+			    	<div class="weui-cell new-cell">
+					    <div class="weui-cell__bd new-bd">
+					    	<input type="hidden" value="{{id}}" name="id"/>
+					    	<input type="hidden" value="{{en_name}}" name="table_name"/>
+					    	<div style="width: 100%;font-size: 14px;padding:0.1rem 0.3rem;">{{name}}</div>
+					    	<div style="padding:0.1rem 0.3rem;margin: 0;">
+					    		<p style="width: 100%;line-height: 0.4rem;font-size: 14px;margin: 0;padding: 0;"><span>编号</span><input type="text" name="number" value="{{res_data.number}}" /></p>
+					    	</div>
+					    	<div style="padding:0.1rem 0.3rem;margin: 0;text-align: center;">
+					    		<!--开发程度-->
+					    		{{#if_eq userType 'user'}}
+					    		 <!--用户-->
+					    		{{else}}
+					    		{{#each is_open}}
+					    		{{#if checked}}
+					    		<span style="font-size: 14px;">{{value}}</span><input type="radio" name="is_open" value="{{name}}" checked="checked">
+					    		{{else}}
+					    		<span style="font-size: 14px;">{{value}}</span><input type="radio" name="is_open" value="{{name}}">
+					    		{{/if}}
+					    		{{/each}}
+					    		{{/if_eq}}
+					    		<!--开发程度-->
+					    	</div>
+					        <div class="table">
+					          	<div class="tr">
+					              	<div style="width: 100%">
+					                	<div style='display: flex;height:100%;'>
+					                  		<div class="thd" style="width: 25%;">名称</div>
+					                  		<div class="thd" style="width: 25%;"><input type="text" style="width: 100%;height: 100%;display: inline-block;" name="result.name" value="{{res_data.name}}" /></div>
+					                  		<div class="thd" style="width: 25%;">地址</div>
+					                  		<div class="thd" style="width: 25%;border-right: 0;"><input type="text" style="width: 100%;height: 100%;display: inline-block;" name="address" value="{{res_data.address}}" /></div>
+					                	</div>
+					              	</div>
+					          	</div>
+					          	<div class="tr">
+					              	<div style="width: 100%">
+					                	<div style='display: flex;height:100%;'>
+					                  		<div class="thd" style="width: 25%;">联系人</div>
+					                  		<div class="thd" style="width: 25%;"><input type="text" name="contact" style="width: 100%;height: 100%;display: inline-block;" value="{{res_data.contact}}" /></div>
+					                  		<div class="thd" style="width: 25%;">联系方式</div>
+					                  		<div class="thd" style="width: 25%;border-right: 0;"><input type="text" style="width: 100%;height: 100%;display: inline-block;" name="contact_way" value="{{res_data.contact_way}}" /></div>
+					                	</div>
+					              	</div>
+					          	</div>
+					          	<div class="tr">
+					              	<div style="width: 100%">
+					                	<div style='display: flex;height:100%;'>
+					                  		<div class="thd" style="width: 25%;">许可证编号</div>
+					                  		<div class="thd" style="width: 25%;"><input type="text" name="license_number" style="width: 100%;height: 100%;display: inline-block;" value="{{res_data.license_number}}" /></div>
+					                  		<div class="thd" style="width: 25%;">检查次数</div>
+					                  		<div class="thd" style="width: 25%;border-right: 0;"><input type="text" style="width: 100%;height: 100%;display: inline-block;" name="number_of_checks" value="{{res_data.number_of_checks}}" /></div>
+					                	</div>
+					              	</div>
+					          	</div>
+					          	<div class="tr" style="font-size: 14px;border-bottom: 1px solid #ccc;display: block;">
+					          		检查内容：<br/>
+（食品药品监督管理部门全称）检查人员根据“中华人民共和国食品安全法”及其实施条例，“食品生产经营日常监督检查管理办法”的规定，于年月日对你单位进行了监督检查。次监督检查按照表开展，共检查了<input type="text" style="width: 20px;height: 20px;" name="total_checks" value="{{res_data.total_checks}}"/>项内容;其中：重点项（<input type="text" style="width: 20px;height: 20px;" name="check_the_key_items_altogether" value="{{res_data.check_the_key_items_altogether}}"/>）项，项目序号分别是（<input type="text" style="width: 20px;height: 20px;" name="key_item_serial_number" value="{{res_data.key_item_serial_number}}"/> ），发现问题（ <input type="text" style="width: 20px;height: 20px;" name="key_discovery_issues" value="{{res_data.key_discovery_issues}}"/>）项，项目序号分别是（<input type="text" style="width: 20px;height: 20px;" name="key_discovery_problem_item_serial_number" value="{{res_data.key_discovery_problem_item_serial_number}}"/>）;一般项（ <input type="text" style="width: 20px;height: 20px;" name="general_item_total_check" value="{{res_data.general_item_total_check}}"/>）项，项目序号分别是（<input type="text" style="width: 20px;height: 20px;" name="general_item_serial_number" value="{{res_data.general_item_serial_number}}"/> ），发现问题（ <input type="text" style="width: 20px;height: 20px;" name="general_item_discovery_problem" value="{{res_data.general_item_discovery_problem}}"/>）项，项目序号分别是（ <input type="text" style="width: 20px;height: 20px;" name="general_items_found_problem_item_serial_number" value="{{res_data.general_items_found_problem_item_serial_number}}"/>）。
+					          	</div>
+					          	<div class="tr" style="font-size: 14px;border-bottom: 1px solid #ccc;">
+					          		<div class="thd" style="width: 15%;">检查结果</div>
+					              	<div style="width: 85%;font-size: 14px;">
+					              		{{#if_eq res_data.check_results '1'}}
+					              		<input type="radio" name="check_results" checked="checked" value="1">符合
+					              		<input type="radio" name="check_results"  value="2">基本符合
+					              		<input type="radio" name="check_results" value="3"/>不符合
+					              		{{/if_eq}}
+					              		{{#if_eq res_data.check_results '2'}}
+					              		<input type="radio" name="check_results"  value="1">符合
+					              		<input type="radio" name="check_results" checked="checked" value="2">基本符合
+					              		<input type="radio" name="check_results" value="3"/>不符合
+					              		{{/if_eq}}
+					              		{{#if_eq res_data.check_results '3'}}
+					              		<input type="radio" name="check_results"  value="1">符合
+					              		<input type="radio" name="check_results" value="2">基本符合
+					              		<input type="radio" name="check_results" checked="checked" value="3"/>不符合
+					              		{{/if_eq}}
+					              	</div>
+					          	</div>
+					          	<div class="tr" style="font-size: 14px;border-bottom: 1px solid #ccc;">
+					          		<div class="thd" style="width: 15%;">结果处理</div>
+					              	<div style="width: 85%;font-size: 14px;">
+					              		{{#if_eq res_data.result_processing '1'}}
+					              		<input type="radio" name="result_processing" checked="checked" value="1">通过
+					              		<input type="radio" name="result_processing" value="2">书面限期整改
+					              		<input type="radio" name="result_processing" value="3"/>食品生产经营者立即停止食品生产经营活动
+					              		{{/if_eq}}
+					              		{{#if_eq res_data.result_processing '2'}}
+					              		<input type="radio" name="result_processing"  value="1">通过
+					              		<input type="radio" name="result_processing" checked="checked" value="2">书面限期整改
+					              		<input type="radio" name="result_processing" value="3"/>食品生产经营者立即停止食品生产经营活动
+					              		{{/if_eq}}
+					              		{{#if_eq res_data.result_processing '3'}}
+					              		<input type="radio" name="result_processing" value="1">通过
+					              		<input type="radio" name="result_processing" value="2">书面限期整改
+					              		<input type="radio" name="result_processing" checked="checked" value="3"/>食品生产经营者立即停止食品生产经营活动
+					              		{{/if_eq}}
+					              	</div>
+					          	</div>
+					          	<div class="tr" style="font-size: 14px;border-bottom: 1px solid #ccc;">
+					          		<div class="thd" style="width: 15%;">说明（可附页</div>
+					          		<textarea style="width: 85%;" name="note.explain">{{res_data.note.explain}}</textarea>
+					          	</div>
+					          	<div class="tr" style="flex-wrap: wrap;">
+					          		{{#if_eq userType 'user'}}
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>执法人员（签名）</p>
+					        			<div><input type="text" style="width: 100%;" disabled="disabled" name="the_opinion_of_the_unit_being_inspected" value="{{res_data.the_opinion_of_the_unit_being_inspected}}"></div>
+					        			<!--<div disabled="disabled">{{date_of_signature_of_operator.value}}</div>-->
+					        		</div>
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>被检查单位意见</p>
+					        			<div><input type="text" style="width: 100%;" disabled="disabled" name="the_opinion_of_the_unit_being_inspected" value="{{res_data.the_opinion_of_the_unit_being_inspected}}"></div>
+					        			<!--<div disabled="disabled">{{signed_by_the_inspection_operator.value}}</div>-->
+					        		</div>
+					        		{{else}}
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>执法人员（签名）</p>
+					        			<div><input type="text" style="width: 100%;" name="the_opinion_of_the_unit_being_inspected" value="{{res_data.the_opinion_of_the_unit_being_inspected}}"></div>
+					        			<!--<div disabled="disabled">{{date_of_signature_of_operator.value}}</div>-->
+					        		</div>
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>被检查单位意见</p>
+					        			<div><input type="text" style="width: 100%;" name="the_opinion_of_the_unit_being_inspected" value="{{res_data.the_opinion_of_the_unit_being_inspected}}"></div>
+					        			<!--<div disabled="disabled">{{signed_by_the_inspection_operator.value}}</div>-->
+					        		</div>
+					        		{{/if_eq}}
+					          	</div>
+					          	<div class="tr" style="flex-wrap: wrap;">
+					          		{{#if_eq userType 'user'}}
+						          		{{#each datatimeinput}}
+						        		<div class="thd" style="flex: 1;width: 50%;">
+						        			<div disabled="disabled" style="padding: 0;margin: 0;">{{value}}</div>
+						        		</div>
+						        		{{else}}
+						        		<div class="thd" style="flex: 1;width: 50%;">
+						        			<div disabled="disabled" style="padding: 0;margin: 0;">{{value}}</div>
+						        		</div>
+						        		{{/each}}
+						        	{{else}}
+						        		{{#each datatimeinput}}
+						        		<div class="thd" style="flex: 1;width: 50%;">
+						        			<div style="padding: 0;margin: 0;"><input type="text" readonly name='{{en_name}}' class="time" style="width: 100%;" value="{{value}}"/></div>
+						        		</div>
+						        		{{else}}
+						        		<div class="thd" style="flex: 1;width: 50%;">
+						        			<div style="padding: 0;margin: 0;"><input type="text" readonly name='{{en_name}}' class="time" style="width: 100%;" value="{{value}}"/></div>
+						        		</div>
+						        		{{/each}}
+					        		{{/if_eq}}
+					          	</div>
+					        </div>
+					    </div>
+				    </div>
+				</div>
+			</div>
+		</script>
+		<script id="checklist__daily_check__catering__catering_service__small_store" type="text/x-handlebars-template">
+			<!--浙江省食品生产经营登记管理日常监督检查表（小餐饮店）-->
+			<div class="pop" style="width: 100%;height: 100px;">
+				<div class="weui-cells weui-cells_after-title new-none-after">
+			    	<div class="weui-cell new-cell">
+					    <div class="weui-cell__bd new-bd">
+					    	<input type="hidden" name="id" value="{{id}}" />
+					    	<input type="hidden" value="{{en_name}}" name="table_name"/>
+					    	<div style="width: 100%;font-size: 14px;padding:0.1rem 0.3rem;">{{name}}</div>
+					    	<div style="padding:0.1rem 0.3rem;margin: 0;">
+					    		<p style="width: 100%;line-height: 0.4rem;font-size: 14px;margin: 0;padding: 0;">食品通用检查项目：重点项（ * ）1 2 项，一般项 2 2 项，共 3 4 项。</p>
+								<p style="width: 100%;line-height: 0.4rem;font-size: 14px;margin: 0;padding: 0;">特殊场所和特殊食品检查项目：共 19 项。</p>
+					    	</div>
+					    	<div style="padding:0.1rem 0.3rem;margin: 0;text-align: center;">
+					    		<!--开发程度-->
+					    		{{#if_eq userType 'user'}}
+					    		 <!--用户-->
+					    		{{else}}
+					    		{{#each is_open}}
+					    		{{#if checked}}
+					    		<span style="font-size: 14px;">{{value}}</span><input type="radio" name="is_open" value="{{name}}" checked="checked">
+					    		{{else}}
+					    		<span style="font-size: 14px;">{{value}}</span><input type="radio" name="is_open" value="{{name}}">
+					    		{{/if}}
+					    		{{/each}}
+					    		{{/if_eq}}
+					    		<!--开发程度-->
+					    	</div>
+					        <div class="table">
+					        	<div class="tr" style="flex-wrap: wrap;">
+					        		{{#if topinput}}
+					        		{{#if_eq userType 'user'}}
+						        		{{#each topinput}}
+						              	<div class="thd" style="width: 25%;">{{name}}</div>
+						              	<div class="thd" style="width: 25%;"><input class="thd" name="{{en_name}}" data-type="{{data_type}}" style="min-width: 25%;" disabled="disabled" value="{{value}}"/></div>
+						              	{{/each}}
+						            {{else}}
+						            	{{#each topinput}}
+						              	<div class="thd" style="width: 25%;">{{name}}</div>
+						              	<div class="thd" style="width: 25%;"><input class="thd" name="{{en_name}}" data-type="{{data_type}}" style="min-width: 25%;" value="{{value}}"/></div>
+						              	{{/each}}
+					              	{{/if_eq}}
+					              	{{else}}
+					              	
+					              	{{/if}}
+					          	</div>
+					          	<div class="tr">
+					              	<div class="thd" style="width: 25%;">{{bussinessarr.name}}</div>
+					              	<div style="width: 75%;font-size: 14px;border-bottom: 1px solid #ccc;">
+					              		{{#each bussinessarr.checkitem}}
+					              			{{#if_eq ../userType 'user'}}
+							              		{{#if_eq checkitem ../bussinessarr.value}}
+							              		<input type="radio" value="{{checkitem}}" name="{{../bussinessarr.en_name}}" disabled="disabled" checked="checked"/>{{name}}
+							              		{{else}}
+							              		<input type="radio" value="{{checkitem}}" name="{{../bussinessarr.en_name}}" disabled="disabled"/>{{name}}
+							              		{{/if_eq}}
+						              		{{else}}
+							              		{{#if_eq checkitem ../bussinessarr.value}}
+							              		<input type="radio" value="{{checkitem}}" name="{{../bussinessarr.en_name}}" checked="checked"/>{{name}}
+							              		{{else}}
+							              		<input type="radio" value="{{checkitem}}" name="{{../bussinessarr.en_name}}" />{{name}}
+							              		{{/if_eq}}
+						              		{{/if_eq}}
+					              		{{/each}}
+					              	</div>
+					          	</div>
+								<div class="tr">
+									{{#each timerange}}
+					              	<div class="thd" style="width: 25%;">{{name}}</div>
+					              	<div style="width: 75%;display: flex;font-size: 14px;border-bottom: 1px solid #ccc;">
+					              		<div class="thd" style="width: 50%;"><input class="time" readonly  type="text" style="width: 100%;" name="check_time_start_at" value="{{check_time_start_at}}"/></div>
+					              		<!--<input type="hidden" class="check_time_start_at" name="check_time_start_at" value="{{check_time_start_at}}" />-->
+					              		<div class="thd" style="width: 50%;"><input class="time" readonly  type="text" style="width: 100%;" name="check_time_end_at"  value="{{check_time_end_at}}"/></div>
+					              		<!--<input type="hidden" class="check_time_end_at" name="check_time_end_at" value="{{check_time_end_at}}" />-->
+					              	</div>
+					              	{{/each}}
+					          	</div>
+					          	{{#each radiolist}}
+					          	{{#if_eq @index 0}}
+					          	<div class="ts title">食品通用检查项目（34项）</div>
+					          	<div class="tr">
+					              	<div class="thd" style="width: 15%;">检查项目</div>
+					              	<div style="width: 85%">
+					                	<div style='display: flex;height:100%;'>
+					                  		<div class="thd" style="width: 45%;">检查内容</div>
+					                  		<div class="thd" style="width: 20%;">评价</div>
+					                  		<div class="thd" style="width: 35%;border-right: 0;">备注</div>
+					                	</div>
+					              	</div>
+					          	</div>
+					          	{{/if_eq}}
+					          	<div class="tr">
+						            <div class="thd" style="width: 15%;">{{comment}}</div>
+						            <div style='width: 85%;height: 100%' >
+						            	{{#each childlist}}
+						                <div style='display: flex;'>
+						                  	<div class="thd" style="width: 45%;">{{name}}</div>
+						                  	<div class="thd" style="width: 20%;">
+						                  		{{#each newcheck}}
+							                  		{{#if_eq ../chexkboxval value}}
+								                  		{{#if_eq ../../../userType 'user'}}
+								                  		<input type="radio" name="{{../en_name}}" value="{{value}}" disabled="disabled" checked="checked"/>{{name}}
+								                  		{{else}}
+								                  		<input type="radio" name="{{../en_name}}" value="{{value}}" checked="checked"/>{{name}}
+								                  		{{/if_eq}}
+							                  		{{else}}
+								                  		{{#if_eq ../../../userType 'user'}}
+								                  		<input type="radio" name="{{../en_name}}" disabled="disabled" value="{{value}}"/>{{name}}
+								                  		{{else}}
+								                  		<input type="radio" name="{{../en_name}}" value="{{value}}"/>{{name}}
+								                  		{{/if_eq}}
+								                  		{{userType}}
+							                  		{{/if_eq}}
+						                  		{{/each}}
+						                  	</div>
+						                  	<div class="thd" style="width: 35%;">
+						                  		{{#if_eq ../../userType 'user'}}
+						                  		<textarea name="note.{{en_name}}" class="text-area" disabled="disabled">{{note}}</textarea>
+						                  		{{else}}
+						                  		<textarea name="note.{{en_name}}" class="text-area">{{note}}</textarea>
+						                  		{{/if_eq}}
+						                  	</div>
+						                </div>
+						                {{/each}}
+						            </div>
+						        </div>
+						        {{/each}}
+						        <div class="tr" style="flex-wrap: wrap;">
+					        		{{#if bottominput}}
+					        		{{#if_eq userType 'user'}}
+						        		{{#each bottominput}}
+						              	<div class="thd" style="width: 25%;">{{name}}</div>
+						              	<div class="thd" style="width: 75%;"><textarea class="thd" name="{{en_name}}" data-type="{{data_type}}" style="min-width: 25%;height: 100%;" disabled="disabled" value="{{value}}">{{value}}</textarea></div>
+						              	{{/each}}
+						            {{else}}
+						            	{{#each bottominput}}
+						              	<div class="thd" style="width: 25%;">{{name}}</div>
+						              	<div class="thd" style="width: 75%;"><textarea class="thd" name="{{en_name}}" data-type="{{data_type}}" style="min-width: 25%;height: 100%;" value="{{value}}">{{value}}</textarea></div>
+						              	{{/each}}
+					              	{{/if_eq}}
+					              	{{else}}
+					              	{{/if}}
+					          	</div>
+					          	<div class="tr" style="flex-wrap: wrap;">
+					          		{{#if_eq userType 'user'}}
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>{{bysignature.name}}</p>
+					        			<div><input type="text" name="signed_by_the_inspection_operator" style="width: 100%;" disabled="disabled" value="{{bysignature.value}}"></div>
+					        			<!--<div disabled="disabled">{{date_of_signature_of_operator.value}}</div>-->
+					        		</div>
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>{{signature.name}}</p>
+					        			<div><input type="text" name="signature_of_inspectors" style="width: 100%;" disabled="disabled" value="{{signature.value}}"></div>
+					        			<!--<div disabled="disabled">{{signed_by_the_inspection_operator.value}}</div>-->
+					        		</div>
+					        		{{else}}
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>{{bysignature.name}}</p>
+					        			<div><input type="text" name="signed_by_the_inspection_operator" style="width: 100%;" value="{{bysignature.value}}"></div>
+					        			<!--<div disabled="disabled">{{date_of_signature_of_operator.value}}</div>-->
+					        		</div>
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>{{signature.name}}</p>
+					        			<div><input type="text" name="signature_of_inspectors" style="width: 100%;" value="{{signature.value}}"></div>
+					        			<!--<div disabled="disabled">{{signed_by_the_inspection_operator.value}}</div>-->
+					        		</div>
+					        		{{/if_eq}}
+					          	</div>
+					          	<div class="tr" style="flex-wrap: wrap;">
+					          		{{#if_eq userType 'user'}}
+						          		{{#each datatimeinput}}
+						        		<div class="thd" style="flex: 1;width: 50%;">
+						        			<div disabled="disabled" style="padding: 0;margin: 0;"><input class="time" readonly  type="text" style="width: 100%;" name="{{en_name}}" value="{{value}}"/></div>
+						        		</div>
+						        		{{else}}
+						        		<div class="thd" style="flex: 1;width: 50%;">
+						        			<div disabled="disabled" style="padding: 0;margin: 0;"><input class="time" readonly  type="text" style="width: 100%;" name="{{en_name}}" value="{{value}}"/></div>
+						        		</div>
+						        		{{/each}}
+					        		{{else}}
+						        		{{#each datatimeinput}}
+						        		<div class="thd" style="flex: 1;width: 50%;">
+						        			<div style="padding: 0;margin: 0;"><input type="text" readonly name='{{en_name}}' class="time" style="width: 100%;" value="{{value}}"/></div>
+						        		</div>
+						        		{{else}}
+						        		<div class="thd" style="flex: 1;width: 50%;">
+						        			<div style="padding: 0;margin: 0;"><input type="text" readonly name='{{en_name}}' class="time" style="width: 100%;" value="{{value}}"/></div>
+						        		</div>
+						        		{{/each}}
+					        		{{/if_eq}}
+					          	</div>
+					        </div>
+					    </div>
+				    </div>
+				</div>
+			</div>
+		</script>
+		<script id="checklist__daily_check__catering__food_vendors" type="text/x-handlebars-template">
+			<!--浙江省食品生产经营登记管理日常监督检查表（食品摊贩）-->
+			<div class="pop" style="width: 100%;height: 100px;">
+				<div class="weui-cells weui-cells_after-title new-none-after">
+			    	<div class="weui-cell new-cell">
+					    <div class="weui-cell__bd new-bd">
+					    	<div style="width: 100%;font-size: 14px;padding:0.1rem 0.3rem;">{{name}}</div>
+					    	<input type="hidden" value="{{en_name}}" name="table_name"/>
+					    	<input type="hidden" value="{{id}}" name="id"/>
+					    	<div style="padding:0.1rem 0.3rem;margin: 0;">
+					    		<p style="width: 100%;line-height: 0.4rem;font-size: 14px;margin: 0;padding: 0;">食品通用检查项目：重点项（ * ）1 2 项，一般项 2 2 项，共 3 4 项。</p>
+								<p style="width: 100%;line-height: 0.4rem;font-size: 14px;margin: 0;padding: 0;">特殊场所和特殊食品检查项目：共 19 项。</p>
+					    	</div>
+					    	<div style="padding:0.1rem 0.3rem;margin: 0;text-align: center;">
+					    		<!--开发程度-->
+					    		{{#if_eq userType 'user'}}
+					    		 <!--用户-->
+					    		{{else}}
+					    		{{#each is_open}}
+					    		{{#if checked}}
+					    		<span style="font-size: 14px;">{{value}}</span><input type="radio" name="is_open" value="{{name}}" checked="checked">
+					    		{{else}}
+					    		<span style="font-size: 14px;">{{value}}</span><input type="radio" name="is_open" value="{{name}}">
+					    		{{/if}}
+					    		{{/each}}
+					    		{{/if_eq}}
+					    		<!--开发程度-->
+					    	</div>
+					        <div class="table">
+					        	<div class="tr" style="flex-wrap: wrap;">
+					        		{{#if topinput}}
+					        		{{#if_eq userType 'user'}}
+						        		{{#each topinput}}
+						              	<div class="thd" style="width: 25%;">{{name}}</div>
+						              	<div class="thd" style="width: 25%;"><input class="thd" name="{{en_name}}" data-type="{{data_type}}" style="min-width: 25%;" disabled="disabled" value="{{value}}"/></div>
+						              	{{/each}}
+						            {{else}}
+						            	{{#each topinput}}
+						              	<div class="thd" style="width: 25%;">{{name}}</div>
+						              	<div class="thd" style="width: 25%;"><input class="thd" name="{{en_name}}" data-type="{{data_type}}" style="min-width: 25%;" value="{{value}}"/></div>
+						              	{{/each}}
+					              	{{/if_eq}}
+					              	{{else}}
+					              	
+					              	{{/if}}
+					          	</div>
+					          	<div class="tr">
+					              	<div class="thd" style="width: 25%;">{{bussinessarr.name}}</div>
+					              	<div style="width: 75%;font-size: 14px;border-bottom: 1px solid #ccc;">
+					              		{{#each bussinessarr.checkitem}}
+					              			{{#if_eq ../userType 'user'}}
+							              		{{#if_eq checkitem ../bussinessarr.value}}
+							              		<input type="radio" value="{{checkitem}}" name="{{../bussinessarr.en_name}}" disabled="disabled" checked="checked"/>{{name}}
+							              		{{else}}
+							              		<input type="radio" value="{{checkitem}}" name="{{../bussinessarr.en_name}}" disabled="disabled"/>{{name}}
+							              		{{/if_eq}}
+						              		{{else}}
+							              		{{#if_eq checkitem ../bussinessarr.value}}
+							              		<input type="radio" value="{{checkitem}}" name="{{../bussinessarr.en_name}}" checked="checked"/>{{name}}
+							              		{{else}}
+							              		<input type="radio" value="{{checkitem}}" name="{{../bussinessarr.en_name}}" />{{name}}
+							              		{{/if_eq}}
+						              		{{/if_eq}}
+					              		{{/each}}
+					              	</div>
+					          	</div>
+								<div class="tr" style="flex-wrap: wrap;">
+									{{#each timerange}}
+									{{#if_eq en_name 'check_time'}}
+					              	<div class="thd" style="width: 25%;">{{name}}</div>
+					              	<div style="width: 75%;display: flex;font-size: 14px;border-bottom: 1px solid #ccc;">
+					              		<div class="thd" style="width: 50%;"><input class="time" readonly  type="text" style="width: 100%;" name="{{en_startname}}" value="{{check_time_start_at}}"/></div>
+					              		<div class="thd" style="width: 50%;"><input class="time" readonly  type="text" style="width: 100%;" name="{{en_endname}}" value="{{check_time_end_at}}"/></div>
+					              	</div>
+					              	{{/if_eq}}
+					              	{{#if_eq en_name 'business_hours'}}
+					              	<div class="thd" style="width: 25%;">{{name}}</div>
+					              	<div style="width: 75%;display: flex;font-size: 14px;border-bottom: 1px solid #ccc;">
+					              		<div class="thd" style="width: 50%;"><input class="time" readonly  type="text" style="width: 100%;" name="{{en_startname}}" value="{{check_time_start_at}}"/></div>
+					              		<div class="thd" style="width: 50%;"><input class="time" readonly  type="text" style="width: 100%;" name="{{en_endname}}" value="{{check_time_end_at}}"/></div>
+					              	</div>
+					              	{{/if_eq}}
+					              	{{/each}}
+					          	</div>
+					          	{{#each radiolist}}
+					          	{{#if_eq @index 0}}
+					          	<div class="ts title">食品通用检查项目（34项）</div>
+					          	<div class="tr">
+					              	<div class="thd" style="width: 15%;">检查项目</div>
+					              	<div style="width: 85%">
+					                	<div style='display: flex;height:100%;'>
+					                  		<div class="thd" style="width: 45%;">检查内容</div>
+					                  		<div class="thd" style="width: 20%;">评价</div>
+					                  		<div class="thd" style="width: 35%;border-right: 0;">备注</div>
+					                	</div>
+					              	</div>
+					          	</div>
+					          	{{/if_eq}}
+					          	<div class="tr">
+						            <div class="thd" style="width: 15%;">{{comment}}</div>
+						            <div style='width: 85%;height: 100%' >
+						            	{{#each childlist}}
+						                <div style='display: flex;'>
+						                  	<div class="thd" style="width: 45%;">{{name}}</div>
+						                  	<div class="thd" style="width: 20%;">
+						                  		{{#each newcheck}}
+							                  		{{#if_eq ../chexkboxval value}}
+								                  		{{#if_eq ../../../userType 'user'}}
+								                  		<input type="radio" name="{{../en_name}}" value="{{value}}" disabled="disabled" checked="checked"/>{{name}}
+								                  		{{else}}
+								                  		<input type="radio" name="{{../en_name}}" value="{{value}}" checked="checked"/>{{name}}
+								                  		{{/if_eq}}
+							                  		{{else}}
+								                  		{{#if_eq ../../../userType 'user'}}
+								                  		<input type="radio" name="{{../en_name}}" disabled="disabled" value="{{value}}"/>{{name}}
+								                  		{{else}}
+								                  		<input type="radio" name="{{../en_name}}" value="{{value}}"/>{{name}}
+								                  		{{/if_eq}}
+								                  		{{userType}}
+							                  		{{/if_eq}}
+						                  		{{/each}}
+						                  	</div>
+						                  	<div class="thd" style="width: 35%;">
+						                  		{{#if_eq ../../userType 'user'}}
+						                  		<textarea name="note.{{en_name}}" class="text-area" disabled="disabled">{{note}}</textarea>
+						                  		{{else}}
+						                  		<textarea name="note.{{en_name}}" class="text-area">{{note}}</textarea>
+						                  		{{/if_eq}}
+						                  	</div>
+						                </div>
+						                {{/each}}
+						            </div>
+						        </div>
+						        {{/each}}
+						        <div class="tr" style="flex-wrap: wrap;">
+					        		{{#if bottominput}}
+					        		{{#if_eq userType 'user'}}
+						        		{{#each bottominput}}
+						              	<div class="thd" style="width: 25%;">{{name}}</div>
+						              	<div class="thd" style="width: 75%;"><textarea class="thd" name="{{en_name}}" data-type="{{data_type}}" style="min-width: 25%;height: 100%;" disabled="disabled" value="{{value}}">{{value}}</textarea></div>
+						              	{{/each}}
+						            {{else}}
+						            	{{#each bottominput}}
+						              	<div class="thd" style="width: 25%;">{{name}}</div>
+						              	<div class="thd" style="width: 75%;"><textarea class="thd" name="{{en_name}}" data-type="{{data_type}}" style="min-width: 25%;height: 100%;" value="{{value}}">{{value}}</textarea></div>
+						              	{{/each}}
+					              	{{/if_eq}}
+					              	{{else}}
+					              	{{/if}}
+					          	</div>
+					          	<div class="tr" style="flex-wrap: wrap;">
+					          		{{#if_eq userType 'user'}}
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>{{bysignature.name}}</p>
+					        			<div><input type="text" style="width: 100%;" name="{{bysignature.en_name}}" disabled="disabled" value="{{bysignature.value}}"></div>
+					        			<!--<div disabled="disabled">{{date_of_signature_of_operator.value}}</div>-->
+					        		</div>
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>{{signature.name}}</p>
+					        			<div><input type="text" style="width: 100%;" name="{{signature.en_name}}" disabled="disabled" value="{{signature.value}}"></div>
+					        			<!--<div disabled="disabled">{{signed_by_the_inspection_operator.value}}</div>-->
+					        		</div>
+					        		{{else}}
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>{{bysignature.name}}</p>
+					        			<div><input type="text" style="width: 100%;" name="{{bysignature.en_name}}" value="{{bysignature.value}}"></div>
+					        			<!--<div disabled="disabled">{{date_of_signature_of_operator.value}}</div>-->
+					        		</div>
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>{{signature.name}}</p>
+					        			<div><input type="text" style="width: 100%;" name="{{signature.en_name}}" value="{{signature.value}}"></div>
+					        			<!--<div disabled="disabled">{{signed_by_the_inspection_operator.value}}</div>-->
+					        		</div>
+					        		{{/if_eq}}
+					          	</div>
+					          	<div class="tr" style="flex-wrap: wrap;">
+					          		{{#if_eq userType 'user'}}
+						          		{{#each datatimeinput}}
+						        		<div class="thd" style="flex: 1;width: 50%;">
+						        			<div disabled="disabled" style="padding: 0;margin: 0;">{{value}}</div>
+						        		</div>
+						        		{{else}}
+						        		<div class="thd" style="flex: 1;width: 50%;">
+						        			<div disabled="disabled" style="padding: 0;margin: 0;">{{value}}</div>
+						        		</div>
+						        		{{/each}}
+						        	{{else}}
+						        		{{#each datatimeinput}}
+						        		<div class="thd" style="flex: 1;width: 50%;">
+						        			<div style="padding: 0;margin: 0;"><input class="time" readonly  type="text" style="width: 100%;" name="{{en_name}}" value="{{value}}"/></div>
+						        		</div>
+						        		{{else}}
+						        		<div class="thd" style="flex: 1;width: 50%;">
+						        			<div style="padding: 0;margin: 0;"><input class="time" readonly  type="text" style="width: 100%;" name="{{en_name}}" value="{{value}}"/></div>
+						        		</div>
+						        		{{/each}}
+					        		{{/if_eq}}
+					          	</div>
+					        </div>
+					    </div>
+				    </div>
+				</div>
+			</div>
+		</script>
+		<script id="checklist__daily_check__food_production__small_workshop" type="text/x-handlebars-template">
+			<!--浙江省食品生产经营登记管理日常监督检查表（食品小作坊）-->
+			<div class="pop" style="width: 100%;height: 100px;">
+				<div class="weui-cells weui-cells_after-title new-none-after">
+			    	<div class="weui-cell new-cell">
+					    <div class="weui-cell__bd new-bd">
+					    	<input type="hidden" value="{{id}}" name="id"/>
+					    	<input type="hidden" value="{{en_name}}" name="table_name"/>
+					    	<div style="width: 100%;font-size: 14px;padding:0.1rem 0.3rem;">{{name}}</div>
+					    	<div style="padding:0.1rem 0.3rem;margin: 0;text-align: center;">
+					    		<!--开发程度-->
+					    		{{#if_eq userType 'user'}}
+					    		 <!--用户-->
+					    		{{else}}
+					    		{{#each is_open}}
+					    		{{#if checked}}
+					    		<span style="font-size: 14px;">{{value}}</span><input type="radio" name="is_open" value="{{name}}" checked="checked">
+					    		{{else}}
+					    		<span style="font-size: 14px;">{{value}}</span><input type="radio" name="is_open" value="{{name}}">
+					    		{{/if}}
+					    		{{/each}}
+					    		{{/if_eq}}
+					    		<!--开发程度-->
+					    	</div>
+					        <div class="table">
+					        	<div class="tr" style="flex-wrap: wrap;flex-direction: row">
+					        		{{#if topinput}}
+						        		{{#if_eq userType 'user'}}
+							        		{{#each topinput}}
+							              	<div class="thd" style="width: 25%;">{{name}}</div>
+							              	<div class="thd" style="width: 25%;"><input class="thd" name="{{en_name}}" data-type="{{data_type}}" style="width: 100%;" disabled="disabled" value="{{value}}"/></div>
+							              	{{/each}}
+							            {{else}}
+							            	{{#each topinput}}
+							              	<div class="thd" style="width: 25%;">{{name}}</div>
+							              	<div class="thd" style="width: 25%;"><input class="thd" name="{{en_name}}" data-type="{{data_type}}" style="width: 100%;" value="{{value}}"/></div>
+							              	{{/each}}
+						              	{{/if_eq}}
+					              	{{else}}
+					              	
+					              	{{/if}}
+					          	</div>
+					          	<div class="tr">
+					              	<div class="thd" style="width: 25%;">{{bussinessarr.name}}</div>
+					              	<div style="width: 75%;font-size: 14px;border-bottom: 1px solid #ccc;">
+					              		{{#each bussinessarr.checkitem}}
+					              			{{#if_eq ../userType 'user'}}
+							              		{{#if_eq checkitem ../bussinessarr.value}}
+							              		<input type="radio" value="{{checkitem}}" name="{{../bussinessarr.en_name}}" disabled="disabled" checked="checked"/>{{name}}
+							              		{{else}}
+							              		<input type="radio" value="{{checkitem}}" name="{{../bussinessarr.en_name}}" disabled="disabled"/>{{name}}
+							              		{{/if_eq}}
+						              		{{else}}
+							              		{{#if_eq checkitem ../bussinessarr.value}}
+							              		<input type="radio" value="{{checkitem}}" name="{{../bussinessarr.en_name}}" checked="checked"/>{{name}}
+							              		{{else}}
+							              		<input type="radio" value="{{checkitem}}" name="{{../bussinessarr.en_name}}" />{{name}}
+							              		{{/if_eq}}
+						              		{{/if_eq}}
+					              		{{/each}}
+					              	</div>
+					          	</div>
+								<div class="tr">
+									{{#each timerange}}
+					              	<div class="thd" style="width: 25%;">{{name}}</div>
+					              	<div style="width: 75%;display: flex;font-size: 14px;border-bottom: 1px solid #ccc;">
+					              		<div class="thd" style="width: 50%;"><input class="time" readonly  type="text" style="width: 100%;" name="check_time_start_at" value="{{check_time_start_at}}"/></div>
+					              		<div class="thd" style="width: 50%;"><input class="time" readonly  type="text" style="width: 100%;" name="check_time_end_at" value="{{check_time_end_at}}"/></div>
+					              	</div>
+					              	{{/each}}
+					          	</div>
+					          	{{#each radiolist}}
+					          	{{#if_eq @index 0}}
+					          	<div class="tr">
+					              	<div class="thd" style="width: 15%;">检查项目</div>
+					              	<div style="width: 85%">
+					                	<div style='display: flex;height:100%;'>
+					                  		<div class="thd" style="width: 45%;">检查内容</div>
+					                  		<div class="thd" style="width: 20%;">评价</div>
+					                  		<div class="thd" style="width: 35%;border-right: 0;">备注</div>
+					                	</div>
+					              	</div>
+					          	</div>
+					          	{{/if_eq}}
+					          	<div class="tr">
+						            <div class="thd" style="width: 15%;">{{comment}}</div>
+						            <div style='width: 85%;height: 100%' >
+						            	{{#each childlist}}
+						                <div style='display: flex;'>
+						                  	<div class="thd" style="width: 45%;">{{name}}</div>
+						                  	<div class="thd" style="width: 20%;">
+						                  		{{#each newcheck}}
+							                  		{{#if_eq ../chexkboxval value}}
+								                  		{{#if_eq ../../../userType 'user'}}
+								                  		<input type="radio" name="{{../en_name}}" value="{{value}}" disabled="disabled" checked="checked"/>{{name}}
+								                  		{{else}}
+								                  		<input type="radio" name="{{../en_name}}" value="{{value}}" checked="checked"/>{{name}}
+								                  		{{/if_eq}}
+							                  		{{else}}
+								                  		{{#if_eq ../../../userType 'user'}}
+								                  		<input type="radio" name="{{../en_name}}" disabled="disabled" value="{{value}}"/>{{name}}
+								                  		{{else}}
+								                  		<input type="radio" name="{{../en_name}}" value="{{value}}"/>{{name}}
+								                  		{{/if_eq}}
+								                  		{{userType}}
+							                  		{{/if_eq}}
+						                  		{{/each}}
+						                  	</div>
+						                  	<div class="thd" style="width: 35%;">
+						                  		{{#if_eq ../../userType 'user'}}
+						                  		<textarea name="note.{{en_name}}" class="text-area" disabled="disabled">{{note}}</textarea>
+						                  		{{else}}
+						                  		<textarea name="note.{{en_name}}" class="text-area">{{note}}</textarea>
+						                  		{{/if_eq}}
+						                  	</div>
+						                </div>
+						                {{/each}}
+						            </div>
+						        </div>
+						        {{/each}}
+						        <div class="tr" style="flex-wrap: wrap;">
+					        		{{#if bottominput}}
+					        		{{#if_eq userType 'user'}}
+						        		{{#each bottominput}}
+						              	<div class="thd" style="width: 25%;">{{name}}</div>
+						              	<div class="thd" style="width: 75%;"><textarea class="thd" name="{{en_name}}" data-type="{{data_type}}" style="min-width: 25%;height: 100%;" disabled="disabled" value="{{value}}">{{value}}</textarea></div>
+						              	{{/each}}
+						            {{else}}
+						            	{{#each bottominput}}
+						              	<div class="thd" style="width: 25%;">{{name}}{{../userType}}</div>
+						              	<div class="thd" style="width: 75%;"><textarea class="thd" name="{{en_name}}" data-type="{{data_type}}" style="min-width: 25%;height: 100%;" value="{{value}}">{{value}}</textarea></div>
+						              	{{/each}}
+					              	{{/if_eq}}
+					              	{{else}}
+					              	{{/if}}
+					          	</div>
+					          	<div class="tr" style="flex-wrap: wrap;">
+					          		{{#if_eq userType 'user'}}
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>{{bysignature.name}}</p>
+					        			<div><input type="text" style="width: 100%;" disabled="disabled" value="{{bysignature.value}}"></div>
+					        			<!--<div disabled="disabled" style="padding: 0;margin: 0;">{{date_of_signature_of_operator.value}}</div>-->
+					        		</div>
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>{{signature.name}}</p>
+					        			<div><input type="text" style="width: 100%;" disabled="disabled" value="{{signature.value}}"></div>
+					        			<!--<div disabled="disabled" style="padding: 0;margin: 0;">{{signed_by_the_inspection_operator.value}}</div>-->
+					        		</div>
+					        		{{else}}
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>{{bysignature.name}}</p>
+					        			<div><input type="text" style="width: 100%;" value="{{bysignature.value}}"></div>
+					        			<!--<div disabled="disabled" style="padding: 0;margin: 0;">{{date_of_signature_of_operator.value}}</div>-->
+					        		</div>
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>{{signature.name}}</p>
+					        			<div><input type="text" style="width: 100%;" value="{{signature.value}}"></div>
+					        			<!--<div disabled="disabled" style="padding: 0;margin: 0;">{{signed_by_the_inspection_operator.value}}</div>-->
+					        		</div>
+					        		{{/if_eq}}
+					          	</div>
+					          	<div class="tr" style="flex-wrap: wrap;">
+					          		{{#if_eq userType 'user'}}
+						          		{{#each datatimeinput}}
+						        		<div class="thd" style="flex: 1;width: 50%;">
+						        			<div disabled="disabled" style="padding: 0;margin: 0;"><input class="time" readonly  type="text" style="width: 100%;" name="{{en_name}}" value="{{value}}"/></div>
+						        		</div>
+						        		{{else}}
+						        		<div class="thd" style="flex: 1;width: 50%;">
+						        			<div disabled="disabled" style="padding: 0;margin: 0;"><input class="time" readonly  type="text" style="width: 100%;" name="{{en_name}}" value="{{value}}"/></div>
+						        		</div>
+						        		{{/each}}
+						        	{{else}}
+							        	{{#each datatimeinput}}
+						        		<div class="thd" style="flex: 1;width: 50%;">
+						        			<div disabled="disabled" style="padding: 0;margin: 0;"><input class="time" readonly  type="text" style="width: 100%;" name="{{en_name}}" value="{{value}}"/></div>
+						        		</div>
+						        		{{else}}
+						        		<div class="thd" style="flex: 1;width: 50%;">
+						        			<div disabled="disabled" style="padding: 0;margin: 0;"><input class="time" readonly  type="text" style="width: 100%;" name="{{en_name}}" value="{{value}}"/></div>
+						        		</div>
+						        		{{/each}}
+					        		{{/if_eq}}
+					          	</div>
+					        </div>
+					        <div style="width: 100%;font-size: 14px;padding:0.1rem 0.3rem;">备注：检查表一式两联，第一联留存，第二联交于经营者保存。</div>
+					    </div>
+				    </div>
+				</div>
+			</div>
+		</script>
+		<script id="checklist__daily_check__food_sale__small_store" type="text/x-handlebars-template">
+			<!--浙江省食品生产经营登记管理日常监督检查表（小食杂店）0-->
+			<div class="pop" style="width: 100%;height: 100px;">
+				<div class="weui-cells weui-cells_after-title new-none-after">
+			    	<div class="weui-cell new-cell">
+					    <div class="weui-cell__bd new-bd">
+					    	<input type="hidden" value="{{id}}" name="id"/>
+					    	<input type="hidden" value="{{en_name}}" name="table_name"/>
+					    	<div style="width: 100%;font-size: 14px;padding:0.1rem 0.3rem;">{{name}}</div>
+					    	<div style="padding:0.1rem 0.3rem;margin: 0;">
+					    		<p style="width: 100%;line-height: 0.4rem;font-size: 14px;margin: 0;padding: 0;">食品通用检查项目：重点项（ * ）1 2 项，一般项 2 2 项，共 3 4 项。</p>
+								<p style="width: 100%;line-height: 0.4rem;font-size: 14px;margin: 0;padding: 0;">特殊场所和特殊食品检查项目：共 19 项。</p>
+					    	</div>
+					    	<div style="padding:0.1rem 0.3rem;margin: 0;text-align: center;">
+					    		<!--开发程度-->
+					    		{{#if_eq userType 'user'}}
+					    		 <!--用户-->
+					    		{{else}}
+					    		{{#each is_open}}
+					    		{{#if checked}}
+					    		<span style="font-size: 14px;">{{value}}</span><input type="radio" name="is_open" value="{{name}}" checked="checked">
+					    		{{else}}
+					    		<span style="font-size: 14px;">{{value}}</span><input type="radio" name="is_open" value="{{name}}">
+					    		{{/if}}
+					    		{{/each}}
+					    		{{/if_eq}}
+					    		<!--开发程度-->
+					    	</div>
+					        <div class="table">
+					        	<div class="tr" style="flex-wrap: wrap;">
+					        		{{#if topinput}}
+					        		{{#if_eq userType 'user'}}
+						        		{{#each topinput}}
+						              	<div class="thd" style="width: 25%;">{{name}}</div>
+						              	<div class="thd" style="width: 25%;"><input class="thd" name="{{en_name}}" data-type="{{data_type}}" style="min-width: 25%;" disabled="disabled" value="{{value}}"/></div>
+						              	{{/each}}
+						            {{else}}
+						            	{{#each topinput}}
+						              	<div class="thd" style="width: 25%;">{{name}}</div>
+						              	<div class="thd" style="width: 25%;"><input class="thd" name="{{en_name}}" data-type="{{data_type}}" style="min-width: 25%;" value="{{value}}"/></div>
+						              	{{/each}}
+					              	{{/if_eq}}
+					              	{{else}}
+					              	
+					              	{{/if}}
+					          	</div>
+					          	<div class="tr">
+					              	<div class="thd" style="width: 25%;">{{bussinessarr.name}}</div>
+					              	<div style="width: 75%;font-size: 14px;border-bottom: 1px solid #ccc;">
+					              		{{#each bussinessarr.checkitem}}
+					              			{{#if_eq ../userType 'user'}}
+							              		{{#if_eq checkitem ../bussinessarr.value}}
+							              		<input type="radio" value="{{checkitem}}" name="{{../bussinessarr.en_name}}" disabled="disabled" checked="checked"/>{{name}}
+							              		{{else}}
+							              		<input type="radio" value="{{checkitem}}" name="{{../bussinessarr.en_name}}" disabled="disabled"/>{{name}}
+							              		{{/if_eq}}
+						              		{{else}}
+							              		{{#if_eq checkitem ../bussinessarr.value}}
+							              		<input type="radio" value="{{checkitem}}" name="{{../bussinessarr.en_name}}" checked="checked"/>{{name}}
+							              		{{else}}
+							              		<input type="radio" value="{{checkitem}}" name="{{../bussinessarr.en_name}}" />{{name}}
+							              		{{/if_eq}}
+						              		{{/if_eq}}
+					              		{{/each}}
+					              	</div>
+					          	</div>
+								<div class="tr">
+									{{#each timerange}}
+					              	<div class="thd" style="width: 25%;">{{name}}</div>
+					              	<div style="width: 75%;display: flex;font-size: 14px;border-bottom: 1px solid #ccc;">
+					              		<div class="thd" style="width: 50%;"><input class="time" readonly  type="text" style="width: 100%;" name="check_time_start_at" value="{{check_time_start_at}}"/></div>
+					              		<div class="thd" style="width: 50%;"><input class="time" readonly  type="text" style="width: 100%;" name="check_time_end_at" value="{{check_time_end_at}}"/></div>
+					              	</div>
+					              	{{/each}}
+					          	</div>
+					          	{{#each radiolist}}
+					          	{{#if_eq @index 0}}
+					          	<div class="ts title">食品通用检查项目（34项）</div>
+					          	<div class="tr">
+					              	<div class="thd" style="width: 15%;">检查项目</div>
+					              	<div style="width: 85%">
+					                	<div style='display: flex;height:100%;'>
+					                  		<div class="thd" style="width: 45%;">检查内容</div>
+					                  		<div class="thd" style="width: 20%;">评价</div>
+					                  		<div class="thd" style="width: 35%;border-right: 0;">备注</div>
+					                	</div>
+					              	</div>
+					          	</div>
+					          	{{/if_eq}}
+					          	<div class="tr">
+						            <div class="thd" style="width: 15%;">{{comment}}</div>
+						            <div style='width: 85%;height: 100%' >
+						            	{{#each childlist}}
+						                <div style='display: flex;'>
+						                  	<div class="thd" style="width: 45%;">{{name}}</div>
+						                  	<div class="thd" style="width: 20%;">
+						                  		{{#each newcheck}}
+							                  		{{#if_eq ../chexkboxval value}}
+								                  		{{#if_eq ../../../userType 'user'}}
+								                  		<input type="radio" name="{{../en_name}}" value="{{value}}" disabled="disabled" checked="checked"/>{{name}}
+								                  		{{else}}
+								                  		<input type="radio" name="{{../en_name}}" value="{{value}}" checked="checked"/>{{name}}
+								                  		{{/if_eq}}
+							                  		{{else}}
+								                  		{{#if_eq ../../../userType 'user'}}
+								                  		<input type="radio" name="{{../en_name}}" disabled="disabled" value="{{value}}"/>{{name}}
+								                  		{{else}}
+								                  		<input type="radio" name="{{../en_name}}" value="{{value}}"/>{{name}}
+								                  		{{/if_eq}}
+								                  		{{userType}}
+							                  		{{/if_eq}}
+						                  		{{/each}}
+						                  	</div>
+						                  	<div class="thd" style="width: 35%;">
+						                  		{{#if_eq ../../userType 'user'}}
+						                  		<textarea name="note.{{en_name}}" class="text-area" disabled="disabled">{{note}}</textarea>
+						                  		{{else}}
+						                  		<textarea name="note.{{en_name}}" class="text-area">{{note}}</textarea>
+						                  		{{/if_eq}}
+						                  	</div>
+						                </div>
+						                {{/each}}
+						            </div>
+						        </div>
+						        {{/each}}
+						        <div class="tr" style="flex-wrap: wrap;">
+					        		{{#if bottominput}}
+					        		{{#if_eq userType 'user'}}
+						        		{{#each bottominput}}
+						              	<div class="thd" style="width: 25%;">{{name}}</div>
+						              	<div class="thd" style="width: 75%;"><textarea class="thd" name="{{en_name}}" data-type="{{data_type}}" style="min-width: 25%;height: 100%;" disabled="disabled" value="{{value}}">{{value}}</textarea></div>
+						              	{{/each}}
+						            {{else}}
+						            	{{#each bottominput}}
+						              	<div class="thd" style="width: 25%;">{{name}}</div>
+						              	<div class="thd" style="width: 75%;"><textarea class="thd" name="{{en_name}}" data-type="{{data_type}}" style="min-width: 25%;height: 100%;" value="{{value}}">{{value}}</textarea></div>
+						              	{{/each}}
+					              	{{/if_eq}}
+					              	{{else}}
+					              	{{/if}}
+					          	</div>
+					          	<div class="tr" style="flex-wrap: wrap;">
+					          		{{#if_eq userType 'user'}}
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>{{bysignature.name}}</p>
+					        			<div><input type="text" style="width: 100%;" disabled="disabled" value="{{bysignature.value}}"></div>
+					        			<!--<div disabled="disabled">{{date_of_signature_of_operator.value}}</div>-->
+					        		</div>
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>{{signature.name}}</p>
+					        			<div><input type="text" style="width: 100%;" disabled="disabled" value="{{signature.value}}"></div>
+					        			<!--<div disabled="disabled">{{signed_by_the_inspection_operator.value}}</div>-->
+					        		</div>
+					        		{{else}}
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>{{bysignature.name}}</p>
+					        			<div><input type="text" style="width: 100%;" value="{{bysignature.value}}"></div>
+					        			<!--<div disabled="disabled">{{date_of_signature_of_operator.value}}</div>-->
+					        		</div>
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>{{signature.name}}</p>
+					        			<div><input type="text" style="width: 100%;" value="{{signature.value}}"></div>
+					        			<!--<div disabled="disabled">{{signed_by_the_inspection_operator.value}}</div>-->
+					        		</div>
+					        		{{/if_eq}}
+					          	</div>
+					          	<div class="tr" style="flex-wrap: wrap;">
+					          		{{#if_eq userType 'user'}}
+						          		{{#each datatimeinput}}
+						        		<div class="thd" style="flex: 1;width: 50%;">
+						        			<div disabled="disabled" style="padding: 0;margin: 0;"><input class="time" readonly  type="text" style="width: 100%;" name="{{en_name}}" value="{{value}}"/></div>
+						        		</div>
+						        		{{else}}
+						        		<div class="thd" style="flex: 1;width: 50%;">
+						        			<div disabled="disabled" style="padding: 0;margin: 0;"><input class="time" readonly  type="text" style="width: 100%;" name="{{en_name}}" value="{{value}}"/></div>
+						        		</div>
+						        		{{/each}}
+						        	{{else}}
+							        	{{#each datatimeinput}}
+						        		<div class="thd" style="flex: 1;width: 50%;">
+						        			<div style="padding: 0;margin: 0;"><input class="time" readonly  type="text" style="width: 100%;" name="{{en_name}}" value="{{value}}"/></div>
+						        		</div>
+						        		{{else}}
+						        		<div class="thd" style="flex: 1;width: 50%;">
+						        			<div style="padding: 0;margin: 0;"><input class="time" readonly  type="text" style="width: 100%;" name="{{en_name}}" value="{{value}}"/></div>
+						        		</div>
+						        		{{/each}}
+					        		{{/if_eq}}
+					          	</div>
+					        </div>
+					    </div>
+				    </div>
+				</div>
+			</div>
+		</script>
+		<script id="checklist__check_point__catering__catering_service__unit" type="text/x-handlebars-template">
+			<!--表1-3 餐饮服务日常监督检查要点表-->
+			<div class="pop" style="width: 100%;height: 100px;">
+				<div class="weui-cells weui-cells_after-title new-none-after">
+			    	<div class="weui-cell new-cell">
+					    <div class="weui-cell__bd new-bd">
+					    	<input type="hidden" value="{{id}}" name="id"/>
+					    	<input type="hidden" value="{{en_name}}" name="table_name"/>
+					    	<div style="width: 100%;font-size: 14px;padding:0.1rem 0.3rem;">{{name}}</div>
+					    	<div style="padding:0.1rem 0.3rem;margin: 0;">
+					    		<p style="width: 100%;line-height: 0.4rem;font-size: 14px;margin: 0;padding: 0;">重点项（* ）7 项，一般项23 项，共30 项</p>
+					    	</div>
+					    	<div style="padding:0.1rem 0.3rem;margin: 0;text-align: center;">
+					    		<!--开发程度-->
+					    		{{#if_eq userType 'user'}}
+					    		 <!--用户-->
+					    		{{else}}
+					    		{{#each is_open}}
+					    		{{#if checked}}
+					    		<span style="font-size: 14px;">{{value}}</span><input type="radio" name="is_open" value="{{name}}" checked="checked">
+					    		{{else}}
+					    		<span style="font-size: 14px;">{{value}}</span><input type="radio" name="is_open" value="{{name}}">
+					    		{{/if}}
+					    		{{/each}}
+					    		{{/if_eq}}
+					    		<!--开发程度-->
+					    	</div>
+					        <div class="table">
+					        	<div class="tr" style="flex-wrap: wrap;">
+					        		{{#if topinput}}
+					        		{{#if_eq userType 'user'}}
+						        		{{#each topinput}}
+						              	<div class="thd" style="width: 25%;">{{name}}</div>
+						              	<div class="thd" style="width: 25%;"><input class="thd" name="{{en_name}}" data-type="{{data_type}}" style="min-width: 25%;" disabled="disabled" value="{{value}}"/></div>
+						              	{{/each}}
+						            {{else}}
+						            	{{#each topinput}}
+						              	<div class="thd" style="width: 25%;">{{name}}</div>
+						              	<div class="thd" style="width: 25%;"><input class="thd" name="{{en_name}}" data-type="{{data_type}}" style="min-width: 25%;" value="{{value}}"/></div>
+						              	{{/each}}
+					              	{{/if_eq}}
+					              	{{else}}
+					              	
+					              	{{/if}}
+					          	</div>
+					          	<div class="tr" style="display: none;">
+					              	<div class="thd" style="width: 25%;">{{bussinessarr.name}}</div>
+					              	<div style="width: 75%;font-size: 14px;border-bottom: 1px solid #ccc;">
+					              		{{#each bussinessarr.checkitem}}
+					              			{{#if_eq ../userType 'user'}}
+							              		{{#if_eq checkitem ../bussinessarr.value}}
+							              		<input type="radio" value="{{checkitem}}" name="{{../bussinessarr.en_name}}" disabled="disabled" checked="checked"/>{{name}}
+							              		{{else}}
+							              		<input type="radio" value="{{checkitem}}" name="{{../bussinessarr.en_name}}" disabled="disabled"/>{{name}}
+							              		{{/if_eq}}
+						              		{{else}}
+							              		{{#if_eq checkitem ../bussinessarr.value}}
+							              		<input type="radio" value="{{checkitem}}" name="{{../bussinessarr.en_name}}" checked="checked"/>{{name}}
+							              		{{else}}
+							              		<input type="radio" value="{{checkitem}}" name="{{../bussinessarr.en_name}}" />{{name}}
+							              		{{/if_eq}}
+						              		{{/if_eq}}
+					              		{{/each}}
+					              	</div>
+					          	</div>
+								<div class="tr" style="display: none;">
+									{{#each timerange}}
+					              	<div class="thd" style="width: 25%;">{{name}}</div>
+					              	<div style="width: 75%;display: flex;font-size: 14px;border-bottom: 1px solid #ccc;">
+					              		<div class="thd" style="width: 50%;">{{check_time_start_at}}</div>
+					              		<div class="thd" style="width: 50%;">{{check_time_end_at}}</div>
+					              	</div>
+					              	{{/each}}
+					          	</div>
+					          	{{#each radiolist}}
+					          	{{#if_eq @index 0}}
+					          	<div class="ts title">食品通用检查项目（34项）</div>
+					          	<div class="tr">
+					              	<div class="thd" style="width: 15%;">检查项目</div>
+					              	<div style="width: 85%">
+					                	<div style='display: flex;height:100%;'>
+					                  		<div class="thd" style="width: 45%;">检查内容</div>
+					                  		<div class="thd" style="width: 20%;">评价</div>
+					                  		<div class="thd" style="width: 35%;border-right: 0;">备注</div>
+					                	</div>
+					              	</div>
+					          	</div>
+					          	{{/if_eq}}
+					          	<div class="tr">
+						            <div class="thd" style="width: 15%;">{{comment}}</div>
+						            <div style='width: 85%;height: 100%' >
+						            	{{#each childlist}}
+						                <div style='display: flex;'>
+						                  	<div class="thd" style="width: 45%;">{{name}}</div>
+						                  	<div class="thd" style="width: 20%;">
+						                  		{{#each newcheck}}
+							                  		{{#if_eq ../chexkboxval value}}
+								                  		{{#if_eq ../../../userType 'user'}}
+								                  		<input type="radio" name="{{../en_name}}" value="{{value}}" disabled="disabled" checked="checked"/>{{name}}
+								                  		{{else}}
+								                  		<input type="radio" name="{{../en_name}}" value="{{value}}" checked="checked"/>{{name}}
+								                  		{{/if_eq}}
+							                  		{{else}}
+								                  		{{#if_eq ../../../userType 'user'}}
+								                  		<input type="radio" name="{{../en_name}}" disabled="disabled" value="{{value}}"/>{{name}}
+								                  		{{else}}
+								                  		<input type="radio" name="{{../en_name}}" value="{{value}}"/>{{name}}
+								                  		{{/if_eq}}
+								                  		{{userType}}
+							                  		{{/if_eq}}
+						                  		{{/each}}
+						                  	</div>
+						                  	<div class="thd" style="width: 35%;">
+						                  		{{#if_eq ../../userType 'user'}}
+						                  		<textarea name="note.{{en_name}}" class="text-area" disabled="disabled">{{note}}</textarea>
+						                  		{{else}}
+						                  		<textarea name="note.{{en_name}}" class="text-area">{{note}}</textarea>
+						                  		{{/if_eq}}
+						                  	</div>
+						                </div>
+						                {{/each}}
+						            </div>
+						        </div>
+						        {{/each}}
+						        <div class="tr" style="flex-wrap: wrap;">
+					        		{{#if bottominput}}
+					        		{{#if_eq userType 'user'}}
+						        		{{#each bottominput}}
+						              	<div class="thd" style="width: 25%;">{{name}}</div>
+						              	<div class="thd" style="width: 75%;"><textarea class="thd" name="{{en_name}}" data-type="{{data_type}}" style="min-width: 25%;height: 100%;" disabled="disabled" value="{{value}}">{{value}}</textarea></div>
+						              	{{/each}}
+						            {{else}}
+						            	{{#each bottominput}}
+						              	<div class="thd" style="width: 25%;">{{name}}</div>
+						              	<div class="thd" style="width: 75%;"><textarea class="thd" name="{{en_name}}" data-type="{{data_type}}" style="min-width: 25%;height: 100%;" value="{{value}}">{{value}}</textarea></div>
+						              	{{/each}}
+					              	{{/if_eq}}
+					              	{{else}}
+					              	{{/if}}
+					          	</div>
+					          	<div class="tr" style="flex-wrap: wrap;display: none;">
+					          		{{#if_eq userType 'user'}}
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>{{bysignature.name}}</p>
+					        			<div><input type="text" style="width: 100%;" disabled="disabled" value="{{bysignature.value}}"></div>
+					        			<div disabled="disabled">{{date_of_signature_of_operator.value}}</div>
+					        		</div>
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>{{signature.name}}</p>
+					        			<div><input type="text" style="width: 100%;" disabled="disabled" value="{{signature.value}}"></div>
+					        			<div disabled="disabled">{{signed_by_the_inspection_operator.value}}</div>
+					        		</div>
+					        		{{else}}
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>{{bysignature.name}}</p>
+					        			<div><input type="text" style="width: 100%;" value="{{bysignature.value}}"></div>
+					        			<div disabled="disabled">{{date_of_signature_of_operator.value}}</div>
+					        		</div>
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>{{signature.name}}</p>
+					        			<div><input type="text" style="width: 100%;" value="{{signature.value}}"></div>
+					        			<div disabled="disabled">{{signed_by_the_inspection_operator.value}}</div>
+					        		</div>
+					        		{{/if_eq}}
+					          	</div>
+					        </div>
+					        <div style="padding: 0 0.1rem">
+					        	<p style="width: 100%;line-height: 0.4rem;font-size: 14px;margin: 0;padding: 0;">说明： 1 。表中*号项目为重点项，其他项目为一般项。每次检查的重点项应不少于3 项，一般项应不少于 7 项。</p>
+					        	<p style="width: 100%;line-height: 0.4rem;font-size: 14px;margin: 0;padding: 0;">2.检查结果判定方法：①符合：未发现检查的重点项和一般项存在问题;②基本符合：发现检查的重点项存在1项及以下不合格且 70％≤一般项合格率&lt;10 0％; ③不符合：发现检查的重点项存在2 项及以上不合格，或一般项合格率&lt; 70％。</p>
+								<p style="width: 100%;line-height: 0.4rem;font-size: 14px;margin: 0;padding: 0;">3.当次检查发现的不合格项目，应列入下次检查必查项目。</p>
+					        	<p style="width: 100%;line-height: 0.4rem;font-size: 14px;margin: 0;padding: 0;">4.存在合理缺项时，一般项合格率的计算方法为：合格项目数/（检查的项目数 - 合理缺项的项目数）×100％。</p>
+					        </div>
+					    </div>
+				    </div>
+				</div>
+			</div>
+		</script>
+		<script id="checklist__check_point__food_production__unit" type="text/x-handlebars-template">
+			<!--表1-1 食品生产日常监督检查要点表-->
+			<div class="pop" style="width: 100%;height: 100px;">
+				<div class="weui-cells weui-cells_after-title new-none-after">
+			    	<div class="weui-cell new-cell">
+					    <div class="weui-cell__bd new-bd">
+					    	<input type="hidden" value="{{id}}" name="id"/>
+					    	<input type="hidden" value="{{en_name}}" name="table_name"/>
+					    	<div style="width: 100%;font-size: 14px;padding:0.1rem 0.3rem;">{{name}}</div>
+					    	<div style="padding:0.1rem 0.3rem;margin: 0;">
+					    		<p style="width: 100%;line-height: 0.4rem;font-size: 14px;margin: 0;padding: 0;">食品通用检查项目：重点项（ * ）2 1 项，一般项30 项，共51 项。</p>
+								<p style="width: 100%;line-height: 0.4rem;font-size: 14px;margin: 0;padding: 0;">食品添加剂通用检查项目：重点项（ * ） 19 项，一般项31 项，共50 项。</p>
+					    	</div>
+					    	<div style="padding:0.1rem 0.3rem;margin: 0;text-align: center;">
+					    		<!--开发程度-->
+					    		{{#if_eq userType 'user'}}
+					    		 <!--用户-->
+					    		{{else}}
+					    		{{#each is_open}}
+					    		{{#if checked}}
+					    		<span style="font-size: 14px;">{{value}}</span><input type="radio" name="is_open" value="{{name}}" checked="checked">
+					    		{{else}}
+					    		<span style="font-size: 14px;">{{value}}</span><input type="radio" name="is_open" value="{{name}}">
+					    		{{/if}}
+					    		{{/each}}
+					    		{{/if_eq}}
+					    		<!--开发程度-->
+					    	</div>
+					        <div class="table">
+					        	<div class="tr" style="flex-wrap: wrap;display: none;">
+					        		{{#if topinput}}
+					        		{{#if_eq userType 'user'}}
+						        		{{#each topinput}}
+						              	<div class="thd" style="width: 25%;">{{name}}</div>
+						              	<div class="thd" style="width: 25%;"><input class="thd" name="{{en_name}}" data-type="{{data_type}}" style="min-width: 25%;" disabled="disabled" value="{{value}}"/></div>
+						              	{{/each}}
+						            {{else}}
+						            	{{#each topinput}}
+						              	<div class="thd" style="width: 25%;">{{name}}{{../userType}}</div>
+						              	<div class="thd" style="width: 25%;"><input class="thd" name="{{en_name}}" data-type="{{data_type}}" style="min-width: 25%;" value="{{value}}"/></div>
+						              	{{/each}}
+					              	{{/if_eq}}
+					              	{{else}}
+					              	
+					              	{{/if}}
+					          	</div>
+					          	<div class="tr" style="display: none;">
+					              	<div class="thd" style="width: 25%;">{{bussinessarr.name}}</div>
+					              	<div style="width: 75%;font-size: 14px;border-bottom: 1px solid #ccc;">
+					              		{{#each bussinessarr.checkitem}}
+					              			{{#if_eq ../userType 'user'}}
+							              		{{#if_eq checkitem ../bussinessarr.value}}
+							              		<input type="radio" value="{{checkitem}}" name="{{../bussinessarr.en_name}}" disabled="disabled" checked="checked"/>{{name}}
+							              		{{else}}
+							              		<input type="radio" value="{{checkitem}}" name="{{../bussinessarr.en_name}}" disabled="disabled"/>{{name}}
+							              		{{/if_eq}}
+						              		{{else}}
+							              		{{#if_eq checkitem ../bussinessarr.value}}
+							              		<input type="radio" value="{{checkitem}}" name="{{../bussinessarr.en_name}}" checked="checked"/>{{name}}
+							              		{{else}}
+							              		<input type="radio" value="{{checkitem}}" name="{{../bussinessarr.en_name}}" />{{name}}
+							              		{{/if_eq}}
+						              		{{/if_eq}}
+					              		{{/each}}
+					              	</div>
+					          	</div>
+								<div class="tr">
+									{{#each timerange}}
+					              	<div class="thd" style="width: 25%;">{{name}}</div>
+					              	<div style="width: 75%;display: flex;font-size: 14px;border-bottom: 1px solid #ccc;">
+					              		<div class="thd" style="width: 50%;">{{check_time_start_at}}</div>
+					              		<div class="thd" style="width: 50%;">{{check_time_end_at}}</div>
+					              	</div>
+					              	{{/each}}
+					          	</div>
+					          	{{#each radiolist}}
+					          	{{#if_eq @index 0}}
+					          	<div class="tr">
+					              	<div class="thd" style="width: 15%;">检查项目</div>
+					              	<div style="width: 85%">
+					                	<div style='display: flex;height:100%;'>
+					                		<div class="thd" style="width: 10%;">序号</div>
+					                  		<div class="thd" style="width: 45%;">检查内容</div>
+					                  		<div class="thd" style="width: 20%;">评价</div>
+					                  		<div class="thd" style="width: 25%;border-right: 0;">备注</div>
+					                	</div>
+					              	</div>
+					          	</div>
+					          	{{/if_eq}}
+					          	<div class="tr">
+						            <div class="thd" style="width: 15%;">{{comment}}</div>
+						            <div style='width: 85%;height: 100%' >
+						            	{{#each childlist}}
+						                <div style='display: flex;'>
+						                	<div class="thd" style="width: 10%;">
+						                  		{{#if_eq is_important 1}}
+						                  		<text>*</text>
+						                  		{{/if_eq}}
+						                  	{{index}}</div>
+						                  	<div class="thd" style="width: 45%;">{{name}}</div>
+						                  	<div class="thd" style="width: 20%;">
+						                  		{{#each newcheck}}
+							                  		{{#if_eq ../chexkboxval value}}
+								                  		{{#if_eq ../../../userType 'user'}}
+								                  		<input type="radio" name="{{../en_name}}" value="{{value}}" disabled="disabled" checked="checked"/>{{name}}
+								                  		{{else}}
+								                  		<input type="radio" name="{{../en_name}}" value="{{value}}" checked="checked"/>{{name}}
+								                  		{{/if_eq}}
+							                  		{{else}}
+								                  		{{#if_eq ../../../userType 'user'}}
+								                  		<input type="radio" name="{{../en_name}}" disabled="disabled" value="{{value}}"/>{{name}}
+								                  		{{else}}
+								                  		<input type="radio" name="{{../en_name}}" value="{{value}}"/>{{name}}
+								                  		{{/if_eq}}
+								                  		{{userType}}
+							                  		{{/if_eq}}
+						                  		{{/each}}
+						                  	</div>
+						                  	<div class="thd" style="width: 25%;">
+						                  		{{#if_eq ../../userType 'user'}}
+						                  		<textarea name="note.{{en_name}}" class="text-area" disabled="disabled">{{note}}</textarea>
+						                  		{{else}}
+						                  		<textarea name="note.{{en_name}}" class="text-area">{{note}}</textarea>
+						                  		{{/if_eq}}
+						                  	</div>
+						                </div>
+						                {{/each}}
+						            </div>
+						        </div>
+						        {{/each}}
+						        <div class="tr" style="flex-wrap: wrap;">
+					        		{{#if bottominput}}
+					        		{{#if_eq userType 'user'}}
+						        		{{#each bottominput}}
+						              	<div class="thd" style="width: 25%;">{{name}}</div>
+						              	<div class="thd" style="width: 75%;"><textarea class="thd" name="{{en_name}}" data-type="{{data_type}}" style="min-width: 25%;height: 100%;" disabled="disabled" value="{{value}}">{{value}}</textarea></div>
+						              	{{/each}}
+						            {{else}}
+						            	{{#each bottominput}}
+						              	<div class="thd" style="width: 25%;">{{name}}</div>
+						              	<div class="thd" style="width: 75%;"><textarea class="thd" name="{{en_name}}" data-type="{{data_type}}" style="min-width: 25%;height: 100%;" value="{{value}}">{{value}}</textarea></div>
+						              	{{/each}}
+					              	{{/if_eq}}
+					              	{{else}}
+					              	{{/if}}
+					          	</div>
+					          	{{#if bysignature.name}}
+					          	<div class="tr" style="flex-wrap: wrap;">
+					          		{{#if_eq userType 'user'}}
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>{{bysignature.name}}</p>
+					        			<div><input type="text" style="width: 100%;" disabled="disabled" value="{{bysignature.value}}"></div>
+					        			<div disabled="disabled">{{date_of_signature_of_operator.value}}</div>
+					        		</div>
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>{{signature.name}}</p>
+					        			<div><input type="text" style="width: 100%;" disabled="disabled" value="{{signature.value}}"></div>
+					        			<div disabled="disabled">{{signed_by_the_inspection_operator.value}}</div>
+					        		</div>
+					        		{{else}}
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>{{bysignature.name}}</p>
+					        			<div><input type="text" style="width: 100%;" value="{{bysignature.value}}"></div>
+					        			<div disabled="disabled">{{date_of_signature_of_operator.value}}</div>
+					        		</div>
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>{{signature.name}}</p>
+					        			<div><input type="text" style="width: 100%;" value="{{signature.value}}"></div>
+					        			<div disabled="disabled">{{signed_by_the_inspection_operator.value}}</div>
+					        		</div>
+					        		{{/if_eq}}
+					          	</div>
+					          	{{/if}}
+					          	
+					        </div>
+					        <div style="padding: 0 0.1rem;">
+					        	<p style="width: 100%;line-height: 0.4rem;font-size: 14px;margin: 0;padding: 0;">说明： 1.上表中打 * 号的为重点项，其他为一般项。</p>
+					        	<p style="width: 100%;line-height: 0.4rem;font-size: 14px;margin: 0;padding: 0;">2.每次检查抽查重点项不少于10 个，总检查项目不少于20 个。</p>
+					        	<p style="width: 100%;line-height: 0.4rem;font-size: 14px;margin: 0;padding: 0;">3.上表中除 1.7 ， 3. 4 ，3.5 ， 3. 6 项以及 2.1 项中关于 “食品相关产品”的检查部分，其他项目均适用于食品添加剂生产者。</p>
+					        	<p style="width: 100%;line-height: 0.4rem;font-size: 14px;margin: 0;padding: 0;">4.对食品添加剂生产者每次检查，还需检查第 9 项，对食品生产者的检查不需检查第 9 项。</p>
+					        	<p style="width: 100%;line-height: 0.4rem;font-size: 14px;margin: 0;padding: 0;">5. 如果检查项目存在合理缺项，该项无需勾选 “是或否”，并在备注中说明，不计入不符合项数。</p>
+					        </div>
+					    </div>
+				    </div>
+				</div>
+			</div>
+		</script>
+		<script id="checklist__notification_form" type="text/x-handlebars-template">
+			<!--告知页-->
+			<div class="pop" style="width: 100%;height: 100px;">
+				<div class="weui-cells weui-cells_after-title new-none-after">
+			    	<div class="weui-cell new-cell">
+					    <div class="weui-cell__bd new-bd">
+					    	<input type="hidden" value="{{id}}" name="id"/>
+					    	<input type="hidden" value="{{en_name}}" name="table_name"/>
+					    	<div style="width: 100%;font-size: 14px;padding:0.1rem 0.3rem;">{{name}}</div>
+					    	<div style="padding:0.1rem 0.3rem;margin: 0;">
+					    		<p style="width: 100%;line-height: 0.4rem;font-size: 14px;margin: 0;padding: 0;">食品通用检查项目：重点项（ * ）1 2 项，一般项 2 2 项，共 3 4 项。</p>
+								<p style="width: 100%;line-height: 0.4rem;font-size: 14px;margin: 0;padding: 0;">特殊场所和特殊食品检查项目：共 19 项。</p>
+					    	</div>
+					    	<div style="padding:0.1rem 0.3rem;margin: 0;text-align: center;">
+					    		<!--开发程度-->
+					    		{{#if_eq userType 'user'}}
+					    		 <!--用户-->
+					    		{{else}}
+					    		{{#each is_open}}
+					    		{{#if checked}}
+					    		<span style="font-size: 14px;">{{value}}</span><input type="radio" name="is_open" value="{{name}}" checked="checked">
+					    		{{else}}
+					    		<span style="font-size: 14px;">{{value}}</span><input type="radio" name="is_open" value="{{name}}">
+					    		{{/if}}
+					    		{{/each}}
+					    		{{/if_eq}}
+					    		<!--开发程度-->
+					    	</div>
+					        <div class="table">
+					        	{{#if_eq userType 'user'}}
+					          	<div class="tr">
+					              	<div class="thd" style="width: 25%;">被检查单位</div>
+					              	<div class="thd" style="width: 25%;"><input type="text" name="name_of_the_unit_being_checked" style="width: 100%;height: 100%;display: inline-block;" disabled="disabled" value="{{res_data.name_of_the_unit_being_checked}}"/></div>
+					              	<div class="thd" style="width: 25%;">地址</div>
+					              	<div class="thd" style="width: 25%;"><input type="text" name="checked_unit_address" style="width: 100%;height: 100%;display: inline-block;" disabled="disabled" value="{{res_data.checked_unit_address}}"/></div>
+					          	</div>
+					          	<div class="tr">
+					              	<div class="thd" style="width: 25%;">检查人员</div>
+					              	<div class="thd" style="width: 25%;"><input type="text" name="name_group_of_admin" style="width: 100%;height: 100%;display: inline-block;" disabled="disabled" value="{{res_data.name_group_of_admin}}"/></div>
+					              	<div class="thd" style="width: 25%;">执法证件名称编号</div>
+					              	<div class="thd" style="width: 25%;"><input type="text" name="certificate_code_group_of_admin" style="width: 100%;height: 100%;display: inline-block;" disabled="disabled" value="{{res_data.certificate_code_group_of_admin}}"/></div>
+					          	</div>
+					          	<div class="tr">
+					              	<div class="thd" style="width: 25%;">检查时间年月日</div>
+					              	<div class="thd" style="width: 75%;">
+					              		<input class="time" readonly  type="text" style="width: 45%;" name="time_of_check_start_at" value="{{res_data.time_of_check_start_at}}"/>
+					              		<input class="time" readonly  type="text" style="width: 50%;" name="time_of_check_end_at" value="{{res_data.time_of_check_end_at}}"/>
+					              	</div>
+					          	</div>
+					          	<div class="tr">
+					              	<div class="thd" style="width: 25%;">检查地点</div>
+					              	<div class="thd" style="width: 75%;">
+					              		<input type="text" style="width: 50%;height: 100%;display: inline-block;" disabled="disabled" value="{{res_data.location_of_check}}"/>
+					              	</div>
+					          	</div>
+					          	{{else}}
+					          	<div class="tr">
+					              	<div class="thd" style="width: 25%;">被检查单位</div>
+					              	<div class="thd" style="width: 25%;"><input type="text" name="name_of_the_unit_being_checked" style="width: 100%;height: 100%;display: inline-block;" value="{{res_data.name_of_the_unit_being_checked}}"/></div>
+					              	<div class="thd" style="width: 25%;">地址</div>
+					              	<div class="thd" style="width: 25%;"><input type="text" style="width: 100%;height: 100%;display: inline-block;" name="checked_unit_address" value="{{res_data.checked_unit_address}}"/></div>
+					          	</div>
+					          	<div class="tr">
+					              	<div class="thd" style="width: 25%;">检查人员</div>
+					              	<div class="thd" style="width: 25%;"><input type="text" style="width: 100%;height: 100%;display: inline-block;" name="name_group_of_admin" value="{{res_data.name_group_of_admin}}"/></div>
+					              	<div class="thd" style="width: 25%;">执法证件名称编号</div>
+					              	<div class="thd" style="width: 25%;"><input type="text" style="width: 100%;height: 100%;display: inline-block;" name="certificate_code_group_of_admin" value="{{res_data.certificate_code_group_of_admin}}"/></div>
+					          	</div>
+					          	<div class="tr">
+					              	<div class="thd" style="width: 25%;">检查时间年月日</div>
+					              	<div class="thd" style="width: 75%;">
+					              		<input class="time" readonly  type="text" style="width: 50%;" name="time_of_check_start_at" value="{{res_data.time_of_check_start_at}}"/>
+					              		<input class="time" readonly  type="text" style="width: 50%;" name="time_of_check_end_at" value="{{res_data.time_of_check_end_at}}"/>
+					              	</div>
+					          	</div>
+					          	<div class="tr">
+					              	<div class="thd" style="width: 25%;">检查地点</div>
+					              	<div class="thd" style="width: 75%;">
+					              		<input type="text" style="width: 50%;height: 100%;display: inline-block;" name="location_of_check" value="{{res_data.location_of_check}}"/>
+					              	</div>
+					          	</div>
+					          	{{/if_eq}}
+					          	{{#if_eq userType 'user'}}
+					          	<div>
+					          		<p>告知事项：</p>
+					          		<p>我们是监督检查人员，现出示执法证件。我们依法对你（单位）进行日常监督检查，请予配合。</p>
+					          		<p>依照法律规定，检查监督人员少于两人或者所出示的执法证件与其身份不符的，你（单位）有权拒绝检查; 对于监督检查人员有下列情形之一的，你（单位）有权申请回避：（1）系当事人或当事人的近亲属;（2）与本人或本人近亲属有利害关系;（3）与当事人有其他关系，可能影响公正执法的。
+问：你（单位）是否申请回避1？</p>
+								<p>答：<input type="text" name="avoid_reply" disabled="disabled" value="{{res_data.avoid_reply}}"/></p>
+								<p>被检查单位签字</p>
+								<p><input type="text" name="signed_by_the_cheked_unit" disabled="disabled" value="{{res_data.signed_by_the_cheked_unit}}"</p>
+								<p>检查人员签字</p>
+								<p><input type="text" name="signature_of_admin" disabled="disabled" value="{{res_data.signature_of_admin}}"</p>
+					          	</div>
+					          	{{else}}
+					          	<div>
+					          		<p>告知事项：</p>
+					          		<p>我们是监督检查人员，现出示执法证件。我们依法对你（单位）进行日常监督检查，请予配合。</p>
+					          		<p>依照法律规定，检查监督人员少于两人或者所出示的执法证件与其身份不符的，你（单位）有权拒绝检查; 对于监督检查人员有下列情形之一的，你（单位）有权申请回避：（1）系当事人或当事人的近亲属;（2）与本人或本人近亲属有利害关系;（3）与当事人有其他关系，可能影响公正执法的。
+问：你（单位）是否申请回避1？</p>
+								<p>答：<input type="text" name="avoid_reply" value="{{res_data.avoid_reply}}"/></p>
+								<p>被检查单位签字</p>
+								<p><input type="text" name="signed_by_the_cheked_unit" value="{{res_data.signed_by_the_cheked_unit}}"</p>
+								<p>检查人员签字</p>
+								<p><input type="text" name="signature_of_admin" value="{{res_data.signature_of_admin}}"</p>
+					          	</div>
+					          	{{/if_eq}}
+						        <div class="tr" style="flex-wrap: wrap;">
+					        		{{#if bottominput}}
+					        		{{#if_eq userType 'user'}}
+						        		{{#each bottominput}}
+						              	<div class="thd" style="width: 25%;">{{name}}</div>
+						              	<div class="thd" style="width: 75%;"><textarea class="thd" name="{{en_name}}" data-type="{{data_type}}" style="min-width: 25%;height: 100%;" disabled="disabled" value="{{value}}">{{value}}</textarea></div>
+						              	{{/each}}
+						            {{else}}
+						            	{{#each bottominput}}
+						              	<div class="thd" style="width: 25%;">{{name}}</div>
+						              	<div class="thd" style="width: 75%;"><textarea class="thd" name="{{en_name}}" data-type="{{data_type}}" style="min-width: 25%;height: 100%;" value="{{value}}">{{value}}</textarea></div>
+						              	{{/each}}
+					              	{{/if_eq}}
+					              	{{else}}
+					              	{{/if}}
+					          	</div>
+					          	<div class="tr" style="flex-wrap: wrap;">
+					          		{{#if_eq userType 'user'}}
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>被检查单位签字</p>
+					        			<div><input type="text" name="signed_by_the_cheked_unit" style="width: 100%;" disabled="disabled" value="{{res_data.signed_by_the_cheked_unit}}"></div>
+					        			<!--<div disabled="disabled">{{date_of_signature_of_operator.value}}</div>-->
+					        		</div>
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>检查人员签字</p>
+					        			<div><input type="text" name="signature_of_admin" style="width: 100%;" disabled="disabled" value="{{res_data.signature_of_admin}}"></div>
+					        			<!--<div disabled="disabled">{{signed_by_the_inspection_operator.value}}</div>-->
+					        		</div>
+					        		{{else}}
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>被检查单位签字1</p>
+					        			<div><input type="text" name="signed_by_the_cheked_unit" style="width: 100%;" value="{{res_data.signed_by_the_cheked_unit}}"></div>
+					        			<!--<div disabled="disabled">{{date_of_signature_of_operator.value}}</div>-->
+					        		</div>
+					        		<div class="thd" style="flex: 1;width: 50%;">
+					        			<p>检查人员签字</p>
+					        			<div><input type="text" name="signature_of_admin" style="width: 100%;" value="{{res_data.signature_of_admin}}"></div>
+					        			<!--<div disabled="disabled">{{signed_by_the_inspection_operator.value}}</div>-->
+					        		</div>
+					        		{{/if_eq}}
+					          	</div>
+					          	<div class="tr" style="flex-wrap: wrap;">
+					          		{{#if_eq userType 'user'}}
+						          		{{#each datatimeinput}}
+						        		<div class="thd" style="flex: 1;width: 50%;">
+						        			<div disabled="disabled" style="padding: 0;margin: 0;"><input class="time" readonly  type="text" style="width: 100%;" name="{{en_name}}" value="{{value}}"/></div>
+						        		</div>
+						        		{{else}}
+						        		<div class="thd" style="flex: 1;width: 50%;">
+						        			<div disabled="disabled" style="padding: 0;margin: 0;"><input class="time" readonly  type="text" style="width: 100%;" name="{{en_name}}" value="{{value}}"/></div>
+						        		</div>
+						        		{{/each}}
+					        		{{else}}
+						        		{{#each datatimeinput}}
+						        		<div class="thd" style="flex: 1;width: 50%;">
+						        			<div disabled="disabled" style="padding: 0;margin: 0;"><input class="time" readonly  type="text" style="width: 100%;" name="{{en_name}}" value="{{value}}"/></div>
+						        		</div>
+						        		{{else}}
+						        		<div class="thd" style="flex: 1;width: 50%;">
+						        			<div disabled="disabled" style="padding: 0;margin: 0;"><input class="time" readonly  type="text" style="width: 100%;" name="{{en_name}}" value="{{value}}"/></div>
+						        		</div>
+						        		{{/each}}
+					        		{{/if_eq}}
+					          	</div>
+					        </div>
+					    </div>
+				    </div>
+				</div>
+			</div>
+		</script>
+		
+		<script id="namelist" type="text/x-handlebars-template">
+			{{#each this}}
+			<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-3" style="border: none;position: relative;">
+				<div class="mui-media-body f14 " style="width: 3.22rem;height: 0.8rem;line-height:0.4rem;display: inline-block;background-color: #209fd8;color: #fff;"><p style="color: #fff;font-size: 12px;">{{name}}</p><p style="color: #fff;font-size: 12px;">{{#if_eq enforcement_number ''}}无编号{{else}}{{enforcement_number}}{{/if_eq}}</p></div>
+				<input type="hidden" value="{{id}}" name="ids_of_operate_admin" />
+				<div class="deletecheckman" data-id = "{{id}}" style="position: absolute;top: 0.2rem;right: 0.01rem;"><img src="../../../img/delete.png" style="width: 0.4rem;height: 0.4rem;"/></div>
+			</li>
+			{{/each}}
+		</script>	
+		<script id="imglist" type="text/x-handlebars-template">
+			<div style="padding: 0.4rem 0.2rem;border-bottom: 1px solid #ccc;">
+	        	<div class="addimg-div imageup"><img class="addicon-style imgsrc" /></div>
+	        	<div style="display: inline-block;"><textarea class="textnote"></textarea></div>
+	        	<div id="txtBtn" style="text-align:right;margin-top: 3px;">
+					<span style="height: 22px;display:inline-block;font-size: 12px;margin-right: 15px; line-height: 22px;color: #b2b2b2;vertical-align: middle;">是否可见</span>
+					{{#if_eq is_open 0}}
+					<div class="mui-switch mui-switch-mini" id="switch" style="width: 36px;height: 22px;display: inline-block;vertical-align: middle;">
+					  <div class="mui-switch-handle" style="width: 18px;height: 19px;"></div>
+					  <input type="hidden" class="img_id" name="img_id" value="{{id}}">
+					  <input type="hidden" class="img_is_open" name="img_is_open" value="{{is_open}}">
+					  <input type="hidden" class="img_deleted_at" name="img_deleted_at" value="{{deleted_at}}">
+					</div>
+					{{else}}
+					<div class="mui-switch mui-switch-mini mui-active" id="switch" style="width: 36px;height: 22px;display: inline-block;vertical-align: middle;">
+					  <div class="mui-switch-handle" style="width: 18px;height: 19px;"></div>
+					  <input type="hidden" class="img_id" name="img_id" value="{{id}}">
+					  <input type="hidden" class="img_is_open" name="img_is_open" value="{{is_open}}">
+					  <input type="hidden" class="img_deleted_at" name="img_deleted_at" value="{{deleted_at}}">
+					</div>
+					{{/if_eq}}
+				</div>
+	        </div>
+		</script>
+		<script id="filelist" type="text/x-handlebars-template">
+			<div style="padding: 0.1rem 0;">
+        		<div class="mui-card" style="margin-top: 0.32rem;">
+					<div class="mui-card-header">
+						<div style="font-size: 13px;color: #333;"><img src="../../../img/pdf.png" style="width: 0.38rem;height: 0.44rem;vertical-align: top;display: inline-block;margin-right: 0.2rem;"/>企业辅助材料.txt</div>
+						<div><img src="img/deletefile.png" style="width: 0.24rem;height: 0.29rem;"/></div>
+					</div>
+					<div class="mui-card-content">
+						<div class="mui-card-content-inner">
+							<textarea name="" style="border: 1px solid #ccc;border-radius: 2px;line-height: 0.32rem;word-break:break-all;word-wrap:break-word;resize:none;height: 1.6rem;font-size: 14px;text-align: left;">包含页眉页脚的卡片，页眉常用来显示面板标题，页脚用来显示额外信息或支持的操作（比如点赞、评论等）</textarea>
+						</div>
+					</div>
+				</div>
+        	</div>
+		</script>
+		<!--模板-->
+		<script>
+		 	$(document).ready(function(){
+		 		$('html').on('click','.mui-switch',function(event){
+		 			console.log($('.mui-switch').length);
+		 			console.log($(this).hasClass('mui-active'));
+		 			if($(this).hasClass('mui-active')){
+		 				$(this).removeClass('mui-active');
+		 				$(this).find(".img_is_open").val('0');
+		 			}else{
+		 				$(this).addClass('mui-active');
+		 				$(this).find(".img_is_open").val('1');
+		 			}
+		 		})
+		 	})
+		</script>
+	<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=LXQBZ-OK7HS-ILDOF-64VY5-EQNCT-D6FQ3"></script>
+	<script type="text/javascript" src="../../../js/checkform.js"></script>
+</body>
+</html>

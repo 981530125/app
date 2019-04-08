@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>我的任务</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../../css/mui.min.css" />
+		<script type="text/javascript" src="../../../common/rem.js"></script>
+		<script src="../../../js/mui.min.js"></script>
+		<link rel="stylesheet" href="../../../css/managetask.css" />
+		<link rel="stylesheet" href="../../../common/css/mui.picker.css" />
+		<link rel="stylesheet" href="../../../common/css/mui.poppicker.css" />
+		<link rel="stylesheet" href="../../../common/css/footer.css" />
+		<script type="text/javascript" src="../../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../../common/common.js"></script>
+		<script src="../../../common/mui.picker.js"></script>
+		<script src="../../../common/mui.poppicker.js"></script>
+		<script type="text/javascript" src="../../js/managecenter/mytaskwait.js"></script>
+	</head>
+	<body>
+		<!--遮罩层-->
+		<div class="mui-backdrop" style="display: none;" id="my-mask">
+			<div class="mui-loading" style="position: absolute;top: calc(50% - 12px);left: calc(50% - 12px);">
+				<div class="mui-spinner">
+				</div>
+			</div>
+		</div>
+		<div style="height: 60px;position:fixed;top:0px;z-index:100;background-color:#FFF;width:100%;border: 1px solid #CCC;text-align: center;">
+			<input type="text" class="searchkey" value="" placeholder="请填写关键字搜索" style="width: 96%;text-indent: 10px;height: 40px;display: inline-block;border: 1px solid #CCC;margin:0 auto;margin-top: 10px;">
+			<div class="search-btn" style="font-size: 14px;width: 40px;height: 40px;line-height: 40px;text-align: center;position: absolute;top: 15px;right: 10px;">
+				<img src="../../../img/search.png" style="width: 16px;height: 17px;"/>
+			</div>
+		</div>
+		<div class="mui-content" id="waitrefresh" style="padding-top: 60px;">
+			<div class="menulist mui-scroll-wrapper" style="width: 100%;">
+				<div class="mui-scroll" id="wait">
+					
+				</div>
+				<!--插入模板-->
+			</div>
+		</div>
+ <!--模板-->
+ 	<script id="wait-template" type="text/x-handlebars-template">
+ 		<ul class="mui-table-view table-item-ul">
+ 			{{#each data}}
+ 			<div style="display: flex;border-bottom:1px solid #c8c7cc;" class="mui-table-view-item">
+	 			<div class="mui-checkbox left-checkbox" style="display: none;flex: 1;text-align: center;">
+					<input type="checkbox" class="item-check" data-id="{{id}}" style="position: static;margin-top: 30px;" name="licenseId" value="{{announcement.title}}" />
+				</div>
+		        <li class="mui-table-view-cell mui-collapse" style="flex: 4;">
+		            <a class="mui-navigate-right" href="#" style="font-size: 14px;color: #333333;">
+		            	<div style="display: inline-block;width: 70%;height: 100%;">
+		            		<div style="height: 22px;line-height: 22px;font-size: 14px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis">{{announcement.title}}</div>
+		            		<div style="color: #b2b2b2;font-size: 12px;height: 22px;line-height: 22px;">{{license.corp_name}}</div>
+		            		<div style="color: #b2b2b2;font-size: 12px;height: 22px;line-height: 22px;">{{#if_eq license.prod_address 'null'}}{{else}}{{license.prod_address}}{{/if_eq}}</div>
+		            		<div style="color: #b2b2b2;font-size: 12px;height: 22px;line-height: 22px;">
+		            			<span>{{prettifyDate announcement.check_start_at 10}}~{{prettifyDate announcement.check_end_at 10}}</span>
+		            			<!--<span>{{#if_eq status '0'}}未完成{{else}}完成{{/if_eq}}</span>-->
+		            		</div>
+		            	</div>
+		            	<div style="display: inline-block;width: 30%;height: 22px;line-height: 22px;vertical-align: top;">
+		            		查看详情
+		            	</div>
+		            </a>
+		            <div class="mui-collapse-content bordertop addrecord" onclick="addform({{id}},'{{license.residence}}','{{license.corp_name}}')">
+		                <p class="addform" style="height: 0.6rem;line-height: 0.6rem;"><span class="mui-icon mui-icon-plus"></span>添加</p>
+		            </div>
+		            <div class="mui-collapse-content bordertop" id="lookup" data-id="{{id}}">
+		                <p class="addform" style="height: 0.6rem;line-height: 0.6rem;"><span class="mui-icon mui-icon-plus"></span>查看详情</p>
+		            </div>
+		            {{#each investigate_record}}
+		            <div class="mui-collapse-content mui-table-view-cell bordertop leftitem">
+		                <!--<p onclick="getformdetail({{../id}},{{id}})" style="height: 0.6rem;line-height: 0.6rem;">{{name}}</p>-->
+		            	<div class="mui-slider-right deletebtn">
+							<a class="mui-btn mui-btn-red btn-delete" data-id="{{id}}">删除</a>
+						</div>
+						<div class="mui-slider-handle">
+							<div class="lookmycheck" data-taskid="{{../id}}" data-id = "{{id}}">
+								<span style="font-size: 14px;height: 0.6rem;line-height: 0.6rem;display: inline-block;">{{name}}</span>
+								<span style="color: #FA0000;font-size: 14px;">{{#if_eq parent_id null}}{{else}}{{#if_eq parent_id '0'}}{{else}}(复查记录){{/if_eq}}{{/if_eq}}</span>
+								<span style="color: #24a1d9;margin-right: 0.1rem;font-size: 14px;display: none;">{{#if_eq check_results 1}}符合{{/if_eq}}{{#if_eq check_results 2}}基本符合{{/if_eq}}{{#if_eq check_results 3}}不符合{{/if_eq}}{{#if_eq check_results null}}待评定{{/if_eq}}{{#if_eq check_results 0}}待评定{{/if_eq}}</span>
+								<p class="mui-ellipsis">
+			                		<span style="font-size:14px;{{#if_eq status 0}}color: #24a1d9;{{else}}color: #FA0000;{{/if_eq}}">{{#if_eq status 0}}未完成{{/if_eq}}{{#if_eq status 1}}已完成{{/if_eq}}</span>
+			                		<span style="font-size:14px;color: #8f8f94;">{{created_at}}</span>
+			                	</p>
+							</div>
+						</div>
+		            </div>
+		            {{else}}
+		            <div class="mui-collapse-content bordertop">
+		                <p style="height: 0.6rem;line-height: 0.6rem;">暂无记录</p>
+		            </div>
+		            {{/each}}
+		            
+		            <!--<div class="mui-collapse-content bordertop" id="lookup" data-id="{{id}}">
+		                <p class="addform" style="height: 0.6rem;line-height: 0.6rem;"><span class="mui-icon mui-icon-plus"></span>修改</p>
+		            </div>-->
+		            <!--<div class="mui-slider-left mui-disabled" style="display: none;">
+						<a class="mui-btn mui-btn-red">查看</a>
+					</div>
+					<div class="mui-slider-right mui-disabled" style="display: none;">
+						<a class="mui-btn mui-btn-red">删除</a>
+					</div>-->
+		        </li>
+	        </div>
+	        {{else}}
+	        <div class="noneinfo">暂无任务</div>
+	        {{/each}}
+	   	</ul>
+	   	<script>
+	   		mui.init();
+	   	</script>
+ 	</script>
+	</body>
+</html>

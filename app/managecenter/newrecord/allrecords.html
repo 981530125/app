@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>任务发布</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="../../../css/areaselectcss/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="../../../css/areaselectcss/default.css">
+		<link rel='stylesheet prefetch' href='../../../css/areaselectcss/foundation.css'>
+		<link rel="stylesheet" type="text/css" href="../../../css/areaselectcss/styles.css">
+		<link rel="stylesheet" type="text/css" href="../../../css/namelist.css">
+		<link rel="stylesheet" href="../../../css/mui.min.css" />
+		<script type="text/javascript" src="../../../common/rem.js"></script>
+		<script type="text/javascript" src="../../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../../js/mui.min.js"></script>
+		<script src="../../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../../common/common.js"></script>
+		<script type="text/javascript" src="../../js/managecenter/allrecords.js"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color:#2ca5db;box-shadow: none;">
+			<a class="mui-action-back mui-icon mui-icon-back mui-pull-left" style="color: #fff;"></a>
+			<a class="mui-icon mui-pull-right mui-icon-plusempty" id="add-task" style="color: #fff;"></a>
+			<h1 class="mui-title" style="color: #fff;">任务发布</h1>
+		</header>
+		<div style="position: fixed;z-index:100;top: 44px;padding-bottom:0.2rem;padding-top:0.2rem;left: 0;width: 100%;background-color:#fff;border: 1px solid #CCC;text-align: center;">
+			<input type="text" class="searchkey" value="" style="width: 96%;text-indent: 7px;height: 40px;display: inline-block;border: 1px solid #CCC;margin:0 auto;">
+			<div class="search-btn" style="font-size: 14px;width: 40px;height: 40px;line-height: 40px;text-align: center;position: absolute;top: 15px;right: 10px;">
+				<img src="../../../img/search.png" style="width: 16px;height: 17px;"/>
+			</div>
+		</div>
+		<div class="mui-content" id="refreshlist" style="padding-top: 2.34rem;">
+			<div class="mui-scroll">
+				<div id="recordlist">
+				</div>
+			</div>
+		   	<!--模板-->
+		   	<script id="recordlist-template" type="text/x-handlebars-template">
+		   		<ul class="mui-table-view mui-table-view-chevron table-item-ul" id="OA_task_1" style="margin-left: 0;margin-top: 0;;">
+		   			{{#each data}}
+			        <li class="mui-table-view-cell detail-btn" data-id="{{id}}" style="position: relative;">
+			            <div class="mui-slider-handle">
+			                <p style="font-size: 16px;color: #333;">{{title}}</p>
+			                <input type="hidden" name="id" value="{{id}}"/>
+			                <div>
+			                	<p class="mui-ellipsis">进度：{{investgate_task_info.investigate_task_finished_num}}/{{investgate_task_info.investigate_task_num}}</p>
+			                	<p class="mui-ellipsis">
+			                		<span>次数：{{check_times}}</span>
+			                		<span style="margin-left: 0.1rem;">创建时间：{{created_at}}</span>
+			                	</p>
+			                </div>
+			            </div>
+			            <span class="mui-icon mui-icon-arrowright" style="position: absolute;top: 36%;right: 15px;color: #bbb;"></span>
+			        </li>
+			        {{/each}}
+			   	</ul>
+		   	</script>
+		   	<!--模板-->
+		</div>
+	</body>
+</html>

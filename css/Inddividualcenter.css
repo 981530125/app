@@ -1,0 +1,107 @@
+body {
+	margin: 0;
+	background-color: #fff;
+}
+
+.userinfoname{
+	margin: 0;
+	margin-top: 0.13rem;
+	color: #fff;
+	font-size: 18px;
+}
+.userinfomobile{
+	font-size: 13px;
+	color: #d1f0fd;
+}
+.manage-info-logo{
+	width: 1.48rem;
+	height: 1.48rem;
+	border-radius: 50%;
+	background-color: #fff;
+}
+.div1 {
+	margin: 0;
+	background: #209fd8;
+	padding-bottom: 10px;
+	text-align: center;
+}
+
+.span1 {
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 120px;
+	color: white;
+}
+
+.button1 {
+	color: #28a3da;
+	border: none;
+	background: #FFFFFF;
+	padding: 6px 12px;
+	border-radius: 5px;
+	margin-right: 20px;
+}
+
+.button2 {
+	border: none;
+	color: #ef7d2a;
+	background: #FFFFFF;
+	padding: 6px 12px;
+	border-radius: 5px;
+}
+
+.div2 {
+	border-bottom: 10px #efeff4 solid;
+	border-top: 10px #efeff4 solid;
+}
+
+.spire {
+	margin-top: 0;
+	padding-top: 5px;
+	text-align: center;
+}
+
+.HeadPortrait {
+	margin-left: 145.5px;
+	margin-right: 90px;
+}
+
+.quit {
+	color: white;
+	background: #28A3DA;
+	border: none;
+	width: 100%;
+	border-radius: 5px;
+}
+.logo-item{
+  width: 0.70rem;
+  height: 0.70rem;
+  position:absolute;
+  top: 1.54rem;
+  right: 0.24rem;
+  border-radius: 50%;
+  box-shadow: 0 0 0.16rem #33cccc;
+  background-color: #fff;
+  text-align: center;
+}
+.img-style{
+  width: 0.38rem;
+  height: 0.39rem;
+  vertical-align:top;
+  margin-top: 0.155rem;
+}
+.num-icon{
+	position: absolute;
+	top: -.4em;
+	right: -.4em;
+	background: linear-gradient(to right, #ff6633 , #ff9966);
+	color: #FFF;
+	width: 0.28rem;
+	height: 0.28rem;
+	font-size: 9px;
+	padding: 0;
+	padding-top: 0.035rem;
+	line-height: 0.28rem;
+	display: inline-block;
+	text-align: center;
+}

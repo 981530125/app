@@ -1,0 +1,275 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>注册</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<script type="text/javascript" src="common/rem.js"></script>
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="js/handlebars.js"></script>
+		<script type="text/javascript" src="common/common.js"></script>
+		<link rel="stylesheet" href="css/Register.css" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body style="background:white;">
+		<header class="mui-bar mui-bar-nav" style="box-shadow: none;background: #fff;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: black;"></a>
+		</header>
+		<div class="mui-backdrop" style="display: none;" id="my-mask">
+			<div class="mui-loading" style="position: absolute;top: calc(50% - 12px);left: calc(50% - 12px);">
+				<div class="mui-spinner">
+				</div>
+			</div>
+		</div>
+		<div style="text-align: center;padding: 0 0.24rem 1rem;">
+			<div>
+				<img class="img1" src="img/logo2.png" alt="" width="70px" />
+				<h4>食安滨海</h4>
+			</div>
+			<div class="ul">
+				<div class="input-borbottm">
+					<input class="mobile" type="text" value="" id="mobile" name="phone" placeholder="请输入手机号码" size="44" />
+				</div>
+				<div class="input-borbottm">
+					<input class="vertify" type="text" value="" id="yanzhengma" placeholder="请输入验证码" size="32" />
+					<button type="button" class="sendvertify" />发送验证码</button>
+				</div>
+				<div class="input-borbottm">
+					<input class="password" type="password" value="" id="password" placeholder="请输入密码" size="44" />
+				</div>
+				<div class="input-borbottm">
+					<input class="password" type="password" value="" id="newpassword" placeholder="请确认密码" size="44" />
+				</div>
+				<div class="company-input">
+					<div class="input-borbottm">
+						<input class="password" type="text" value="" id="licenseNo" placeholder="请输入证书编号" size="44" />
+					</div>
+					<div class="input-borbottm">
+						<input class="password" type="text" value="" id="corpName" placeholder="请输入证书上的企业名称" size="44" />
+					</div>
+					<div class="input-borbottm" style="display: none;">
+						<input class="vertify" type="text" value="中国浙江省温州市龙湾区青龙路532号" id="corporation_address" placeholder="请输入定位地址" size="32" />
+						<button type="button" class="thinkisok" />确认地址</button>
+					</div>
+					<div class="input-borbottm">
+						<input class="password" type="text" value="" id="corporation_name" placeholder="请输入展示的企业名称" size="44" />
+					</div>
+					<input class="password" type="hidden" placeholder="请输入定位地址详情" size="44" value='{"city": "温州市", "town": "永中街道", "street": "青龙路", "country": "中国", "village": "", "district": "龙湾区", "province": "浙江省", "streetNumber": "青龙路532号"}' id="corporation_address_components"  />
+					<input class="password" type="hidden" value="27.950770" id="lat" placeholder="请输入纬度" size="44" />
+					<input class="password" type="hidden" value="120.827750" id="lng" placeholder="请输入经度" size="44" />
+				</div>
+				<div style="padding: 0.6rem 0;">
+					<li style="margin-right: 10px;display: inline-block;">
+						<button class="btn-slect btn-active" id="user" value="user" type="button">会员</button>
+					</li>
+					<li style="margin-right: 10px;display: inline-block;">
+						<button class="btn-slect" id="shop" value="shop" type="button">企业</button>
+					</li>
+					<input type="hidden" name="userType" value="user" class="userType">
+				</div>
+				<div>
+					<button type="button" class="reg-btn" />确认注册</button>
+				</div>
+				<p style="text-align: left;margin-top: 10px;margin-left: 12px;">已有账号?
+					<a href="signup.html">立即登录</a>
+				</p>
+			</div>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			document.addEventListener('plusready', function() {
+				$(function() {
+					mui.ready(function() {
+						//倒计时
+						var countdown = 5;
+						var msgType = 'message';
+						function settime(val) {
+							console.log(countdown);
+							if(countdown == 0) {
+								val.removeAttribute("disabled");
+								val.innerHTML = "获取验证码";
+								clearTimeout(time);
+								countdown = 5;
+								return false; 
+							} else {
+								val.setAttribute("disabled", true);
+								val.innerHTML = "重新发送" + countdown + "s";
+								countdown--;
+							}
+							var time = setTimeout(function() {
+								settime(val)
+							}, 1000)
+						}
+
+						var TEL_REGEXP = /^1([38]\d|5[0-35-9]|7[3678])\d{8}$/;
+						//获取验证码
+						$('.sendvertify').click(function() {
+							var userType = $('.userType').val();
+							var phone = $('#mobile').val();
+							if(phone == '' || $.trim(phone).length <= 0) {
+								mui.alert("请输入手机号");
+							} else if(!(TEL_REGEXP.test(phone))) {
+								mui.alert("请输入正确的手机号码")
+							} else {
+								console.log($(".sendvertify"));
+								settime($(".sendvertify")[0]);
+								var url = rooturl+"/Api_apps/getSignupMobilecode";
+								$.ajax({
+									url: url,
+									data: {
+										mobile: phone,
+										userType: userType,
+										clientType: clientType,
+										msgType: msgType
+									},
+									type: "post",
+									async: true,
+									dataType: 'json',
+									crossDomain: true,
+									cache: true,
+									beforeSend: function(xhr) { //beforeSend定义全局变量
+										xhr.setRequestHeader("If-Modified-Since", "0"); //If-Modified-Since HTTP请求头标签,即比较浏览器缓存页面时间
+									},
+									success: function(res) {
+										if(res.code && res.code == 1000){
+											mui.toast('验证码已发送',{ duration:'long', type:'div' });
+										}else{
+											var message = res.message;
+											mui.alert(message);
+											return false;
+										}
+									},
+									error: function(res) {
+										mui.alert(res.message);
+									}
+								});
+							}
+						})
+						$('.reg-btn').click(function() {
+							var name = $('#mobile').val();
+							var userType = $('.userType').val();
+							var yanzheng = $('#yanzhengma').val();
+							var pwd = $('#password').val();
+							var npwd = $('#newpassword').val();
+							
+							var licenseNo = $("#licenseNo").val();
+							var corpName = $("#corpName").val();
+							var corporation_address = $("#corporation_address").val();
+							var corporation_address_components = $("#corporation_address_components").val();
+							var lat = $("#lat").val();
+							var lng = $("#lng").val();
+							var corporation_name = $("#corporation_name").val();
+							
+							if(name == '' || $.trim(name).length <= 0) {
+								mui.alert("请输入手机号");
+							} else if(!(TEL_REGEXP.test(name))) {
+								mui.alert("请输入正确的手机号码");
+							} else if(yanzheng == '' || $.trim(yanzheng).length <= 0) {
+								mui.alert("请输入验证码");
+							} else if(pwd == '' || $.trim(pwd).length <= 0) {
+								mui.alert("请输入密码");
+							} else if($.trim(pwd).length < 8 || $.trim(pwd).length > 16) {
+								mui.alert("密码格式不正确,请输入8到16位中英文字符");
+							} else if(npwd == '' || $.trim(npwd).length <= 0) {
+								mui.alert("请重复输入密码");
+							} else if(!(npwd === pwd)) {
+								mui.alert("前后输入密码不一致");
+							} else {
+								if(userType == 'shop'){
+									if(!licenseNo){
+										mui.alert("请输入证书编号");
+										return false;
+									}
+									if(!corpName){
+										mui.alert("请输入证书上的企业名称");
+										return false;
+									}
+									if(!corporation_address){
+										mui.alert("请输入定位地址,并确认");
+										return false;
+									}
+									if(!corporation_name){
+										mui.alert("请输入展示时的企业名称");
+										return false;
+									}
+								}
+								$("#my-mask").show();
+								var url = rooturl+'index.php/Api_apps/singup';
+								$.ajax({
+									url: url,
+									data: {
+										mobile: name,
+										userType: userType,
+										clientType: clientType,
+										password: pwd,
+										repeatPassword: npwd,
+										mobileCode: yanzheng,
+										licenseNo: licenseNo,//证书
+										corpName:corpName,
+										lat:lat,
+										lng:lng,
+										corporation_address: corporation_address,
+										corporation_name: corporation_name,
+										corporation_address_components: corporation_address_components
+									},
+									type: 'post',
+									dataType: 'json',
+									crossDomain: true,
+									beforeSend: function(xhr) { //beforeSend定义全局变量
+										xhr.setRequestHeader("If-Modified-Since", "0"); //If-Modified-Since HTTP请求头标签,即比较浏览器缓存页面时间
+									},
+									success: function(res) {
+										if(res.code && res.code == 1000){
+											$("#my-mask").hide();
+											mui.toast(res.message,{ duration:'long', type:'div' });
+											//跳转到登录页
+											setTimeout(function(){
+											   	mui.openWindow({
+								    				url: 'signup.html',
+												});
+											}, 500)
+											
+											//在关闭窗口代码上加入延迟
+											setTimeout(function(){
+											    plus.webview.currentWebview().close();
+											}, 1000)
+										}else{
+											$("#my-mask").hide();
+											var message = res.message;
+											console.log(JSON.stringify(res));
+											mui.alert(message);
+											return false;
+										}
+									},
+									error: function(res) {
+										$("#my-mask").hide();
+										mui.alert(res.message);
+										return false;
+									}
+								});
+							}
+						});
+						$('.btn-slect').click(function() {
+							$(this).addClass('btn-active').parent().siblings().children('button').removeClass('btn-active');
+							var userType = $(this).val();
+							console.log(userType);
+							if(userType == 'shop'){
+								$(".company-input").show();
+							}else{
+								$(".company-input").hide();
+							}
+							$(".userType").val(userType);
+						})
+					})
+				})
+			});
+		</script>
+	</body>
+
+</html>

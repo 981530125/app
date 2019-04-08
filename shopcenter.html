@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>管理中心</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<script type="text/javascript" src="common/rem.js"></script>
+		<link rel="stylesheet" href="css/shopcenter.css" />
+		<link rel="stylesheet" href="common/css/footer.css" />
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+		<script src="js/handlebars.js"></script>
+		<script type="text/javascript" src="common/common.js"></script>
+		<script type="text/javascript" src="js/shopcenter.js"></script>
+		<script src="js/mui.min.js"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#29a3da;box-shadow: none;">
+			<!--<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>-->
+			<a href="#" class="mui-action-back mui-icon mui-pull-right mui-a-color"><img src="img/edit.png" style="margin-right: 3px;" width="16px" /></a>
+			<a href="#" class="mui-action-back mui-icon mui-pull-right mui-a-color"><img src="img/ewm.png" style="margin-right: 0.32rem;" width="16px" /></a>
+			<h1 class="mui-title" style="color: #fff;font-weight: bold;">企业中心</h1>
+			
+		</header>
+		<!--头部导航条-->
+		<div class="mui-content" id="center-content">
+			<!--在此添加模板-->
+		</div>
+		<div class="footer">
+			<div class="footer-tab">
+				<a class="footer-tabitem" href="Mappage.html">
+					<img src="img/homepage.png" class="footer-tabimga"/>
+					<p class="footer-tabtitle" >首页</p>
+				</a>
+			</div>
+			<div class="footer-tab">
+				<a class="footer-tabitem" href="Shoplist.html">
+					<img src="img/nearby.png" class="footer-tabimgb"/>
+					<p class="footer-tabtitle" >附近</p>
+				</a>
+			</div>
+			<div class="footer-tab">
+				<a class="footer-tabitem" href="shopcenter.html">
+					<img src="img/mine2.png" class="footer-tabimgc"/>
+					<p class="footer-tabtitle footer-tab-active" >我的</p>
+				</a>
+			</div>
+		</div>
+		<!--模板-->
+		<script id="content-template" type="text/x-handlebars-template">
+			<div class="top-info">
+				<div class="width-content">
+					<div class="manage-info-style"><img src="img/managelogo.png" class="manage-info-logo"></div>
+					<p class="manage-info-name">{{user_info.corporation_name}}</p>
+					<!--<p class="manage-info-work" >#{{user_info.role.role_name}}-{{user_info.admin_office.name}}#</p>-->
+					<div style="width: 100%;margin: 0 auto;text-align: center;">
+						<button class="button1" id="managecenter" onclick="managecenter()">
+							<img src="img/seller.png" width="15px" style="vertical-align: middle;" />管理中心
+						</button>
+						<button class="button2" id="minecenter" onclick="minecenter()">
+							<img src="img/manage.png" width="15px" style="vertical-align: middle;" />个人中心
+						</button>
+					</div>
+					
+				</div>
+			</div>
+			<!--我的任务-->
+			<div class="task-item">
+				<div class="width-content">
+					<div class="task-iten-title"><img src="img/task.png" class="task-icon-style"/><span class="task-item-title">我的任务</span></div>
+					<div class="task-flex-all">
+						<div class="task-flex my-task-unitem" data-id="0" data-tasktype="wait">
+							<p class="task-flex-num">{{stastic.activity_num}}</p>
+							<p class="task-flex-type">活动管理</p>
+						</div>
+						<div class="task-flex my-task-unitem" data-id="1" data-tasktype="process">
+							<p class="task-flex-num">{{stastic.goods_num}}</p>
+							<p class="task-flex-type">菜品管理</p>
+						</div>
+						<div class="task-flex my-task-unitem" data-id="2" data-tasktype="finished">
+							<p class="task-flex-num">{{stastic.investigate_record.total_num}}</p>
+							<p class="task-flex-type">监管记录</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--列表-->
+			<div class="list-top">
+				<div class="list-item">
+					<ul class="mui-table-view list-top">
+						<!--<li class="mui-table-view-cell list-size-style">
+					    	<img src="img/recondsicon.png" class="list-icon-left icon-styleb"/>监察记录
+					        <span class="mui-navigate-right list-item-right">{{stastic.message_number}}条</span>
+					    </li>-->
+					    <li class="mui-table-view-cell list-size-style">
+					    	<img src="img/rule.png" class="list-icon-left"/>待整改
+					        <span class="mui-navigate-right list-item-right">{{stastic.investigate_record.wait_recheck}}家</span>
+					    </li>
+					</ul>
+				</div>
+			</div>
+			<div class="list-top">
+				<div class="list-item">
+					<ul class="mui-table-view list-top">
+					    <li class="mui-table-view-cell list-size-style">
+					    	<img src="img/personicon.png" class="list-icon-left icon-stylec"/>商户二维码
+					        <span class="mui-navigate-right list-item-right"></span>
+					    </li>
+					</ul>
+				</div>
+			</div>
+			<div class="list-top">
+				<div class="exit-all">
+					<div class="exit-btn" id="quit" onclick="quit()">退出登录</div>
+				</div>
+			</div>
+		</script>
+		<!--模板-->
+	</body>
+</html>

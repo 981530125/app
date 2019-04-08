@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>个人资料修改</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../../css/mui.min.css" />
+		<script type="text/javascript" src="../../../common/rem.js"></script>
+		<link rel="stylesheet" href="../../../css/editmanageinfo.css" />
+		<link rel="stylesheet" href="../../../common/css/footer.css" />
+		<script type="text/javascript" src="../../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../../js/handlebars.js"></script>
+		<script src="../../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../../common/common.js"></script>
+		<script type="text/javascript" src="../../js/managecenter/editmanageinfo.js"></script>
+		<style>
+			.mui-table-view-cell{
+				padding: 15px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#2ca5db;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 class="mui-title" style="color: #fff;font-weight: bold;">个人资料</h1>
+		</header>
+		<!--遮罩层-->
+		<div class="mui-backdrop" style="display: none;" id="my-mask">
+			<div class="mui-loading" style="position: absolute;top: calc(50% - 12px);left: calc(50% - 12px);">
+				<div class="mui-spinner">
+				</div>
+			</div>
+		</div>
+		<div class="mui-content">
+			<div id="pullrefresh" class="mui-content">
+				<form id="chageinfo">
+					<!--数据列表-->
+				<form>
+			</div>
+		</div>
+		<script id="info-template" type="text/x-handlebars-template">
+			<div style="width: 100%;height: 2.54rem;">
+				<div style="width: 1.48rem;height: 1.48rem;margin: 0 auto;border-radius: 50%;background-color: #e6e6e6;margin-top: 0.32rem;overflow: hidden;" class="imageup">
+					<img src="{{ifnull user_info.avatar.access_path '../../../img/managelogo.png' rooturl}}" style="width: 1.48rem;height: 1.48rem;vertical-align: top;border-radius: 50%;" class="imgsrc" />
+					<input type="text" value="" name="id" class="file_id" />
+				</div>
+				<div style="width: 100%;text-align: center;font-size: 16px;color: #333333;margin-top: 0.36rem;">点击更换头像</div>
+			</div>
+			<div style="border-bottom: 1px solid #eee;">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell flex-play">
+						<span class="flex-info-left f14">您的名称</span>
+						<input class="flex-info-right input-border corp_name" id="managename" name="name" value="{{user_info.name}}" />
+					</li>
+					<li class="mui-table-view-cell flex-play">
+						<span class="flex-info-left f14">您的手机</span>
+						<input class="flex-info-right input-border corp_name" disabled="disabled" style="background-color: #fff;color: #ccc;" name="mobile" value="{{mobile}}" />
+					</li>
+					<li class="mui-table-view-cell flex-play">
+						<span class="flex-info-left f14">您的执法证编号</span>
+						<input class="flex-info-right input-border corp_name" id="enforcement_number" style="background-color: #fff;color: #ccc;" name="enforcement_number" value="{{user_info.enforcement_number}}" />
+					</li>
+					<li class="mui-table-view-cell flex-play">
+						<span class="flex-info-left f14">修改手机号码</span>
+						<input class="flex-info-right input-border corp_name" id="newmobile" placeholder="请输入新的手机号码" style="background-color: #fff;color: #ccc;" name="newmobile" value="" />
+					</li>
+					<li class="mui-table-view-cell f14 changepwd" style="cursor: pointer;">
+						<a class="mui-navigate-right f14" style="font-size: 16px;">修改密码</a>
+					</li>
+					<li class="mui-table-view-cell" style="font-size: 16px;">
+						锁定登录设备
+						<div id="mySwitch" class="mui-switch {{#if_eq user_info.lock_client_id '1'}}mui-active{{else}}{{/if_eq}}">
+							<div class="mui-switch-handle"></div>
+						</div>
+						<input type="hidden" class="lock_client_id" name="lock_client_id" value="{{#if_eq user_info.lock_client_id '1'}}1{{else}}2{{/if_eq}}" />
+					</li>
+				</ul>
+			</div>
+			<div>
+				<div class="change-btn sumbit-btn">确 认</div>
+			</div>
+		</script>
+		<script id="shopinfo-template" type="text/x-handlebars-template">
+
+			<div style="width: 100%;height: 2.54rem;">
+				<div style="width: 1.48rem;height: 1.48rem;margin: 0 auto;border-radius: 50%;background-color: #e6e6e6;margin-top: 0.32rem;overflow: hidden;" class="imageup">
+
+					<img src="{{ifnull user_info.avatar.access_path '../../../img/managelogo.png' rooturl}}" style="width: 1.48rem;height: 1.48rem;vertical-align: top;border-radius: 50%;" class="imgsrc" />
+
+					<input type="text" value="" name="id" class="file_id" />
+				</div>
+				<div style="width: 100%;text-align: center;font-size: 16px;color: #333333;margin-top: 0.36rem;">点击更换头像</div>
+			</div>
+			<div style="border-bottom: 1px solid #eee;">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell flex-play">
+						<span class="flex-info-left f14">企业名称</span>
+						<input class="flex-info-right input-border corp_name" id="corporation_name" name="corporation_name" value="{{user_info.corporation_name}}" />
+					</li>
+					<li class="mui-table-view-cell flex-play">
+						<span class="flex-info-left f14">您的手机</span>
+						<input class="flex-info-right input-border corp_name mobile" disabled="disabled" id="mobile" style="background-color: #fff;color: #ccc;" name="mobile" value="{{mobile}}" />
+					</li>
+					<li class="mui-table-view-cell flex-play">
+						<span class="flex-info-left f14">修改手机号码</span>
+						<input class="flex-info-right input-border corp_name" id="newmobile" placeholder="请输入新的手机号码" style="background-color: #fff;color: #ccc;" name="newmobile" value="" />
+					</li>
+					<li class="mui-table-view-cell flex-play">
+						<span class="flex-info-left f14">企业分类</span>
+						<span class="flex-info-right selecttype">{{shoptypestring}}</span>
+						<input class="flex-info-right input-border corp_name shop_category_id" type="hidden" disabled="disabled" style="background-color: #fff;color: #ccc;" name="shop_category_id" value="{{user_info.shop_category_id}}" />
+					</li>
+					<li class="mui-table-view-cell flex-play">
+						<span class="flex-info-left f14">企业联系方式</span>
+						<input class="flex-info-right input-border corp_name" placeholder="请输入企业联系方式" id="shop_contact" name="shop_contact" value="{{user_info.shop_contact}}" />
+					</li>
+					<li class="mui-table-view-cell flex-play getlatlng ">
+						<span class="flex-info-left f14">地址</span>
+						<input name="lat" id="lat" type="hidden" value="" />
+						<input name="lng" id="lng" type="hidden" value="" />
+						<input name="corporation_address_components" id="corporation_address_components" type="hidden" value="" />
+						<input class="flex-info-right input-border corp_name" type="hidden" id="corporation_address" name="corporation_address" value="{{user_info.corporation_address}}" />
+						<p style="font-size: 14px;margin-right: 0.3rem;width: 4rem;text-align: right;" id="shopaddress">{{user_info.corporation_address}}</p>
+						<a class="mui-navigate-right f14"></a>
+					</li>
+					<li class="mui-table-view-cell flex-play openhours">
+						<span class="flex-info-left f14">营业时间</span>
+						<input class="flex-info-right input-border corp_name" disabled="disabled" style="background-color: #fff;color: #ccc;" name="shop_open_range" value="{{shop_open_range}}" />
+					</li>
+					<li class="mui-table-view-cell f14 changepwd" style="cursor: pointer;">
+						<a class="mui-navigate-right f14">修改密码</a>
+					</li>
+					<li class="mui-table-view-cell" style="font-size: 16px;">
+						锁定登录设备
+						<div id="mySwitch" class="mui-switch {{#if_eq user_info.lock_client_id '1'}}mui-active{{else}}{{/if_eq}}">
+							<div class="mui-switch-handle"></div>
+						</div>
+						<input type="hidden" class="lock_client_id" name="lock_client_id" value="{{#if_eq user_info.lock_client_id '1'}}1{{else}}2{{/if_eq}}" />
+					</li>
+				</ul>
+			</div>
+			<div>
+				<div class="change-btn shop-sumbit-btn">确 认</div>
+			</div>
+		</script>
+		<script id="userinfo-template" type="text/x-handlebars-template">
+			<div style="width: 100%;height: 2.54rem;">
+				<div style="width: 1.48rem;height: 1.48rem;margin: 0 auto;border-radius: 50%;background-color: #e6e6e6;margin-top: 0.32rem;overflow: hidden;" class="imageup">
+					<img src="{{ifnull user_info.avatar.access_path '../../../img/mrlogo.png' rooturl}}" style="width: 1.48rem;height: 1.48rem;vertical-align: top;border-radius: 50%;" class="imgsrc" />
+					<input type="text" value="" name="id" class="file_id" />
+				</div>
+				<div style="width: 100%;text-align: center;font-size: 16px;color: #333333;margin-top: 0.36rem;">点击更换头像</div>
+			</div>
+			<div style="border-bottom: 1px solid #eee;">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell flex-play">
+						<span class="flex-info-left f14">用户名</span>
+						<input class="flex-info-right input-border corp_name" id="username" name="name" value="{{user_info.name}}" />
+					</li>
+					<li class="mui-table-view-cell flex-play">
+						<span class="flex-info-left f14">您的手机</span>
+						<input class="flex-info-right input-border corp_name" id="mobile" disabled="disabled"  style="background-color: #fff;color: #ccc;" name="mobile" value="{{mobile}}" />
+					</li>
+					<li class="mui-table-view-cell flex-play">
+						<span class="flex-info-left f14">修改手机号码</span>
+						<input class="flex-info-right input-border corp_name" id="newmobile" placeholder="请输入新的手机号码" style="background-color: #fff;color: #ccc;" name="newmobile" value="" />
+					</li>
+					<li class="mui-table-view-cell flex-play">
+						<span class="flex-info-left f14">身份证号</span>
+						<input class="flex-info-right input-border corp_name id_card_no" disabled="disabled" style="background-color: #fff;color: #ccc;" name="id_card_no" value="{{id_card_no}}" />
+					</li>
+					<li class="mui-table-view-cell f14 changepwd" style="cursor: pointer;">
+						<a class="mui-navigate-right f14">修改密码</a>
+					</li>
+					<li class="mui-table-view-cell" style="font-size: 16px;">
+						锁定登录设备
+						<div id="mySwitch" class="mui-switch {{#if_eq user_info.lock_client_id '1'}}mui-active{{else}}{{/if_eq}}">
+							<div class="mui-switch-handle"></div>
+						</div>
+						<input type="hidden" class="lock_client_id" name="lock_client_id" value="{{#if_eq user_info.lock_client_id '1'}}1{{else}}2{{/if_eq}}" />
+					</li>
+				</ul>
+			</div>
+			<div>
+				<div class="change-btn usersumbit-btn">确 认</div>
+			</div>
+		</script>
+	</body>
+
+</html>

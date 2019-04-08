@@ -1,0 +1,197 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<script type="text/javascript" src="common/rem.js"></script>
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="js/handlebars.js"></script>
+		<script type="text/javascript" src="common/common.js"></script>
+		<link rel="stylesheet" href="css/retrieve.css" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body style="background:white;">
+		<header class="mui-bar mui-bar-nav" style="box-shadow: none;background: none;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: black;"></a>
+			<h1 class="mui-title">密码找回</h1>
+		</header>
+		<div class="mui-backdrop" style="display: none;" id="my-mask">
+			<div class="mui-loading" style="position: absolute;top: calc(50% - 12px);left: calc(50% - 12px);">
+				<div class="mui-spinner">
+				</div>
+			</div>
+		</div>
+		<div style="text-align: center;padding: 0 0.24rem;padding-top: 0.88rem;">
+			<div class="ul">
+				<div class="input-borbottm">
+					<input class="mobile" type="text" value="" id="mobile" name="phone" placeholder="请输入手机号码" size="44" />
+				</div>
+				<div class="input-borbottm">
+					<input class="vertify" type="text" value="" id="yanzhengma" placeholder="请输入验证码" size="32" />
+					<button type="button" class="sendvertify" />发送验证码</button>
+				</div>
+				<div class="input-borbottm">
+					<input class="password" type="password" value="" id="password" placeholder="请输入密码" size="44" />
+				</div>
+				<div class="input-borbottm">
+					<input class="password" type="password" value="" id="newpassword" placeholder="请确认密码" size="44" />
+				</div>
+				<input type="hidden" name="userType" value="admin" class="userType">
+				<div style="margin-top: 1rem;">
+					<button type="button" class="reg-btn" />确认</button>
+				</div>
+			</div>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			document.addEventListener('plusready', function() {
+				$(function() {
+					mui.ready(function() {
+						//倒计时
+						var countdown = 60;
+						function settime(val) {
+							console.log(countdown);
+							if(countdown == 0) {
+								val.removeAttribute("disabled");
+								val.innerHTML = "获取验证码";
+								clearTimeout(time);
+								countdown = 60;
+								return false;
+							} else {
+								val.setAttribute("disabled", true);
+								val.innerHTML = "重新发送" + countdown + "s";
+								countdown--;
+							}
+							var time = setTimeout(function() {
+								settime(val)
+							}, 1000)
+						}
+
+						//获取验证码
+						var TEL_REGEXP = /^1([38]\d|5[0-35-9]|7[3678])\d{8}$/;
+						$('.sendvertify').click(function() {
+							var userType = $('.userType').val();
+							var phone = $('#mobile').val();
+							if(phone == '' || $.trim(phone).length <= 0) {
+								mui.alert("请输入手机号");
+							} else if(!(TEL_REGEXP.test(phone))) {
+								mui.alert("请输入正确的手机号码")
+							} else {
+								settime(this);
+								var url = rooturl + "/Api_apps/getResetPWDMobilecode";
+								$.ajax({
+									type: "post",
+									url: url,
+									data: {
+										mobile: phone,
+										userType: userType,
+										clientType: clientType,
+										msgType: msgType
+									},
+									async: true,
+									beforeSend: function(xhr) { //beforeSend定义全局变量
+										xhr.setRequestHeader("If-Modified-Since", "0"); //If-Modified-Since HTTP请求头标签,即比较浏览器缓存页面时间
+									},
+									success: function(res) {
+										if(res.code && res.code == 1000) {
+											mui.toast('发送成功', {
+												duration: 'long',
+												type: 'div'
+											});
+										} else {
+											var message = res.message;
+											mui.alert(message);
+											return false;
+										}
+									},
+									error: function(data) {
+										mui.alert("异常");
+									}
+								});
+							}
+						})
+						//获取修改密码
+						$('.reg-btn').click(function() {
+							var name = $('#mobile').val();
+							var yanzheng = $('#yanzhengma').val();
+							var pwd = $('#password').val();
+							var npwd = $('#newpassword').val();
+							var userType = $('.userType').val();
+							if(name == '' || $.trim(name).length <= 0) {
+								mui.alert("请输入手机号");
+							} else if(!(TEL_REGEXP.test(name))) {
+								mui.alert("请输入正确的手机号码");
+							} else if(yanzheng == '' || $.trim(yanzheng).length <= 0) {
+								mui.alert("请输入验证码");
+							} else if(pwd == '' || $.trim(pwd).length <= 0) {
+								mui.alert("请输入密码");
+							} else if($.trim(pwd).length < 8 || $.trim(pwd).length > 16) {
+								mui.alert("密码格式不正确,请输入8到16位中英文字符");
+							} else if(npwd == '' || $.trim(npwd).length <= 0) {
+								mui.alert("请重复输入密码");
+							} else if(!(npwd === pwd)) {
+								mui.alert("前后输入密码不一致");
+							} else {
+								console.log(name);
+								console.log(userType);
+								console.log(clientType);
+								console.log(pwd);
+								console.log(npwd);
+								console.log(yanzheng);
+								$("#my-mask").show();
+								var url = rooturl + 'Api_apps/resetPWD';
+								$.ajax({
+									url: url,
+									data: {
+										mobile: name,
+										userType: userType,
+										clientType: clientType,
+										newPassword: pwd,
+										repeatPassword: npwd,
+										mobileCode: yanzheng
+									},
+									type: 'post',
+									dataType: 'json',
+									crossDomain: true,
+									beforeSend: function(xhr) { //beforeSend定义全局变量
+										xhr.setRequestHeader("If-Modified-Since", "0"); //If-Modified-Since HTTP请求头标签,即比较浏览器缓存页面时间
+									},
+									success: function(res) {
+										$("#my-mask").hide();
+										if(res.code && res.code == 1000) {
+											mui.toast('修改成功,请重新登录', {
+												duration: 'long',
+												type: 'div'
+											});
+											mui.openWindow({
+											    url: 'signup.html',
+											});
+											//在关闭窗口代码上加入延迟
+											setTimeout(function(){
+											    plus.webview.currentWebview().close('none');
+											}, 1000)
+										} else {
+											var message = res.message;
+											mui.alert(message);
+											return false;
+										}
+									},
+									error: function(data) {
+										$("#my-mask").hide();
+										mui.alert(JSON.stringify(data));
+									}
+								});
+							}
+						});
+					})
+				})
+			});
+		</script>
+	</body>
+</html>

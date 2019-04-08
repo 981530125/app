@@ -1,0 +1,44 @@
+body{
+	background-color: #ebebeb;
+}
+.add-card{
+	margin: 0;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 10px;
+	border-bottom: 1px solid #CCCCCC;
+}
+.search-key{
+	width: 7.02rem;
+	height: 0.7rem;
+	line-height: 0.7rem;
+	border-radius: 0.7rem;
+	border: 1px solid #fff;
+	box-shadow: none;
+	text-indent: 10px;
+	display: block;
+	margin: 0 auto;
+}
+.search-style{
+	position: absolute;
+	top: 0.25rem;
+	right: 0.7rem;
+	height: 0.7rem;
+	width: 0.7rem;
+}
+.search-icon{
+	display: block;
+	width: 0.37rem;
+	height: 0.37rem;
+	margin-left: 0.2rem;
+	margin-top: 0.14rem;
+}
+.search-item{
+	width: 100%;
+	padding: 0.25rem 0;
+	background-color: #209fd8;
+	position: absolute;
+	top: 44px;
+	left: 0;
+	z-index: 1000;
+}

@@ -1,0 +1,106 @@
+body{
+	background-color: white;
+}
+.img1{
+	margin-top: 15%;
+}
+.ul{
+	text-align: center;
+	margin: 0;
+	padding: 0;
+}
+.input-borbottm{
+	border-bottom: 1px solid #e0e0e0;
+}
+button{
+	border: none;
+}
+li{
+	margin: 0;
+	list-style: none;
+}
+hr{
+	width: 330px;
+	border: #E0E0E0 solid 0.5px;
+}
+input{
+	border:none;
+}
+.mobile{
+	background: url(../img/phone.png) no-repeat;
+	background-size:10px ;
+	background-position-x:7px ;
+	background-position-y: 51%;
+	text-indent: 1.6em;
+	font-size: 14px;
+	height: 0.96rem;
+	width: 100%;
+	padding:11px 0 9px 0;
+	font-family: "宋体";
+}
+.vertify{
+	background: url(../img/validate.png) no-repeat;
+	background-size:10px ;
+	background-position-x:5px ;
+	vertical-align: middle;
+	background-position-y: 50%;
+	text-indent: 1.5em;
+	font-size: 14px;
+	height: 0.96rem;
+	width: calc( 100% - 1.9rem);
+}
+.password{
+	background: url(../img/password.png) no-repeat;
+	background-size:10px ;
+	background-position-x:7px ;
+	background-position-y: 50%;
+	text-indent: 1.6em;
+	height: 0.96rem;
+	width: 100%;
+	font-size: 14px;
+	padding:11px 0 9px 0;
+}
+.reg-btn{
+	height: 0.88rem;
+	color: #fff;
+	background: #209FD8;
+	width: 100%;
+	border-radius: 50px;
+	font-size: 16px;
+}
+.sendvertify{
+	color: white;
+	display: inline-block;
+	background: #209FD8;
+	font-size: 12px;
+	width: 1.55rem;
+	height: 0.57rem;
+	border: none;
+	vertical-align: middle;
+	border-radius: 5px;
+}
+.thinkisok{
+	color: white;
+	display: inline-block;
+	background: #209FD8;
+	font-size: 12px;
+	width: 1.55rem;
+	height: 0.57rem;
+	border: none;
+	vertical-align: middle;
+	border-radius: 5px;
+}
+.btn-slect{
+	border-radius: 50px;
+	padding: 6px 34px;
+	color: #d3d3d3;
+	background: none;
+	border: 1px solid #d3d3d3;
+}
+.btn-active{
+	background:  #209fd8;
+	color: white;
+}
+.company-input{
+	display: none;
+}

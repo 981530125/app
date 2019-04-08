@@ -1,0 +1,26 @@
+body {
+	margin: 0;
+	background: white;
+}
+
+.active {
+	padding: 0;
+}
+.section{
+	padding: 0 10px;
+}
+.subheading{
+	color: black;
+	font-size: 1rem;
+	font-weight: bold;
+	margin: 10px 0;
+}
+a{
+	color: black;
+	font-size: 0.8rem;
+}
+li{
+	list-style: none;
+	border: 1px solid black;
+	font-size: 0.8rem;
+}

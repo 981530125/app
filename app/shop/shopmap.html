@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../common/rem.js"></script>
+		<link rel="stylesheet" href="../../css/editshop.css" />
+		<link rel="stylesheet" href="../../common/css/footer.css" />
+		<script type="text/javascript" src="../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../common/common.js"></script>
+		<title>定位</title>
+		<style>
+			* {
+				padding: 0;
+				margin: 0;
+				font-family: "Micrsoft Yahei";
+			}
+			
+			html,
+			body,
+			#container {
+				width: 100%;
+				height: 100%;
+			}
+			
+			#search {
+				position: fixed;
+				left: 10px;
+				top: 10px;
+				z-index: 99;
+				font-size: 16px;
+			}
+			
+			#text {
+				width: 100%;
+				height: 44px;
+			}
+			
+			#btn {
+				width: 28%;
+				height: 44px;
+			}
+		</style>
+			<script type="text/javascript" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js">
+		</script>
+		<!-- 腾讯获取坐标需要引入的 -->
+		<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=TDPBZ-RMX6U-YLYVD-2CA46-AQMVF-5QFGR"></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#35a8dc;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<a href="#" class="mui-icon mui-pull-right finished" style="color: #fff;font-size: 14px;height: 44px;line-height: 44px;padding-top: 0px;padding-bottom: 0px;">完成</a>
+			<h1 class="mui-title" style="color: #fff;">详细地址</h1>
+		</header>
+		<div class="mui-content">
+			<!--地图-->
+			<div class="mui-input-group input-item-style">
+				<label class="input-item-title">定位数据</label>
+				<input type="text" name="corporation_address" id="corporation_address" class="mui-input-clear input-item-content f14" value="{{corporation_address}}">
+				<input name="lat" id="lat" type="hidden" value="{{lat}}" />
+				<input name="lng" id="lng" type="hidden" value="{{lng}}" />
+				<input name="corporation_address_components" id="corporation_address_components" type="hidden" value="{{corporation_address_components}}" />
+			</div>
+			<div class="mui-input-group input-item-style" style="position: relative;">
+				<input type="text" class="mui-input-clear input-item-content search-contentinfo" style="border: 1px solid #CCCCCC;" id="addresskey" placeholder="小区/写字楼/学校" value="">
+				<img src="../../img/search.png" id="searchAddress" class="search-icon" />
+			</div>
+			<div class="mui-input-group input-item-style qwqw">
+				<div style="width:100%;height:300px" class="container" id="container" data-id="asas"></div>
+			</div>
+		</div>
+		<script>
+			//封装函数
+			//address:输入的地址（广东省深圳市大运地铁站）;
+			//id:地图渲染的容器;
+			//key:你的秘钥;
+			
+			//获取跳转参数
+			mui.plusReady(function(){
+			    var self = plus.webview.currentWebview();
+			    var forminfo = self.forminfo;
+			    
+			    console.log(forminfo);
+			    
+			    var searchService, markers = [];
+				var map, center, marker, isFirst = true,
+					info, geocoder, listener, markersArray = [];
+	
+				var mylatitude = 27.97689;
+				var mylongitude = 120.747778;
+	
+				init(forminfo);
+				var searchService, markers = [];
+				var map, center, marker, isFirst = true,
+					info, geocoder, listener, markersArray = [];
+				/*初始化加载和判断*/
+				function init(options) {
+					if(options === null) {
+						alert('数据不能为空');
+						return false;
+					}
+					
+					if(options.lat != '' && options.lng != '') {
+						var center = new qq.maps.LatLng(options.lat, options.lng);
+						boot(center, options);
+						isFirst = false;
+					} else {
+						alert('定位数据不准确,请重新定位');
+	
+						var center = new qq.maps.LatLng(mylatitude, mylongitude);
+						boot(center, options);
+	
+						//huoqu 
+						//		getLocationByAddress(options.residence);
+					}
+	
+				}
+				/*根据地址文字搜索定位*/
+				function getLocationByAddress(address) {
+					geocoder = new qq.maps.Geocoder({
+						complete: function(results) {
+							console.log(results);
+							console.log('1212');
+							var center = new qq.maps.LatLng(results.lat, results.lng);
+							boot(center, options);
+						},
+						error: function(err, msg) {
+							alert('搜索定位失败,请手动定位或更改关键字');
+							isFirst = false;
+						}
+					});
+					geocoder.getLocation(address);
+	
+				}
+				/*根据经纬度搜索定位*/
+				function boot(center, options) {
+	
+					var sas = $(".qwqw").find(".container")[0];
+					console.log(sas);
+	
+					console.log("12121");
+					console.log($(".container")[0])
+	
+					map = new qq.maps.Map(sas, {
+						center: center,
+						zoom: 13
+					});
+					//创建标记
+					marker = new qq.maps.Marker({
+						position: center,
+						map: map
+					});
+					markersArray.push(marker); //存储标记
+					//添加到提示窗
+					info = new qq.maps.InfoWindow({
+						map: map
+					});
+					geocoder = new qq.maps.Geocoder({
+						complete: function(result) {
+							//地图图标移动操作
+							map.setCenter(result.detail.location);
+							deleteOverlays(); //清除之前的标记
+							marker = new qq.maps.Marker({ //添加新的标记
+								map: map,
+								position: result.detail.location
+							});
+							markersArray.push(marker); //存储标记
+							//设置定位信息为定位后数据
+							var address = '';
+							var parts = ['country', 'province', 'city', 'district', 'town', 'street', 'streetNumber'];
+							for(var part_index in parts) {
+								if(typeof(result.detail.addressComponents[parts[part_index]]) != 'undefined') {
+									address += result.detail.addressComponents[parts[part_index]];
+								}
+							}
+							options.corporation_address = address; //变更后使用解析的地址
+							
+							console.log(JSON.stringify(result.detail));
+							
+							$("#lat").val(result.detail.location.lat);
+							$("#lng").val(result.detail.location.lng);
+							options.lat = result.detail.location.lat;
+							options.lng = result.detail.location.lng;
+							options.addressComponents = result.detail.addressComponents;
+							$('#corporation_address').val(options.corporation_address);
+							$('#corporation_address_components').val(JSON.stringify(options.addressComponents));
+							/*提示框内容设定*/
+							options.loading = false;
+							info.open();
+							var corporation_address = options.corporation_address;
+							corporation_address = corporation_address.replace(/中国/, "");
+							corporation_address = corporation_address.replace(/浙江省/, "");
+							corporation_address = corporation_address.replace(/温州市/, "");
+							info.setContent('<div style="width:200px;height:50px;font-size:14px">' + corporation_address + '</div>');
+							info.setPosition(result.detail.location);
+							qq.maps.event.addListener(marker, 'click', function() {
+								info.open();
+								var corporation_address = options.corporation_address;
+								corporation_address.replace(/中国/, "");
+								corporation_address.replace(/浙江省/, "");
+								corporation_address.replace(/温州市/, "");
+								info.setContent('<div style="width:200px;height:50px;font-size:14px;">' + corporation_address + '</div>');
+								info.setPosition(result.detail.location);
+							});
+						},
+						error: function(err, msg) {
+							alert('搜索定位失败,请手动定位或更改关键字');
+						}
+					});
+					/*默认触发第一次定位*/
+					options.loading = true;
+					geocoder.getAddress(center);
+					/*绑定触发的各种操作*/
+					$('#searchAddress').unbind('click').bind('click', function() {
+						var addresskey = $("#addresskey").val();
+						if(addresskey == '') {
+							alert('请输入准确地址');
+							return false;
+						}
+						var selecta = addresskey.replace(/中国/, "");
+						var selectb = selecta.replace(/浙江省/, "");
+						var selectc = selectb.replace(/温州市/, "");
+						console.log('中国浙江省温州市' + selectc);
+						var searchcontent = '中国浙江省温州市' + selectc
+						//通过getLocation();方法获取位置信息值
+						geocoder.getLocation(searchcontent);
+					})
+					//图标点击后触发定位
+					qq.maps.event.addListener(marker, 'click', function(event) {
+						geocoder.getAddress(center);
+					});
+					//地图点击后定位新地址
+	
+					qq.maps.event.addListener(map, 'click', function(event) {
+						console.log('122');
+	
+						var lat = event.latLng.getLat();
+						var lng = event.latLng.getLng();
+						var latLng = new qq.maps.LatLng(lat, lng);
+						options.loading = true;
+						geocoder.getAddress(latLng);
+					});
+					/*绑定搜索框事件*/
+					$(options.searchElem).bind('keypress', function(event) {
+						if(event.keyCode == "13") {
+							var searchkey = $(options.searchElem).val();
+						}
+					});
+					/*通用的方法*/
+					/*添加标记*/
+					function addMarker(location) {
+						marker = new qq.maps.Marker({
+							position: location,
+							map: map
+						});
+						markersArray.push(marker);
+					}
+					/*清除覆盖层*/
+					function clearOverlays() {
+						if(markersArray) {
+							for(i in markersArray) {
+								markersArray[i].setMap(null);
+							}
+						}
+					}
+					/*显示覆盖层*/
+					function showOverlays() {
+						if(markersArray) {
+							for(i in markersArray) {
+								markersArray[i].setMap(map);
+							}
+						}
+					}
+					/*删除覆盖物*/
+					function deleteOverlays() {
+						if(markersArray) {
+							for(i in markersArray) {
+								markersArray[i].setMap(null);
+							}
+							markersArray.length = 0;
+						}
+					}
+				}
+			});
+			
+			$('html').on('click','.finished',function(){
+				
+				console.log('122');
+				
+				var corporation_address = $('#corporation_address').val();
+				var lat = $('#lat').val();
+				var lng = $('#lng').val();
+				var corporation_address_components = $('#corporation_address_components').val();
+//
+				mui.back();
+				var list = plus.webview.currentWebview().opener();
+				//触发父页面的自定义事件(refresh),从而进行刷新
+				mui.fire(list, 'refresh',{
+					reload: 'true',
+					corporation_address:corporation_address,
+					lat:lat,
+					lng:lng,
+					corporation_address_components:corporation_address_components
+				});
+				
+				//返回true,继续页面关闭逻辑
+				return true;
+			})
+			
+		</script>
+	</body>
+
+</html>

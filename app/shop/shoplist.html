@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>企业</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../common/rem.js"></script>
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<link rel="stylesheet" href="../../css/shoppage.css" />
+		<script type="text/javascript" src="../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../common/common.js"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#35a8dc;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+				
+			<!--<h1 class="mui-title" style="color: #fff;"></h1>-->
+		</header>
+		<div class="mui-content" id="shoplist">
+		</div>
+		<script id="example-template" type="text/x-handlebars-template">
+			<ul class="mui-table-view" style="padding: 0;margin-top: 0;">
+				<!-- data -->
+				<!-- 直接使用每个people的数据 -->
+				<li class="mui-collapse mui-table-view-cell mui-collapse li-after" style="padding: 3.2%">
+					<a href="#" style="height: 14%;padding: 0;margin: 0;">
+						<img class="mui-media-object mui-pull-left" src="{{#if_eq avatar null}}../../img/shoplogo.png{{else}}{{../rooturl}}{{avatar.access_path}}{{/if_eq}}" style="max-width: 21%;width: 21%;height: 9.7%;;">
+						<div class="mui-media-body">
+							<p class='mui-ellipsis mui-text-left'>{{#if_eq corporation_name null}}{{#each licenses}}{{#if_eq @index 0}}{{corp_name}}{{/if_eq}}{{/each}}{{else}}{{corporation_name}}{{/if_eq}}</p>
+							<div style="height: 100%;text-align: left;">
+								<span class="interval mui-text-left" style="font-size: 14px; vertical-align: top;display: none;">{{#if_eq distance null}}{{#each licenses}}{{#if_eq @index 0}}{{decimal distance 2}}{{/if_eq}}{{/each}}{{else}}{{decimal distance 2}}{{/if_eq}}km</span>
+								<p class='mui-ellipsis mui-inline mui-text-left' style="width: 72%;">{{#if_eq corporation_address null}}{{#each licenses}}{{#if_eq @index 0}}{{corporation_address}}{{/if_eq}}{{/each}}{{else}}{{corporation_address}}{{/if_eq}}</p>
+							</div>
+							<p class="favourable mui-text-left" style="font-size: 12px;">{{stringactitvity}}</p>
+						</div>
+					</a>
+					<div class="mui-collapse-content" style="border-top: 1px solid #c8c7cc;">
+						<div class="select" style="width:100%;display: flex;justify-content: space-between">
+							<div style="flex: 1;text-align: left;">
+								<a href="javascript:void(0);" class="lookdetail" style="text-decoration: none;padding:0 0.3rem;border-radius: 0.7rem;display: inline-block;height: 0.7rem;line-height: 0.7rem;" data-licenseid = '{{license_id}}' data-id="{{id}}">
+									<img style="vertical-align: top;margin-top: 0.23rem;width: 0.24rem;height: 0.24rem;" src="../../img/details.png" width="12" />
+									<span class="lookup" style="font-size: 14px;vertical-align: top;color: #000;">查看详情</span>
+								</a>
+							</div>
+							<div style="flex: 1;">
+								<a class="record-style" style="text-decoration: none;padding:0 0.3rem;border: 1px solid #cccccc;border-radius: 0.7rem;height: 0.7rem;line-height: 0.7rem;display: inline-block;" href="javascript:void(0);" data-licenseid = '{{license_id}}' data-id="{{id}}">
+									<img style="vertical-align: top;height: 0.24rem;width: 0.24rem;height: 0.24rem;margin-top: 0.23rem;" src="../../img/record.png" />
+									<span class="lookup" style="font-size: 14px;vertical-align: top;color: #000;">监管记录</span>
+								</a>
+							</div>
+							<div style="flex: 1;">
+								<a href="javascript:void(0);" class="way-style nav-path" style="text-decoration: none;padding:0 0.5rem;border-radius: 0.7rem;height: 0.7rem;line-height: 0.7rem;display: inline-block;background-color: #209fd8;">
+									<img style="vertical-align: top;height: 0.24rem;width: 0.24rem;height: 0.24rem;margin-top: 0.23rem;" src="../../img/route.png" width="12" />
+									<span class="lookup" style="color: #fff;font-size: 14px;vertical-align: top;">导航</span>
+									<input type="hidden" value="{{lat}}" class="way-lat" />
+									<input type="hidden" value="{{lng}}" class="way-lng" />
+									<input type="hidden" value="{{#each licenses}}{{#if_eq @index 0}}{{id}}{{/if_eq}}{{/each}}" id="way-id" />
+									<input type="hidden" value="{{#if_eq corporation_name null}}{{#each licenses}}{{#if_eq @index 0}}{{corp_name}}{{/if_eq}}{{/each}}{{else}}{{corporation_name}}{{/if_eq}}" id="way-name" />
+								</a>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</script>
+		<script src="../js/shop/shoplist.js"></script>
+	</body>
+</html>

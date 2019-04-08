@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>菜品详情</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<script type="text/javascript" src="../../../js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="../../../common/rem.js"></script>
+		<script src="../../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../../common/common.js"></script>
+		<link rel="stylesheet" href="../../../css/mui.min.css">
+		<link rel="stylesheet" href="../../../css/mui.picker.min.css" />
+		<link rel="stylesheet" href="../../../css/addactivity.css">
+		<script src="../../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/mui.picker.min.js"></script>
+		<script type="text/javascript" src="../../js/shopcenter/checkfood.js"></script>
+		<style>
+			body{
+				background-color: #fff;
+			}
+			
+		</style>
+		<style type="text/css">
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto 4;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				width: auto;
+				height: auto;
+				max-width: 100%;
+				max-height: 100%;
+			}
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+			}
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			p img {
+				max-width: 100%;
+				height: auto;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color:#29a3da;box-shadow: none;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 id="title" class="mui-title" style="color: #fff;font-weight: bold;">菜品详情</h1>
+		</header>
+		<div class="mui-content">
+			<form id="add">
+				<input type="hidden" name="id" value=""/>
+				<ul class="mui-table-view" style="margin-top: 0;">
+				    <li class="mui-table-view-cell" style="height: 1.2rem;">
+				        <input type="text" class="flex-info-right mui-input-clear " style="width: 100%;height: 100%;line-height: 1rem;font-size: 16px;display: block;border: none;" placeholder="请输入企业名称" name="name" value="企业名称"/>
+				    </li>
+				    <li class="mui-table-view-cell" style="height: 1.2rem;">
+				        <input type="text" class="flex-info-right mui-input-clear " style="width: 100%;height: 100%;line-height: 1rem;font-size: 16px;display: block;border: none;" placeholder="请输入菜品名称" name="name" value="菜品名称"/>
+				    </li>
+				    <li class="mui-table-view-cell mui-input-row" style="height: 1.2rem;">
+				        <label style="font-size: 14px;line-height: 0.5rem;">是否上架</label>
+				    	<div class="mui-switch mui-switch-blue mui-active" id="mySwitch">
+							<div class="mui-switch-handle"></div>
+							<input type="hidden" name="is_release" class="is_release" value="1">
+						</div>
+				    </li>
+				    <li class="mui-table-view-cell" style="height: 1.2rem;">
+				        <input type="text" class="flex-info-right mui-input-clear " style="width: 100%;height: 100%;line-height: 1rem;font-size: 16px;display: block;border: none;" placeholder="请输入菜品价格" name="price" value="菜品价格"/>
+				    </li>
+				    <li class="mui-table-view-cell" style="height: 2.4rem;">
+				        <textarea style="width: 100%;height: 2rem;" placeholder="请输入菜品说明" name="introduction">菜品说明</textarea>
+				    </li>
+				    <p style="background-color: #ebebeb;color: #b2b2b2;border: none;height: 0.78rem;line-height: 0.78rem;text-indent: 0.25rem;">请上传菜品图片（建议尺寸702*385）</p>
+					<div class="upload-img" style="min-height: 2rem;">
+						<div style="position: relative;">
+							<div class="imageup">
+								<img class="imgsrc addicon-style" style="width: 100%;height: 100%;"/>
+							</div>
+						</div>
+					</div>
+					<p style="background-color: #ebebeb;color: #b2b2b2;border: none;height: 0.78rem;line-height: 0.78rem;text-indent: 0.25rem;">审核人</p>
+					<li class="mui-table-view-cell" style="height: 1rem;">
+				        <p>审核人</p>
+				    </li>
+					<p style="background-color: #ebebeb;color: #b2b2b2;border: none;height: 0.78rem;line-height: 0.78rem;text-indent: 0.25rem;">请填写审核意见</p>
+					<li class="mui-table-view-cell" style="height: 2.4rem;">
+				        <textarea style="width: 100%;height: 2rem;" placeholder="请输入审核意见" name="introduction">审核意见</textarea>
+				    </li>
+				    <p style="background-color: #ebebeb;color: #b2b2b2;border: none;height: 0.78rem;line-height: 0.78rem;text-indent: 0.25rem;">创建时间</p>
+					<li class="mui-table-view-cell" style="height: 1rem;">
+				        <p>2018-11-11 12:22:22</p>
+				    </li>
+				</ul>
+				<div style="background-color: #fff;padding-top: 0.5rem;">
+					<div style="background-color: #fff;padding-bottom: 0.5rem;">
+				    	<input id="pass-btn" class="pass-btn" type="button" value="审核通过" />
+				    </div>
+				    <div style="background-color: #fff;padding-bottom: 0.5rem;">
+				    	<input id="nopass-btn" class="nopass-btn" type="button" value="审核不通过" />
+				    </div>
+					<div style="background-color: #fff;padding-bottom: 0.5rem;">
+				    	<input id="exit-btn" class="exit-btn" type="button" value="返回" />
+				    </div>
+				</div>
+			<form>
+		</div>
+		<!--模板-->
+		<script id="addimg-template" type="text/x-handlebars-template">
+			<div style="position: relative;">
+				<div class="imageitem">
+					<img class="imgsrc addicon-style" style="width: 100%;height: 100%;" src="{{src}}"/>
+					<input type="hidden" class="imgid" name="imgid" value="{{id}}"/>
+				</div>
+				<!--<img src="../../img/delete.png" class="delete-btn">-->
+			</div>
+		</script>
+		<script id="edit-template" type="text/x-handlebars-template">
+			<input type="hidden" name="id" value="{{id}}"/>
+			<ul class="mui-table-view" style="margin-top: 0;">
+			    <li class="mui-table-view-cell" style="height: 1.2rem;">
+			        <input type="text" class="flex-info-right mui-input-clear " style="width: 100%;height: 100%;line-height: 1rem;font-size: 16px;display: block;border: none;" placeholder="请输入活动标题" name="name" value="{{name}}"/>
+			    </li>
+			    <li class="mui-table-view-cell mui-input-row" style="height: 1.2rem;">
+			        <label style="font-size: 14px;line-height: 0.5rem;">是否上架</label>
+			       {{#if_eq is_release 0}} 
+			    	<div class="mui-switch mui-switch-blue" id="myeditSwitch">
+						<div class="mui-switch-handle"></div>
+						<input type="hidden" name="is_release" class="is_release" value="0">
+					</div>
+					{{else}}
+					<div class="mui-switch mui-switch-blue mui-active" id="myeditSwitch">
+						<div class="mui-switch-handle"></div>
+						<input type="hidden" name="is_release" class="is_release" value="1">
+					</div>
+					{{/if_eq}}
+			    </li>
+			    <li class="mui-table-view-cell" style="height: 1.2rem;">
+			        <input type="text" class="flex-info-right mui-input-clear " style="width: 100%;height: 100%;line-height: 1rem;font-size: 16px;display: block;border: none;" placeholder="请输入菜品价格" name="price" value="{{price}}"/>
+			    </li>
+			    <li class="mui-table-view-cell" style="height: 2.4rem;">
+			        <textarea style="width: 100%;height: 2rem;" placeholder="请输入菜品说明" name="introduction">{{introduction}}</textarea>
+			    </li>
+			    <p style="background-color: #ebebeb;color: #b2b2b2;border: none;height: 0.78rem;line-height: 0.78rem;text-indent: 0.25rem;">请上传菜品图片（建议尺寸702*385）</p>
+				<div class="upload-img">
+					{{#each images}}
+					<div style="position: relative;">
+						<div class="imageitem">
+							<img class="imgsrc addicon-style" style="width: 100%;height: 100%;" src="{{../rooturl}}{{access_path}}" data-preview-src="" data-preview-group="1"/>
+							<input type="hidden" class="imgid" name="imgid" value="{{id}}"/>
+						</div>
+						<!--<img src="../../img/delete.png" class="delete-btn">-->
+					</div>
+					{{/each}}
+					<div style="position: relative;display: none;">
+						<div class="imageup">
+							<img class="imgsrc addicon-style" style="width: 100%;height: 100%;"/>
+						</div>
+					</div>
+				</div>
+				<p style="background-color: #ebebeb;color: #b2b2b2;border: none;height: 0.78rem;line-height: 0.78rem;text-indent: 0.25rem;margin-bottom: 0;">审核状态</p>
+				<div class="f14" style="display: flex;align-items:center;text-indent: 0.32rem;height: 2rem;line-height: 2rem;margin-top: 0;border-bottom: 1px solid #ebebeb;">
+					{{#if_eq review_status '0'}}
+					<div style="flex: 0 0 30%;" class="mui-radio">
+						<label style="font-size: 14px;display: block;text-align: center;">通过</label>
+						<input class="review_status" name="review_status" value="1" style="display: block;margin-top: 0.65rem;" class="gender" type="radio"/>
+					</div>
+					<div style="flex: 0 0 30%;" class="mui-radio">
+						<label style="font-size: 14px;display: block;text-align: center;">不通过</label>
+						<input class="review_status" name="review_status" value="2" style="display: block;margin-top: 0.65rem;" class="gender" type="radio">
+					</div>
+					<div style="flex: 0 0 30%;" class="mui-radio">
+						<label style="font-size: 14px;display: block;text-align: center;">待审核</label>
+						<input class="review_status" name="review_status" value="0" style="display: block;margin-top: 0.65rem;" class="gender" type="radio" checked="true">
+					</div>
+					{{/if_eq}}
+					{{#if_eq review_status '1'}}
+					<div style="flex: 0 0 30%;" class="mui-radio">
+						<label style="font-size: 14px;display: block;text-align: center;">通过</label>
+						<input class="review_status" name="review_status" value="1" style="display: block;margin-top: 0.65rem;" class="gender" type="radio" checked="true" />
+					</div>
+					<div style="flex: 0 0 30%;" class="mui-radio">
+						<label style="font-size: 14px;display: block;text-align: center;">不通过</label>
+						<input class="review_status" name="review_status" value="2" style="display: block;margin-top: 0.65rem;" class="gender" type="radio">
+					</div>
+					<div style="flex: 0 0 30%;" class="mui-radio">
+						<label style="font-size: 14px;display: block;text-align: center;">待审核</label>
+						<input class="review_status" name="review_status" value="0" style="display: block;margin-top: 0.65rem;" class="gender" type="radio">
+					</div>
+					{{/if_eq}}
+					{{#if_eq review_status '2'}}
+					<div style="flex: 0 0 30%;" class="mui-radio">
+						<label style="font-size: 14px;display: block;text-align: center;">通过</label>
+						<input class="review_status" name="review_status" value="1" style="display: block;margin-top: 0.65rem;" class="gender" type="radio"/>
+					</div>
+					<div style="flex: 0 0 30%;" class="mui-radio">
+						<label style="font-size: 14px;display: block;text-align: center;">不通过</label>
+						<input class="review_status" name="review_status" value="2" style="display: block;margin-top: 0.65rem;" class="gender" type="radio" checked="true">
+					</div>
+					<div style="flex: 0 0 30%;" class="mui-radio">
+						<label style="font-size: 14px;display: block;text-align: center;">待审核</label>
+						<input class="review_status" name="review_status" value="0" style="display: block;margin-top: 0.65rem;" class="gender" type="radio">
+					</div>
+					{{/if_eq}}
+				</div>
+				<p style="background-color: #ebebeb;color: #b2b2b2;border: none;height: 0.78rem;line-height: 0.78rem;text-indent: 0.25rem;">审查意见</p>
+				<div style="font-size: 14px;padding: 0.32rem;min-height: 2rem;border-bottom: 1px solid #ebebeb;">
+					<div disabled="disabled" style="background-color: #fff;min-height: 2rem;line-height: 0.5rem;">
+						<li class="mui-table-view-cell" style="padding-top: 0.2rem;">
+					        <textarea name="review_content" class="review_content" placeholder="请填写活动内容" style="height: 2rem;">{{#if review_record.content}}{{review_record.content}}{{else}}{{/if}}</textarea>
+					    </li>
+					</div>
+				</div>
+			</ul>
+			<div style="background-color: #fff;padding-top: 0.5rem;padding-bottom: 1rem;">
+				<input id="returnbtn" class="returnbtn" type="button" value="审核" />
+			</div>
+			<div style="background-color: #fff;display: none;">
+				{{#if_eq review_status '0'}}
+		    	<input id="returnbtn" class="returnbtn" type="button" value="修改" />
+		    	{{/if_eq}}
+		    	{{#if_eq review_status '1'}}
+		    	<input class="returnbtn btnall exit-btn" type="button" value="返 回" style="display: block;background-color: #f0ad4e;color: #fff;"/>
+		    	{{/if_eq}}
+		    	{{#if_eq review_status '2'}}
+		    	<input id="returnbtn" class="returnbtn" type="button" value="提交审核" />
+		    	{{/if_eq}}
+		    	<input id="deletebtn" class="deletebtn" type="button" data-id="{{id}}" value="删 除" />
+		  </div>
+		</script>
+		<!--模板-->
+		<script src="../../../common/mui.zoom.js"></script>
+		<script src="../../../common/mui.previewimage.js"></script>
+		<script>
+			mui.previewImage();
+		</script>
+	</body>
+</html>

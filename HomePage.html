@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>首页</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<script type="text/javascript" src="common/rem.js"></script>
+		<link rel="stylesheet" href="css/template.css" />
+		<link rel="stylesheet" href="common/css/footer.css" />
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="js/mui.min.js"></script>
+		<script type="text/javascript" src="common/common.js"></script>
+		<script src="js/handlebars.js"></script>
+		<!--<script type="text/javascript" src="js/checkform.js"></script>-->
+		<link rel="stylesheet" href="css/homepage.css" />
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript">
+			document.addEventListener('plusready', function() {
+				$('.btn-slect').click(function() {
+					$(this).addClass('btn-active').parent().siblings().children().removeClass('btn-active');
+				})
+			});
+		</script>
+	</head>
+
+	<body>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			$(function(){
+				mui.plusReady(function(){
+					
+//					三方是否自动登录
+//					var loginway = localStorage.removeItem('loginway');
+					
+//					if(localStorage.getItem('loginway') == 'weixin'){
+//						localStorage.removeItem("admininfo");
+//						localStorage.removeItem("adminmobile");
+//						localStorage.removeItem("adminaccessToken");
+//						localStorage.removeItem('loginway');
+//					}
+					
+					var info = plus.push.getClientInfo();
+					var notifyCid = info.clientid;
+					if(mobile){
+						var mobile = mobile;
+					}else{
+						var mobile = '';
+					}
+					if(userType){
+						var userType = userType;
+					}else{
+						var userType = '';
+					}
+					if(clientId){
+						var clientId = clientId;
+					}else{
+						var clientId = '';
+					}
+					if(accessToken){
+						var accessToken = accessToken;
+					}else{
+						var accessToken = '';
+					}
+					
+					if(mobile&&userType&&clientId&&accessToken){
+						var tokens = [{
+						"mobile":mobile,
+						"userType":userType,
+						"clientId":clientId,
+						"accessToken":accessToken
+						}]
+					}else{
+						var tokens = [];
+					}
+					sendnotifycid(tokens,notifyCid,clientType);
+				})
+				$('html').on('click','#tonomobile',function(){
+					console.log('asasa');
+					setTimeout(function(){
+						var userType = 'tourist';
+						localStorage.setItem("userType",userType);
+						var skipurl = 'app/frame/tab-webview-main.html';
+						location.href=skipurl;
+					}, 500)
+					
+//					var url = 'index.php/Api_apps/testAccessToken';
+//					$.ajax({
+//						type: "post",
+//						url: url,
+//						async: true,
+//						data: {
+//							areaId:areaId
+//						},
+//						dataType: 'json',
+//						success: function(res) {
+//							if(res.code && res.code == 1000){
+//								//获取证书
+//								window.selecttype = res.data;
+//								var infotype = res.data;
+//								var license = [];
+//								var item = {
+//									value:res.data.type,
+//									text:res.data.name
+//								}
+//								for(var items in infotype){
+//									var item = {
+//										value: infotype[items].type,
+//										text:infotype[items].name
+//									}
+//									license.push(item);
+//								}
+//								window.license = license;
+//								
+//							}else{
+//								console.log(res.message);
+//							}
+//						},
+//						error: function(res) {
+//							console.log(res.message);
+//						}
+//					})
+				})
+			})
+		</script>
+		<div style="text-align: center;">
+			<img src="img/logo.png" style="width: 2.06rem;height: 2.06rem;margin-top: 2.14rem;" alt="" />
+			<h3 style="font-size: 21px;font-weight: bold;margin-top: 0.32rem;">食安滨海</h3>
+			<div style="margin-top: 2.94rem">
+				<div>
+					<a href="signup.html" id="entry" type="button" class="btn-slect">登录</a>
+					<a href="Register.html" type="button" id="register" class="btn-slect">注册</a>
+					<button class="btn-slect" id="tonomobile">匿名登录</button>
+					<!--<a href="###" type="button" id="" class="btn-slect">匿名登录</a>-->
+				</div>
+				<div style="display: flex;width: 5.79rem;margin: 0 auto;justify-content:space-between;">
+					<a href="Validate.html" style="flex: 1;font-size: 14px;text-align: left;">短信登录</a>
+					<a href="Retrieve.html" style="flex: 1;font-size: 14px;text-align: right;">忘记密码?</a>
+				</div>
+				<!--<a href="Retrieve.html" target="_parent" style="font-size: 12px;">忘记密码?</a>-->
+				<p class="source">温州经济技术开发区市场监督管理局</p>
+			</div>
+		</div>
+	</body>
+</html>

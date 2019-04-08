@@ -1,0 +1,35 @@
+body{
+	margin: 0;
+	background: url(../img/background.png) no-repeat;
+}
+h3{
+	color: white;
+	margin: 0;
+}
+a{
+	text-decoration: none;
+	color: white;
+
+}
+.source{
+	font-size: 14px;
+	margin-top: 60px;
+	color: white;
+}
+.btn-slect{
+	width: 5.79rem;
+	height: 0.77rem;
+	line-height: 0.77rem;
+	display: inline-block;
+	border: 1px solid #fff;
+	font-size: 14px;
+	margin-bottom: 0.32rem;
+/*	color: #209fd8;*/
+	border-radius: 5px;
+	background: none;
+	color: white;
+}
+.btn-active{
+	background: white;
+	color: #209FD8;
+}

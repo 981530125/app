@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>信息编辑</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<script type="text/javascript" src="common/rem.js"></script>
+		<link rel="stylesheet" href="css/editshop.css" />
+		<link rel="stylesheet" href="common/css/footer.css" />
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="common/common.js"></script>
+		<script type="text/javascript" src="common/clipboard.min.js"></script>
+		<script type="text/javascript" src="common/clipboard.js"></script>
+		<script src="js/handlebars.js"></script>
+		<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=LXQBZ-OK7HS-ILDOF-64VY5-EQNCT-D6FQ3"></script>
+		<script type="text/javascript" src="js/editshop.js"></script>
+		
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#2ca5db;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<a href="javascript:void(0);" id="material" class="mui-icon mui-pull-right mui-a-color helperfile" style="font-size: 14px;height: 44px;line-height: 44px;padding-top: 0;padding-bottom: 0;color:#fff;"><img src="img/data.png" style="width: 0.24rem;height: 0.23rem;display: inline-block;"/>辅助材料</a>
+			<h1 class="mui-title" style="color: #fff;font-weight: bold;">信息编辑</h1>
+		</header>
+		<!--遮罩层-->
+		<div class="mui-backdrop" style="display: none;" id="my-mask">
+			<div class="mui-loading" style="position: absolute;top: calc(50% - 12px);left: calc(50% - 12px);">
+				<div class="mui-spinner">
+				</div>
+			</div>
+		</div>
+		<div class="mui-content" style="background-color: #fff;">
+			<div style="margin: 0 auto;border-bottom: 1px solid #e0e0e0;">
+					<ul class="all-item">
+						<li class="all-li all-active f14" style="flex: 1;" data-id="0" data-tasktype="wait">信息编辑</li>
+						<li class="all-li f14" style="flex: 1;" data-id="1" data-tasktype="process">证书详情</li>
+					</ul>
+				</div>
+				<div class="menulist f14" id="wait" style="width: 100%;">
+					<form id="change-form">
+					</form>
+					<!--插入模板-->
+				</div>
+				<div class="menulist f14" id="records" style="width: 100%;display: none;">
+					<form id="cerbook-form">
+					</form>
+				</div>
+		</div>
+		<!--模板-->
+		<script id="change-template" type="text/x-handlebars-template">
+			<input type="hidden" id="licenseId" name="licenseId" value="{{licenseId}}" />
+				<input type="hidden" name="shopId" value="{{id}}"/>
+				<div class="mui-input-group input-item-style">
+				    <label class="input-item-title">店招名称</label>
+				    <input type="text" name="corporation_name" class="mui-input-clear input-item-content" placeholder="请输入店招名称" value="{{corporation_name}}">
+				</div>
+				<div class="mui-input-group input-item-style" >
+				    <label class="input-item-title">登录手机</label>
+				    <input type="text" name="bindMobile" class="mui-input-clear input-item-content" placeholder="请输入手机" value="{{mobile}}">
+				</div>
+				<div class="mui-input-group input-item-style" >
+				    <label class="input-item-title">绑定密码</label>
+				    <input type="text" name="password" class="mui-input-clear input-item-content" placeholder="若不修改,则为空" value="">
+				</div>
+				<div class="mui-input-group input-item-style" >
+				    <label class="input-item-title">法人名称</label>
+				    <input type="text" name="legal_person_name" class="mui-input-clear input-item-content" placeholder="请输入法人名称" value="{{legal_person_name}}">
+				</div>
+				<div class="mui-input-group input-item-style" >
+				    <label class="input-item-title">法人联系方式</label>
+				    <input type="text" name="legel_person_contact" class="mui-input-clear input-item-content" placeholder="请输入法人联系方式" value="{{legel_person_contact}}">
+				</div>
+				<div class="mui-input-group input-item-style">
+				    <label class="input-item-title">企业简介</label>
+				    <textarea name="introduction" style="width: 7.02rem;height: 3.19rem;font-size:13px;margin: 0 auto;border: 1px solid #ccc;resize:none" placeholder="企业简介">{{introduction}}</textarea>
+				</div>
+				<div class="mui-input-group input-item-style" style="position: relative;">
+				    <label class="input-item-title">登记地址</label>
+				    <input type="hidden" id="target" value="{{prod_address}}"/>
+				    <img src="img/shopsearch.png" id="searchadress-btn" class="search-icon" style="top: 1.2rem;right: 0.5rem;"/>
+				    <p id="residence" >{{prod_address}}</p>
+				</div>
+				<div class="mui-input-group input-item-style" >
+				    <label class="input-item-title">定位数据</label>
+				    <input type="text" name="corporation_address" id="corporation_address" class="mui-input-clear input-item-content f14" value="{{corporation_address}}">
+				    <input name="lat" id="lat" type="hidden" value="{{lat}}"/>
+				    <input name="lng" id="lng" type="hidden" value="{{lng}}"/>
+				    <input name="corporation_address_components" id="corporation_address_components" type="hidden" value="{{corporation_address_components}}"/>
+				</div>
+				<div class="mui-input-group input-item-style" style="position: relative;">
+				    <input type="text" class="mui-input-clear input-item-content search-contentinfo" style="border: 1px solid #CCCCCC;" id="addresskey" placeholder="小区/写字楼/学校" value="">
+					<img src="img/shopsearch.png" id="searchAddress" class="search-icon"/>
+				</div>
+				<div class="mui-input-group input-item-style">
+					<div style="width:100%;height:400px" id="container"></div>
+				</div>
+				<div class="mui-input-group input-item-style" >
+				    <label class="input-item-title">当年风险分级</label>
+				    <div>
+				    	{{#if_eq year_level.risk_level ''}}
+				    	<img src="img/notA.png" data-src="img/notA.png" data-id="A" class="riskchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+				    	<img src="img/notB.png" data-src="img/notB.png" data-id="B" class="riskchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+				    	<img src="img/notC.png" data-src="img/notC.png" data-id="C" class="riskchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+				    	<span id="riskno" class="nowait">待评定</span>
+				    	{{else}}
+				    		{{#if_eq year_level.risk_level 'A'}}
+					    	<img src="img/A.png" data-src="img/notA.png" data-id="A" class="riskchangeicon"  style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+					    	<img src="img/notB.png" data-src="img/notB.png" data-id="B" class="riskchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+					    	<img src="img/notC.png" data-src="img/notC.png" data-id="C" class="riskchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+				    		{{/if_eq}}
+				    		{{#if_eq year_level.risk_level 'B'}}
+					    	<img src="img/notA.png" data-src="img/notA.png" data-id="A" class="riskchangeicon"  style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+					    	<img src="img/B.png" data-src="img/notB.png" data-id="B" class="riskchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+					    	<img src="img/notC.png" data-src="img/notC.png" data-id="C" class="riskchangeicon"  style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+				    		{{/if_eq}}
+				    		{{#if_eq year_level.risk_level 'C'}}
+					    	<img src="img/notA.png" data-src="img/notA.png" data-id="A" class="riskchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+					    	<img src="img/notB.png" data-src="img/notB.png" data-id="B" class="riskchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+					    	<img src="img/C.png" data-src="img/notC.png" data-id="C" class="riskchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+				    		{{/if_eq}}
+				    	{{/if_eq}}
+				    	<input type="hidden" id="risk_level" name="risk_level" value="{{year_level.risk_level}}"/>
+				    </div>
+				</div>
+				<div class="mui-input-group input-item-style" >
+				    <label class="input-item-title">上半年风险分级</label>
+				    <div>
+				    	{{#if_eq year_level.first_half_year_risk_level ''}}
+				    	<img src="img/notA.png" data-src="img/notA.png" data-id="A" class="firstchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+				    	<img src="img/notB.png" data-src="img/notB.png" data-id="B" class="firstchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+				    	<img src="img/notC.png" data-src="img/notC.png" data-id="C" class="firstchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+				    	<img src="img/notD.png" data-src="img/notD.png" data-id="C" class="firstchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+				    	<span id="firstnon" class="nowait">待评定</span>
+				    	{{else}}
+				    		{{#if_eq year_level.first_half_year_risk_level 'A'}}
+					    	<img src="img/A.png" data-src="img/notA.png" data-id="A" class="firstchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+					    	<img src="img/notB.png" data-src="img/notB.png" data-id="B" class="firstchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+					    	<img src="img/notC.png" data-src="img/notC.png" data-id="C" class="firstchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+				    		<img src="img/notD.png" data-src="img/notD.png" data-id="D" class="firstchangeicon"  style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+				    		{{/if_eq}}
+				    		{{#if_eq year_level.first_half_year_risk_level 'B'}}
+					    	<img src="img/notA.png" data-src="img/notA.png" data-id="A" class="firstchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+					    	<img src="img/B.png" data-src="img/notB.png" data-id="B" class="firstchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+					    	<img src="img/notC.png" data-src="img/notC.png" data-id="C" class="firstchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+				    		<img src="img/notD.png" data-src="img/notD.png" data-id="D" class="firstchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+				    		{{/if_eq}}
+				    		{{#if_eq year_level.first_half_year_risk_level 'C'}}
+					    	<img src="img/notA.png" data-src="img/notA.png" data-id="A" class="firstchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+					    	<img src="img/notB.png" data-src="img/notB.png" data-id="B" class="firstchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+					    	<img src="img/C.png" data-src="img/notC.png" data-id="C" class="firstchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+				    		<img src="img/notD.png" data-src="img/notD.png" data-id="D" class="firstchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+				    		{{/if_eq}}
+				    		{{#if_eq year_level.first_half_year_risk_level 'D'}}
+					    	<img src="img/notA.png" data-src="img/notA.png" data-id="A" class="firstchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+					    	<img src="img/notB.png" data-src="img/notB.png" data-id="B" class="firstchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+					    	<img src="img/notC.png" data-src="img/notC.png" data-id="C" class="firstchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+				    		<img src="img/D.png" data-src="img/notD.png" data-id="D" class="firstchangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+				    		{{/if_eq}}
+				    	{{/if_eq}}
+				    	<input type="hidden" id="first_half_year_risk_level" name="first_half_year_risk_level" value="{{year_level.first_half_year_risk_level}}"/>
+				    </div>
+				</div>
+				<div class="mui-input-group input-item-style" >
+					<div style="position: relative;">
+						<label class="input-item-title">年度量化综合等级</label>
+						{{#if_eq year_level.is_show.grade '1'}}
+						<div class="mui-switch mui-switch-mini mui-active" id="switch" style="width: 36px;height: 22px;display:inline-block;position: absolute;right: 0;top: 0.02rem;">
+							  <span style="position: absolute;left: -0.9rem;" class="hide-switch">显示</span>
+							  <div class="mui-switch-handle" style="width: 18px;height: 19px;"></div>
+							  <input type="hidden" class="is_open" name="is_grade" value="{{year_level.is_show.grade}}">
+							</div>
+							{{else}}
+							<div class="mui-switch mui-switch-mini" id="switch" style="width: 36px;height: 22px;display:inline-block;position: absolute;right: 0;top: 0.02rem;">
+							  <span style="position: absolute;left: -0.9rem;" class="hide-switch">隐藏</span>
+							  <div class="mui-switch-handle" style="width: 18px;height: 19px;"></div>
+							  <input type="hidden" class="is_open" name="is_grade" value="{{year_level.is_show.grade}}">
+							</div>
+						{{/if_eq}}
+					</div>
+				    <div>
+				    	{{#if_eq year_level.grade ''}}
+				    	<img src="img/notA.png" data-src="img/notA.png" data-id="A" class="gradechangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+				    	<img src="img/notB.png" data-src="img/notB.png" data-id="B" class="gradechangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+				    	<img src="img/notC.png" data-src="img/notC.png" data-id="C" class="gradechangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+				    	<span id="gradeno" class="nowait">待评定</span>
+				    	{{else}}
+				    		{{#if_eq year_level.grade 'A'}}
+					    	<img src="img/A.png" data-src="img/notA.png" data-id="A" class="gradechangeicon"  style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+					    	<img src="img/notB.png" data-src="img/notB.png" data-id="B" class="gradechangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+					    	<img src="img/notC.png" data-src="img/notC.png" data-id="C" class="gradechangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+				    		{{/if_eq}}
+				    		{{#if_eq year_level.grade 'B'}}
+					    	<img src="img/notA.png" data-src="img/notA.png" data-id="A" class="gradechangeicon"  style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+					    	<img src="img/B.png" data-src="img/notB.png" data-id="B" class="gradechangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+					    	<img src="img/notC.png" data-src="img/notC.png" data-id="C" class="gradechangeicon"  style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+				    		{{/if_eq}}
+				    		{{#if_eq year_level.grade 'C'}}
+					    	<img src="img/notA.png" data-src="img/notA.png" data-id="A" class="gradechangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+					    	<img src="img/notB.png" data-src="img/notB.png" data-id="B" class="gradechangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+					    	<img src="img/C.png" data-src="img/notC.png" data-id="C" class="gradechangeicon" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.32rem;"/>
+				    		{{/if_eq}}
+				    	{{/if_eq}}
+				    	<input type="hidden" id="grade" name="grade" value="{{year_level.grade}}"/>
+				    </div>
+				</div>
+				<div class="mui-input-group input-item-style" >
+					<div style="position: relative;">
+				    <label class="input-item-title">本次动态等级</label>
+				    {{#if_eq check_level_is_show '1'}}
+				    	<div class="mui-switch mui-switch-mini mui-active" id="switch" style="width: 36px;height: 22px;display:inline-block;position: absolute;right: 0;top: 0.02rem;">
+						 <span style="position: absolute;left: -0.9rem;" class="hide-switch">显示</span>
+						  <div class="mui-switch-handle" style="width: 18px;height: 19px;"></div>
+						  <input type="hidden" class="is_open" name="check_level_is_show" value="{{check_level_is_show}}">
+						</div>
+						{{else}}
+						<div class="mui-switch mui-switch-mini" id="switch" style="width: 36px;height: 22px;display:inline-block;position: absolute;right: 0;top: 0.02rem;">
+						  <span style="position: absolute;left: -0.9rem;" class="hide-switch">隐藏</span>
+						  <div class="mui-switch-handle" style="width: 18px;height: 19px;"></div>
+						  <input type="hidden" class="is_open" name="check_level_is_show" value="{{check_level_is_show}}">
+						</div>
+					{{/if_eq}}
+					</div>
+				    <div style="font-size: 14px;color: #d1d1d1;line-height: 1rem;">
+				    	{{#if_eq check_level ''}}
+					    	<img src="img/notselect.png" class="check_change" data-src="img/notselect.png" data-id="优秀" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;"/><span class="icon-style">优秀</span>
+					    	<img src="img/nowell.png" class="check_change" data-src="img/nowell.png"  data-id="良好" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;" /><span class="icon-style">良好</span>
+					    	<img src="img/nososo.png" class="check_change" data-src="img/nososo.png" data-id="一般" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;"/><span class="icon-style">一般</span>
+					    	<img src="img/nochange.png" class="check_change" data-src="img/nochange.png" data-id="整改中" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;"/><span class="icon-style">整改中</span>
+					    	<img src="img/nowait.png" class="check_change" data-src="img/nowait.png" data-id="待评定" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;"/><span class="icon-style">待评定</span>
+					    	<span id="checkno" class="nowait">待评定</span>
+				    	{{else}}
+				    		{{#if_eq check_level '优秀'}}
+				    		<img src="img/selectgood.png" class="check_change" data-src="img/notselect.png" data-id="优秀" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;"/><span class="icon-style">优秀</span>
+				    		<img src="img/nowell.png" class="check_change" data-src="img/nowell.png"  data-id="良好" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;" /><span class="icon-style">良好</span>
+					    	<img src="img/nososo.png" class="check_change" data-src="img/nososo.png" data-id="一般" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;"/><span class="icon-style">一般</span>
+					    	<img src="img/nochange.png" class="check_change" data-src="img/nochange.png" data-id="整改中" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;"/><span class="icon-style">整改中</span>
+					    	<img src="img/nowait.png" class="check_change" data-src="img/nowait.png" data-id="待评定" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;"/><span class="icon-style">待评定</span>
+					    	{{/if_eq}}
+					    	{{#if_eq check_level '良好'}}
+				    		<img src="img/notselect.png" class="check_change" data-src="img/notselect.png" data-id="优秀" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;"/><span class="icon-style">优秀</span>
+				    		<img src="img/selectwell.png" class="check_change" data-src="img/nowell.png" data-id="良好" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;" /><span class="icon-style">良好</span>
+					    	<img src="img/nososo.png" class="check_change" data-src="img/nososo.png" data-id="一般" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;"/><span class="icon-style">一般</span>
+					    	<img src="img/nochange.png" class="check_change" data-src="img/nochange.png" data-id="整改中" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;"/><span class="icon-style">整改中</span>
+					    	<img src="img/nowait.png" class="check_change" data-src="img/nowait.png" data-id="待评定" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;"/><span class="icon-style">待评定</span>
+					    	{{/if_eq}}
+					    	{{#if_eq check_level '一般'}}
+				    		<img src="img/notselect.png" class="check_change" data-src="img/notselect.png" data-id="优秀" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;"/><span class="icon-style">优秀</span>
+				    		<img src="img/nowell.png" class="check_change" data-src="img/nowell.png" data-id="良好" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;" /><span class="icon-style">良好</span>
+					    	<img src="img/selectsoso.png" class="check_change" data-src="img/nososo.png" data-id="一般" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;"/><span class="icon-style">一般</span>
+					    	<img src="img/nochange.png" class="check_change" data-src="img/nochange.png" data-id="整改中" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;"/><span class="icon-style">整改中</span>
+					    	<img src="img/nowait.png" class="check_change" data-src="img/nowait.png" data-id="待评定" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;"/><span class="icon-style">待评定</span>
+					    	{{/if_eq}}
+					    	{{#if_eq check_level '整改中'}}
+				    		<img src="img/notselect.png" class="check_change" data-src="img/notselect.png" data-id="优秀" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;"/><span class="icon-style">优秀</span>
+				    		<img src="img/nowell.png" class="check_change" data-src="img/nowell.png" data-id="良好" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;" /><span class="icon-style">良好</span>
+					    	<img src="img/nososo.png" class="check_change" data-src="img/nososo.png" data-id="一般" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;"/><span class="icon-style">一般</span>
+					    	<img src="img/selectwait.png" class="check_change" data-src="img/nochange.png" data-id="整改中" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;"/><span class="icon-style">整改中</span>
+					    	<img src="img/nowait.png" class="check_change" data-src="img/nowait.png" data-id="待评定" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;"/><span class="icon-style">待评定</span>
+					    	{{/if_eq}}
+					    	{{#if_eq check_level '待评定'}}
+				    		<img src="img/notselect.png" class="check_change" data-src="img/notselect.png" data-id="优秀" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;"/><span class="icon-style">优秀</span>
+				    		<img src="img/nowell.png" class="check_change" data-src="img/nowell.png" data-id="良好" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;" /><span class="icon-style">良好</span>
+					    	<img src="img/nososo.png" class="check_change" data-src="img/nososo.png" data-id="一般" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;"/><span class="icon-style">一般</span>
+					    	<img src="img/nochange.png" class="check_change" data-src="img/nochange.png" data-id="整改中" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;"/><span class="icon-style">整改中</span>
+					    	<img src="img/selectmessage.png" class="check_change" data-src="img/nowait.png" data-id="待评定" style="width: 0.58rem;height: 0.58rem;vertical-align: top;margin-right: 0.2rem;"/><span class="icon-style">待评定</span>
+					    	{{/if_eq}}
+				    	{{/if_eq}}
+				    	
+				    	<input type="hidden" id="check_level" name="check_level" value="{{check_level}}"/>
+				    </div>
+				</div>
+				<div class="mui-input-group input-item-style">
+				    <label class="input-item-title">备注</label>
+				    <textarea name="note" style="width: 7.02rem;height: 3.19rem;font-size:13px;margin: 0 auto;border: 1px solid #ccc;resize:none" placeholder="企业简介">{{note}}</textarea>
+				</div>
+				<div style="background-color: #ffffff;width: 100%;padding: 0.32rem 0;border-top: 1px solid #CCCCCC;">
+					<div class="editshop">确认修改</div>
+				</div>
+				<div style="background-color: #ffffff;width: 100%;padding: 0.32rem 0;">
+					<div class="cancelshop" style="font-size: 16px;">取消</div>
+				</div>
+				<script>
+//					$(document).ready(function(){       
+//				        var clipboard = new Clipboard('#residence');    
+//				        clipboard.on('success', function(e) {   
+//				            alert("复制成功",1500);    
+//				            e.clearSelection();    
+//				            console.log(e.clearSelection);    
+//				        });    
+//				   	});
+				</script>
+		</script>
+		<script id="book-template" type="text/x-handlebars-template">
+			<input type="hidden" id="licenseId" name="licenseId" value="{{licenseId}}" />
+			{{#each license_column_data}}
+			<li class="mui-table-view-cell flex-play">
+		    	<span class="flex-info-left f14">{{#if cn_name}}{{cn_name}}{{else}}{{en_name}}{{/if}}</span>
+		    	<!--<span class="flex-info-left f14">{{cn_name}}</span>-->
+		        <input class="flex-info-right input-border name" name="{{en_name}}" value="{{value}}" />
+		    </li>
+		    {{/each}}
+		    <div style="background-color: #ffffff;width: 100%;padding: 0.32rem 0;border-top: 1px solid #CCCCCC;">
+				<div class="editcerbook">确认修改</div>
+			</div>
+			<div style="background-color: #ffffff;width: 100%;padding: 0.32rem 0;">
+				<div class="cancelshop" style="font-size: 16px;">取消</div>
+			</div>
+		</script>
+		<!--模板-->
+		<script src="js/mui.min.js"></script>
+	</body>
+</html>

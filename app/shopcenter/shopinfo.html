@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>企业信息</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<script type="text/javascript" src="../../common/rem.js"></script>
+		<link rel="stylesheet" href="../../css/shopinfo.css" />
+		<link rel="stylesheet" href="../../common/css/footer.css" />
+		<script type="text/javascript" src="../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../common/common.js"></script>
+		<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=LXQBZ-OK7HS-ILDOF-64VY5-EQNCT-D6FQ3"></script>
+		<script src="../../js/mui.min.js"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color:#29a3da;box-shadow: none;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 id="title" class="mui-title" style="color: #fff;font-weight: bold;">企业信息</h1>
+		</header>
+		<div class="mui-content" id="shopinfo">
+			
+		</div>
+		<!--模板-->
+		<script id="content-template" type="text/x-handlebars-template">
+			<ul class="mui-table-view" style="margin-top: 0;" onload="init()">
+				<li class="mui-table-view-cell flex-play">
+			    	<span class="flex-info-left" style="font-size: 16px;">店招名称</span> 
+			        <input type="text" placeholder="请输入店招名称" disabled="disabled" class="flex-info-right input-border corp_name" style="border: none;background-color: #fff;" name="corporation_name" value="{{corporation_name}}" />
+			    </li>
+			    <li class="mui-table-view-cell flex-play">
+			    	<span class="flex-info-left" style="font-size: 16px;">手机号码</span> 
+			        <input type="text" placeholder="请输入手机号码" disabled="disabled" class="flex-info-right input-border corp_name" style="border: none;background-color: #fff;" name="mobile" value="{{mobile}}" />
+			    </li>
+			    <li class="mui-table-view-cell flex-play">
+			    	<span class="flex-info-left" style="font-size: 16px;">法人名称</span> 
+			        <input type="text" placeholder="请输入法人名称" disabled="disabled" class="flex-info-right input-border corp_name" style="border: none;background-color: #fff;" name="legal_person_name" value="{{legal_person_name}}" />
+			    </li>
+			    <li class="mui-table-view-cell flex-play">
+			    	<span class="flex-info-left" style="font-size: 16px;">法人联系方式</span> 
+			        <input type="text" placeholder="请输入法人联系方式" disabled="disabled" class="flex-info-right input-border corp_name" style="border: none;background-color: #fff;" name="legel_person_contact" value="{{legel_person_contact}}" />
+			    </li>
+			    <li class="mui-table-view-cell" style="padding-top: 0.1rem">
+			    	<span class="flex-info-left">企业简介</span>
+			    	<textarea class="text-note note" style="margin-top: 0.2rem;background-color: #fff;" disabled="disabled" name="introduction">{{introduction}}</textarea>
+			    </li>
+			    <!--地图-->
+			    <li class="mui-table-view-cell" style="padding-top: 0.1rem">
+			    	<span class="flex-info-left">定位数据</span>
+			    	<input type="text" class="text-note note" style="margin-top: 0.2rem;display: block;width: 100%;height: 0.8rem;" name="prod_address" value="{{prod_address}}"/>
+			    </li>
+		   		<div class="mui-input-group input-item-style" >
+				    <input type="hidden" name="prod_address" id="prod_address" class="mui-input-clear input-item-content f14" value="{{prod_address}}">
+				    <input name="lat" id="lat" type="hidden" value="{{lat}}"/>
+				    <input name="lng" id="lng" type="hidden" value="{{lng}}"/>
+				    <input name="corporation_address_components" id="corporation_address_components" type="hidden" value="{{corporation_address_components}}"/>
+				</div>
+				<div class="mui-input-group input-item-style" style="margin-left: 15px;margin-right: 15px;margin-top: 15px;">
+					<div style="width:100%;height:300px" id="container"></div>
+				</div>
+				<div style="height: 0.7rem;"></div>
+			</ul>
+		</script>
+		<!--模板-->
+		<script type="text/javascript" src="../js/shopcenter/shopinfo.js"></script>
+		<script>
+			
+			console.log(accessToken);
+			
+			function init(lat,lng) {
+		        //新建一个(纬,经)坐标
+		        var center = new qq.maps.LatLng(lat, lng);
+
+		        var container = $('#container');
+		        //将地图显示在div container上
+		        map = new qq.maps.Map($("#container")[0], {
+		            center: center, //指定地图中心
+		            zoom: 13   //缩放级别,范围0-18，18放大倍数最高
+		        });
+		        //创建一个Marker
+			    var marker = new qq.maps.Marker({
+			        //设置Marker的位置坐标
+			        position: center,
+			        //设置显示Marker的地图
+			        map: map
+			    })
+		   	}
+		//初始化函数，页面载入时加载
+		</script>
+	</body>
+</html>

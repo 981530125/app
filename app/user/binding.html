@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>账号绑定</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<link rel="stylesheet" href="../../css/binding.css" />
+		<script type="text/javascript" src="../../common/rem.js"></script>
+		<script type="text/javascript" src="../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../common/common.js"></script>
+		<script type="text/javascript" src="../js/user/binding.js"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#2ca5db;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 class="mui-title" style="color: #fff;font-weight: bold;">账号绑定</h1>
+		</header>
+		<div class="mui-content">
+			<div style="width: 90%;height: 1rem;margin: 0 auto;border-radius: 1rem;border:1px solid #aaa;overflow: hidden;margin-top: 2rem;">
+				<input type="" name="mobile" placeholder="请输入账号" class="account" style="height: 100%;width: 100%;text-indent: 0.5rem;line-height: 1rem;font-size: 16px;border: none;">
+			</div>
+			<div class="typeitem">
+				<span class="item-style item-active" data-type="user">会员</span>
+				<span class="item-style" data-type="shop">企业</span>
+				<span class="item-style" data-type="admin">管理员</span>
+			</div>
+			<input type="hidden" name="usertype" class="usertype" value="user" />
+			<div style="width: 100%;text-align: center;margin-top: 2rem;">
+				<button type="button" class="mui-btn mui-btn-primary tobinding" style="width: 90%;height: 1rem;border-radius: 1rem;">立即绑定</button>
+			</div>
+		</div>
+	</body>
+</html>

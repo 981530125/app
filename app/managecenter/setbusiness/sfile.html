@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../../css/mui.min.css">
+		<script type="text/javascript" src="../../../common/rem.js"></script>
+		<script src="../../../js/mui.min.js"></script>
+		<link rel="stylesheet" href="../../../common/css/mui.picker.css" />
+		<link rel="stylesheet" href="../../../common/css/mui.poppicker.css" />
+		<link rel="stylesheet" href="../../../css/infodetil.css">
+		<script type="text/javascript" src="../../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../../js/handlebars.js"></script>
+		<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=LXQBZ-OK7HS-ILDOF-64VY5-EQNCT-D6FQ3"></script>
+		<script type="text/javascript" src="../../../common/common.js"></script>
+		<title></title>
+		<style>
+			.form-flex{
+				display: flex;
+				height: 1rem;
+				border: 1px solid #ccc;
+			}
+			.form-item{
+				flex: 1;
+				text-align: center;
+				height: 1rem;
+				line-height: 1rem;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#2ca5db;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 class="mui-title" style="color: #fff;font-weight: bold;">任务详情</h1>
+		</header>
+		<div class="mui-content" style="padding-top: 89px;">
+			<div style="margin: 0 auto;border-bottom: 1px solid #e0e0e0;background-color: #fff;position: fixed;top: 44px;left: 0;z-index: 300;width: 100%;">
+				<ul class="all-item">
+					<li class="all-li all-active f14" style="flex: 1;" data-id="0" data-tasktype="notice">任务摘要</li>
+					<li class="all-li f14" style="flex: 1;" data-id="1" data-tasktype="push">详情细则</li>
+					<li class="all-li f14" style="flex: 1;" data-id="2" data-tasktype="push">单位信息</li>
+				</ul>
+			</div>
+			<div class="menulist f14 mui-scroll" id="abstract-info" style="width: 100%;">
+				<!--插入模板-->
+			</div>
+			<div class="menulist f14 mui-scroll" id="taskinfo-content" style="width: 100%;display: none;">
+			
+			</div>
+			<div class="menulist f14 mui-scroll" id="unit-content" style="width: 100%;display: none;">
+			
+			</div>
+		</div>
+	</body>
+	<!--模板-->
+ 	<script id="abstract-template" type="text/x-handlebars-template">
+ 		<div style="font-size: 14px;">
+ 			<ul class="mui-table-view">
+	 			<li class="mui-table-view-cell" style="height: 1rem;line-height: 1rem;display: flex;align-items:center;">
+			    	<span style="flex: 1;font-size: 16px;">任务名</span>
+			        <input class="flex-info-right input-border corp_name" name="corp_name" value="{{announcement.title}}" readonly="readonly" style="height: 100%;background-color: #fff;text-align: right;flex: 3;font-size: 16px;border: none;"/>
+			    </li>
+			    <li class="mui-table-view-cell" style="height: 1rem;line-height: 1rem;display: flex;align-items:center;">
+			    	<span style="flex: 1;font-size: 16px;">监查对象</span>
+			        <input class="flex-info-right input-border corp_name" name="corp_name" value="{{license.corp_name}}" readonly="readonly" style="height: 100%;background-color: #fff;text-align: right;flex: 3;font-size: 16px;border: none;"/>
+			    </li>
+			    <li class="mui-table-view-cell" style="height: 1rem;line-height: 1rem;display: flex;align-items:center;">
+			    	<span style="flex: 1;font-size: 16px;">单位类型</span>
+			        <input class="flex-info-right input-border corp_name" name="corp_name" value="{{license.type_info.name}}" readonly="readonly" style="height: 100%;background-color: #fff;text-align: right;flex: 3;font-size: 16px;border: none;"/>
+			    </li>
+			    <li class="mui-table-view-cell" style="height: 1rem;line-height: 1rem;display: flex;align-items:center;">
+			    	<span style="flex: 1;font-size: 16px;">residence</span>
+			        <input class="flex-info-right input-border corp_name" name="corp_name" value="{{license.residence}}" readonly="readonly" style="height: 100%;background-color: #fff;text-align: right;flex: 3;font-size: 16px;border: none;"/>
+			    </li>
+			    <li class="mui-table-view-cell" style="height: 1rem;line-height: 1rem;display: flex;align-items:center;">
+			    	<span style="flex: 1;font-size: 16px;">单位类型</span>
+			        <input class="flex-info-right input-border corp_name" name="corp_name" value="{{license.type_info.name}}" readonly="readonly" style="height: 100%;background-color: #fff;text-align: right;flex: 3;font-size: 16px;border: none;"/>
+			    </li>
+			    <li class="mui-table-view-cell list-size-style">
+			    	<div style="font-size: 16px;">接收人员</div>
+			    	<ul id="managenamelist" class="mui-table-view mui-grid-view mui-grid-9" style="background-color: #fff;border: none;min-height: 1.2rem">
+			    		{{#each merge_receive_admin_group}}
+						<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-3" style="border: none;">
+							<div class="mui-media-body f14 " style="width: 3.22rem;height: 0.8rem;line-height:0.8rem;display: inline-block;background-color: #209fd8;color: #fff;border-radius: 0.05rem;"><p style="color: #fff;font-size: 16px;">{{name}}</p></div>
+							<input type="hidden" value="{{id}}" name="ids_of_operate_admin" />
+						</li>
+						{{/each}}
+					</ul>
+			    </li>
+			    <li class="mui-table-view-cell" style="height: 1rem;line-height: 1rem;display: flex;align-items:center;">
+			    	<span style="flex: 1;font-size: 16px;">任务区间</span>
+			        <input class="flex-info-right input-border corp_name" name="corp_name" value="{{prettifyDate announcement.check_start_at 10}} ~ {{prettifyDate announcement.check_end_at 10}}" readonly="readonly" style="height: 100%;background-color: #fff;text-align: right;flex: 3;font-size: 16px;border: none;"/>
+			    </li>
+			    <li class="mui-table-view-cell" style="height: 1rem;line-height: 1rem;display: flex;align-items:center;">
+			    	<span style="flex: 1;font-size: 16px;">时间</span>
+			        <input class="flex-info-right input-border corp_name" name="corp_name" value="{{changesecond announcement.time_progress.time_remain}}" readonly="readonly" style="height: 100%;background-color: #fff;text-align: right;flex: 3;font-size: 16px;border: none;"/>
+			    </li>
+			    <li class="mui-table-view-cell" style="height: 1rem;line-height: 1rem;display: flex;align-items:center;">
+			    	<span style="flex: 1;font-size: 16px;">监查次数</span>
+			        <input class="flex-info-right input-border corp_name" name="corp_name" value="{{announcement.check_times}}" readonly="readonly" style="height: 100%;background-color: #fff;text-align: right;flex: 3;font-size: 16px;border: none;"/>
+			    </li>
+			    <li class="mui-table-view-cell" style="height: 1rem;line-height: 1rem;display: flex;align-items:center;">
+			    	<span style="flex: 1;font-size: 16px;">进度</span>
+			        <input class="flex-info-right input-border corp_name" name="corp_name" value="{{reduce announcement.check_times record_fill_times}}" readonly="readonly" style="height: 100%;background-color: #fff;text-align: right;flex: 3;font-size: 16px;border: none;"/>
+			    </li>
+			    <li class="mui-table-view-cell" style="height: 1rem;line-height: 1rem;display: flex;align-items:center;">
+			    	<span style="flex: 1;font-size: 16px;">状态</span>
+			        <!--<input class="flex-info-right input-border corp_name" name="corp_name" value="{{#if_eq announcement.status '0'}}未完成{{else}}已完成{{/if_eq}}" readonly="readonly" style="height: 100%;background-color: #fff;text-align: right;flex: 3;font-size: 16px;border: none;"/>-->
+			    	<div class="flex-info-right mui-input-row mui-radio" style="display: flex;height: 100%;height: 100%;background-color: #fff;text-align: right;flex: 3;font-size: 16px;border: none;">
+			    		<div style="flex: 1;position: relative;">
+			    			<input name="status" class="status" type="radio"  value="0" style="left: 30px;" {{#if_eq announcement.status '0'}}checked{{else}}{{/if_eq}}>
+			    			<span style="display: inline-block;width:50px;position: absolute;top: 0px;right: 0;padding-top: 0;height: 1rem;line-height: 0.7rem;">未完成</span>
+			    		</div>
+			    		<div style="flex: 1;position: relative;">
+			    			<input name="status" class="status" type="radio"  value="1" style="left: 30px;" {{#if_eq announcement.status '0'}}{{else}}checked{{/if_eq}}>
+			    			<span style="display: inline-block;width:50px;position: absolute;top: 0px;right: 0;padding-top: 0;height: 1rem;line-height: 0.7rem;">已完成</span>
+			    		</div>
+			    	</div>
+			    </li>
+			    <li class="mui-table-view-cell" style="height: 1rem;line-height: 1rem;display: flex;align-items:center;">
+			    	<span style="flex: 1;font-size: 16px;">公众端可见</span>
+			        <!--<input class="flex-info-right input-border corp_name" name="corp_name" value="{{#if_eq announcement.is_open '0'}}隐藏{{else}}可见{{/if_eq}}" readonly="readonly" style="height: 100%;background-color: #fff;text-align: right;flex: 3;font-size: 16px;border: none;"/>-->
+			    	<div class="flex-info-right mui-input-row mui-radio" style="display: flex;height: 100%;height: 100%;background-color: #fff;text-align: right;flex: 3;font-size: 16px;border: none;">
+			    		<div style="flex: 1;position: relative;">
+			    			<input name="is_open" class="is_open" type="radio"  value="0" style="left: 30px;" {{#if_eq announcement.is_open '0'}}checked{{else}}{{/if_eq}}>
+			    			<span style="display: inline-block;width:50px;position: absolute;top: 0px;right: 0;padding-top: 0;height: 1rem;line-height: 0.7rem;">隐藏</span>
+			    		</div>
+			    		<div style="flex: 1;position: relative;">
+			    			<input name="is_open" class="is_open" type="radio"  value="1" style="left: 30px;" {{#if_eq announcement.is_open '0'}}{{else}}checked{{/if_eq}}>
+			    			<span style="display: inline-block;width:50px;position: absolute;top: 0px;right: 0;padding-top: 0;height: 1rem;line-height: 0.7rem;">可见</span>
+			    		</div>
+			    	</div>
+			    </li>
+			    <div style="padding: 0.2rem;">
+			    	<div style="border-radius: 0.1rem;overflow: hidden;">
+				    	<p style="width: 100%;height: 1rem;line-height:1rem;text-align: center;font-size: 16px;background-color: #007aff;color: #fff;margin-bottom: 0;">监查记录</p>
+				    	<div>
+				    		<div class="form-flex">
+				    			<span class="form-item">名称</span>
+				    			<span class="form-item">创建人</span>
+				    			<span class="form-item">操作</span>
+				    		</div>
+				    		{{#each investigate_record}}
+				    		<div class="form-flex">
+				    			<span class="form-item">{{name}}</span>
+				    			<span class="form-item">{{created_admin.name}}</span>
+				    			<span class="form-item forminfo" data-taskid="{{../id}}" data-id="{{id}}">查看</span>
+				    		</div>
+				    		{{/each}}
+				    	</div>
+				    </div>
+			    </div>
+			    <div style="padding: 0.2rem;border-top:1px solid #ccc;">
+			    	<div style="height: 0.8rem;line-height: 0.8rem;font-size: 16px;padding: 0;">备注</div>
+			    	<textarea style="min-height: 2rem;" name="note" class="note">{{note}}</textarea>
+			    </div>
+			    <div class="editbtn" style="padding: 0.2rem;">
+			    	<button type="button" data-id="{{id}}" class="mui-btn mui-btn-primary btn-myedit" style="width: 100%;height: 1rem;font-size: 14px;">提交编辑</button>
+			    </div>
+		   	</ul>
+ 		</div>
+ 	</script>
+ 	<script id="taskinfo-template" type="text/x-handlebars-template">
+ 		<div style="background-color: #fff;padding: 0.4rem 0.2rem;">
+ 			<div style="font-size: 18px;padding-left: 0.2rem;padding-right: 0.2rem;font-weight: bold;">{{announcement.title}}</div>
+	 		<div style="font-size: 16px;padding-left: 0.2rem;padding-right: 0.2rem;text-indent: 0.5rem;padding-top: 0.3rem;">
+	 			{{{announcement.content}}}
+	 		</div>
+ 		</div>
+ 	</script>
+ 	<script id="unit-template" type="text/x-handlebars-template">
+ 		<div style="font-size: 14px;" onload="init();">
+ 			<ul class="mui-table-view">
+	 			<li class="mui-table-view-cell" style="height: 1rem;line-height: 1rem;display: flex;align-items:center;">
+			    	<span style="flex: 1;font-size: 16px;">地区名称</span>
+			        <input class="flex-info-right input-border corp_name" name="corp_name" value="{{area_name}}" readonly="readonly" style="height: 100%;background-color: #fff;flex: 3;border: none;text-align: right;"/>
+			    </li>
+			    <li class="mui-table-view-cell" style="height: 1rem;line-height: 1rem;display: flex;align-items:center;">
+			    	<span style="flex: 1;font-size: 16px;">单位类型</span>
+			        <input class="flex-info-right input-border corp_name" name="corp_name" value="{{license.type_info.name}}" readonly="readonly" style="height: 100%;background-color: #fff;flex: 3;border: none;text-align: right;"/>
+			    </li>
+			    <li class="mui-table-view-cell" style="height: 1rem;line-height: 1rem;display: flex;align-items:center;">
+			    	<span style="flex: 1;font-size: 16px;">企业名称</span>
+			        <input class="flex-info-right input-border corp_name" name="corp_name" value="{{license.shop.account}}" readonly="readonly" style="height: 100%;background-color: #fff;flex: 3;border: none;text-align: right;"/>
+			    </li>
+			    <li class="mui-table-view-cell" style="height: 1rem;line-height: 1rem;display: flex;align-items:center;">
+			    	<span style="flex: 1;font-size: 16px;">法定代表人</span>
+			        <input class="flex-info-right input-border corp_name" name="corp_name" value="{{license.shop.legal_person_name}}" readonly="readonly" style="height: 100%;background-color: #fff;flex: 3;border: none;text-align: right;"/>
+			    </li>
+			    <li class="mui-table-view-cell" style="height: 1rem;line-height: 1rem;display: flex;align-items:center;">
+			    	<span style="flex: 1;font-size: 16px;">证书编号</span>
+			        <input class="flex-info-right input-border corp_name" name="corp_name" value="{{license.license_no}}" readonly="readonly" style="height: 100%;background-color: #fff;flex: 3;border: none;text-align: right;"/>
+			    </li>
+			    <li class="mui-table-view-cell" style="height: 1rem;line-height: 1rem;display: flex;align-items:center;">
+			    	<span style="flex: 1;font-size: 16px;">有效期至</span>
+			        <input class="flex-info-right input-border corp_name" name="corp_name" value="{{license.license_valid_to}}" readonly="readonly" style="height: 100%;background-color: #fff;flex: 3;border: none;text-align: right;"/>
+			    </li>
+			    <li class="mui-table-view-cell" style="height: 1rem;line-height: 1rem;display: flex;align-items:center;">
+			    	<span style="flex: 1;font-size: 16px;">联系方式</span>
+			        <input class="flex-info-right input-border corp_name" name="corp_name" value="{{license.phone}}" readonly="readonly" style="height: 100%;background-color: #fff;flex: 3;border: none;text-align: right;"/>
+			    </li>
+			    <li class="mui-table-view-cell" style="height: 1rem;line-height: 1rem;display: flex;align-items:center;">
+			    	<span style="flex: 1;font-size: 16px;">residence</span>
+			        <input class="flex-info-right input-border corp_name" name="corp_name" value="{{license.residence}}" readonly="readonly" style="height: 100%;background-color: #fff;flex: 3;border: none;text-align: right;"/>
+			    </li>
+			    <li class="mui-table-view-cell" style="height: 1rem;line-height: 1rem;display: flex;align-items:center;">
+			    	<span style="flex: 1;font-size: 16px;">地图坐标</span>
+			        <!--<input class="flex-info-right input-border corp_name" name="corp_name" value="{{license.residence}}" readonly="readonly" style="height: 100%;background-color: #fff;flex: 3;border: none;text-align: right;"/>-->
+			    </li>
+			    <div style="padding: 0.2rem;padding-top: 0.5rem;padding-bottom: 0.5rem;">
+			    	<div id="container" style="width: 100%;height: 5rem;"></div>
+			    </div>
+			    
+		  	</ul>
+ 		</div>
+ 	</script>
+ 	
+	<script>
+		$(function(){
+			var rootpower = [{
+				obj:'.editbtn',
+				apiurl:'/index.php/Api/Apps/Jingkaiqu/Investigate_task/editData',
+				describe:'编辑任务'
+			}];
+			//	获取参数
+			mui.plusReady(function() {
+				//获取检查表类型
+				var self = plus.webview.currentWebview();
+				console.log(JSON.stringify(self.datainfo));
+				var info = self.datainfo;
+				window.allifo = self.allifo;
+//				摘要
+				
+				// 抓取模板数据
+				var contenttpl = $("#abstract-template").html();
+				// 编译模板
+				var rcontenttp = Handlebars.compile(contenttpl);
+				var data = info;
+				// 把数据传送到模板
+				var text = rcontenttp(data);
+				// 更新到模板
+				$('#abstract-info').html(text);
+//				任务	
+				// 抓取模板数据
+				var taskinfotpl = $("#taskinfo-template").html();
+				// 编译模板
+				var taskinfotp = Handlebars.compile(taskinfotpl);
+				var data = info;
+				// 把数据传送到模板
+				var text = taskinfotp(data);
+				// 更新到模板
+				$('#taskinfo-content').html(text);
+				
+//				单位信息
+				// 抓取模板数据
+				var unitinfotpl = $("#unit-template").html();
+				// 编译模板
+				var unitinfotp = Handlebars.compile(unitinfotpl);
+				var data = info;
+				// 把数据传送到模板
+				var text = unitinfotp(data);
+				// 更新到模板
+				$('#unit-content').html(text);
+				for(var itemn in rootpower){
+					ispower(rootpower[itemn].obj,rootpower[itemn].apiurl);
+				}
+				drawmap(data.license._lat, data.license._lng,data.license.shop.corporation_name);
+			})
+			
+			//点击切换
+			$('.all-li').click(function() {
+				var id = $(this).attr('data-id');
+				var tasktype = $(this).attr('data-tasktype');
+				window.tasktype = tasktype;
+				gettypeitem(id);
+			});
+//			点击编辑
+			$('html').on('click','.btn-myedit',function(){
+				var id = $(this).attr('data-id');
+				
+				var open = $('.is_open');
+				for(var n= 0;n<open.length;n++){
+					if(open[n].checked){
+						console.log(open[n].value);
+						var is_open = open[n].value;
+					}
+				}
+				
+				var isstatus = $('.status');
+				for(var n= 0;n<isstatus.length;n++){
+					if(isstatus[n].checked){
+						var status = isstatus[n].value;
+					}
+				}
+				var note = $('.note').val();
+				edit(id,is_open,status,note);
+			})
+
+			function edit(id,is_open,status,note){
+				var url = rooturl+'index.php/Api/Apps/Jingkaiqu/Investigate_task/editData';
+				$.ajax({
+					type: "post",
+					url: url,
+					async: true,
+					data: {
+						mobile: mobile,
+						userType: userType,
+						clientType: clientType,
+						clientId: clientId,
+						accessToken: accessToken,
+						id:id,
+						is_open:is_open,
+						status:status,
+						note:note
+					},
+					dataType: 'json',
+					success: function(res) {
+						if(res.code && res.code == '1000') {
+							console.log(JSON.stringify(res));
+							setTimeout(function() {
+								mui.back(); 
+								var list = plus.webview.currentWebview().opener();  //触发父页面的自定义事件(refresh),从而进行刷新
+								 
+								mui.fire(list, 'refresh', {
+									reload: 'true'
+								});  //返回true,继续页面关闭逻辑
+								return true;
+							}, 500);
+							mui.toast(res.message,{ duration:'long', type:'div' });
+						} else {
+							console.log(res.message);
+						}
+					},
+					error: function(res) {
+						console.log('333');
+					}
+				});
+			}
+			
+			
+			//根据id切换选项卡
+			function gettypeitem(id){
+				var len = $(".menulist").length;
+				for(var n = 0;n<len;n++){
+					$(".menulist").eq(n).hide();
+				}
+				$(".menulist").eq(id).show();
+				$('.all-li').eq(id).siblings('.all-li').removeClass('all-active');
+				$('.all-li').eq(id).addClass('all-active');	
+			}
+			
+			//绘制地图，设置marker
+			function drawmap(latitude, longitude,Location){
+//				var coord = new qq.maps.LatLng('27.857774','120.794908');
+//				geocoder.getLocation(',,龙湾区,天鹅湖小区');
+		//			坐标
+//				geocoder.getAddress(coord);
+					
+				var center = new qq.maps.LatLng(latitude,longitude);
+				var Label = new qq.maps.LatLng(latitude,longitude-0.018);
+	            var map = new qq.maps.Map(document.getElementById('container'), {
+	                center: center,
+	                zoom: 13
+	            });
+	            
+	            var marker = new qq.maps.Marker({
+	                map:map,
+	                position: center
+	                
+	            });
+	            
+	            var infoWin = new qq.maps.InfoWindow({
+	                map: map
+	            });
+				var marker = new qq.maps.Label({
+				    position: Label,
+				    map: map,
+				    content:Location
+				})				
+		//		逆地址
+//				geocoder = new qq.maps.Geocoder({
+//				    complete:function(result){
+//		//		    	坐标转地址
+//				        alert('您点击的位置地址：'+result.detail.address);
+//		//		                    地址转坐标
+//		//		        alert('成功坐标'+result.detail.location);
+//				        
+//		//		        console.log(JSON.stringify(result.detail));
+//				        
+//				        map.setCenter(result.detail.location);
+//			            var marker = new qq.maps.Marker({
+//			                map:map,
+//			                position: result.detail.location
+//			            });
+//				    }
+//				});
+			}
+			
+			$('html').on('click','.forminfo',function(){
+				var id = $(this).attr('data-taskid');
+				var record_id = $(this).attr('data-id');
+				
+				console.log(id);
+				
+				console.log(record_id);
+				getformdetail(id,record_id)
+			})
+			
+			function getformdetail(id,record_id){
+				var objinfo = {};
+			 	var allinfo = window.allifo;
+			 	for(var n = 0;n< allinfo.length;n++){
+			 		if(allinfo[n].id == id){
+			 			var investigate_record = allinfo[n].investigate_record;
+			 			for(var i = 0;i<investigate_record.length;i++){
+			 				if(investigate_record[i].id == record_id){
+			 					objinfo = investigate_record[i]
+			 				}
+			 			}
+			 		}
+			 	}
+				var datainfo = window.allifo;
+				console.log(id);
+				for(var d = 0;d<datainfo.length;d++){
+					if(datainfo[d].id == id){
+						var type_info = datainfo[d].license.type_info;
+						var licenseinfo = datainfo[d].license;
+					}
+				}
+				mui.openWindow({
+				    url:'../../managecenter/checkform/checkform.html',   
+				    id:'checkform',
+				    extras: {
+				    	objinfo:objinfo,
+				    	type_of:type_info,
+				    	licenseinfo:licenseinfo
+				    }
+				});
+			}
+		})
+	</script>
+</html>

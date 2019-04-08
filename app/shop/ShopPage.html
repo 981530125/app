@@ -1,0 +1,410 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>企业详情</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../common/rem.js"></script>
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<link rel="stylesheet" href="../../css/shoppage.css" />
+		<link rel="stylesheet" href="../../common/css/mui.imageviewer.css" />
+		<script type="text/javascript" src="../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../common/common.js"></script>
+		<style type="text/css">
+			#div {
+				width: 0px;
+				height: 0px;
+				background: red;
+				position: fixed;
+				top: 70%;
+				left: 50%;
+				z-index: 100;
+			}
+			/*移除底部或顶部三角,需要在删除此代码*/
+			.mui-popover .mui-popover-arrow:after {
+				width: 0px;
+			}
+		</style>
+		<style type="text/css">
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto 4;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				width: auto;
+				height: auto;
+				max-width: 100%;
+				max-height: 100%;
+			}
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+			}
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			p img {
+				max-width: 100%;
+				height: auto;
+			}
+		</style>
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack: false //启用右滑关闭功能
+			});
+		</script>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#35a8dc;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<a class=" mui-icon mui-pull-right mui-a-color"><img src="../../img/fenxiang.png" style="margin-right: 3px;display: none;" width="20px" /></a>
+			<a href="#" class="mui-icon mui-pull-right mui-a-color callphone"><img src="../../img/phone2.png" style="margin-left: 0.12rem;margin-right: 0.12rem;" width="20px" /></a>
+			<a href="#" class="mui-icon mui-pull-right mui-a-color myroute"><img src="../../img/route.png" style="margin-left: 0.12rem;margin-right: 0.22rem;" width="16px" /></a>
+			<a href="#" class="mui-icon mui-pull-right mui-a-color twocode" data-type="shop"><img src="../../img/ewm.png" style="margin-right: 0.22rem;" width="16px" /></a>
+				
+			<!--<h1 class="mui-title" style="color: #fff;">个人中心</h1>-->
+		</header>
+		<div style="height: 44px;width: 100%;"></div>
+		<div id="div"></div>
+		<div id="popover" class="mui-popover" style="height: 6rem;width: 6rem;background-color: #fff;position: relative;">
+			<div class="mui-popover-arrow"></div>
+			<div style="font-size: 14px;padding: 0.2rem;">
+				<div style="width: 100%;height: 1rem;line-height: 1rem;text-align: center;font-size: 16px;color: #fe9560;font-weight: bold;">评价企业</div>
+				<div>
+					<ul class="mui-table-view" style="background-color: #fff;display: inline-block;">
+						<li class="star-li">
+							<div class="icons">
+								<i data-index="1" class="mui-icon mui-icon-star" style="color: #fe9560;"></i>
+								<i data-index="2" class="mui-icon mui-icon-star" style="color: #fe9560;"></i>
+								<i data-index="3" class="mui-icon mui-icon-star" style="color: #fe9560;"></i>
+								<i data-index="4" class="mui-icon mui-icon-star" style="color: #fe9560;"></i>
+								<i data-index="5" class="mui-icon mui-icon-star" style="color: #fe9560;"></i>
+							</div>
+						</li>
+					</ul>
+					<div id="info" style="font-size: 14px;display: inline-block;float: right;height: 0.6rem;line-height: 0.6rem;color: #fe9560;padding-right: 0.2rem;"></div>
+				</div>
+				<div style="padding-top: 0.2rem;">
+					<textarea placeholder="请输入评价" id="evaluatecontent" style="font-size: 16px;height: 2.5rem;"></textarea>
+				</div>
+			</div>
+			<div style="padding: 0.2rem;text-align: center;position: absolute;bottom: 0.2rem;left: 0.1rem;">
+				<div class="exit-btn cancelbtn" style="background-color: #f5f6f9;color: #cdcdcd;">取消</div>
+				<div class="exit-btn affirm" style="background-color: #fe9560;color: #fff;">确认评价</div>
+			</div>
+		</div>
+		
+		
+		<div class="active mui-content" id="shopinfo" style="display:block;background-color: #35a8dc;height: 2.45rem;width: 100%;position: relative;">
+			<!--<img src="../../img/shoplogo.png" style="width: 1.65rem;height: 1.33rem;position: absolute;bottom: -0.27rem;left: calc(50% - 0.665rem);" />
+			<img src="../../img/shoucang.png" style="width: 0.68rem;height:0.68rem;position: absolute;bottom: -0.34rem;right: 10px;" />-->
+		</div>
+		<div>
+			<p class="shopname">未设置</p>
+			<p class="favourable">无</p>
+			<div class="change-list">
+				<div style="width: 93.6%;margin: 0 auto;border-bottom: 1px solid #e0e0e0;">
+					<ul class="all-item">
+						<li class="all-li all-active" style="flex: 1;" data-id="0">点菜</li>
+						<li class="all-li" style="flex: 1;" data-id="1">监管记录</li>
+						<li class="all-li" style="flex: 1;" data-id="2">企业</li>
+					</ul>
+				</div>
+				<div class="menulist" id="goodslist">
+					<div style="width: 100%;padding: 2.5rem 0;overflow: hidden;overflow-y: scroll;height: 8.4rem;">
+						<div class="mui-loading">
+							<div class="mui-spinner">
+							</div>
+						</div>
+					</div>
+					<!--插入模板-->
+				</div>
+				<div class="menulist" id="myrecordlist" style="display: none;overflow: hidden;overflow-y: scroll;height: 8.4rem;">
+					<div style="width: 100%;padding: 2.5rem 0;overflow: hidden;overflow-y: scroll;height: 8.4rem;">
+						<div class="mui-loading">
+							<div class="mui-spinner">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="menulist" id="sellerinfo" style="width: 100%;display: none;overflow: hidden;overflow-y: scroll;height: 8.4rem;">
+					<div style="width: 100%;padding: 2.5rem 0;">
+						<div class="mui-loading">
+							<div class="mui-spinner">
+							</div>
+						</div>
+					</div>
+					<!--插入模板-->
+				</div>
+			</div>
+		</div>
+		<!--企业模板-->
+		<script id="shopinfo-template" type="text/x-handlebars-template">
+			<img data-preview-src="" data-preview-group="1" src="{{#if_eq avatar null}}../../img/shoplogo.png{{else}}{{#if_eq avatar.access_path ''}}../../img/shoplogo.png{{else}}{{rooturl}}{{avatar.access_path}}{{/if_eq}}{{/if_eq}}" style="width: 1.65rem;height: 1.33rem;overflow:hidden;position: absolute;bottom: -0.27rem;left: calc(50% - 0.665rem);"/>
+			{{#if_eq id null}}{{else}}<img src="{{#if_eq collection_status null}}../../img/shoucang.png{{else}}{{#if_eq collection_status.status 1}}../../img/collected.png{{else}}../../img/shoucang.png{{/if_eq}}{{/if_eq}}" id='collectshop' style="width: 0.68rem;height:0.68rem;position: absolute;bottom: -0.34rem;right: 10px;" data-status="{{collection_status.status}}" />{{/if_eq}}
+		</script>
+		<script id="seller-template" type="text/x-handlebars-template">
+    		<!-- 企业信息ata -->
+		  	<div style="width: 93.6%;margin: 0 auto;">
+				<div style="text-align: center;margin-bottom: 0;padding-bottom: 0;">
+					<img data-preview-src="" data-preview-group="1" src="{{#if_eq avatar null}}../../img/defaultt.png{{else}}{{#if_eq avatar.access_path ''}}../../img/defaultt.png{{else}}{{rooturl}}{{avatar.access_path}}{{/if_eq}}{{/if_eq}}" style="width:100%;padding: 0.33rem 0;" />
+				</div>
+				<p class="present">{{#if_eq introduction ''}}暂无简介{{else}}{{introduction}}{{/if_eq}}</p>
+				<p style="text-align: center;" class="openmyintrode">
+					<a href="#" style="color: #999999;font-size: 13px;">查看企业简介></a>
+				</p>
+			</div>
+			<div style="border-top: 0.16rem solid #ebebeb;padding: 0.34rem 0 0.29rem;">
+				<p style="padding-left: 5px;color: #333333;font-size: 15px;font-weight: bold;">企业图片</p>
+				<div style="text-align: center;width: 100%;height: 1.64rem;overflow-y: scroll;">
+					<div class="shopimg-list">
+						{{#each gallary_images}}
+						<span><img src="{{../rooturl}}{{this.access_path}}" class="shopimg" data-preview-src="" data-preview-group="1"/></span>
+						{{/each}}
+					</div>
+				</div>
+			</div>
+			<div>
+				<div style="border-top: 10px solid #E0E0E0;">
+					<ul class="mui-table-view">
+					    <li class="mui-table-view-cell flex-play">
+					    	<span class="flex-info-left">企业名称</span> 
+					        <span class="flex-info-right">{{corporation_name}}</span>
+					    </li>
+					    <li class="mui-table-view-cell flex-play">
+					    	<span class="flex-info-left">企业品类</span> 
+					        <span class="flex-info-right">{{shoptype}}</span>
+					    </li>
+					    <li class="mui-table-view-cell flex-play">
+					    	<span class="flex-info-left">企业地址</span> 
+					        <span class="flex-info-right">{{corporation_address}}</span>
+					    </li>
+					    <li class="mui-table-view-cell flex-play">
+					    	<span class="flex-info-left">企业电话</span> 
+					        <span class="flex-info-right">{{shop_contact}}</span>
+					    </li>
+					    <li class="mui-table-view-cell flex-play">
+					    	<span class="flex-info-left">营业时间</span> 
+					        <span class="flex-info-right">
+					        	{{#each wekday}}
+					        	<p style="color: #333333;">
+					        		<span>{{day}}</span>
+					        		<span style="margin-left: 0.2rem;">{{open}}</span>
+					        	</p>
+					        	{{/each}}
+					        </span>
+					    </li>
+					</ul>
+				</div>
+				<div class="bus-border" style="display: none;">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell" id="aptitude">
+					        <a class="mui-navigate-right bus-title" href="BusinessQualification.html">营业资质</a>
+					    </li>
+				    </ul>
+				</div>
+			</div>
+			<div class="report-div">
+				<button class="report-btn">评价企业</button>
+			</div>
+		</script>
+		<script id="record-template" type="text/x-handlebars-template">
+			<ul class="mui-table-view" style="padding: 0;">
+				{{#each data}}
+				{{#each investigate_record}}
+		            <div class="mui-collapse-content choose-form" style="border-bottom:1px solid #CCC;height:0.97rem;line-height:0.97rem;padding-left: 0.2rem;">
+		                <a class="mui-navigate-right a-form-style" href="javascript:void(0);" onclick="getformdetail({{../id}},{{id}})">{{name}}</a>
+		            </div>
+		            {{else}}
+		            <div class="mui-collapse-content" style="border-top: 1px solid #cccccc;height:0.77rem;line-height:0.77rem;padding: 11px 15px;display: none;">
+		                <p class="mui-navigate-right">没有消息</p>
+		            </div>
+		        {{/each}}
+		        <li class="mui-table-view-cell mui-collapse" style="display: none;">
+		            <a class="mui-navigate-right" href="#" style="font-size: 14px;color: #333333;">
+		            	<div style="display: inline-block;width: 70%;height: 100%;">
+		            		<div style="height: 22px;line-height: 22px;font-size: 14px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis">{{announcement.title}}</div>
+		            		<div style="color: #b2b2b2;font-size: 12px;height: 22px;line-height: 22px;">2018-08-01</div>
+		            	</div>
+		            	<div style="display: inline-block;width: 30%;height: 44px;line-height: 44px;vertical-align: top;">
+		            		查看详情
+		            	</div>
+		            </a>
+		            {{#each investigate_record}}
+		            <div class="mui-collapse-content choose-form" style="border-top: 1px solid #cccccc;padding: 11px 15px;">
+		                <a class="mui-navigate-right a-form-style" href="javascript:void(0);" onclick="getformdetail({{../id}},{{id}})">{{name}}</a>
+		            </div>
+		            {{else}}
+		            <div class="mui-collapse-content" style="border-top: 1px solid #cccccc;padding: 11px 15px;">
+		                <p class="mui-navigate-right">没有消息</p>
+		            </div>
+		            {{/each}}
+		        </li>
+		        {{else}}
+		        	<div style="width: 100%;height: 2rem;line-height: 2rem;text-align: center;font-size: 16px;">暂无记录</div>
+		        {{/each}}
+		   </ul>
+		</script>
+		<script id="goods-template" type="text/x-handlebars-template">
+			<!--菜品-->
+			{{#each data}}
+			<div class="menuitem">
+				<p style="text-align: center;"><img data-preview-src="" data-preview-group="1" src="{{#if_eq images null}}../../img/goods.png{{else}}{{#each images}}{{#if_eq @index 0}}{{../../rooturl}}{{access_path}}{{/if_eq}}{{/each}}{{/if_eq}}" width="100%" /></p>
+				<p class="Dishname">{{name}}</p>
+				<p class="introduce">{{introduction}}</p>
+				<p class="rate">￥<span style="font-size: 16px;">{{price}}</span></p>
+			</div>
+			{{else}}
+		        <div style="width: 100%;height: 2rem;line-height: 2rem;text-align: center;font-size: 16px;">暂无商品</div>
+			{{/each}}
+		</script>
+		<script id="shopname-template" type="text/x-handlebars-template">
+		{{corporation_name}}	
+		</script>
+		<script id="activity-template" type="text/x-handlebars-template">
+		{{acitivitystring}}
+		</script>
+		<!--模板-->
+		<script src="../js/shop/shoppage.js"></script>
+		<script src="../../common/mui.zoom.js"></script>
+		<script src="../../common/mui.previewimage.js"></script>
+		<script>
+			mui.previewImage();
+		</script>
+	</body>
+</html>

@@ -1,0 +1,147 @@
+body {
+	margin: 0;
+	padding: 0;
+	font-size:0;
+	background: #fff;
+}
+.f14{
+	font-size: 14px;
+}
+.input-item-style{
+	padding: 0.31rem 0.22rem 0.24rem 0.22rem;
+}
+.input-item-title{
+	display:block;
+	font-size: 15px;
+	color: #999999;
+	margin-bottom: 0.4rem;
+}
+.input-item-content{
+	display: block;
+	width: 100%;
+	font-size: 18px;
+	color: #333333;
+}
+.editshop{
+	width: 7.02rem;
+	height: 0.88rem;
+	background-color: #209fd8;
+	border-radius: 0.08rem;
+	margin: 0 auto;
+	color: #FFF;
+	font-size: 16px;
+	text-align: center;
+	line-height: 0.88rem;
+}
+.cancelshop{
+	width: 7.02rem;
+	height: 0.88rem;
+	background-color: #fff;
+	color: #000000;
+	border: 1px solid #333;
+	border-radius: 0.08rem;
+	margin: 0 auto;
+	font-size: 16px;
+	text-align: center;
+	line-height: 0.88rem;
+}
+.editcerbook{
+	width: 7.02rem;
+	height: 0.88rem;
+	background-color: #209fd8;
+	border-radius: 0.08rem;
+	margin: 0 auto;
+	color: #FFF;
+	font-size: 16px;
+	text-align: center;
+	line-height: 0.88rem;
+}
+.nowait{
+	width: 1.62rem;
+	height: 0.58rem;
+	line-height:0.58rem;
+	display: inline-block;
+	border-radius: 0.29rem;
+	font-size: 16px;
+	color: #FFF;
+	text-align: center;
+}
+.wait-think{
+	background-color: #32a8dd;
+}
+.nowait-think{
+	background-color: #ebebeb;
+}
+/*mui*/
+.mui-input-group:after{
+	height: 0;
+}
+
+/*选项卡*/
+.all-item{
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	display: flex;
+}
+.all-item li{
+	list-style-type: none;
+	text-align: center;
+	height: 30px;
+	line-height: 30px;
+	font-size: 16px;
+}
+.all-active{
+	position: relative;
+	font-weight: bold;
+	color: #209fd8;
+}
+.all-active:after{
+	content: '';
+	width: 32px;
+	height: 2px;
+	position: absolute;
+	bottom: 0;
+	left: calc(50% - 16px);
+	background-color: #209fd8;
+}
+/*证书*/
+.flex-play{
+	display: flex;
+}
+.flex-info-left{
+	font-size: 14px;
+	color: #000;
+	flex: 1;
+	text-align: left;
+}
+.flex-info-right{
+	font-size: 14px;
+	color: #333333;
+	flex: 2;
+	text-align: right;
+}
+.input-border{
+	border: none;
+}
+/*搜索*/
+.search-icon{
+	width: 0.35rem;
+	height: 0.36rem;
+	position: absolute;
+	top: 0.62rem;
+	right: 0.4rem;
+}
+.search-contentinfo{
+	margin-top: 0.1rem;
+	height: 0.78rem;
+	line-height: 0.78rem;
+	text-indent: 0.25rem;
+}
+/*表情*/
+.icon-style{
+	width: 100%;
+	vertical-align:top;
+	margin-right: 0.2rem;
+	line-height: 0.6rem;
+}

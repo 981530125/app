@@ -1,0 +1,48 @@
+.sentence {
+	padding: 0.2rem 0.3rem;
+	font-size: 16px;
+	border-bottom: 1px solid #ccc;
+	line-height: 0.6rem;
+	word-break: break-all;
+	word-wrap: break-word;
+	padding: 0.2rem 0.3rem;
+	font-size: 16px;
+	text-align: left;
+	border-bottom: 1px solid #ccc;
+	line-height: 0.6rem;
+	word-break: break-all;
+	word-wrap: break-word;
+}
+
+.myshortcut {
+	background-color: #fff;
+	padding: 0 0.3rem;
+	position: fixed;
+	bottom: 0;
+	z-index: 999;
+	width: 100%;
+	height: 1rem;
+	text-align: left;
+	line-height: 1rem;
+	color: #000;
+	font-size: 16px;
+	font-weight: bold;
+	display: none;
+}
+
+.bodytoheight {
+	margin-bottom: 1rem;
+}
+.selecttype{
+	vertical-align: top;
+	border: 1px solid #ccc !important;
+	margin-bottom: 0;
+	padding: 5px;
+	justify-content:center;
+	width: 80%;
+	margin: 0 auto;
+	text-align: center;
+}
+#myselecttype option{
+	text-align: center;
+}

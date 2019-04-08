@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>我的任务</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../../css/mui.min.css">
+		<script type="text/javascript" src="../../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../../common/common.js"></script>
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			.all-item {
+				width: 100%;
+				padding: 0;
+				margin: 0;
+				display: flex;
+			}
+			
+			.all-item li {
+				list-style-type: none;
+				text-align: center;
+				height: 40px;
+				line-height: 40px;
+				font-size: 16px;
+			}
+			
+			.all-active {
+				position: relative;
+				font-weight: bold;
+				color: #209fd8;
+			}
+			
+			.all-active:after {
+				content: '';
+				width: 32px;
+				height: 2px;
+				position: absolute;
+				bottom: 0;
+				left: calc(50% - 16px);
+				background-color: #209fd8;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#2ca5db;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<a href="#" class="mui-icon mui-pull-right" id="cancel-btn" style="color: #fff;font-size: 14px;height: 44px;line-height: 26px;display: none;">取消</a>
+			<a href="#" class="mui-icon mui-pull-right" data-type="0" id="finishtoselect" style="display: none;color: #fff;font-size: 14px;height: 44px;line-height: 26px;margin-right: 0.1rem;">完成</a>
+			<a href="#" class="mui-icon mui-pull-right" data-type="0" id="allocating" style="color: #fff;display: none;font-size: 14px;height: 44px;line-height: 26px;margin-right: 0.1rem;">分配任务</a>
+			<h1 class="mui-title" style="color: #fff;font-weight: bold;">我的任务</h1>
+		</header>
+		<div style="width: 100%;margin: 0 auto;border-bottom: 1px solid #e0e0e0;position: fixed;top: 44px;z-index: 1000;background-color: #fff;">
+			<ul class="all-item mui-bar-tab" style="height: 40px;">
+				<li class="all-li all-active" data-url="task-wait.html" data-id="task-wait" style="flex: 1;" data-typeid="0" data-tasktype="wait">待处理</li>
+				<li class="all-li" data-url="task-process.html" style="flex: 1;" data-id="task-process" data-typeid="1" data-tasktype="process">处理中</li>
+				<li class="all-li" data-url="task-finished.html" style="flex: 1;" data-id="task-finished" data-typeid="2" data-tasktype="finished">已完成</li>
+			</ul>
+			<!--<div style="height: 60px;padding: 10px;position: relative;border: 1px solid #CCC;">
+				<input type="text" value="" style="width: 100%;height: 100%;display: inline-block;">
+				<div style="font-size: 14px;width: 40px;height: 40px;line-height: 45px;text-align: center;position: absolute;top: 10px;right: 10px;">
+					<img src="../../../img/search.png" style="width: 16px;height: 17px;"/>
+				</div>
+			</div>-->
+		</div>
+		<script src="../../../js/mui.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			window.taskType = 'wait';
+			//	权限判断
+			var rootpower = [{
+					obj:'#allocating',
+					apiurl:'/index.php/Api/Apps/Jingkaiqu/Investigate_task/insertExtraAdmin',
+					describe:'分配任务'
+				}];
+			//mui初始化
+			mui.init();
+			//	返回刷新
+			window.addEventListener('refresh', function(e){//执行刷新  
+			  if(e.detail.reload == 'true'){
+			  	location.reload();
+			  }
+			});
+//			返回取消
+			window.addEventListener('refreshcancel', function(e){//执行刷新  
+				if(e.detail.reload == 'true'){
+				  	if(e.detail.cancel == 'true'){
+				  		$('#allocating').show();
+				  		$('#finishtoselect').hide();
+				  		$('#cancel-btn').hide();
+				  	}
+				}
+				for(var itemn in rootpower){
+					ispower(rootpower[itemn].obj,rootpower[itemn].apiurl);
+				}
+			});
+			
+//			返回显示
+			window.addEventListener('refreshshow', function(e){//执行刷新  
+				if(e.detail.reload == 'true'){
+				  	if(e.detail.show == 'true'){
+				  		$('#allocating').show();
+				  		$('#finishtoselect').hide();
+				  		$('#cancel-btn').hide();
+				  	}
+				}
+				for(var itemn in rootpower){
+					ispower(rootpower[itemn].obj,rootpower[itemn].apiurl);
+				}
+			});
+			
+			
+//			返回判断
+			window.addEventListener('returnbak', function(e){//执行刷新  
+			  	if(e.detail.reload == 'true'){
+				  	if(e.detail.changename == 'true'){
+				  		$('#allocating').hide();
+				  		$('#finishtoselect').show();
+				  		$('#cancel-btn').show();
+				  	}
+			  	
+				  	if(e.detail.back == 'true'){
+				  		var taskarr = e.detail.taskarr;
+				  		var nameval = [];
+				  		var taskid = [];
+				  		for(var item in taskarr){
+				  			console.log(JSON.stringify(taskarr[item]));
+				  			nameval.push(taskarr[item].name);
+				  			taskid.push(taskarr[item].taskid);
+				  		}
+				  		var taskidstring = taskid.join(',');
+				  		var namestring = nameval.join(',');
+				  		var btnArray = ['否', '是'];
+						mui.confirm('你选择了当前任务是 : ' + namestring+' ?', '选择接收人', btnArray, function(e) {
+							if (e.index == 1) {
+								var tourl = 'selectdome.html';
+								setTimeout(function() {
+									mui.openWindow({
+									    url:tourl,
+									    styles:{
+									      top: '0',//新页面顶部位置
+									      bottom:'0',//新页面底部位置
+									    },
+									    extras:{
+									    	taskidstring:taskidstring
+									      //自定义扩展参数，可以用来处理页面间传值
+									    },
+									    createNew:true//是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+									})
+								}, 200);
+							}else{
+								mui.toast('取消',{ duration:'short', type:'div' });
+							}
+						})
+				  	}
+			  	}
+			});
+			
+			
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				var typeid = self.typeid;
+				var targetTab = self.activeTab;
+				if(self.tasktype) {
+					var tasktype = self.tasktype;
+					window.taskType = self.tasktype;
+				} else {
+					var tasktype = 'wait';
+				}
+				
+				console.log(tasktype);
+				
+				gettypeitem(typeid);
+				
+				var subpages = [{
+						url:'task-wait.html',
+						id:'task-wait',
+					},{
+						url:'task-process.html',
+						id:'task-process',
+					},{
+						url:'task-finished.html',
+						id:'task-finished'
+				}];
+				
+				var subpage_style = {
+					top: '85px',
+//					top: '145px',
+					bottom: '0px'
+				};
+
+				// 根据id查询子页面的信息
+				var getSubInfoById = function(infoList, id) {
+					var result = null;
+					for(var i = 0, len = infoList.length; i < len; i++) {
+						var _info = infoList[i];
+						if(_info.id === id) {
+							result = _info;
+							break;
+						}
+					}
+					return result;
+				};
+
+				var mainWv = plus.webview.currentWebview();
+				console.log(JSON.stringify(mainWv));
+				console.log('1212');
+				var titleEL = document.querySelector('.mui-title');
+				var activeTab = '';
+
+				// 默认只加载首页webview
+				var homeWv = plus.webview.create(subpages[typeid].url, subpages[typeid].id, subpage_style);
+				mainWv.append(homeWv);
+				activeTab = subpages[typeid].id;
+				
+				
+				// 点击切换，动态创建其它webview；
+				mui('.mui-bar-tab').on('tap', 'li', function(e) {
+					var targetTab = this.getAttribute('data-url');
+					var activeid = this.getAttribute('data-typeid');
+					var tasktype = this.getAttribute('data-tasktype');
+					window.taskType = tasktype;
+					
+					var _self = this;
+					var targetTab = _self.getAttribute('data-id');
+					if(targetTab === activeTab) {
+						return;
+					}
+					gettypeitem(activeid);
+//					titleEL.innerText = this.querySelector('.mui-tab-label').getAttribute('data-describe');
+					var _subWv = plus.webview.getWebviewById(targetTab);
+					// 若webview不存在，则创建；
+					console.log(JSON.stringify(_subWv));
+					if(!_subWv) {
+						console.log('1212');
+						var _subInfo = getSubInfoById(subpages, targetTab);
+						console.log(targetTab);
+						console.log(_subInfo);
+						
+						_subWv = plus.webview.create(_subInfo.url, _subInfo.id, subpage_style);
+						mainWv.append(_subWv);
+					}
+					_subWv.show();
+					// 隐藏之前的webview
+					plus.webview.getWebviewById(activeTab).hide('none');
+					activeTab = targetTab;
+					
+//					切换时取消多选
+					var isshow = $(this).attr('data-type');
+					if(window.taskType == 'wait'){
+						var detailPage = plus.webview.getWebviewById('task-wait');
+					}
+					if(window.taskType == 'process'){
+						var detailPage = plus.webview.getWebviewById('task-process');
+					}
+					if(window.taskType == 'finished'){
+						var detailPage = plus.webview.getWebviewById('task-finished');
+					}
+					mui.fire(detailPage,'controller',{
+		            	task:window.taskType,
+		            	reload:'true',
+		            	isshow:1
+		         	});
+		         	$('#allocating').show();
+			  		$('#finishtoselect').hide();
+			  		$('#cancel-btn').hide();
+			  		for(var itemn in rootpower){
+						ispower(rootpower[itemn].obj,rootpower[itemn].apiurl);
+					}
+				});
+			});
+		
+			//根据id切换选项卡样式
+			function gettypeitem(id) {
+				var len = $(".menulist").length;
+				for(var n = 0; n < len; n++) {
+					$(".menulist").eq(n).hide();
+				}
+				$(".menulist").eq(id).show();
+				$('.all-li').eq(id).siblings('.all-li').removeClass('all-active');
+				$('.all-li').eq(id).addClass('all-active');
+			}
+			$('html').on('click','#add-task',function(){
+				var tourl = 'addtask.html'
+				mui.openWindow({
+				    url:tourl,
+				    id:tourl,
+				    extras:{
+				      //自定义扩展参数，可以用来处理页面间传值
+				    },
+				    createNew:false,//是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+				    show:{
+				      autoShow:true,//页面loaded事件发生后自动显示，默认为true
+				      aniShow:'slide-in-right',//页面显示动画，默认为”slide-in-right“；
+				      duration:100//页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
+				    }
+				})
+				event.stopPropagation();
+			})
+//			点击开启多选
+			$('html').on('click','#allocating',function(){
+				console.log('asasss');
+				var isshow = $(this).attr('data-type');
+				if(window.taskType == 'wait'){
+					var detailPage = plus.webview.getWebviewById('task-wait');
+				}
+				if(window.taskType == 'process'){
+					var detailPage = plus.webview.getWebviewById('task-process');
+				}
+				if(window.taskType == 'finished'){
+					var detailPage = plus.webview.getWebviewById('task-finished');
+				}
+				//获得列表子页面
+			    if(detailPage){
+			    	mui.fire(detailPage,'controller',{
+		            	task:window.taskType,
+		            	reload:'true',
+		            	isshow:isshow
+		         	});
+			    }
+			})
+//			点击取消
+			$('html').on('click','#cancel-btn',function(){
+				var isshow = $(this).attr('data-type');
+				if(window.taskType == 'wait'){
+					var detailPage = plus.webview.getWebviewById('task-wait');
+				}
+				if(window.taskType == 'process'){
+					var detailPage = plus.webview.getWebviewById('task-process');
+				}
+				if(window.taskType == 'finished'){
+					var detailPage = plus.webview.getWebviewById('task-finished');
+				}
+				mui.fire(detailPage,'controller',{
+	            	task:window.taskType,
+	            	reload:'true',
+	            	isshow:1
+	         	});
+	         	$('#allocating').show();
+		  		$('#finishtoselect').hide();
+		  		$('#cancel-btn').hide();
+			})
+//			点击完成
+			$('html').on('click','#finishtoselect',function(){
+				var isshow = $(this).attr('data-type');
+				if(window.taskType == 'wait'){
+					var detailPage = plus.webview.getWebviewById('task-wait');
+				}
+				if(window.taskType == 'process'){
+					var detailPage = plus.webview.getWebviewById('task-process');
+				}
+				if(window.taskType == 'finished'){
+					var detailPage = plus.webview.getWebviewById('task-finished');
+				}
+				mui.fire(detailPage,'finishselect',{
+	            	task:window.taskType,
+	            	reload:'true',
+	            	finish:'true'
+	         	});
+			})
+			
+		</script>
+	</body>
+
+</html>

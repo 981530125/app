@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>简单统计</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../../css/mui.min.css" />
+		<script type="text/javascript" src="../../../common/rem.js"></script>
+		<script src="../../../js/mui.min.js"></script>
+		<link rel="stylesheet" href="../../../common/css/mui.picker.css" />
+		<link rel="stylesheet" href="../../../common/css/mui.poppicker.css" />
+		<link rel="stylesheet" href="../../../css/statistics.css" />
+		<script type="text/javascript" src="../../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../../js/handlebars.js"></script>
+		<link rel="stylesheet" href="../../../css/mui.picker.min.css" />
+		<script type="text/javascript" src="../../../common/common.js"></script>
+		<script src="../../../common/mui.picker.js"></script>
+		<script src="../../../common/mui.poppicker.js"></script>
+		<script type="text/javascript" src="../../../js/mui.picker.min.js"></script>
+		<script src="../../js/managecenter/statics.js"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color:#29a3da;box-shadow: none;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 id="title" class="mui-title" style="color: #fff;font-weight: bold;">简单统计</h1>
+			<!--<a class="mui-icon mui-pull-right mui-icon-plusempty" id="shopselect" style="color: #fff;"></a>-->
+			<div class="mui-pull-right" style="width: 72px;" id='showUserPicker'>
+				<a href="#" class="mui-icon mui-pull-right mui-icon mui-icon-arrowdown" style="color: #D1F0FD"></a>
+				<a href="#" class="mui-title" id="userResult" style="font-size: 14px;color: #D1F0FD;left: auto;" data-type='type99'>全部</a>
+			</div>
+		</header>
+		<!--遮罩层-->
+		<div class="mui-backdrop" style="display: none;" id="my-mask">
+			<div class="mui-loading" style="position: absolute;top: calc(50% - 12px);left: calc(50% - 12px);">
+				<div class="mui-spinner">
+				</div>
+			</div>
+		</div>
+		<div class="mui-content" style="padding-left: 0.32rem;padding-right: 0.32rem;margin-top: 2.7rem;">
+			<div style="width: 100%;height: 2.7rem;position: fixed;top: 44px;left: 0;z-index: 200;background-color: #efeff4;">
+				<div style="position: relative;height: 1rem;margin: 0 0.32rem;background-color: #fff;margin-top: 0.3rem;">
+					<input type="text" name="searchkey" class="search-key" placeholder="请输入关键字" value="" style="width: 85%;height: 1rem;border: none;font-size: 16px;text-indent: 10px;"/>
+					<div class="search-btn" style="position: absolute;top: 0px;right: 0px;height: 100%;padding-left: 0.32rem;padding-right: 0.32rem;">
+						<img src="../../../img/search.png" style="width: 0.38rem;height: 0.38rem;vertical-align: top;margin-top: 0.31rem;"/>
+					</div>
+				</div>
+				<div style="height: 1rem;display: flex;padding-left: 0.32rem;padding-right: 0.32rem;margin-top: 0.1rem;">
+					<div class="time timestyle">
+						<span>2018-01-09</span>
+						<input type="hidden" class="start" value=""/>
+					</div>
+					<div class="symbol">~</div>
+					<div class="time timestyle">
+						<span>2018-01-09</span>
+						<input type="hidden" class="end" value=""/>
+					</div>
+				</div>
+			</div>
+			<div id="refreshlist" class="mui-content mui-scroll-wrapper" style="margin-top: 0.15rem;padding-bottom: 2rem;">
+				<div class="mui-scroll">
+					<div class="list-wrapper" id="list-content">
+					</div>
+				</div>
+			</div>
+		</div>
+		<script id="mydata-template" type="text/x-handlebars-template">
+			{{#each data}}
+			<div class="census-item">
+				<div class="census-item-leftborder"></div>
+				<div class="census-item-content">
+					<p class="census-item-contenttitle">{{name}}</p>
+					<p class="census-item-contentfinish">已完成:{{record_num}}</p>
+				</div>
+				<div class="census-item-content">
+					<p class="census-item-all">记录总量:{{check_times_total}}</p>
+					<p class="census-item-percent">完成比:{{decimal rate 2}}%</p>
+				</div>
+			</div>
+			{{/each}}
+		</script>
+		<script id="cerbooktype-template" type="text/x-handlebars-template">
+			<select class="bad-rightstyle selectname" id="selectype" name="selectype">
+				{{#each this}} {{#if_eq name '全部'}}
+				<option value="{{type}}" selected="selected">{{name}}</option>
+				{{else}}
+				<option value="{{type}}">{{name}}</option>
+				{{/if_eq}} {{/each}}
+			</select>
+		</script>
+	</body>
+</html>

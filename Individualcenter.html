@@ -1,0 +1,208 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>我的</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<script type="text/javascript" src="common/rem.js"></script>
+		<link rel="stylesheet" href="css/Inddividualcenter.css" />
+		<link rel="stylesheet" href="common/css/footer.css" />
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+		<script src="js/handlebars.js"></script>
+		<script type="text/javascript" src="common/common.js"></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#2ca5db;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<a href="#" class="mui-action-back mui-icon mui-pull-right mui-a-color"><img src="img/edit.png" style="margin-right: 3px;" width="16px" /></a>
+			<h1 class="mui-title" style="color: #fff;font-weight: bold;">个人中心</h1>
+		</header>
+		<div style="padding-bottom: 0.98rem;">
+			<div class="div1" style="background-color: #2ca5db;height: 300px;padding: 44px;margin: 0 auto;position: relative;">
+				<img src="img/mrlogo.png" style="width: 1.48rem;height:1.48rem;display: inline-block;margin-top: 27px;"/>
+				<!--<img src="img/leaveword.png" style="width: 50px;position: absolute;right: 0;top: 1.48rem;" alt="" />-->
+				<div class='logo-item' id="notice">
+				    <img src='img/leavea.png' class='img-style'/>
+				    <div class="mui-badge num-icon">2</div>
+				</div>
+				
+				
+				<p class="userinfoname">Milanoic</p>
+				<p style="margin:  0 0 10px 0;">
+					<img src="img/phone.png" width="10px" style="vertical-align: middle;" />
+					<span class="userinfomobile">18767108888</span>
+				</p>
+				<button class="button1" id="shopcenter">
+					<img src="img/seller.png" width="15px" style="vertical-align: middle;" />企业中心
+				</button>
+				<button class="button2" id="managecenter">
+					<img src="img/manage.png" width="15px" style="vertical-align: middle;" />管理中心
+				</button>
+			</div>
+			<div class="div2">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right" style="font-size: 14px;padding-left: 10px;">
+							<img src="img/alter.png" width="15" style="vertical-align: middle;margin-right: 5px;" />修改密码
+						</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a class="mui-navigate-right" style="font-size: 14px;padding-left: 10px;">
+							<img src="img/setup.png" width="15" style="vertical-align: middle;margin-right: 5px;" />个人设置
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div style="text-align: center;padding: 16px 12px 0;">
+				<button class="quit" id="quit" style="height: 44px;">退出登录</button>
+			</div>
+		</div>
+		<div class="footer">
+			<div class="footer-tab">
+				<a class="footer-tabitem" href="Mappage.html">
+					<img src="img/homepage.png" class="footer-tabimga"/>
+					<p class="footer-tabtitle" >首页</p>
+				</a>
+			</div>
+			<div class="footer-tab">
+				<a class="footer-tabitem" href="Shoplist.html">
+					<img src="img/nearby.png" class="footer-tabimgb"/>
+					<p class="footer-tabtitle" >附近</p>
+				</a>
+			</div>
+			<div class="footer-tab">
+				<a class="footer-tabitem" href="Individualcenter.html">
+					<img src="img/mine2.png" class="footer-tabimgc"/>
+					<p class="footer-tabtitle footer-tab-active" >我的</p>
+				</a>
+			</div>
+		</div>
+		<!--模板引擎-->
+		<script id="name-template" type="text/x-handlebars-template">
+			{{#if name}}
+				{{name}}
+			{{else}}
+				未设置
+			{{/if}}
+		</script>
+		<script id="mobile-template" type="text/x-handlebars-template">
+		  {{#if mobile}}
+				{{mobile}}
+			{{else}}
+				未设置
+			{{/if}}
+		</script>
+		<script type="text/javascript" src="js/new_file.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/minecenter.js"></script>
+		<script type="text/javascript">
+			mui.init();
+//			var userinfo = localStorage.getItem("userinfo");
+//			// 定义数据
+//			var data = JSON.parse(userinfo);
+//			var tpl = $("#name-template").html();
+//			var mobiletpl = $("#mobile-template").html();
+//			//// 编译模板
+//			var rtp = Handlebars.compile(tpl);
+//			var mobilertp = Handlebars.compile(mobiletpl);
+//			
+//			  // 把数据传送到模板
+//			var text = rtp(data);
+//			var mtext = mobilertp(data);
+//			  // 更新到模板
+//			$('.userinfoname').html(text);
+//			$('.userinfomobile').html(mtext);
+			getcenter()
+			function getcenter(){
+		
+				var url = rooturl+'index.php/Api/Apps/Jingkaiqu/Api_apps_logged/userCenter'; //获取账号中心首页
+				$.ajax({
+					url: url,
+					data: {
+						mobile: mobile,
+						userType: userType,
+						clientId: clientId,
+						clientType: clientType,
+						accessToken: accessToken
+					},
+					type: 'post',
+					dataType: 'json',
+					crossDomain: true,
+					cache: true,
+					beforeSend: function(xhr) { //beforeSend定义全局变量
+						xhr.setRequestHeader("If-Modified-Since", "0"); //If-Modified-Since HTTP请求头标签,即比较浏览器缓存页面时间
+					},
+					success: function(res) {
+						console.log(JSON.stringify(res));
+						if(res.code && res.code == 1000){
+							var admininfo = JSON.stringify(res.data);
+							localStorage.setItem("admininfo",admininfo);
+							var userinfodata = res.data.user_info;
+							
+							var tpl = $("#name-template").html();
+							var mobiletpl = $("#mobile-template").html();
+							//// 编译模板
+							var rtp = Handlebars.compile(tpl);
+							var mobilertp = Handlebars.compile(mobiletpl);
+							
+							  // 把数据传送到模板
+							var text = rtp(userinfodata);
+							var mtext = mobilertp(userinfodata);
+							  // 更新到模板
+							$('.userinfoname').html(text);
+							$('.userinfomobile').html(mtext);
+
+						}else{
+							mui.alert(res.message);
+							return false;
+						}
+					},
+					error: function(res){
+						console.log(JSON.stringify(res));
+						console.log(res.message);
+						console.log(res.data);
+						mui.toast('请求失败',{ duration:'long', type:'div' });
+						return false;
+					}
+				})
+			}
+				$('html').on('click','#quit',function(){
+				var btnArray = ['取消', '确认'];
+				mui.confirm('是否确定退出登录？', '', btnArray, function(e) {
+					if (e.index == 1) {
+						localStorage.removeItem("userinfo");
+						localStorage.removeItem("mobile");
+						 localStorage.removeItem("accessToken");
+						 if(localStorage.getItem("adminmobile") && localStorage.getItem("adminaccessToken")){
+						 	localStorage.setItem('userType','admin');
+						 }else if(localStorage.getItem("shopmobile") && localStorage.getItem("shopaccessToken")){
+						 	localStorage.setItem('userType','shop');
+						 }else{
+						 	localStorage.setItem('userType','');
+						 }
+			
+						if(userType == 'user'){
+						 	mui.toast('退出失败');
+						}else{
+						 	mui.toast('退出成功');
+						 	var userType = localStorage.getItem("userType");
+						 	plus.runtime.restart();
+						 	
+//							//在关闭窗口代码上加入延迟
+//							setTimeout(function(){
+//							    plus.webview.currentWebview().close('none');
+//							}, 1000)
+						}
+					} else {
+						mui.toast('取消退出');
+					}
+				})
+			});
+		</script>
+	</body>
+
+</html>

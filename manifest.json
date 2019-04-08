@@ -1,0 +1,1280 @@
+{
+	"@platforms": [
+		"android",
+		"iPhone",
+		"iPad"
+	],
+	"id": "H5026F446",/*应用的标识，创建应用时自动生成，勿手动修改*/
+	"name": "食安经开",/*应用名称，程序桌面图标名称*/
+	"version": {
+		"name": "1.2.0",/*应用版本名称*/
+		"code": "83"
+	},
+	"description": "",/*应用描述信息*/
+	"icons": {
+		"72": "icon.png"
+	},
+	"launch_path": "HomePage.html",/*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
+	"developer": {
+		"name": "",/*开发者名称*/
+		"email": "",/*开发者邮箱地址*/
+		"url": "http://www.dcloud.io"
+	},
+	"permissions": {
+		"Cache": {
+			"description": "管理应用缓存"
+		},
+		"Console": {
+			"description": "跟踪调试输出日志"
+		},
+		"Contacts": {
+			"description": "访问系统联系人信息"
+		},
+		"Events": {
+			"description": "应用扩展事件"
+		},
+		"Messaging": {
+			"description": "访问通讯能力"
+		},
+		"Maps": {
+			"description": "管理地图插件"
+		},
+
+		"Push": {},
+		"OAuth": {}
+	},
+	"plus": {
+		"splashscreen": {
+			"autoclose": true,/*是否自动关闭程序启动界面，true表示应用加载应用入口页面后自动关闭；false则需调plus.navigator.closeSplashscreen()关闭*/
+			"waiting": false,
+			"delay": "0"
+		},
+		"runmode": "liberate",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
+		"signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",/*可选，保留给应用签名，暂不使用*/
+		"distribute": {
+			"plugins": {
+				"oauth": {
+					"weixin": {
+						"appid": "121212",
+						"appsecret": "121212"
+					}
+				},
+				"push": {
+					"igexin": {
+						"appid": "kazArzzpAi9eHiai4Be1W8",
+						"appkey": "vqZOkTNFVX7RG9x1WmImk",
+						"appsecret": "QCwiU11EfW8qnwEB4JM3M3"
+					}
+				}
+			},
+			"apple": {
+				"appid": "",/*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
+				"mobileprovision": "",/*iOS应用打包配置文件*/
+				"password": "",/*iOS应用打包个人证书导入密码*/
+				"p12": "",/*iOS应用打包个人证书，打包配置文件关联的个人证书*/
+				"devices": "universal",/*iOS应用支持的设备类型，可取值iphone/ipad/universal*/
+				"frameworks": [],
+				"plistcmds": [
+					"Set :NSPhotoLibraryUsageDescription 获取用户相册信息用于为用户提供证书等图片信息",
+					"Set :NSCameraUsageDescription 获取用户相机信息用于为用户提供证书等图片信息",
+					"Set :NSPhotoLibraryAddUsageDescription 获取用户相机信息用于为用户提供证书等图片信息",
+					"Set :NSLocationAlwaysUsageDescription 获取获取用户地理位置信息用于为用户提供就近商家信息",
+					"Set :NSLocationWhenInUseUsageDescription 获取获取用户地理位置信息用于为用户提供附近商家信息和导航"
+				]
+			},
+			"google": {
+				"packagename": "",/*Android应用包名，如io.dcloud.HelloH5*/
+				"keystore": "",/*Android应用打包使用的密钥库文件*/
+				"password": "",/*Android应用打包使用密钥库中证书的密码*/
+				"aliasname": "",/*Android应用打包使用密钥库中证书的别名*/
+				"schemes": [
+					"supervisionofbinhaifoodapp"
+				],
+				"permissions": [
+					"<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>",
+					"<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
+					"<uses-permission android:name=\"android.permission.VIBRATE\"/>",
+					"<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
+					"<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
+					"<uses-permission android:name=\"android.permission.SYSTEM_ALERT_WINDOW\"/>",
+					"<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\"/>",
+					"<uses-permission android:name=\"com.android.launcher.permission.UNINSTALL_SHORTCUT\"/>",
+					"<uses-permission android:name=\"android.permission.CAMERA\"/>",
+					"<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
+					"<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
+					"<uses-permission android:name=\"com.android.launcher.permission.INSTALL_SHORTCUT\"/>",
+					"<uses-permission android:name=\"android.permission.INTERNET\"/>",
+					"<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
+					"<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
+					"<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
+					"<uses-feature android:name=\"android.hardware.camera\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
+					"<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
+					"<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
+				]
+			},
+			"orientation": [
+				"portrait-primary",
+				"portrait-secondary"
+			],/*应用支持的方向，portrait-primary：竖屏正方向；portrait-secondary：竖屏反方向；landscape-primary：横屏正方向；landscape-secondary：横屏反方向*/
+			"icons": {
+				"ios": {
+					"prerendered": true, /*应用图标是否已经高亮处理，在iOS6及以下设备上有效*/
+					/*应用图标，分辨率：512x512，用于自动生成各种尺寸程序图标*/
+					"iphone": {
+						"normal": "",/*iPhone普通屏幕程序图标，分辨率：57x57*/
+						"retina": "",/*iPhone高分屏程序图标，分辨率：114x114*/
+						/*iPhone iOS7高分屏程序图标，分辨率：120x120*/
+						"spotlight-normal": "", /*iPhone Spotlight搜索程序图标，分辨率：29x29*/
+						"spotlight-retina": "", /*iPhone高分屏Spotlight搜索程序图标，分辨率：58x58*/
+						/*iPhone iOS7高分屏Spotlight搜索程序图标，分辨率：80x80*/
+						"settings-normal": "", /*iPhone设置页面程序图标，分辨率：29x29*/
+						"app@2x": "unpackage/res/icons/120x120.png",
+						"app@3x": "unpackage/res/icons/180x180.png",
+						"settings@3x": "unpackage/res/icons/87x87.png",
+						"settings@2x": "unpackage/res/icons/58x58.png",
+						"spotlight@2x": "unpackage/res/icons/80x80.png",
+						"spotlight@3x": "unpackage/res/icons/120x120.png",
+						"notification@3x": "unpackage/res/icons/60x60.png",
+						"notification@2x": "unpackage/res/icons/40x40.png"
+					},
+					"ipad": {
+						"normal": "", /*iPad普通屏幕程序图标，分辨率：72x72*/
+						"retina": "", /*iPad高分屏程序图标，分辨率：144x144*/
+						/*iPad iOS7程序图标，分辨率：76x76*/
+						/*iPad iOS7高分屏程序图标，分辨率：152x152*/
+						"spotlight-normal": "", /*iPad Spotlight搜索程序图标，分辨率：50x50*/
+						"spotlight-retina": "", /*iPad高分屏Spotlight搜索程序图标，分辨率：100x100*/
+						/*iPad iOS7 Spotlight搜索程序图标，分辨率：40x40*/
+						/*iPad iOS7高分屏Spotlight搜索程序图标，分辨率：80x80*/
+						/*iPad设置页面程序图标，分辨率：29x29*/
+						"app": "unpackage/res/icons/76x76.png",
+						"app@2x": "unpackage/res/icons/152x152.png",
+						"settings": "unpackage/res/icons/29x29.png",
+						"proapp@2x": "unpackage/res/icons/167x167.png",
+						"spotlight": "unpackage/res/icons/40x40.png",
+						"settings@2x": "unpackage/res/icons/58x58.png",
+						"spotlight@2x": "unpackage/res/icons/80x80.png",
+						"notification": "unpackage/res/icons/20x20.png",
+						"notification@2x": "unpackage/res/icons/40x40.png"
+					},
+					"appstore": "unpackage/res/icons/1024x1024.png"
+				},
+				"android": {
+					"mdpi": "unpackage/res/icons/48x48.png", /*普通屏程序图标，分辨率：48x48*/
+					"ldpi": "unpackage/res/icons/48x48.png", /*大屏程序图标，分辨率：48x48*/
+					"hdpi": "unpackage/res/icons/72x72.png", /*高分屏程序图标，分辨率：72x72*/
+					"xhdpi": "unpackage/res/icons/96x96.png",/*720P高分屏程序图标，分辨率：96x96*/
+					"xxhdpi": "unpackage/res/icons/144x144.png",
+					"xxxhdpi": "unpackage/res/icons/192x192.png"
+				}
+			},
+			"splashscreen": {
+				"ios": {
+					"iphone": {
+						"default": "", /*iPhone3启动图片选，分辨率：320x480*/
+						"retina35": "C:/Users/weijianke/Desktop/可安装/960.png",/*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
+						"retina40": "C:/Users/weijianke/Desktop/可安装/1136.png",
+						"iphonex": "C:/Users/weijianke/Desktop/可安装/2436.png",
+						"retina47": "C:/Users/weijianke/Desktop/可安装/1334.png",
+						"retina55": "C:/Users/weijianke/Desktop/可安装/2208.png"
+					},
+					"ipad": {
+						/*iPad竖屏启动图片，分辨率：768x1004*/
+						/*iPad高分屏竖屏图片，分辨率：1536x2008*/
+						/*iPad横屏启动图片，分辨率：1024x748*/
+						/*iPad高分屏横屏启动图片，分辨率：2048x1496*/
+						/*iPad iOS7竖屏启动图片，分辨率：768x1024*/
+						"portrait-retina7": "",/*iPad iOS7高分屏竖屏图片，分辨率：1536x2048*/
+						/*iPad iOS7横屏启动图片，分辨率：1024x768*/
+						"landscape-retina7": ""
+					}
+				},
+				"android": {
+					"mdpi": "", /*普通屏启动图片，分辨率：240x282*/
+					"ldpi": "",
+					"hdpi": "C:/Users/weijianke/Desktop/可安装/762.png",
+					"xhdpi": "C:/Users/weijianke/Desktop/可安装/1242.png",
+					"xxhdpi": "C:/Users/weijianke/Desktop/可安装/1882.png"
+				}
+			},
+			"debug": true
+		},
+		"adid": "124011160710"
+	},
+	"dependencies": {
+		"pages": {
+			"home.html": {
+				"resources": [],
+				"refer": [
+					"index.html",
+					"entry.html",
+					"retrieve.html"
+				],
+				"priority": 0
+			},
+			"entry.html": {
+				"resources": [],
+				"refer": [
+					"home.html",
+					"retrieve.html"
+				],
+				"priority": 0
+			},
+			"retrieve.html": {
+				"resources": [],
+				"refer": [
+					"entry.html",
+					"home.html"
+				],
+				"priority": 0
+			},
+			"index.html": {
+				"resources": [],
+				"refer": [
+					"home.html"
+				],
+				"priority": 0
+			},
+			"HomePage.html": {
+				"resources": [
+					"Entry.html",
+					"signup.html"
+				],
+				"refer": [
+					"Retrieve.html",
+					"Register.html",
+					"Validate.html",
+					"app/frame/tab-webview-main.html"
+				],
+				"priority": 0
+			},
+			"Entry.html": {
+				"resources": [
+					"img/logo2.png",
+					"css/entry.css",
+					"css/mui.min.css"
+				],
+				"refer": [
+					"HomePage.html",
+					"RegulatoryRecord.html",
+					"Register.html",
+					"Shoplist.html",
+					"Retrieve.html",
+					"Mappage.html"
+				],
+				"priority": 0
+			},
+			"ShopPage.html": {
+				"resources": [
+					"Shoplist.html",
+					"js/shoppage.js"
+				],
+				"refer": [
+					"RegulatoryRecord.html",
+					"MerchantInformation.html",
+					"Mappage.html",
+					"BusinessQualification.html",
+					"checkform.html"
+				],
+				"priority": 0
+			},
+			"RegulatoryRecord.html": {
+				"resources": [],
+				"refer": [
+					"ShopPage.html",
+					"MerchantInformation.html",
+					"Entry.html",
+					"Information.html",
+					"Shoplist.html"
+				],
+				"priority": 0
+			},
+			"MerchantInformation.html": {
+				"resources": [],
+				"refer": [
+					"RegulatoryRecord.html",
+					"BusinessQualification.html",
+					"ShopPage.html"
+				],
+				"priority": 0
+			},
+			"BusinessQualification.html": {
+				"resources": [],
+				"refer": [
+					"MerchantInformation.html",
+					"ShopPage.html"
+				],
+				"priority": 0
+			},
+			"Shoplist.html": {
+				"resources": [
+					"ShopPage.html"
+				],
+				"refer": [
+					"RegulatoryRecord.html",
+					"Entry.html",
+					"Register.html",
+					"Individualcenter.html",
+					"Mappage.html",
+					"signup.html",
+					"managecenter.html",
+					"shopcenter.html"
+				],
+				"priority": 0
+			},
+			"Register.html": {
+				"resources": [
+					"common/rem.js",
+					"img/logo2.png",
+					"css/mui.min.css",
+					"css/Register.css"
+				],
+				"refer": [
+					"HomePage.html",
+					"Entry.html",
+					"Shoplist.html",
+					"signup.html"
+				],
+				"priority": 0
+			},
+			"Retrieve.html": {
+				"resources": [
+					"common/rem.js",
+					"css/retrieve.css",
+					"css/mui.min.css"
+				],
+				"refer": [
+					"HomePage.html",
+					"Entry.html",
+					"signup.html"
+				],
+				"priority": 0
+			},
+			"Information.html": {
+				"resources": [],
+				"refer": [
+					"RegulatoryRecord.html"
+				],
+				"priority": 0
+			},
+			"Validate.html": {
+				"resources": [],
+				"refer": [
+					"Shoplist.html",
+					"HomePage.html",
+					"app/frame/tab-webview-main.html"
+				],
+				"priority": 0
+			},
+			"Mappage.html": {
+				"resources": [],
+				"refer": [
+					"Shoplist.html",
+					"Individualcenter.html",
+					"Entry.html",
+					"signup.html",
+					"ShopPage.html",
+					"managecenter.html",
+					"shopcenter.html"
+				],
+				"priority": 0
+			},
+			"Individualcenter.html": {
+				"resources": [],
+				"refer": [
+					"Shoplist.html",
+					"Mappage.html",
+					"signup.html",
+					"managecenter.html",
+					"notice.html",
+					"shopcenter.html"
+				],
+				"priority": 0
+			},
+			"signup.html": {
+				"resources": [
+					"common/rem.js",
+					"img/logo2.png",
+					"css/entry.css",
+					"common/common.js",
+					"css/mui.min.css",
+					"img/qihoo.png",
+					"img/qq.png",
+					"img/sinaweibo.png",
+					"img/weixin.png"
+				],
+				"refer": [
+					"Shoplist.html",
+					"Individualcenter.html",
+					"Register.html",
+					"Retrieve.html",
+					"managecenter.html",
+					"shopcenter.html",
+					"app/shopcenter/shopcenter.html",
+					"app/frame/tab-webview-main.html",
+					"HomePage.html",
+					"app/user/selecttype.html",
+					"app/user/newinput.html"
+				],
+				"priority": 0
+			},
+			"managecenter.html": {
+				"resources": [],
+				"refer": [
+					"Mappage.html",
+					"Shoplist.html",
+					"Individualcenter.html",
+					"managetask.html",
+					"managerecord.html",
+					"shopcenter.html",
+					"signup.html",
+					"setbusiness.html",
+					"editmanageinfo.html",
+					"tab-webview-main.html",
+					"mytask.html",
+					"shopauxiliary.html",
+					"myrecords.html",
+					"dome-chat.html",
+					"tab-webview-subpage-chat.html",
+					"app/frame/tab-webview-main.html"
+				],
+				"priority": 0
+			},
+			"checkform.html": {
+				"resources": [
+					"js/checkform.js"
+				],
+				"refer": [
+					"checkform.html",
+					"manageselect.html"
+				],
+				"priority": 0
+			},
+			"managetask.html": {
+				"resources": [],
+				"refer": [
+					"checkform.html"
+				],
+				"priority": 0
+			},
+			"shopcenter.html": {
+				"resources": [],
+				"refer": [
+					"Shoplist.html",
+					"Mappage.html",
+					"managecenter.html",
+					"Individualcenter.html",
+					"signup.html"
+				],
+				"priority": 0
+			},
+			"setbusiness.html": {
+				"resources": [],
+				"refer": [
+					"managecenter.html",
+					"jurisdictionlist.html",
+					"ShopPage.html",
+					"editshop.html",
+					"areaselect.html"
+				],
+				"priority": 0
+			},
+			"editshop.html": {
+				"resources": [],
+				"refer": [
+					"material.html"
+				],
+				"priority": 0
+			},
+			"tab-webview-main.html": {
+				"resources": [
+					"tab-webview-subpage-about.html"
+				],
+				"refer": [
+					"tab-webview-subpage-chat.html",
+					"tab-webview-subpage-contact.html"
+				],
+				"priority": 0
+			},
+			"mytask.html": {
+				"resources": [
+					"tab-webview-subpage-about.html",
+					"task-wait.html",
+					"task-process.html"
+				],
+				"refer": [
+					"tab-webview-subpage-chat.html",
+					"tab-webview-subpage-contact.html",
+					"task-finished.html"
+				],
+				"priority": 0
+			},
+			"task-wait.html": {
+				"resources": [],
+				"refer": [
+					"checkform.html"
+				],
+				"priority": 0
+			},
+			"editmanageinfo.html": {
+				"resources": [],
+				"refer": [
+					"changemanpwd.html"
+				],
+				"priority": 0
+			},
+			"changemanpwd.html": {
+				"resources": [],
+				"refer": [
+					"signup.html"
+				],
+				"priority": 0
+			},
+			"task-process.html": {
+				"resources": [],
+				"refer": [
+					"checkform.html"
+				],
+				"priority": 0
+			},
+			"task-finished.html": {
+				"resources": [],
+				"refer": [
+					"checkform.html"
+				],
+				"priority": 0
+			},
+			"shopauxiliary.html": {
+				"resources": [],
+				"refer": [
+					"accessorysubmit.html"
+				],
+				"priority": 0
+			},
+			"accessorysubmit.html": {
+				"resources": [],
+				"refer": [
+					"accessorysubmit.html"
+				],
+				"priority": 0
+			},
+			"myrecords.html": {
+				"resources": [
+					"task-wait.html",
+					"records-month.html",
+					"dome-chat.html"
+				],
+				"refer": [
+					"task-process.html",
+					"task-finished.html",
+					"records-year.html",
+					"records-all.html",
+					"tab-webview-subpage-chat.html"
+				],
+				"priority": 0
+			},
+			"records-year.html": {
+				"resources": [],
+				"refer": [
+					"checkform.html"
+				],
+				"priority": 0
+			},
+			"records-all.html": {
+				"resources": [],
+				"refer": [
+					"checkform.html"
+				],
+				"priority": 0
+			},
+			"tab-webview-subpage-chat.html": {
+				"resources": [],
+				"refer": [
+					"checkform.html"
+				],
+				"priority": 0
+			},
+			"records-month.html": {
+				"resources": [],
+				"refer": [
+					"checkform.html"
+				],
+				"priority": 0
+			},
+			"app/frame/tab-webview-main.html": {
+				"resources": [
+					"app/frame/tab-webview-subpage-about.html",
+					"js/mui.min.js",
+					"js/jquery-1.11.0.min.js",
+					"app/frame/tab-webview-subpage-contact.html",
+					"app/shopcenter/shopcenter.html",
+					"app/user/Individualcenter.html",
+					"app/frame/tab-webview-subpage-chat.html"
+				],
+				"refer": [
+					"app/managecenter/editinfo/editmanageinfo.html",
+					"signup.html",
+					"app/shopcenter/twocode.html",
+					"HomePage.html",
+					"app/frame/tab-webview-subpage-nicklogin.html"
+				],
+				"priority": 0
+			},
+			"app/frame/tab-webview-subpage-contact.html": {
+				"resources": [
+					"img/changemm.png",
+					"img/update.png",
+					"img/manage.png",
+					"img/task.png",
+					"fonts/mui.ttf",
+					"img/rule.png",
+					"img/recondsicon.png",
+					"img/personicon.png",
+					"img/leavea.png",
+					"img/regular-check.png",
+					"img/seller.png",
+					"img/release.png",
+					"img/newrecord.png",
+					"img/help.png"
+				],
+				"refer": [
+					"app/managecenter/mytask.html",
+					"app/managecenter/mytask/mytask.html",
+					"app/managecenter/myrecords/myrecords.html",
+					"app/managecenter/setbusiness/setbusiness.html",
+					"app/managecenter/shopauxiliary/shopauxiliary.html",
+					"signup.html",
+					"app/notice/notice.html",
+					"app/message/notice.html",
+					"app/managecenter/editinfo/editmanageinfo.html",
+					"app/frame/tab-webview-main.html",
+					"app/shop/shoplist.html",
+					"app/managecenter/newrecord/newrecord.html",
+					"app/managecenter/checkcenter/checkcenter.html",
+					"app/managecenter/newrecord/allrecords.html",
+					"app/managecenter/checkcenter/check.html",
+					"app/managecenter/statistics/statistics.html",
+					"app/managecenter/checkcenter/selectdome.html",
+					"app/managecenter/myprint/myprint.html",
+					"app/managecenter/setbusiness/offcanvas-drag-left-plus-main.html",
+					"app/message/message.html",
+					"app/shortcut/shortcut.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/mytask/mytask.html": {
+				"resources": [
+					"app/managecenter/mytask/task-wait.html",
+					"app/managecenter/mytask/task-finished.html",
+					"app/managecenter/mytask/task-process.html",
+					"js/mui.min.js",
+					"js/jquery-1.11.0.min.js"
+				],
+				"refer": [
+					"app/managecenter/mytask/addtask.html",
+					"app/managecenter/mytask/selectman.html",
+					"app/managecenter/mytask/selectdome.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/myrecords/myrecords.html": {
+				"resources": [
+					"app/managecenter/myrecords/records-month.html",
+					"app/managecenter/myrecords/records-year.html",
+					"app/managecenter/myrecords/records-all.html"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"app/managecenter/setbusiness/setbusiness.html": {
+				"resources": [],
+				"refer": [
+					"app/managecenter/setbusiness/areaselect.html",
+					"app/managecenter/setbusiness/editshop.html",
+					"app/shop/ShopPage.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/setbusiness/editshop.html": {
+				"resources": [],
+				"refer": [
+					"app/managecenter/setbusiness/material.html",
+					"app/shopcenter/healthcertificate.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/shopauxiliary/shopauxiliary.html": {
+				"resources": [],
+				"refer": [
+					"app/managecenter/shopauxiliary/accessorysubmit.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/editinfo/editmanageinfo.html": {
+				"resources": [],
+				"refer": [
+					"app/changepwd/changemanpwd.html",
+					"app/shop/shopmap.html",
+					"app/managecenter/opentime/opentime.html",
+					"app/managecenter/editinfo/shoptype.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/mytask/task-finished.html": {
+				"resources": [],
+				"refer": [
+					"app/managecenter/checkform/checkform.html",
+					"app/managecenter/mytask/sfile.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/mytask/task-process.html": {
+				"resources": [],
+				"refer": [
+					"app/managecenter/checkform/checkform.html",
+					"app/managecenter/mytask/sfile.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/mytask/task-wait.html": {
+				"resources": [],
+				"refer": [
+					"app/managecenter/checkform/checkform.html",
+					"app/managecenter/mytask/sfile.html",
+					"app/managecenter/mytask/offcanvas-drag-left-plus-menu.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/myrecords/records-month.html": {
+				"resources": [],
+				"refer": [
+					"app/managecenter/checkform/checkform.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/checkform/checkform.html": {
+				"resources": [
+					"js/mui.picker.min.js",
+					"js/checkform.js"
+				],
+				"refer": [
+					"app/managecenter/checkform/manageselect.html",
+					"app/managecenter/checkform/namelist.html",
+					"app/managecenter/checkform/selectdome.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/myrecords/records-all.html": {
+				"resources": [],
+				"refer": [
+					"app/managecenter/checkform/checkform.html"
+				],
+				"priority": 0
+			},
+			"app/frame/tab-webview-subpage-about.html": {
+				"resources": [],
+				"refer": [
+					"app/shop/ShopPage.html",
+					"app/shop/mapselect.html",
+					"app/mappilot/mappilot.html"
+				],
+				"priority": 0
+			},
+			"app/frame/tab-webview-subpage-chat.html": {
+				"resources": [],
+				"refer": [
+					"app/shop/ShopPage.html",
+					"app/mappilot/mappilot.html"
+				],
+				"priority": 0
+			},
+			"app/shopcenter/shopcenter.html": {
+				"resources": [],
+				"refer": [
+					"app/shopcenter/dishmanage.html",
+					"app/shopcenter/foodmanage.html",
+					"app/shopcenter/recordsmanage.html",
+					"app/shopcenter/shopinfo.html",
+					"app/shopcenter/shopcerbook.html",
+					"app/shopcenter/shopmaterial.html",
+					"app/notice/notice.html",
+					"signup.html",
+					"app/shopcenter/barcode.html",
+					"app/frame/tab-webview-main.html",
+					"app/shopcenter/healthcertificate.html",
+					"app/shopmessage/notice.html",
+					"app/managecenter/editinfo/editmanageinfo.html",
+					"app/shopmessage/shopmessage.html"
+				],
+				"priority": 0
+			},
+			"app/shopcenter/dishmanage.html": {
+				"resources": [],
+				"refer": [
+					"app/shopcenter/addactivity.html"
+				],
+				"priority": 0
+			},
+			"app/shopcenter/foodmanage.html": {
+				"resources": [],
+				"refer": [
+					"app/shopcenter/addfood.html"
+				],
+				"priority": 0
+			},
+			"app/shopcenter/recordsmanage.html": {
+				"resources": [],
+				"refer": [
+					"app/shopcenter/addfood.html",
+					"app/managecenter/checkform/checkform.html",
+					"app/managecenter/checkform/shopcheckform.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/checkform/shopcheckform.html": {
+				"resources": [],
+				"refer": [
+					"app/managecenter/checkform/manageselect.html"
+				],
+				"priority": 0
+			},
+			"app/notice/notice.html": {
+				"resources": [],
+				"refer": [
+					"app/notice/noticecontent.html",
+					"app/notice/newpush.html",
+					"app/notice/newmessage.html"
+				],
+				"priority": 0
+			},
+			"app/shop/ShopPage.html": {
+				"resources": [],
+				"refer": [
+					"app/shop/BusinessQualification.html",
+					"app/managecenter/checkform/checkform.html",
+					"app/shopcenter/twocode.html",
+					"app/mappilot/mappilot.html",
+					"app/shop/shopsalf.html",
+					"app/managecenter/checkform/shopcheckform.html"
+				],
+				"priority": 0
+			},
+			"app/shop/BusinessQualification.html": {
+				"resources": [],
+				"refer": [
+					"app/shop/ShopPage.html"
+				],
+				"priority": 0
+			},
+			"app/user/Individualcenter.html": {
+				"resources": [
+					"img/update.png",
+					"img/manage.png",
+					"img/setup.png",
+					"img/phone.png",
+					"img/alter.png",
+					"img/seller.png",
+					"img/leavea.png"
+				],
+				"refer": [
+					"app/changepwd/changemanpwd.html",
+					"app/notice/notice.html",
+					"signup.html",
+					"app/managecenter/editinfo/editmanageinfo.html",
+					"app/notice/usermessage.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/myrecords/records-year.html": {
+				"resources": [],
+				"refer": [
+					"app/managecenter/checkform/checkform.html"
+				],
+				"priority": 0
+			},
+			"app/changepwd/changemanpwd.html": {
+				"resources": [],
+				"refer": [
+					"signup.html"
+				],
+				"priority": 0
+			},
+			"app/message/notice.html": {
+				"resources": [],
+				"refer": [
+					"app/message/noticecontent.html",
+					"app/message/newmessage.html",
+					"app/message/pushcontent.html",
+					"app/message/newpush.html"
+				],
+				"priority": 0
+			},
+			"app/message/newmessage.html": {
+				"resources": [],
+				"refer": [
+					"app/message/namelist.html"
+				],
+				"priority": 0
+			},
+			"app/message/noticecontent.html": {
+				"resources": [],
+				"refer": [
+					"app/message/namelist.html"
+				],
+				"priority": 0
+			},
+			"app/shop/mapselect.html": {
+				"resources": [],
+				"refer": [
+					"app/shop/ShopPage.html",
+					"app/mappilot/mappilot.html"
+				],
+				"priority": 0
+			},
+			"app/mappilot/mappilot.html": {
+				"resources": [],
+				"refer": [
+					"app/shop/ShopPage.html"
+				],
+				"priority": 0
+			},
+			"app/shopmessage/notice.html": {
+				"resources": [],
+				"refer": [
+					"app/shopmessage/newmessage.html",
+					"app/shopmessage/noticecontent.html",
+					"app/shopmessage/newpush.html",
+					"app/shopmessage/pushcontent.html"
+				],
+				"priority": 0
+			},
+			"app/shopmessage/newmessage.html": {
+				"resources": [],
+				"refer": [
+					"app/shopmessage/namelist.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/mytask/addtask.html": {
+				"resources": [],
+				"refer": [
+					"app/managecenter/setbusiness/areaselect.html",
+					"app/managecenter/newrecord/offcanvas-drag-left-plus-main.html",
+					"app/message/selectdome.html"
+				],
+				"priority": 0
+			},
+			"app/shop/shoplist.html": {
+				"resources": [],
+				"refer": [
+					"app/shop/ShopPage.html",
+					"app/mappilot/mappilot.html"
+				],
+				"priority": 0
+			},
+			"app/message/newpush.html": {
+				"resources": [],
+				"refer": [
+					"app/message/selectman.html",
+					"app/message/selectdome.html",
+					"app/managecenter/newrecord/offcanvas-drag-left-plus-main.html",
+					"app/message/userlist.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/newrecord/allrecords.html": {
+				"resources": [],
+				"refer": [
+					"app/managecenter/newrecord/recorddetail.html",
+					"app/managecenter/mytask/addtask.html",
+					"app/managecenter/newrecord/newrecord.html",
+					"app/managecenter/newrecord/offcanvas-drag-left-plus-main.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/checkcenter/check.html": {
+				"resources": [],
+				"refer": [
+					"app/managecenter/checkcenter/checkcenter.html",
+					"app/managecenter/checkcenter/activitycheck.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/checkcenter/activitycheck.html": {
+				"resources": [],
+				"refer": [
+					"app/managecenter/checkcenter/activitydetail.html",
+					"app/managecenter/checkcenter/fooddetail.html",
+					"app/managecenter/checkcenter/activitycheck.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/checkcenter/checkcenter.html": {
+				"resources": [],
+				"refer": [
+					"app/managecenter/checkcenter/activitydetail.html",
+					"app/managecenter/checkcenter/fooddetail.html",
+					"app/managecenter/checkcenter/checkcenter.html"
+				],
+				"priority": 0
+			},
+			"app/notice/newpush.html": {
+				"resources": [],
+				"refer": [
+					"app/notice/selectdome.html"
+				],
+				"priority": 0
+			},
+			"app/shopmessage/newpush.html": {
+				"resources": [],
+				"refer": [
+					"app/shopmessage/selectdome.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/mytask/sfile.html": {
+				"resources": [],
+				"refer": [
+					"app/managecenter/checkform/checkform.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/newrecord/offcanvas-drag-left-plus-main.html": {
+				"resources": [],
+				"refer": [
+					"app/managecenter/newrecord/offcanvas-drag-left-plus-menu.html",
+					"app/shop/ShopPage.html",
+					"app/managecenter/setbusiness/editshop.html",
+					"app/managecenter/setbusiness/areaselect.html",
+					"app/managecenter/newrecord/message.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/setbusiness/offcanvas-drag-left-plus-main.html": {
+				"resources": [],
+				"refer": [
+					"app/managecenter/setbusiness/offcanvas-drag-left-plus-menu.html",
+					"app/managecenter/setbusiness/areaselect.html",
+					"app/managecenter/setbusiness/editshop.html",
+					"app/managecenter/setbusiness/recordslist.html",
+					"app/shop/ShopPage.html",
+					"app/managecenter/setbusiness/message.html",
+					"app/managecenter/setbusiness/updateyear.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/setbusiness/recordslist.html": {
+				"resources": [],
+				"refer": [
+					"app/managecenter/checkform/checkform.html"
+				],
+				"priority": 0
+			},
+			"app/message/message.html": {
+				"resources": [
+					"app/message/messageall.html"
+				],
+				"refer": [
+					"app/message/pushnotice.html"
+				],
+				"priority": 0
+			},
+			"app/message/messageall.html": {
+				"resources": [],
+				"refer": [
+					"app/message/noticecontent.html",
+					"app/message/newmessage.html"
+				],
+				"priority": 0
+			},
+			"app/message/pushnotice.html": {
+				"resources": [],
+				"refer": [
+					"app/message/noticecontent.html",
+					"app/message/pushcontent.html",
+					"app/message/newmessage.html",
+					"app/message/newpush.html"
+				],
+				"priority": 0
+			},
+			"app/message/pushcontent.html": {
+				"resources": [],
+				"refer": [
+					"app/message/newmessage.html",
+					"app/message/newpush.html"
+				],
+				"priority": 0
+			},
+			"app/shopmessage/shopmessage.html": {
+				"resources": [
+					"app/shopmessage/messageall.html"
+				],
+				"refer": [
+					"app/shopmessage/pushnotice.html"
+				],
+				"priority": 0
+			},
+			"app/shopmessage/pushnotice.html": {
+				"resources": [],
+				"refer": [
+					"app/shopmessage/newpush.html",
+					"app/shopmessage/pushcontent.html"
+				],
+				"priority": 0
+			},
+			"app/notice/usermessage.html": {
+				"resources": [
+					"app/notice/messageall.html"
+				],
+				"refer": [
+					"app/notice/pushnotice.html"
+				],
+				"priority": 0
+			},
+			"app/notice/messageall.html": {
+				"resources": [],
+				"refer": [
+					"app/notice/newmessage.html"
+				],
+				"priority": 0
+			},
+			"app/shopmessage/messageall.html": {
+				"resources": [],
+				"refer": [
+					"app/shopmessage/newmessage.html",
+					"app/shopmessage/noticecontent.html"
+				],
+				"priority": 0
+			},
+			"app/notice/pushnotice.html": {
+				"resources": [],
+				"refer": [
+					"app/notice/pushcontent.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/newrecord/recorddetail.html": {
+				"resources": [
+					"common/rem.js",
+					"css/recorddetail.css",
+					"css/areaselectcss/normalize.css",
+					"common/common.js",
+					"js/mui.min.js",
+					"css/areaselectcss/default.css",
+					"js/handlebars.js",
+					"css/mui.min.css",
+					"css/areaselectcss/styles.css",
+					"js/jquery-1.11.0.min.js",
+					"css/areaselectcss/foundation.css"
+				],
+				"refer": [
+					"app/managecenter/newrecord/editrecord.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/setbusiness/message.html": {
+				"resources": [
+					"app/managecenter/setbusiness/recordslist.html",
+					"app/managecenter/setbusiness/shoptask.html"
+				],
+				"refer": [
+					"app/managecenter/checkform/checkform.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/setbusiness/shoptask.html": {
+				"resources": [],
+				"refer": [
+					"app/managecenter/checkform/checkform.html",
+					"app/managecenter/setbusiness/sfile.html"
+				],
+				"priority": 0
+			},
+			"app/user/selecttype.html": {
+				"resources": [],
+				"refer": [
+					"Register.html",
+					"app/user/binding.html"
+				],
+				"priority": 0
+			},
+			"app/shortcut/shortcut.html": {
+				"resources": [],
+				"refer": [
+					"app/shortcut/shortlist.html"
+				],
+				"priority": 0
+			},
+			"app/managecenter/newrecord/message.html": {
+				"resources": [
+					"app/managecenter/newrecord/shoptask.html"
+				],
+				"refer": [],
+				"priority": 0
+			}
+		},
+		"idle": {
+			"resources": [
+				"css/homepage.css",
+				"img/backoffwhite.png",
+				"img/nearby2.png",
+				"img/logo3.png",
+				"img/homepage.png",
+				"css/MerchantInformation.css",
+				"css/validate.css",
+				"img/head.png",
+				"img/password.png",
+				"img/mine2.png",
+				"img/backoff.png",
+				"css/popup.css",
+				"img/home.png",
+				"js/mui.js",
+				"img/fishone.png",
+				"img/beijing5.png",
+				"img/sort.png",
+				"img/leaveword.png",
+				"css/shoppage.css",
+				"img/Tostitos.png",
+				"img/mine.png",
+				"css/mui.css",
+				"img/fenxiang.png",
+				"img/search.png",
+				"img/Ancienttea.png",
+				"css/RegulatoryRecord.css",
+				"img/fishtwo.png",
+				"img/nearby.png",
+				"img/beijing2.png",
+				"css/Inddividualcenter.css",
+				"img/zizhi1.png",
+				"img/zizhier.png",
+				"img/off.png",
+				"css/BusinessQualification.css",
+				"img/beijing43.png",
+				"img/details.png",
+				"img/beijing3.png",
+				"css/mappage.css",
+				"img/edit.png",
+				"img/validate.png",
+				"img/shoucang.png",
+				"img/route.png",
+				"img/max.png",
+				"img/record.png",
+				"img/phone2.png",
+				"css/shoplist.css",
+				"img/beijing.png",
+				"img/healthfood.png",
+				"img/background.png",
+				"img/logo.png",
+				"img/leave.png"
+			]
+		}
+	},
+	"unpackage": []
+}

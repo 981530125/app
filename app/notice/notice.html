@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<script type="text/javascript" src="../../common/rem.js"></script>
+		<!--<link rel="stylesheet" href="css/shoppage.css" />-->
+		<link rel="stylesheet" href="../../common/css/mui.picker.css" />
+		<link rel="stylesheet" href="../../css/notice.css" />
+		<link rel="stylesheet" href="../../common/css/mui.poppicker.css" />
+		<script type="text/javascript" src="../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../common/common.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../common/mui.picker.js"></script>
+		<script src="../../common/mui.poppicker.js"></script>
+		<script src="../js/notice/notice.js"></script>
+		<script type="text/javascript">
+			mui.init();
+		</script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#35a8dc;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<!--<a class="mui-action-back mui-icon mui-pull-right mui-a-color"><img src="img/fenxiang.png" style="margin-right: 3px;" width="20px" /></a>-->
+			<div class="mui-pull-right" style="width: 72px;display: none;" id='showUserPicker'>
+				<a href="#" class="mui-icon mui-pull-right mui-icon mui-icon-arrowdown" style="color: #D1F0FD"></a>
+				<a href="#" class="mui-title" id="userResult" style="font-size: 14px;color: #D1F0FD;left: auto;">全部</a>
+			</div>
+			<h1 class="mui-title" style="color: #fff;font-weight: bold;">通知消息</h1>
+		</header>
+		<a class="mui-icon mui-icon-plusempty" id="add-message" style="width: 0.8rem;height: 0.8rem;line-height: 0.8rem;text-align: center;color: #fff;position: fixed;bottom: 2rem;right: 0.8rem;border-radius: 100%;z-index: 999;background-color: #2ea6db;"></a>
+		<div class="mui-content mui-scroll-wrapper" id="pullrefresh">
+			<div style="margin: 0 auto;border-bottom: 1px solid #e0e0e0;background-color: #fff;">
+				<ul class="all-item">
+					<li class="all-li all-active f14" style="flex: 1;" data-id="0" data-tasktype="notice">通知信息</li>
+					<li class="all-li f14" style="flex: 1;" data-id="1" data-tasktype="push">推送记录</li>
+				</ul>
+			</div>
+			<div class="mui-scroll menulist" id="notice-content">
+
+			</div>
+			<div class="menulist f14 mui-scroll" id="push-content" style="width: 100%;display: none;">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell getpushdata" data-id="{{id}}">
+			            <a class="mui-navigate-right" href="#" style="font-size: 14px;color: #333333;">
+			            	<div style="display: inline-block;width: 100%;height: 100%;">
+			            		<div class="noticetitle">消息标题1</div>
+			            		<div style="color: #b2b2b2;font-size: 14px;height: 22px;line-height: 22px;" class="mui-ellipsis">推送人：{{content}}</div>
+			            		<div style="color: #b2b2b2;font-size: 14px;height: 22px;line-height: 22px;" class="mui-ellipsis">推送时间</div>
+			            		<div style="color: #b2b2b2;font-size: 12px;height: 22px;line-height: 22px;display: none;"><span style="margin-right: 0.3rem;">{{author_name}}</span><span>{{created_at}}</span><span style="float: right;{{#if_eq status 0}}color: #53b6e3;{{/if_eq}}">{{#if_eq status '0'}}待处置{{/if_eq}}{{#if_eq status '1'}}已处置{{/if_eq}}</span></div>
+			            	</div>
+			            </a>
+			        </li>
+		       </ul>
+			</div>
+		</div>
+		<!--模板-->
+		<script id="notice-template" type="text/x-handlebars-template">
+			<ul class="mui-table-view"> 
+				{{#each this}}
+		        <li class="mui-table-view-cell getmessage" data-id="{{id}}">
+		            <a class="mui-navigate-right" href="#" style="font-size: 14px;color: #333333;">
+		            	<div style="display: inline-block;width: 70%;height: 100%;">
+		            		<div class="noticetitle"><span class="dot"></span>{{title}}</div>
+		            		<div style="color: #b2b2b2;font-size: 12px;height: 22px;line-height: 22px;">{{created_at}}</div>
+		            	</div>
+		            </a>
+		        </li>
+		        {{/each}}
+		   </ul>
+		</script>
+		<!--模板-->
+	</body>
+</html>

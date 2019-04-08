@@ -1,0 +1,590 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>企业辅助材料提交</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../../css/mui.min.css" />
+		<script type="text/javascript" src="../../../common/rem.js"></script>
+		<link rel="stylesheet" href="../../../css/accessorysubmit.css" />
+		<script type="text/javascript" src="../../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../../common/common.js"></script>
+		<script type="text/javascript" src="../../js/managecenter/accessorysubmit.js"></script>
+		<style type="text/css">
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto 4;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				width: auto;
+				height: auto;
+				max-width: 100%;
+				max-height: 100%;
+			}
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+			}
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			p img {
+				max-width: 100%;
+				height: auto;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#2ca5db;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 class="mui-title" style="color: #fff;font-weight: bold;">企业辅助材料提交</h1>
+		</header>
+		<!--遮罩层-->
+		<div class="mui-backdrop" style="display: none;" id="my-mask">
+			<div class="mui-loading" style="position: absolute;top: calc(50% - 12px);left: calc(50% - 12px);">
+				<div class="mui-spinner">
+				</div>
+			</div>
+		</div>
+		<div class="mui-content" style="background-color: #fff;">
+			<div style="margin: 0 auto;border-bottom: 1px solid #e0e0e0;position: fixed;width: 100%;background-color: #fff;z-index: 888;">
+				<ul class="all-item">
+					<li class="all-li all-active f14" style="flex: 1;" data-id="0" data-tasktype="wait">辅助材料</li>
+					<li class="all-li f14" style="flex: 1;" data-id="1" data-tasktype="process">健康证</li>
+				</ul>
+			</div>
+			<div class="menulist f14" id="wait" style="width: 100%;padding-top: 44px;">
+				<form id="submit-info">
+					<div>
+						<div class="img-title">图片上传</div>
+						<div id="imglist">
+							<!--插入图片模版-->
+						</div>
+					</div>
+					<div style="display: none;">
+						<div style="height: 0.78rem;line-height: 0.78rem;font-size: 14px;text-indent: 0.26rem;color: #b2b2b2;background-color: #ebebeb;">文件上传</div>
+						<div id="filelist">
+							<!--插入文件模版-->
+						</div>
+					</div>
+					<div class="submit-btn-item">
+						<div class="submit-btn materialbtn">确认提交</div>
+						<div class="addmaterial-btn">确认添加</div>
+					</div>
+				</form>
+				<!--插入模板-->
+			</div>
+			<div class="menulist f14" id="records" style="width: 100%;display: none;padding-bottom: 0.5rem;padding-top: 44px;">
+				<form id="cerhelper">
+					<div id="filelist-form">
+					<!--插入模版-->
+					</div>
+					<div class='img-btn-style imageup' data-type="health">
+						<div class="img-btn-bgk">
+							<div style="padding-top: 0.32rem;">
+								<img src="../../../img/downfile.png" class="img-submit-icon" />
+							</div>
+							<div style="font-size: 14px;color: #999999;">选择图片并上传</div>
+						</div>
+					</div>
+					<div class="chage-btn healbtn">确认修改</div>
+					<div class="addchage-btn">确认添加</div>
+				</form>
+			</div>
+		</div>
+		<!--模板-->
+		<script id="img-template" type="text/x-handlebars-template">
+			<ul class="mui-table-view" style="border-bottom: 1px solid #eee;margin-bottom: 0;">
+				{{#each filelist}}
+				{{#if_eq ext 'jpg'}}
+				<li class="mui-table-view-cell mui-media mui-action-control">
+					<a href="javascript:;" style="padding-left: 0;margin-left: 0;">
+						<input type="hidden" value="{{id}}" name="id" class="id" />
+						<input type="hidden" value="{{investigate_record_id}}" name="investigate_record_id" class="investigate_record_id" />
+						<input type="hidden" value="{{../license_id}}" name="license_id" class="license_id" />
+						<input type="hidden" value="{{deleted_at}}" name="deleted_at" class="deleted_at" />
+						<input type="hidden" value="{{original_name}}" name="original_name" class="original_name" />
+						<input type="hidden" value="{{lat}}" name="lat" class="lat" />
+						<input type="hidden" value="{{lng}}" name="lng" class="lng" />
+						<img src="{{../rooturl}}{{access_path}}" class="mui-media-object mui-pull-left addicon-style imgsrc" data-preview-src="" data-preview-group="1"/>
+						<div class="mui-media-body f14" style="text-align: left;height: 1.2rem;">
+							<textarea class='mui-ellipsis textcontent' name="note" placeholder="添加备注">{{note}}</textarea>
+						</div>
+						<div style="height: 100%;text-align: left;">
+							<span class="mui-ellipsis mui-inline addmap" data-lat="{{lat}}" data-lng="{{lng}}" style="font-size: 14px;margin-right: 0.2rem;">查看详情</span>
+							<p class='mui-ellipsis mui-inline mui-text-left' style="width: 26.4%;font-size: 14px;">{{author_name}}</p>
+							<p class='mui-ellipsis mui-inline mui-text-left' style="width: 50%;font-size: 14px;">{{prettifyDate updated_at 10}}</p>
+						</div>
+						<div id="txtBtn" class="open-btn">
+							<span class="open-btn-title">公众端可见</span>
+							{{#if_eq is_open '0'}}
+							<div class="mui-switch mui-switch-mini" id="switch" style="width: 36px;height: 22px;display:inline-block;">
+								<div class="mui-switch-handle" style="width: 18px;height: 19px;"></div>
+								<input type="hidden" class="is_open" name="is_open" value="{{is_open}}">
+							</div>
+							{{/if_eq}}
+							{{#if_eq is_open '1'}}
+							<div class="mui-switch mui-switch-mini mui-active" id="switch" style="width: 36px;height: 22px;display:inline-block;">
+								<div class="mui-switch-handle" style="width: 18px;height: 19px;"></div>
+								<input type="hidden" class="is_open" name="is_open" value="{{is_open}}">
+							</div>
+							{{/if_eq}}
+						</div>
+					</a>
+					<div class="mapitem"></div>
+				</li>
+				{{/if_eq}}
+				{{#if_eq ext 'png'}}
+				<li class="mui-table-view-cell mui-media mui-action-control">
+					<a href="javascript:;" style="padding-left: 0;margin-left: 0;">
+						<input type="hidden" value="{{id}}" name="id" class="id" />
+						<input type="hidden" value="{{investigate_record_id}}" name="investigate_record_id" class="investigate_record_id" />
+						<input type="hidden" value="{{../license_id}}" name="license_id" class="license_id" />
+						<input type="hidden" value="{{deleted_at}}" name="deleted_at" class="deleted_at" />
+						<input type="hidden" value="{{original_name}}" name="original_name" class="original_name" />
+						<input type="hidden" value="{{lat}}" name="lat" class="lat" />
+						<input type="hidden" value="{{lng}}" name="lng" class="lng" />
+						<img src="{{../rooturl}}{{access_path}}" class="mui-media-object mui-pull-left addicon-style imgsrc" data-preview-src="" data-preview-group="1"/>
+						<div class="mui-media-body f14" style="text-align: left;height: 1.2rem;">
+							<textarea class='mui-ellipsis textareacontent' name="note" placeholder="添加备注" style="border: 1px solid #ccc;height: 1rem;line-height: 0.05rem;font-size: 14px;">{{note}}</textarea>
+						</div>
+						<div style="height: 100%;text-align: left;">
+							<span class="mui-ellipsis mui-inline addmap" data-lat="{{lat}}" data-lng="{{lng}}" style="font-size: 14px;margin-right: 0.2rem;">查看详情</span>
+							<p class='mui-ellipsis mui-inline mui-text-left' style="width: 26.4%;font-size: 14px;">{{author_name}}</p>
+							<p class='mui-ellipsis mui-inline mui-text-left' style="width: 50%;font-size: 14px;">{{prettifyDate updated_at 10}}</p>
+						</div>
+						<div id="txtBtn" style="text-align:right;margin-top: 3px;display:block;">
+							<span style="height: 22px;font-size: 12px;margin-right: 15px; line-height: 22px;vertical-align: top;color: #b2b2b2;">公众端可见</span>
+							<div class="mui-switch mui-switch-mini" id="switch" style="width: 36px;height: 22px;display:inline-block;">
+								<div class="mui-switch-handle" style="width: 18px;height: 19px;"></div>
+								<input type="hidden" class="is_open" name="is_open" value="{{is_open}}">
+							</div>
+						</div>
+					</a>
+					<div class="mapitem"></div>
+				</li>
+				{{/if_eq}}
+				{{/each}}
+			</ul>
+			<div class='img-btn-style imageup'>
+				<div class="img-btn-bgk">
+					<div style="padding-top: 0.32rem;">
+						<img src="../../../img/downfile.png" class="img-submit-icon" />
+					</div>
+					<div style="font-size: 14px;color: #999999;">选择图片并上传</div>
+				</div>
+			</div>
+		</script>
+		<!--文件-->
+		<script id="file-template" type="text/x-handlebars-template">
+			<ul class="mui-table-view" style="border-bottom: 1px solid #eee;margin-bottom: 0;">
+				{{#each filelist}}
+				{{#if_eq ext 'txt'}}
+				<li class="mui-table-view-cell mui-media mui-action-control">
+					<a href="javascript:;" style="padding-left: 0;margin-left: 0;">
+						<input type="hidden" value="{{id}}" name="id" class="id" />
+						<input type="hidden" value="{{investigate_record_id}}" name="investigate_record_id" class="investigate_record_id" />
+						<input type="hidden" value="{{license_id}}" name="license_id" class="license_id" />
+						<input type="hidden" value="{{deleted_at}}" name="deleted_at" class="deleted_at" />
+						<input type="hidden" value="{{original_name}}" name="original_name" class="original_name" />
+						<input type="hidden" value="{{lat}}" name="lat" class="lat" />
+						<input type="hidden" value="{{lng}}" name="lng" class="lng" />
+						<img src="{{../rooturl}}{{access_path}}" class="mui-media-object mui-pull-left addicon-style imgsrc" />
+						<div class="mui-media-body f14" style="text-align: left;height: 1.2rem;">
+							<textarea class='mui-ellipsis textcontent' name="note" placeholder="添加备注">{{note}}</textarea>
+						</div>
+						<div style="height: 100%;text-align: left;">
+							<span class="mui-ellipsis mui-inline addmap" style="font-size: 14px;margin-right: 0.2rem;">查看详情</span>
+							<p class='mui-ellipsis mui-inline mui-text-left' style="width: 26.4%;font-size: 14px;">{{author_name}}</p>
+							<p class='mui-ellipsis mui-inline mui-text-left' style="width: 50%;font-size: 14px;">{{prettifyDate updated_at 10}}</p>
+						</div>
+						<div id="txtBtn" class="open-btn">
+							<span class="open-btn-title">公众端可见</span>
+							<div class="mui-switch mui-switch-mini" id="switch" style="width: 36px;height: 22px;display:inline-block;">
+								<div class="mui-switch-handle" style="width: 18px;height: 19px;"></div>
+								<input type="hidden" class="is_open" name="is_open" value="{{is_open}}">
+							</div>
+						</div>
+					</a>
+				</li>
+				{{/if_eq}}
+				{{/each}}
+			</ul>
+			<div class="file-submit">
+				<div class="file-item">
+					<div style="padding-top: 0.32rem;">
+						<img src="../../../img/downfile.png" class="file-icon"/>
+					</div>
+					<div class="file-btntitle">选择文件并上传</div>
+					<input type="file" value="" name="file" class="fileinput">
+				</div>
+			</div>
+		</script>
+		<!--健康证-->
+		<script id="filelist-template" type="text/x-handlebars-template">
+			{{#if_eq data null}}
+				<div style="font-size: 14px;text-align: center;">暂无信息</div>
+			{{else}}
+				{{#each data}}
+				<div style="width: 7.02rem;padding: 0.32rem 0 0.32rem 0;margin: 0 auto;display: flex;border-bottom: 1px solid #e5e5e5;">
+					<div style="width: 1.65rem;height: 1.65rem;position:relative;">
+						<img src="{{../url}}{{access_path}}" class="imgsrc" style="width: 100%;height: 100%;" data-preview-src="" data-preview-group="1"/>
+						<img src="../../../img/delete.png" style="width: 0.44rem;height: 0.44rem;position: absolute;top: 0.1rem;right: 0.1rem;" data-id="啊是大" class="delete-item"/>
+						<input type="hidden" class="author_name" value="{{author_name}}" name="author_name" />		
+						<input type="hidden" value="{{id}}" name="id">
+						<input type="hidden" value="{{investigate_record_id}}" name="investigate_record_id"/>
+						<input type="hidden" value="{{license_id}}" name="license_id" />
+						<input type="hidden" value="{{deleted_at}}" name="deleted_at" class="deleted_at" />
+						<input type="hidden" value="{{lat}}" name="lat" />
+						<input type="hidden" value="{{lng}}" name="lng" />
+						<!--<input type="hidden" value="{{original_name}}" name="original_name" style="position: relative:top;"/>-->
+					</div>
+					<div style="margin-left: 0.33rem;width: 5.04rem;">
+						<div>
+							<span class="f14" style="width: 30%;">文件名：</span><input type="text" value="{{original_name}}" name="original_name" style="width: 70%;height: 0.5rem;line-height: 0.5rem;border: 1px solid #ccc;"/>
+							<textarea name="note" placeholder="添加备注" class="f14" style="width: 100%;height: 100%;margin:0;border: 1px solid #ccc;">{{note}}</textarea>
+							<div style="width: 100%;height: 1rem;line-height: 1rem;">
+								<span class="f14" style="height: 0.6rem;line-height: 0.6rem;margin-right: 0.4rem;">有效期开始时间:</span>
+								<span class="f14 time" style="border: 1px solid #ccc;padding: 0.2rem;">{{license_health_certificate_file_start_at}}</span>
+								<input type="hidden" value="{{license_health_certificate_file_start_at}}" name="license_health_certificate_file_start_at">
+							</div>
+							<div style="width: 100%;height: 1rem;line-height: 1rem;">
+								<span class="f14" style="height: 0.6rem;line-height: 0.6rem;margin-right: 0.4rem;">有效期结束时间:</span>
+								<span class="f14 time" style="border: 1px solid #ccc;padding: 0.2rem;">{{license_health_certificate_file_end_at}}</span>
+								<input type="hidden" value="{{license_health_certificate_file_end_at}}" name="license_health_certificate_file_end_at">
+							</div>
+						</div>
+						<div style="width: 100%;height: 0.56rem;display: flex;line-height:0.56rem;justify-content:space-between;margin-top: 30px;display: inline-block;">
+							<div class="mui-ellipsis" style="height: 0.56rem;font-size: 14px;color: #b2b2b2;width: 1.7rem;display: inline-block;">{{author_name}}</div>
+							<div style="height: 0.56rem;font-size: 14px;color: #b2b2b2;display: inline-block;vertical-align: top;">{{prettifyDate created_at 10}}</div>
+							<div id="txtBtn" style="text-align:right;margin-top: 3px;">
+								<span style="height: 22px;font-size: 12px;margin-right: 15px; line-height: 22px;vertical-align: top;color: #b2b2b2;">是否可见</span>
+								{{#if_eq is_open '0'}}
+								<div class="mui-switch mui-switch-mini" id="switch" style="width: 36px;height: 22px;display:inline-block;">
+								  <div class="mui-switch-handle" style="width: 18px;height: 19px;"></div>
+								  <input type="hidden" class="is_open" name="is_open" value="{{is_open}}">
+								</div>
+								{{else}}
+								<div class="mui-switch mui-switch-mini mui-active" id="switch" style="width: 36px;height: 22px;display:inline-block;">
+								  <div class="mui-switch-handle" style="width: 18px;height: 19px;"></div>
+								  <input type="hidden" class="is_open" name="is_open" value="{{is_open}}">
+								</div>
+								{{/if_eq}}
+							</div>
+						</div>
+					</div>
+				</div>
+				{{/each}}
+			{{/if_eq}}
+		</script>
+		<script id="add-template" type="text/x-handlebars-template">
+			
+			<div class="image-item myaddimg">
+				<div class="image-src">
+					<img src="{{rooturl}}{{access_path}}" class="imgsrc" style="width: 100%;height: 100%;"/>
+					<img src="../../../img/delete.png" style="width: 0.44rem;height: 0.44rem;position: absolute;top: 0.1rem;right: 0.1rem;" data-id="啊是大" class="delete-item"/>
+					<input type="hidden" class="id" value="{{id}}" name="id">
+					<input type="hidden" class="investigate_record_id" value="" name="investigate_record_id"/>
+					<input type="hidden" class="license_id" value="{{license_id}}" name="license_id" />
+					<input type="hidden" class="deleted_at" value="" name="deleted_at" class="deleted_at"/>
+					<input type="hidden" class="lat" value="" name="lat" />
+					<input type="hidden" class="lng" value="" name="lng" />
+					<!--<input type="hidden" class="original_name" value="" name="original_name" />-->
+					<input type="hidden" class="author_name" value="" name="author_name" />
+				</div>
+				<div style="margin-left: 0.33rem;width: 5.04rem;">
+					<div class="findfilename">
+						<span class="f14" style="width: 30%;">文件名：</span><input type="text" class="original_name" value="{{original_name}}" name="original_name" style="width: 70%;height: 0.5rem;line-height: 0.5rem;border: 1px solid #ccc;"/>
+						<textarea name="note" placeholder="添加备注" class="f14 note" style="width: 100%;height: 100%;margin:0;border: 1px solid #ccc;">{{note}}</textarea>
+						<div style="width: 100%;height: 1rem;line-height: 1rem;">
+							<span class="f14" style="height: 0.6rem;line-height: 0.6rem;margin-right: 0.4rem;">有效期开始时间:</span>
+							<span class="f14 time" style="border: 1px solid #ccc;padding: 0.2rem;">{{now}}</span>
+							<input type="hidden" value="{{now}}" class="license_health_certificate_file_start_at" name="license_health_certificate_file_start_at">
+						</div>
+						<div style="width: 100%;height: 1rem;line-height: 1rem;">
+							<span class="f14" style="height: 0.6rem;line-height: 0.6rem;margin-right: 0.4rem;">有效期结束时间:</span>
+							<span class="f14 time" style="border: 1px solid #ccc;padding: 0.2rem;">{{now}}</span>
+							<input type="hidden" value="{{now}}" class="license_health_certificate_file_end_at" name="license_health_certificate_file_end_at">
+						</div>
+					</div>
+					<div style="width: 100%;height: 0.56rem;display: flex;line-height:0.56rem;justify-content:space-between;margin-top: 30px;">
+						<div class="mui-ellipsis" style="height: 0.56rem;font-size: 14px;color: #b2b2b2;width: 1.7rem;">{{author_name}}</div>
+						<div style="height: 0.56rem;font-size: 14px;color: #b2b2b2;margin-left: 0.25rem;"></div>
+						<div id="txtBtn" style="text-align:right;margin-top: 3px;">
+							<span style="height: 22px;font-size: 12px;margin-right: 15px; line-height: 22px;vertical-align: top;color: #b2b2b2;">是否可见</span>
+							<div class="mui-switch mui-switch-mini" id="switch" style="width: 36px;height: 22px;display: inline-block;">
+							  <div class="mui-switch-handle" style="width: 18px;height: 19px;"></div>
+							  <input type="hidden" class="is_open" name="is_open" value="{{is_open}}">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</script>
+		<!--添加文件-->
+		<script id="addfile-template" type="text/x-handlebars-template">
+			{{#if_eq ext 'txt'}}
+			<li class="mui-table-view-cell mui-media mui-action-control">
+				<a href="javascript:;" style="padding-left: 0;margin-left: 0;">
+					<input type="hidden" value="{{id}}" name="id" class="id" />
+					<input type="hidden" value="{{investigate_record_id}}" name="investigate_record_id" class="investigate_record_id" />
+					<input type="hidden" value="{{license_id}}" name="license_id" class="license_id" />
+					<input type="hidden" value="{{deleted_at}}" name="deleted_at" class="deleted_at" />
+					<input type="hidden" value="{{original_name}}" name="original_name" class="original_name" />
+					<input type="hidden" value="{{lat}}" name="lat" class="lat" />
+					<input type="hidden" value="{{lng}}" name="lng" class="lng" />
+					<img src="{{../rooturl}}{{access_path}}" class="mui-media-object mui-pull-left addicon-style imgsrc" />
+					<div class="mui-media-body f14" style="text-align: left;height: 1.2rem;">
+						<textarea class='mui-ellipsis textcontent' name="note" placeholder="添加备注">{{note}}</textarea>
+					</div>
+					<div style="height: 100%;text-align: left;">
+						<span class="mui-ellipsis mui-inline addmap" style="font-size: 14px;margin-right: 0.2rem;">查看详情</span>
+						<p class='mui-ellipsis mui-inline mui-text-left' style="width: 26.4%;font-size: 14px;">{{author_name}}</p>
+						<p class='mui-ellipsis mui-inline mui-text-left' style="width: 50%;font-size: 14px;">{{prettifyDate updated_at 10}}</p>
+					</div>
+					<div id="txtBtn" class="open-btn">
+						<span class="open-btn-title">公众端可见</span>
+						<div class="mui-switch mui-switch-mini" id="switch" style="width: 36px;height: 22px;display:inline-block;">
+							<div class="mui-switch-handle" style="width: 18px;height: 19px;"></div>
+							<input type="hidden" class="is_open" name="is_open" value="{{is_open}}">
+						</div>
+					</div>
+				</a>
+			</li>
+			{{/if_eq}}
+		</script>
+		<!--文件-->
+		<script id="map-template" type="text/x-handlebars-template">
+			<!--地图-->
+			<div class="mui-input-group input-item-style">
+				<label class="input-item-title">定位数据</label>
+				<input type="text" name="corporation_address" id="corporation_address" class="mui-input-clear input-item-content f14" value="{{corporation_address}}">
+				<input name="lat" id="lat" type="hidden" value="{{lat}}" />
+				<input name="lng" id="lng" type="hidden" value="{{lng}}" />
+				<input name="corporation_address_components" id="corporation_address_components" type="hidden" value="{{corporation_address_components}}" />
+			</div>
+			<div class="mui-input-group input-item-style" style="position: relative;">
+				<input type="text" class="mui-input-clear input-item-content search-contentinfo" style="border: 1px solid #CCCCCC;" id="addresskey" placeholder="小区/写字楼/学校" value="">
+				<img src="../../../img/shopsearch.png" id="searchAddress" class="search-icon" />
+			</div>
+			<div class="mui-input-group input-item-style">
+				<div style="width:100%;height:300px" class="container" id="container"></div>
+			</div>
+		</script>
+		<!--暂无数据-->
+		<script id="nonedata-template" type="text/x-handlebars-template">
+			<div>{{data.message}}</div>
+		</script>
+		<!--添加图片-->
+		<script id="addimg-template" type="text/x-handlebars-template">
+			{{#if_eq ext 'jpg'}}
+				<li class="mui-table-view-cell mui-media mui-action-control myaddimg">
+					<a href="javascript:;" style="padding-left: 0;margin-left: 0;">
+						<input type="hidden" value="{{id}}" name="id" class="id" />
+						<input type="hidden" value="{{investigate_record_id}}" name="investigate_record_id" class="investigate_record_id" />
+						<input type="hidden" value="{{license_id}}" name="license_id" class="license_id" />
+						<input type="hidden" value="{{deleted_at}}" name="deleted_at" class="deleted_at" />
+						<input type="hidden" value="{{original_name}}" name="original_name" class="original_name" />
+						<input type="hidden" value="{{lat}}" name="lat" class="lat" />
+						<input type="hidden" value="{{lng}}" name="lng" class="lng" />
+						<img src="{{rooturl}}{{access_path}}" class="mui-media-object mui-pull-left addicon-style imgsrc" />
+						<div class="mui-media-body f14" style="text-align: left;height: 1.2rem;">
+							<textarea class='mui-ellipsis textcontent note' name="note" placeholder="添加备注">{{note}}</textarea>
+						</div>
+						<div style="height: 100%;text-align: left;">
+							<span class="mui-ellipsis mui-inline addmap" data-lat="{{lat}}" data-lng="{{lng}}" style="font-size: 14px;margin-right: 0.2rem;">查看详情</span>
+							<p class='mui-ellipsis mui-inline mui-text-left' style="width: 26.4%;font-size: 14px;">{{author_name}}</p>
+							<p class='mui-ellipsis mui-inline mui-text-left' style="width: 50%;font-size: 14px;">{{updated_at}}</p>
+						</div>
+						<div id="txtBtn" class="open-btn">
+							<span class="open-btn-title">公众端可见</span>
+							<div class="mui-switch mui-switch-mini" id="switch" style="width: 36px;height: 22px;display:inline-block;">
+								<div class="mui-switch-handle" style="width: 18px;height: 19px;"></div>
+								<input type="hidden" class="is_open" name="is_open" value="{{is_open}}">
+							</div>
+						</div>
+					</a>
+					<div class="mapitem"></div>
+				</li>
+				{{/if_eq}}
+				{{#if_eq ext 'png'}}
+				<li class="mui-table-view-cell mui-media mui-action-control myaddimg">
+					<a href="javascript:;" style="padding-left: 0;margin-left: 0;">
+						<input type="hidden" value="{{id}}" name="id" class="id" />
+						<input type="hidden" value="{{investigate_record_id}}" name="investigate_record_id" class="investigate_record_id" />
+						<input type="hidden" value="{{license_id}}" name="license_id" class="license_id" />
+						<input type="hidden" value="{{deleted_at}}" name="deleted_at" class="deleted_at" />
+						<input type="hidden" value="{{original_name}}" name="original_name" class="original_name" />
+						<input type="hidden" value="{{lat}}" name="lat" class="lat" />
+						<input type="hidden" value="{{lng}}" name="lng" class="lng" />
+						<img src="{{rooturl}}{{access_path}}" class="mui-media-object mui-pull-left addicon-style imgsrc" />
+						<div class="mui-media-body f14" style="text-align: left;height: 1.2rem;">
+							<textarea class='mui-ellipsis textareacontent note' name="note" placeholder="添加备注" style="border: 1px solid #ccc;height: 1rem;line-height: 0.05rem;font-size: 14px;"></textarea>
+						</div>
+						<div style="height: 100%;text-align: left;">
+							<span class="mui-ellipsis mui-inline addmap" data-lat="{{lat}}" data-lng="{{lng}}" style="font-size: 14px;margin-right: 0.2rem;">查看详情</span>
+							<p class='mui-ellipsis mui-inline mui-text-left' style="width: 26.4%;font-size: 14px;">{{author_name}}</p>
+							<p class='mui-ellipsis mui-inline mui-text-left' style="width: 50%;font-size: 14px;">{{prettifyDate updated_at 10}}</p>
+						</div>
+						<div id="txtBtn" style="text-align:right;margin-top: 3px;display:block;">
+							<span style="height: 22px;font-size: 12px;margin-right: 15px; line-height: 22px;vertical-align: top;color: #b2b2b2;">公众端可见</span>
+							<div class="mui-switch mui-switch-mini" id="switch" style="width: 36px;height: 22px;display:inline-block;">
+								<div class="mui-switch-handle" style="width: 18px;height: 19px;"></div>
+								<input type="hidden" class="is_open" name="is_open" value="{{is_open}}">
+							</div>
+						</div>
+					</a>
+					<div class="mapitem"></div>
+				</li>
+			{{/if_eq}}
+		</script>
+
+		<!--模板-->
+		<script src="../../../js/mui.min.js"></script>
+		<script src="../../../common/mui.zoom.js"></script>
+		<script src="../../../common/mui.previewimage.js"></script>
+		<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=LXQBZ-OK7HS-ILDOF-64VY5-EQNCT-D6FQ3"></script>
+		<script>
+			mui.previewImage();
+		</script>
+		<script type="text/javascript">
+			mui.init();
+		</script>
+	</body>
+
+</html>

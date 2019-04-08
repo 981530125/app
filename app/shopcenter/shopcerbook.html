@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>证书信息</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<script type="text/javascript" src="../../common/rem.js"></script>
+		<link rel="stylesheet" href="../../css/shopinfo.css" />
+		<link rel="stylesheet" href="../../common/css/footer.css" />
+		<script type="text/javascript" src="../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../common/common.js"></script>
+		<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=LXQBZ-OK7HS-ILDOF-64VY5-EQNCT-D6FQ3"></script>
+		<script src="../../js/mui.min.js"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color:#29a3da;box-shadow: none;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 id="title" class="mui-title" style="color: #fff;font-weight: bold;">证书信息</h1>
+		</header>
+		<div class="mui-content" id="shopcerbook">
+			
+		</div>
+		<!--模板-->
+		<script id="content-template" type="text/x-handlebars-template">
+			<ul class="mui-table-view" style="margin-top: 0;">
+				{{#each license_column_data}}
+				<li class="mui-table-view-cell flex-play">
+			    	<span class="flex-info-left" style="font-size: 16px;">{{#if cn_name}}{{cn_name}}{{else}}{{en_name}}{{/if}}</span> 
+			        <input type="text" disabled="disabled" class="flex-info-right input-border corp_name" style="border: none;background-color: #fff;" name="{{en_name}}" value="{{value}}" />
+			   </li>
+			   {{/each}}
+			</ul>
+		</script>
+		<!--模板-->
+		<script type="text/javascript" src="../js/shopcenter/shopcerbook.js"></script>
+	</body>
+</html>

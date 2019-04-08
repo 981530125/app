@@ -1,0 +1,88 @@
+div{
+	text-align: center;
+}
+.icon{
+	margin-top: 5%;
+}
+h3{
+	margin: 0;
+}
+.importMobile{
+	background: url(../img/phone.png) no-repeat;
+	background-size: 0.2rem 0.27rem;
+	width: 100%;
+	background-position-y:49%;
+	background-position-x: 5px;
+	border: 0px;
+	text-indent: 2em;
+	padding: 11px 0 9px 0;
+}
+.importPassword{
+	background: url(../img/password.png) no-repeat;
+	background-size: 0.2rem 0.27rem;
+	background-position-y:49%;
+	background-position-x: 5px;
+	border: 0px;
+	width: 100%;
+	text-indent: 2em;
+	padding: 11px 0 9px 0;
+	/*display: inline-block;*/
+}
+hr{
+	width:320px;
+	border: #e0e0e0 solid 0.1px; 
+}
+.gain{
+	color: white;
+	padding: 5px;
+	margin-bottom: 10px;
+	background: #209FD8;
+	border-radius: 5px;
+	border: none;
+}
+.div1{
+	border-top: #E0E0E0 0.1px solid;
+	width: 320px;
+	margin: 0px auto;
+	padding: 0px;
+}
+li{
+	list-style: none;
+	display: inline-block;
+}
+.input5{
+	border: none;
+	background: #209FD8;
+	font-size: 1rem;
+	color: white;
+	border-radius: 50px;
+	padding: 7px 120px;
+}
+.importValidate{
+	background: url(../img/validate.png) no-repeat;
+	background-size: 0.21rem 0.23rem;
+	background-position-y:49%;
+	background-position-x: 5px;border: 0px;
+	text-indent: 2em;
+	padding: 11px 0 9px 0;
+}
+.btn-slect{
+	border-radius: 50px;
+	height: 0.77rem;
+	line-height: 0.77rem;
+	color: #aaa;
+	background: none;
+	border: 1px solid #d3d3d3;
+	box-shadow: none;
+	flex: 0 0 32%;
+	font-size: 14px;
+	cursor: pointer;
+}
+.btn-active{
+	color: #fff;
+	background-color: #209fd8;
+}
+.usertype{
+	margin-right: 10px;
+	letter-spacing: normal;
+}

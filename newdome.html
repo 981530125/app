@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a id="back" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title">下拉刷新和上拉加载更多</h1>
+		</header>
+		<div class="mui-content"></div>
+		<!--主页面底部选项卡-->
+		<nav class="mui-bar mui-bar-tab">
+            <a id="defaultTab" class="mui-tab-item mui-active" href="newdome-child.html">
+                <span class="mui-icon mui-icon-home"></span>
+                <span class="mui-tab-label">首页</span>
+            </a>
+            <a class="mui-tab-item" href="b.html">
+                <span class="mui-icon mui-icon-email"></span>
+                <span class="mui-tab-label">消息</span>
+            </a>
+            <a class="mui-tab-item" href="c.html">
+                <span class="mui-icon mui-icon-contact"></span>
+                <span class="mui-tab-label">通讯录</span>
+            </a>
+            <a class="mui-tab-item" href="d.html">
+                <span class="mui-icon mui-icon-gear"></span>
+                <span class="mui-tab-label">设置</span>
+            </a>
+        </nav>
+	</body>
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript">
+		mui.plusReady(function(){
+    var pages = ["newdome-child.html","newdomw-childea.html","c.html","d.html"];
+    var arr = document.getElementsByClassName("mui-tab-item")
+    var styles = {
+        top:"45px",
+        bottom:"51px"
+    }
+    var pageArr = [];
+    var slef = plus.webview.currentWebview();
+    for(var i=0; i<arr.length; i++){
+        // 有几个选项卡，需要创建几个子页面
+        var page = plus.webview.create(pages[i],pages[i],styles);
+        pageArr.push(page);
+        !function(i){
+            arr[i].addEventListener("tap",function(){
+                // 让当前页面(i)显示，不是当前页面隐藏
+                for(var j=0; j<pageArr.length; j++){
+                    if(j!=i) pageArr[j].hide();
+                    else pageArr[j].show();
+                }
+                /* 让新创建的webview，追加合并到当前的窗口上。合并成一个窗口。
+                 * 目的：将父子窗口合并成一个页面，实现同开同关的效果。 避免点击返回安监室，子页面先关闭，而父页面的头部和尾部没有关闭的BUG。
+                 */
+                slef.append(pageArr[i]);
+            })
+        }(i);
+    }
+    // 默认触发第0个选项卡的tap事件。
+    mui.trigger(arr[0],"tap");
+});
+		
+		
+		
+		
+		
+		
+		
+		
+		//启用双击监听
+//		mui.init({
+//			gestureConfig:{
+//				doubletap:true
+//			},
+//			subpages:[{
+//				url:'newdome-child.html',
+//				id:'newdome-child.html',
+//				styles:{
+//					top: '45px',
+//					bottom: '0px',
+//				}
+//			}
+//			]
+//		});
+//	
+//		var contentWebview = null;
+//		document.querySelector('header').addEventListener('doubletap',function () {
+//			if(contentWebview==null){
+//				contentWebview = plus.webview.currentWebview().children()[0];
+//			}
+//			contentWebview.evalJS("mui('#pullrefresh').pullRefresh().scrollTo(0,0,100)");
+//		});
+	</script>
+
+</html>

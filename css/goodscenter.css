@@ -1,0 +1,9 @@
+.search-btn{
+	position: absolute;
+	width:0.7rem;
+	top: 0.2rem;
+	right: 0.32rem;
+	height: 0.7rem;
+	line-height: 0.4rem;
+	text-align: center;
+}

@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>食安经开</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<script type="text/javascript" src="../../js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="../../common/rem.js"></script>
+		<script src="../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../common/common.js"></script>
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" href="../../common/css/footer.css" />
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			.mui-active .mui-tab-label{
+				color: #209fd8;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color:#29a3da;box-shadow: none;">
+			<!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>-->
+			<a href="javascript:void(0);" onclick="toedit()" class="mui-icon mui-pull-right mui-a-color myedit"><img src="../../img/edit.png" style="margin-right: 3px;" width="16px" /></a>
+			<a href="#" class="mui-icon mui-pull-right mui-a-color"><img src="../../img/edit.png" data-type="shop" style="margin-right: 3px;display: none;" width="16px" /></a>
+			<a href="#" class="mui-icon mui-pull-right mui-a-color twocode" data-type="shop" style="display: none;"><img src="../../img/ewm.png" style="margin-right: 0.32rem;" width="16px" /></a>
+			<h1 id="title" class="mui-title" style="color: #fff;font-weight: bold;">管理中心</h1>
+		</header>
+		
+		<nav class="mui-bar mui-bar-tab">
+			<a id="defaultTab" class="mui-tab-item" data-id="tab-webview-subpage-about" href="tab-webview-subpage-about.html">
+				<span class="mui-icon"><img src="../../img/homepage.png" data-origin="../../img/homepage.png" data-active="../../img/home.png" class="footer-tabimga tab-footer-icon" style="margin-top: 0;"/></span>
+				<span class="mui-tab-label" data-id="0" data-describe="首页">首页</span>
+			</a>
+			<a class="mui-tab-item" id="shoplist" data-id="tab-webview-subpage-chat" href="tab-webview-subpage-chat.html">
+				<span class="mui-icon"><img src="../../img/nearby.png" data-origin="../../img/nearby.png" data-active="../../img/nearby2.png" class="footer-tabimgb tab-footer-icon" style="margin-top: 0;"/></span>
+				<span class="mui-tab-label" data-id="1" data-describe="附近企业">附近</span>
+			</a>
+			<a class="mui-tab-item mui-active" id="centerid" data-id="tab-webview-subpage-chat"  href="tab-webview-subpage-contact.html">
+				<span class="mui-icon"><img src="../../img/mine.png" data-origin="../../img/mine.png" data-active="../../img/mine2.png" class="footer-tabimgc tab-footer-icon" style="margin-top: 0;"/></span>
+				<span class="mui-tab-label" data-id="2" data-describe="管理中心">我的</span>
+			</a>
+		</nav>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+//			 //mui初始化
+			mui.init();
+			//后台未关闭时, 二维码判断启动方式
+			function checkArguments(){
+			    console.log("plus.runtime.launcher: "+plus.runtime.launcher);
+			    var args= plus.runtime.arguments;
+			    if(args){
+			    	var license_idstring = args.split('licenseID=');
+			    	var  license_id = license_idstring[1];
+			        // 处理args参数，如打开新页面等,打开企业列表
+			        var tourl = '../shop/shoplist.html';
+					mui.openWindow({
+					    url:tourl,
+					    id:tourl,
+					    styles:{
+					      top: '0',//新页面顶部位置
+					      bottom:'0',//新页面底部位置
+					    },
+					    extras:{
+					    	license_id:license_id
+					    	
+					      //自定义扩展参数，可以用来处理页面间传值
+					    },
+					    createNew:false,//是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+					    show:{
+					      autoShow:true,//页面loaded事件发生后自动显示，默认为true
+					      aniShow:'slide-in-right',//页面显示动画，默认为”slide-in-right“；
+					      duration:100//页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
+					    }
+					})
+			    }
+			}
+			// 处理从后台恢复
+			document.addEventListener('newintent',function(){
+			    console.log("addEventListener: newintent");
+			    checkArguments();
+			},false);
+			
+			mui.plusReady(function() {
+				// 获取本地应用资源版本号
+			    plus.runtime.getProperty(plus.runtime.appid,function(inf){
+			        window.wgtVer=inf.version;
+			        
+			        window.appid = inf.appid
+			        
+			        console.log("当前应用版本："+wgtVer);
+			    });
+			//后台关闭时, 二维码判断启动方式判断启动方式
+				console.log('获取');
+			    console.log("plus.runtime.launcher: "+plus.runtime.launcher);
+			    var args= plus.runtime.arguments;
+			    if(args){
+			    	var license_idstring = args.split('licenseID=');
+			    	var  license_id = license_idstring[1];
+			        // 处理args参数，如打开新页面等
+			        var tourl = '../shop/shoplist.html';
+					mui.openWindow({
+					    url:tourl,
+					    id:tourl,
+					    styles:{
+					      top: '0',//新页面顶部位置
+					      bottom:'0',//新页面底部位置
+					    },
+					    extras:{
+					    	license_id:license_id
+					    	
+					      //自定义扩展参数，可以用来处理页面间传值
+					    },
+					    createNew:false,//是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+					    show:{
+					      autoShow:true,//页面loaded事件发生后自动显示，默认为true
+					      aniShow:'slide-in-right',//页面显示动画，默认为”slide-in-right“；
+					      duration:100//页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
+					    }
+					})
+			    }
+
+				var editjq = $('.myedit');
+				var twocodejq = $('.twocode');
+				switch(userType)
+				{
+				case 'admin':
+					$("#centerid").attr('href','tab-webview-subpage-contact.html');
+					$("#centerid").attr('data-id','tab-webview-subpage-contact');
+					$("#centerid .mui-tab-label").attr('data-describe','管理中心');
+					$("#title").html('管理中心');
+					var subpages = [{
+						url:'tab-webview-subpage-about.html',
+						id:'tab-webview-subpage-about',
+					},{
+						url:'tab-webview-subpage-chat.html',
+						id:'tab-webview-subpage-chat',
+					},{
+						url:'tab-webview-subpage-contact.html',
+						id:'tab-webview-subpage-contact'
+					}];
+				  	break;
+				case 'user':
+				  	$("#centerid").attr('href','../user/Individualcenter.html');
+					$("#centerid").attr('data-id','../user/Individualcenter');
+					$("#centerid .mui-tab-label").attr('data-describe','用户中心');
+					$("#title").html('用户中心');
+					var subpages = [{
+						url:'tab-webview-subpage-about.html',
+						id:'tab-webview-subpage-about',
+					},{
+						url:'tab-webview-subpage-chat.html',
+						id:'tab-webview-subpage-chat',
+					},{
+						url:'../user/Individualcenter.html',
+						id:'../user/Individualcenter'
+					}];
+				  	break;
+				case 'shop':
+				  	$("#centerid").attr('href','../shopcenter/shopcenter.html');
+					$("#centerid").attr('data-id','../shopcenter/shopcenter');
+					$("#centerid .mui-tab-label").attr('data-describe','企业中心');
+					$("#title").html('企业中心');
+					var subpages = [{
+						url:'tab-webview-subpage-about.html',
+						id:'tab-webview-subpage-about',
+					},{
+						url:'tab-webview-subpage-chat.html',
+						id:'tab-webview-subpage-chat',
+					},{
+						url:'../shopcenter/shopcenter.html',
+						id:'../shopcenter/shopcenter'
+					}];
+				  	break;
+				default:
+					$("#centerid").attr('href','tab-webview-subpage-nicklogin.html');
+					$("#centerid").attr('data-id','tab-webview-subpage-nicklogin');
+					$("#centerid .mui-tab-label").attr('data-describe','管理中心');
+					$("#title").html('管理中心');
+					var subpages = [{
+						url:'tab-webview-subpage-about.html',
+						id:'tab-webview-subpage-about',
+					},{
+						url:'tab-webview-subpage-chat.html',
+						id:'tab-webview-subpage-chat',
+					},{
+						url:'tab-webview-subpage-nicklogin.html',
+						id:'tab-webview-subpage-nicklogin'
+					}];
+				  	break;
+				}
+				
+				var subpage_style = {
+					top: '44px',
+					bottom: '51px'
+				};
+
+				// 根据id查询子页面的信息
+				var getSubInfoById = function(infoList, id) {
+					var result = null;
+					for(var i = 0, len = infoList.length; i < len; i++) {
+						var _info = infoList[i];
+						if(_info.id === id) {
+							result = _info;
+							break;
+						}
+					}
+					return result;
+				};
+
+				var mainWv = plus.webview.currentWebview();
+				var titleEL = document.querySelector('.mui-title');
+				var activeTab = '';
+				
+				
+				// 默认只加载首页webview
+				var homeWv = plus.webview.create(subpages[2].url, subpages[2].id, subpage_style);
+				mainWv.append(homeWv);
+				activeTab = subpages[2].id;
+				
+				if(userType == 'admin'){
+						editjq.show();
+				}
+				if(userType == 'user'){
+						editjq.show();
+					
+				}
+				if(userType == 'shop'){
+						editjq.show();
+						twocodejq.show();
+				}
+				
+				//设置默认页面打印图标
+				var list = plus.webview.getWebviewById(subpages[2].id);  //触发父页面的自定义事件(refresh),从而进行刷新
+				mui.fire(list, 'getmyprint',{
+					isprint:'true'
+				});
+				
+				// 点击切换，动态创建其它webview；
+				mui('.mui-bar-tab').on('tap', 'a.mui-tab-item', function(e) {
+					plus.webview.close("dishmanage.html");
+					plus.webview.close("foodmanage.html");
+					plus.webview.close("recordsmanage.html");
+					plus.webview.close("../shop/mapselect.html");
+					plus.webview.close("../mappilot/mappilot.html");
+					var _self = this;
+					var editicon = document.getElementsByClassName('myedit')[0];
+					var twocode = document.getElementsByClassName('twocode')[0];
+					var targetTab = _self.getAttribute('data-id');
+					if(targetTab === activeTab) {
+						return;
+					}
+					switchtab($(this));
+					titleEL.innerText = this.querySelector('.mui-tab-label').getAttribute('data-describe');
+					var _subWv = plus.webview.getWebviewById(targetTab);
+					// 若webview不存在，则创建；
+					console.log(JSON.stringify(_subWv));
+					if(!_subWv) {
+						var _subInfo = getSubInfoById(subpages, targetTab);
+						_subWv = plus.webview.create(_subInfo.url, _subInfo.id, subpage_style);
+						mainWv.append(_subWv);
+					}
+					
+					//打印图标进行设置
+					mui.fire(_subWv, 'getmyprint',{
+						isprint:'true'
+					});  //返回true,继续页面关闭逻辑
+					
+					
+					_subWv.show();
+					// 隐藏之前的webview
+					plus.webview.getWebviewById(activeTab).hide('none');
+					activeTab = targetTab;
+					
+					if(userType == 'admin'){
+						if(this.querySelector('.mui-tab-label').getAttribute('data-id') == '2'){
+							editicon.style.display='block';
+						}else{
+							editicon.style.display='none';
+						}
+					}
+					if(userType == 'user'){
+						if(this.querySelector('.mui-tab-label').getAttribute('data-id') == '2'){
+							editicon.style.display='block';
+						}else{
+							editicon.style.display='none';
+						}
+					}
+					if(userType == 'shop'){
+						if(this.querySelector('.mui-tab-label').getAttribute('data-id') == '2'){
+							editicon.style.display='block';
+							twocode.style.display = 'block';
+						}else{
+							editicon.style.display='none';
+							twocode.style.display = 'none';
+						}
+					}
+//					checkversion();
+				});
+			});
+			
+			 //自定义事件，模拟点击“首页选项卡”
+			document.addEventListener('gohome', function() {
+
+				var defaultTab = document.getElementById("defaultTab");
+				//模拟首页点击
+				mui.trigger(defaultTab, 'tap');
+				plus.webview.hide(activeTab);
+				//切换选项卡高亮
+				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+				if (defaultTab !== current) {
+					console.log('2323');
+					current.classList.remove('mui-active');
+					defaultTab.classList.add('mui-active');
+				}
+			});
+			function switchtab(node){
+				var tabactive = $(".mui-tab-item");
+				for(var n = 0;n<tabactive.length;n++){
+					var replaceicon = tabactive.eq(n).find('.tab-footer-icon').attr('data-origin');
+					tabactive.eq(n).find('.tab-footer-icon').attr('src',replaceicon);
+				}
+				var replaceicon = node.find('.tab-footer-icon').attr('data-active');
+				node.find('.tab-footer-icon').attr('src',replaceicon);
+			}
+			function toedit() {
+				var skipurl = '../managecenter/editinfo/editmanageinfo.html';
+				mui.openWindow({
+					url: skipurl,
+				});
+			}
+			
+//	点击生成商家二维码
+			$('html').on('click','.twocode',function(){
+				if(userType == 'shop'){
+					var shopinfo = JSON.parse(localStorage.getItem('shopinfo'));
+				
+					var tourl = '../shopcenter/twocode.html'
+					mui.openWindow({
+					    url:tourl,
+					    id:tourl,
+					    styles:{
+					      top: '0',//新页面顶部位置
+					      bottom:'0',//新页面底部位置
+					    },
+					    extras:{
+					    	license_id:shopinfo.licenses[0].id
+					    	
+					      //自定义扩展参数，可以用来处理页面间传值
+					    },
+					    createNew:false,//是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+					    show:{
+					      autoShow:true,//页面loaded事件发生后自动显示，默认为true
+					      aniShow:'slide-in-right',//页面显示动画，默认为”slide-in-right“；
+					      duration:100//页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
+					    }
+					})
+				}
+			})
+			
+			
+			function gohome(lat,lng) {
+
+				var defaultTab = document.getElementById("defaultTab");
+				//模拟首页点击
+				mui.trigger(defaultTab, 'tap');
+				//切换选项卡高亮
+				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+				if (defaultTab !== current) {
+					console.log('12323');
+					current.classList.remove('mui-active');
+					defaultTab.classList.add('mui-active');
+				}
+				
+				var self = plus.webview.getWebviewById("tab-webview-subpage-about");
+//				var opener = self.opener();
+//				//此句调用父页面js
+            
+				self.evalJS('calcPlan('+lat+','+lng+')');
+
+			};
+			
+			function golist(searchkey) {
+				console.log(searchkey);
+				var shoplist = document.getElementById("shoplist");
+				//模拟首页点击
+				mui.trigger(shoplist, 'tap');
+				//切换选项卡高亮
+				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+				if (defaultTab !== current) {
+					current.classList.remove('mui-active');
+					defaultTab.classList.add('mui-active');
+				}
+				
+				var self = plus.webview.getWebviewById("tab-webview-subpage-chat");
+//				var opener = self.opener();
+//				//此句调用父页面js
+				self.evalJS('getshop('+searchkey+')');
+
+			};
+			
+			//	检测更新方法,appid需要相同，两种更新方式，一种apk更新，一种wgt
+			function checkversion(clicknum){
+				var url = rooturl + 'index.php/Api_resource/appUpdate'; //获取app最新版本
+				$.ajax({
+					url: url,
+					data: {
+					},
+					type: 'post',
+					dataType: 'json',
+					crossDomain: true,
+					cache: true,
+					beforeSend: function(xhr) { //beforeSend定义全局变量
+						xhr.setRequestHeader("If-Modified-Since", "0"); //If-Modified-Since HTTP请求头标签,即比较浏览器缓存页面时间
+					},
+					success: function(res) {
+						//					prompt('asas',JSON.stringify(res));
+						if(res.code && res.code == 1000) {
+							//		当前版本
+							var newversion = res.data.version;
+							var wgtVer = window.wgtVer;
+							
+							if(newversion&&wgtVer&&newversion!= wgtVer){
+								plus.nativeUI.showWaiting("检测到更新...");
+								
+								var wgtUrl = rooturl+res.data.url;
+								
+								setTimeout(function() {
+									plus.nativeUI.closeWaiting();
+									var btnArray = ['否', '是'];
+									mui.confirm('当前版本为'+wgtVer+',检测到最新版本'+newversion+',修复'+res.data.note+',是否进行更新?', '检测更新', btnArray, function(e) {
+										if (e.index == 1) {
+		//									var wgtUrl = 'http://jk.cnvp.com/apps/apk/H5026F447.wgt';
+		//									plus.nativeUI.alert("暂未完成^-^！");
+											downWgt(wgtUrl);  // 下载升级包
+										} else {
+											mui.toast('取消');
+										}
+									})
+								}, 1000)
+							}
+							if(clicknum == '1'){
+								if(newversion&&wgtVer&&newversion == wgtVer){
+									mui.alert('当前为最新版本'+wgtVer+'!')
+								}
+							}
+						} else {
+							console.log(res.message);
+						}
+						mui.toast(res.message,{ duration:'long', type:'div' });
+					},
+					error: function(res) {
+						console.log(res.message);
+						mui.toast(res.message,{ duration:'long', type:'div' });
+					}
+				})
+			}
+			
+		//	点击检测更新
+			$('html').on('click','.myupdate',function(){
+		//		当前版本
+				var wgtVer = window.wgtVer;
+				console.log(wgtVer);
+				var clicknum = '1';
+				checkversion(clicknum)
+			})
+			
+			// 下载wgt文件
+		//	var wgtUrl="http://demo.dcloud.net.cn/test/update/H5EF3C469.wgt";
+			function downWgt(wgtUrl){
+			    plus.nativeUI.showWaiting("下载更新文件...");
+			    plus.downloader.createDownload( wgtUrl, {filename:"_doc/update/"}, function(d,status){
+			        if ( status == 200 ) {
+			            console.log("下载wgt成功："+d.filename);
+			            installWgt(d.filename); // 安装wgt包
+			        } else {
+			            console.log("下载wgt失败！");
+			            plus.nativeUI.alert("下载更新文件失败！");
+			        }
+			        plus.nativeUI.closeWaiting();
+			    }).start();
+			}
+			
+			// 更新应用资源
+			function installWgt(path){
+			    plus.nativeUI.showWaiting("安装更新文件...");
+			    plus.runtime.install(path,{},function(){
+			        plus.nativeUI.closeWaiting();
+			        console.log("安装wgt文件成功！");
+			        plus.nativeUI.alert("应用资源更新完成！",function(){
+			            plus.runtime.restart();
+			        });
+			    },function(e){
+			        plus.nativeUI.closeWaiting();
+			        console.log("安装wgt文件失败["+e.code+"]："+e.message);
+			        plus.nativeUI.alert("安装更新文件失败["+e.code+"]："+e.message);
+			    });
+			}
+		</script>
+		<script>
+			$(function(){
+				//	权限判断
+				var rootpower = [{
+						obj:'.myedit',
+						apiurl:'/index.php/Api/Apps/Jingkaiqu/Investigate_record/insertData'
+					}];
+				//权限配置
+				console.log('权限配置');
+				for(var itemn in rootpower){
+					ispower(rootpower[itemn].obj,rootpower[itemn].apiurl);
+				}
+				var tabactive = $(".mui-tab-item");
+				for(var n = 0;n<tabactive.length;n++){
+					if(tabactive.eq(n).hasClass('mui-active')){
+						var replaceicon = tabactive.eq(n).find('.tab-footer-icon').attr('data-active');
+						tabactive.eq(n).find('.tab-footer-icon').attr('src',replaceicon);
+					}else{
+						var replaceicon = tabactive.eq(n).find('.tab-footer-icon').attr('data-origin');
+						tabactive.eq(n).find('.tab-footer-icon').attr('src',replaceicon);
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

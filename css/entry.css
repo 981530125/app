@@ -1,0 +1,96 @@
+body{
+	background: white;
+}
+div{
+	text-align: center;
+}
+.img1{
+	margin-top: 15%;
+}
+h4{
+	margin-bottom: 50px;
+}
+
+.input3{
+	color: white;
+	padding: 5px;
+	margin-bottom: 10px;
+	background: #209FD8;
+	border-radius: 5px;
+	border: none;
+}
+.accountNumber{
+	background: url(../img/phone.png) no-repeat;
+	background-size: 0.2rem 0.27rem;
+	background-position-y:50%;
+	background-position-x: 5px;
+	border: none;
+	width: 100%;
+	border-bottom: 1px solid #e0e0e0;
+	text-indent: 0.38rem;
+	font-size: 14px;
+	height:0.94rem;
+}
+.password{
+	background: url(../img/password.png) no-repeat;
+	background-size: 0.21rem 0.24rem;
+	background-position-y:50%;
+	background-position-x: 5px;
+	border: none;
+	border-bottom: 1px solid #e0e0e0;
+	text-indent: 0.38rem;
+	font-size: 14px;
+	width: 100%;
+	height:0.94rem;
+}
+.div1{
+	width: 320px;
+	margin: 0px auto;
+	padding: 0px;
+}
+li{
+	list-style: none;
+	display: inline-block;
+}
+
+
+.input4{
+	border: none;
+	background: #209FD8;
+	font-size: 16px;
+	color: white;
+	border-radius: 50px;
+	width: 100%;
+	height: 0.88rem;
+}
+a{
+	text-decoration: none;
+}
+.btn-slect{
+	border-radius: 50px;
+	width: 2.06rem;
+	height: 0.77rem;
+	line-height: 0.77rem;
+	color: #d3d3d3;
+	background: none;
+	border: 1px solid #d3d3d3;
+}
+.btn-active{
+	background:  #209fd8;
+	color: white;
+	border: 1px solid #d3d3d3;
+}
+
+.importValidate{
+	background: url(../img/validate.png) no-repeat;
+	background-size: 13px;
+	background-position-y:49%;
+	background-position-x: 5px;border: 0px;
+	text-indent: 1.5em;
+	font-size: 1rem;
+	/*padding: 11px 0 9px 0;*/
+}
+.usertype{
+	margin-right: 10px;
+	letter-spacing: normal;
+}

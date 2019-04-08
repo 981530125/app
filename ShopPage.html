@@ -1,0 +1,191 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>首页</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="common/rem.js"></script>
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/shoppage.css" />
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+		<script src="js/handlebars.js"></script>
+		<script type="text/javascript" src="common/common.js"></script>
+		
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack: false //启用右滑关闭功能
+			});
+		</script>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#35a8dc;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<a class="mui-action-back mui-icon mui-pull-right mui-a-color"><img src="img/fenxiang.png" style="margin-right: 3px;" width="20px" /></a>
+			<a href="#" class="mui-icon mui-pull-right mui-a-color"><img src="img/phone2.png" style="margin-right: 0.22rem;" width="20px" /></a>
+			<a href="#" class="mui-icon mui-pull-right mui-a-color"><img src="img/route.png" style="margin-right: 0.22rem;" width="16px" /></a>
+			<!--<h1 class="mui-title" style="color: #fff;">个人中心</h1>-->
+		</header>
+		<div style="height: 44px;width: 100%;"></div>
+		<div class="active" style="display:block;background-color: #35a8dc;height: 2.45rem;width: 100%;position: relative;">
+			<img src="img/shoplogo.png" style="width: 1.65rem;height: 1.33rem;position: absolute;bottom: -0.27rem;left: calc(50% - 0.665rem);" />
+			<img src="img/shoucang.png" style="width: 0.68rem;height:0.68rem;position: absolute;bottom: -0.34rem;right: 10px;" />
+		</div>
+		<div>
+			<p class="shopname">未设置</p>
+			<p class="favourable">无</p>
+			<div class="change-list">
+				<div style="width: 93.6%;margin: 0 auto;border-bottom: 1px solid #e0e0e0;">
+					<ul class="all-item">
+						<li class="all-li all-active" style="flex: 1;" data-id="0">点菜</li>
+						<li class="all-li" style="flex: 1;" data-id="1">监管任务</li>
+						<li class="all-li" style="flex: 1;" data-id="2">商家</li>
+					</ul>
+				</div>
+				<div class="menulist" id="goodslist">
+					<div style="width: 100%;padding: 2.5rem 0;">
+						<div class="mui-loading">
+							<div class="mui-spinner">
+							</div>
+						</div>
+					</div>
+					<!--插入模板-->
+				</div>
+				<div class="menulist" id="records" style="display: none;">
+					<div style="width: 100%;padding: 2.5rem 0;">
+						<div class="mui-loading">
+							<div class="mui-spinner">
+							</div>
+						</div>
+					</div>
+					<!--插入模板-->
+				</div>
+				<div class="menulist" id="sellerinfo" style="width: 100%;display: none;">
+					<div style="width: 100%;padding: 2.5rem 0;">
+						<div class="mui-loading">
+							<div class="mui-spinner">
+							</div>
+						</div>
+					</div>
+					<!--插入模板-->
+				</div>
+			</div>
+		</div>
+		<!--商家模板-->
+		<script id="seller-template" type="text/x-handlebars-template">
+    		<!-- 商家信息ata -->
+		  	<div style="width: 93.6%;margin: 0 auto;">
+				<div style="text-align: center;margin-bottom: 0;padding-bottom: 0;">
+					<img src="img/beijing.png" style="width:100%;padding: 0.33rem 0;" />
+				</div>
+				<p class="present">{{introduction}}</p>
+				<p style="text-align: center;">
+					<a href="#" style="color: #999999;font-size: 13px;">查看商家简介></a>
+				</p>
+			</div>
+			<div style="border-top: 0.16rem solid #ebebeb;padding: 0.34rem 0 0.29rem;">
+				<p style="padding-left: 5px;color: #333333;font-size: 15px;font-weight: bold;">商家图片</p>
+				<div style="text-align: center;width: 100%;height: 1.64rem;overflow-y: scroll;">
+					<div class="shopimg-list">
+						{{#each gallary_images}}
+						<span><img src="{{../rooturl}}{{this.thumb_url}}" class="shopimg"/></span>
+						{{/each}}
+					</div>
+				</div>
+			</div>
+			<div>
+				<div style="border-top: 10px solid #E0E0E0;">
+					<ul class="mui-table-view">
+					    <li class="mui-table-view-cell flex-play">
+					    	<span class="flex-info-left">商家名称</span> 
+					        <span class="flex-info-right">{{corporation_name}}</span>
+					    </li>
+					    <li class="mui-table-view-cell flex-play">
+					    	<span class="flex-info-left">商家品类</span> 
+					        <span class="flex-info-right">日料/小吃</span>
+					    </li>
+					    <li class="mui-table-view-cell flex-play">
+					    	<span class="flex-info-left">商家地址</span> 
+					        <span class="flex-info-right">{{corporation_address}}</span>
+					    </li>
+					    <li class="mui-table-view-cell flex-play">
+					    	<span class="flex-info-left">商家电话</span> 
+					        <span class="flex-info-right">{{shop_contact}}</span>
+					    </li>
+					    <li class="mui-table-view-cell flex-play">
+					    	<span class="flex-info-left">营业时间</span> 
+					        <span class="flex-info-right">
+					        	{{#each wekday}}
+					        	<p style="color: #333333;">{{day}} {{open}}</p>
+					        	{{/each}}
+					        </span>
+					    </li>
+					</ul>
+				</div>
+				<div class="bus-border" style="display: none;">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell" id="aptitude">
+					        <a class="mui-navigate-right bus-title" href="BusinessQualification.html">营业资质</a>
+					    </li>
+				    </ul>
+				</div>
+			</div>
+			<div class="report-div">
+				<button class="report-btn">评价商家</button>
+			</div>
+		</script>
+		<script id="record-template" type="text/x-handlebars-template">
+			<ul class="mui-table-view">
+				{{#each data}}
+		        <li class="mui-table-view-cell mui-collapse">
+		            <a class="mui-navigate-right" href="#" style="font-size: 14px;color: #333333;">
+		            	<div style="display: inline-block;width: 70%;height: 100%;">
+		            		<div style="height: 22px;line-height: 22px;font-size: 14px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis">{{announcement.title}}</div>
+		            		<div style="color: #b2b2b2;font-size: 12px;height: 22px;line-height: 22px;">2018-08-01</div>
+		            	</div>
+		            	<div style="display: inline-block;width: 30%;height: 44px;line-height: 44px;vertical-align: top;">
+		            		查看详情
+		            	</div>
+		            </a>
+		            {{#each investigate_record}}
+		            <div class="mui-collapse-content choose-form" style="border-top: 1px solid #cccccc;padding: 11px 15px;">
+		                <a class="mui-navigate-right a-form-style" href="javascript:void(0);" onclick="getformdetail({{../id}},{{id}})">{{name}}</a>
+		            </div>
+		            {{else}}
+		            <div class="mui-collapse-content" style="border-top: 1px solid #cccccc;padding: 11px 15px;">
+		                <p class="mui-navigate-right">没有消息</p>
+		            </div>
+		            {{/each}}
+		        </li>
+		        {{else}}
+		        	<div style="width: 100%;height: 2rem;line-height: 2rem;text-align: center;font-size: 16px;">暂无任务</div>
+		        {{/each}}
+		   </ul>
+		</script>
+		<script id="goods-template" type="text/x-handlebars-template">
+			<!--菜品-->
+			{{#each data}}
+			<div class="menuitem">
+				<p style="text-align: center;"><img src="img/goods.png" width="100%" /></p>
+				<p class="Dishname">{{name}}</p>
+				<p class="introduce">{{introduction}}~1</p>
+				<p class="rate">￥<span style="font-size: 16px;">{{price}}</span></p>
+			</div>
+			{{else}}
+		        <div style="width: 100%;height: 2rem;line-height: 2rem;text-align: center;font-size: 16px;">暂无任务</div>
+			{{/each}}
+		</script>
+		<script id="shopname-template" type="text/x-handlebars-template">
+		{{corporation_name}}	
+		</script>
+		<script id="activity-template" type="text/x-handlebars-template">
+		{{acitivitystring}}	
+		</script>
+		<!--模板-->
+		<script src="js/shoppage.js"></script>
+	</body>
+
+</html>

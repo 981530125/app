@@ -1,0 +1,160 @@
+html,
+body {
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+#content {
+	width: 100%;
+	height: 100%
+}
+
+.ID {
+	width: 100%;
+}
+
+
+.top-search {
+	text-align: left;
+	width: 100%;
+}
+
+.search-input {
+	height: 0.98rem;
+	width: 86%;
+	vertical-align: top;
+	line-height: 0.98rem;
+	background: url(../img/logo3.png) no-repeat;
+	background-size: 0.44rem 0.56rem;
+	background-position-y: calc(50%);
+	background-position-x: 0.21rem;
+	text-indent: 1rem;
+	border: none;
+	font-size: 15px;
+}
+
+.search {
+	background: none;
+	border: none;
+	vertical-align: middle;
+	height: 0.98rem;
+	width: 10%;
+	display: inline-block;
+}
+
+.POSITION {
+	position: absolute;
+	top: 50px;
+}
+
+.affiche {
+	text-indent: 2em;
+	display: inline-block;
+	background: #d5ebf5;
+	padding-right: 10px;
+	margin-left: 10px;
+	border-radius: 30px;
+	width: 300px;
+	border: 1px solid #209fd8;
+	color: #209fd8;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+.shopname {
+	margin-top: 0;
+	margin-bottom: 0.17rem;
+	font-size: 18px;
+	line-height: 0.4rem;
+	font-weight: bold;
+	color: #333333;
+}
+
+.address {
+	margin-top: 0;
+	height: 0.32rem;
+	width: 100%;
+	line-height: 0.32rem;
+	margin-bottom: 0.18rem;
+	color: #808080;
+}
+
+.interval {
+	display: inline-block;
+	background: #f4f4f6;
+	vertical-align: top;
+	height: 0.32rem;
+	line-height: 0.32rem;
+	color: #808080;
+	font-size: 11px;
+}
+
+.favourable {
+	margin-top: 0;
+	margin-bottom: 0;
+	color: #209fd8;
+	height: 0.32rem;
+	line-height: 0.32rem;
+	font-size: 11px;
+}
+.shop-adress{
+	color: #333333;
+	vertical-align: top;
+	font-size: 12px;
+	width: 2.94rem;
+	height: 0.32rem;
+	line-height: 0.32rem;
+	display: inline-block;
+}
+.lookup {
+	font-size: 14px;
+	vertical-align: middle;
+	display: inline-block;
+	margin-left: 2px;
+	color: #333333;
+}
+.record-style{
+	text-decoration: none;
+	width: 2.18rem;
+	height: 0.72rem;
+	line-height:0.72rem;
+	text-align: center;
+	display:inline-block;
+	background: #ffffff;
+	border: 1px solid #E0E0E0;
+	border-radius: 0.36rem;
+}
+.way-style{
+	text-decoration: none;
+	width: 2.18rem;
+	height: 0.72rem;
+	line-height:0.72rem;
+	text-align: center;
+	display:inline-block;
+	background: #209FD8;
+	border-radius: 0.36rem;
+	color: #fff;
+}
+.select {
+	width: 100%;
+	padding: 0.32rem 0;
+	margin-bottom: 0;
+}
+
+.pop {
+	padding-top: 0.16rem;
+	display: flex;
+	width: 100%;
+	background: #FFFFFF;
+	position: fixed;
+	bottom: 0rem;
+	border-radius: 10px 10px 0 0;
+	z-index: 1200;
+}
+.my-mui-mask{
+	display: none;
+}
+#mask-pop{
+	display: none;
+}

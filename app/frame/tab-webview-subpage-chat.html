@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>附近企业</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<script type="text/javascript" src="../../js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="../../common/rem.js"></script>
+		<script type="text/javascript" src="../../common/common.js"></script>
+		<script src="../../js/handlebars.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../common/mui.zoom.js"></script>
+		<script src="../../common/mui.previewimage.js"></script>
+		<script type="text/javascript" src="../js/Nearbyshops/arroudshop.js"></script>
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" href="../../common/css/footer.css" />
+		<link rel="stylesheet" href="../../css/shoplist.css" />
+		<link rel="stylesheet" href="../../common/css/print.css" />
+		<style type="text/css">
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			.title {
+				padding: 20px 15px 10px;
+				color: #6d6d72;
+				font-size: 15px;
+				background-color: #fff;
+			}
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto 4;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				width: auto;
+				height: auto;
+				max-width: 100%;
+				max-height: 100%;
+			}
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+			}
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			p img {
+				max-width: 100%;
+				height: auto;
+			}
+		</style>
+		
+	</head>
+
+	<body>
+		<div class="mypop" style="position: relative;display: none;">
+			<div class="mui-backdrop" style="display: block;" id="mypop-mask">
+			</div>
+			<div style="position: fixed;left: 10%;top: 3rem;z-index: 999;height: 4rem;width: 80%;background-color: #fff;border-radius: 10px;overflow: hidden;">
+            	<div class="printf-btn" id="screen">打印当前页面</div>
+            	<div class="printf-btn">打印检查表</div>
+            	<div class="printf-btn hideicon">隐藏图标</div>
+            	<div class="printf-btn tocalcel">取消</div>
+            </div>
+		</div>
+		<div id="touch" class="transit" style="width: 50px;height: 50px;">
+            <img id="simple-menu" src="../../img/print.png" style="width: 32px; height: 32px;" />
+       	</div>
+		<!--遮罩层-->
+		<div class="mui-backdrop" style="display: none;" id="my-mask">
+			<div class="mui-loading" style="position: absolute;top: calc(50% - 12px);left: calc(50% - 12px);">
+				<div class="mui-spinner">
+				</div>
+			</div>
+		</div>
+		<div class="mui-content" id="center-content">
+			<div style="position: fixed;top: 0;z-index: 100;">
+				<div class="head">
+					<div style="width: calc(100% - 0.48rem);margin: 0 auto;">
+						<div style="position: relative;vertical-align: top;display: inline-block; width: 75%;padding: 0.08rem 0 0.32rem;">
+							<input class="search" id="search" type="text" size="30" placeholder="输入关键词进行搜索"/>
+							<div class="searchimg" id="search-btn"><img class="searchimg search-icon" src="../../img/search.png"/></div>
+						</div>
+						<div style="display: inline-block;text-align:center;height: 0.78rem;width: 19%;vertical-align: top;margin-top: 0.2rem;">
+							<div style="height: 0.24rem;margin-top: 0.1rem;">
+								<img src="../../img/sort.png" style="width: 0.33rem;height: 0.24rem;vertical-align:top; display: inline-block;" />
+							</div>
+							<p class="p2" style="margin: 0;vertical-align:top;text-align: center;">离我最近</p>
+						</div>
+					</div>
+				</div>
+				<div class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted" style="background-color: #fff;border-bottom: 1px solid #ccc;">
+					<div class="mui-scroll" id="menu-list" style="text-align: left;">
+	
+					</div>
+				</div>
+			</div>
+			<div id="shop" style="padding-bottom: 44px;padding-top: 2.1rem;">
+				<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+					<div class="mui-scroll" id="shoplist">
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--模板-->
+
+		<script id="example-template" type="text/x-handlebars-template">
+			<ul class="mui-table-view" style="padding: 0;">
+				<!-- data -->
+				<!-- 直接使用每个people的数据 -->
+				{{#each data}}
+				<li class="mui-collapse mui-table-view-cell mui-collapse li-after" style="padding: 3.2%">
+					<a href="#" style="height: 14%;padding: 0;margin: 0;">
+						<img class="mui-media-object mui-pull-left" src="{{#if_eq avatar null}}../../img/shoplogo.png{{else}}{{../rooturl}}{{avatar.access_path}}{{/if_eq}}" onerror="this.onerror=null;this.src='../../img/shoplogo.png'" style="max-width: 21%;width: 21%;height: 9.7%;" data-preview-src="" data-preview-group="1">
+						<div class="mui-media-body">
+							<p class='mui-ellipsis mui-text-left' style="font-size: 16px;color: #333333;">{{#each licenses}}{{#if_eq @index 0}}{{#if_eq corp_name_thumb 'null'}}{{../corporation_name}}{{else}}{{corp_name_thumb}}{{/if_eq}}{{/if_eq}}{{/each}}</p>
+							<div style="height: 100%;text-align: left;">
+								<span class="interval mui-text-left" style="font-size: 14px; vertical-align: top;">{{#if_eq distance null}}{{#each licenses}}{{#if_eq @index 0}}{{decimal distance 2}}{{/if_eq}}{{/each}}{{else}}{{decimal distance 2}}{{/if_eq}}km</span>
+								<p class='mui-ellipsis mui-inline mui-text-left' style="width: 72%;">{{#each licenses}}{{#if_eq @index 0}}{{prod_address}}{{/if_eq}}{{/each}}</p>
+							</div>
+							<p class="favourable mui-text-left" style="font-size: 12px;">{{stringactitvity}}</p>
+						</div>
+					</a>
+					<div class="mui-collapse-content">
+						<div class="select" style="width:100%;display: flex;justify-content: space-between">
+							<div style="flex: 1;text-align: left;" class="inquirydetail">
+								<a href="javascript:void(0);" style="text-decoration: none;width: 2.18rem;height: 0.72rem;line-height: 0.7rem;text-align: left;margin-top: 0.24rem;" onclick="lookdetail('{{#each licenses}}{{#if_eq @index 0}}{{id}}{{/if_eq}}{{/each}}','{{id}}')">
+									<img style="vertical-align: top;margin-top: 0.22rem;" src="../../img/details.png" width="12" />
+									<span class="lookup">查看详情</span>
+								</a>
+							</div>
+							<div style="flex: 1;" class="writerecord">
+								<a class="record-style" href="javascript:void(0);" onclick="writerecords('{{#each licenses}}{{#if_eq @index 0}}{{id}}{{/if_eq}}{{/each}}','{{id}}')">
+									<img style="vertical-align: top;height: 0.24rem;width: 0.24rem;margin-top: 0.22rem;" src="../../img/record.png" />
+									<span class="lookup">监管记录</span>
+								</a>
+							</div>
+							<div style="flex: 1;">
+								<a href="javascript:void(0);" class="way-style nav-path">
+									<img style="vertical-align: top;height: 0.24rem;width: 0.2rem;margin-top: 0.22rem;" src="../../img/route.png" width="12" />
+									<span class="lookup" style="color: #fff;">导航</span>
+									<input type="hidden" value="{{lat}}" class="way-lat" />
+									<input type="hidden" value="{{lng}}" class="way-lng" />
+									<input type="hidden" value="{{#each licenses}}{{#if_eq @index 0}}{{id}}{{/if_eq}}{{/each}}" id="way-id" />
+									<input type="hidden" value="{{#if_eq corporation_name null}}{{#each licenses}}{{#if_eq @index 0}}{{corp_name}}{{/if_eq}}{{/each}}{{else}}{{corporation_name}}{{/if_eq}}" id="way-name" />
+								</a>
+							</div>
+						</div>
+					</div>
+				</li>
+				{{/each}}
+			</ul>
+		</script>
+		<script id="menu-template" type="text/x-handlebars-template">
+			<!-- 商家分类data -->
+			{{#each data}} {{#if_eq root_level 1}}
+			<div class="mui-control-item mui-active" data-type="{{id}}">
+				{{name}}
+			</div>
+			{{else}}
+			<div class="mui-control-item" data-type="{{id}}">
+				{{name}}
+			</div>
+			{{/if_eq}} {{/each}}
+			<input type="hidden" name="type" id="type" value="" />
+		</script>
+		<script id="noneinfo-template" type="text/x-handlebars-template">
+			<div style="font-size: 14px;text-align: center;padding-top: 2rem;">{{this}}</div>
+		</script>
+		<!--模板-->
+		<script src="../../common/util.js"></script>
+		<script type="text/javascript" src="../../common/html2canvas.min.js"></script>
+		<!-- 将canvas图片保存成图片 -->
+		<script src="../../common/canvas2image.js"></script>
+		<script src="../../common/base64.js"></script>
+		<script type="text/javascript" src="../../common/immersed.js" ></script>
+		<script type="text/javascript" src="../../common/levitated.js" ></script>
+		<script type="text/javascript">
+			mui.init();
+			document.addEventListener('plusready', function() {
+				$(function() {
+					mui.ready(function() {
+						$('#all').addClass('color');
+						$('.subheading').click(function() {
+							$(this).addClass('color').siblings().removeClass('color');
+						});
+						$('.d').click(function() {
+							$('.hide').show();
+							$(this).parent().siblings().children('.hide').hide();
+						});
+					})
+				})
+			});
+			mui.plusReady(function() {
+				//首页返回键处理
+				//处理逻辑：2秒内，连续两次按返回键，则退出应用
+				mui.back = function() {
+			  		var first = null;
+			  		plus.key.addEventListener('backbutton', function(){
+			  			//首次按键，提示‘再按一次退出应用’
+			  			if(!first){
+			  				first = new Date().getTime();
+			  				mui.toast('再按一次退出应用');
+			  				setTimeout(function(){
+			  					first = null;
+			  				},2000);
+			  			} else {
+			  				if(new Date().getTime() - first < 2000){
+			  					plus.runtime.quit();
+			  				}
+			  			}
+			  		}, false);
+			  	}
+			})
+		</script>
+		<script>
+			mui.previewImage();
+		</script>
+	</body>
+
+</html>

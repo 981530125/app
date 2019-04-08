@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>管辖区域</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<script type="text/javascript" src="common/rem.js"></script>
+		<script src="js/mui.min.js"></script>
+		<link rel="stylesheet" href="css/jurisdictionlist.css" />
+		<link rel="stylesheet" href="common/css/mui.picker.css" />
+		<link rel="stylesheet" href="common/css/mui.poppicker.css" />
+		<link rel="stylesheet" href="common/css/footer.css" />
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="common/common.js"></script>
+		<script src="js/handlebars.js"></script>
+		<script src="common/mui.picker.js"></script>
+		<script src="common/mui.poppicker.js"></script>
+		<script type="text/javascript" src="js/jurisdictionlist.js"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#2ca5db;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<a href="#" class="mui-icon mui-pull-right mui-a-color" style="font-size: 14px;height: 44px;line-height: 44px;padding-top: 0;padding-bottom: 0;color:#fff;">完成</a>
+			<h1 class="mui-title" style="color: #fff;font-weight: bold;">辖区列表</h1>
+		</header>
+		<div class="mui-content" id="list">
+			<div style="padding: 0.15rem;background-color: #fff;">
+				<span style="font-size: 14px;width: 100%;display: inline-block;padding: 0.15rem;border: 1px solid #ccc;background-color: #eee;">
+				<span>已选择：</span>星海所 - 监管一区 - 滨海六路</span>
+			</div>
+			<ul class="mui-table-view" style="margin-top: 0;">
+				<!--<li data-value="AKU" data-tags="AKeSu" class="mui-table-view-cell mui-indexed-list-item mui-checkbox f14">
+					<div>
+						<input type="checkbox" />阿克苏机场
+					</div>
+					<li data-value="AKU" data-tags="AKeSu" class="mui-table-view-cell mui-indexed-list-item mui-checkbox f14">
+						<div style="text-indent: 10px;">
+							<input type="checkbox" /> 阿克苏机场
+						</div>
+						<li data-value="AKU" data-tags="AKeSu" class="mui-table-view-cell mui-indexed-list-item mui-checkbox f14">
+						<div style="text-indent: 20px;">
+							<input type="checkbox" /> 阿克苏机场
+						</div>
+					</li>
+					</li>
+				</li>-->
+				
+				<!--<div class="mui-checkbox">
+					
+					<input type="checkbox" />
+					<li class="mui-table-view-cell mui-indexed-list-item f14">阿克苏机场</li>
+					<li class="mui-table-view-cell mui-collapse">
+			            <a class="mui-navigate-right f14" href="#">面板1</a>
+			            <div class="mui-collapse-content" id='showUserPicker'>
+			                <p class="f14">面板1子内容</p>
+			            </div>
+			        </li>
+		        </div>-->
+			</ul>
+		</div>
+		<!--模版-->
+		<script id="jlist-template" type="text/x-handlebars-template">
+			<ul class="mui-table-view" style="margin-top: 0;">
+				{{#each this}}
+					<li class="mui-table-view-cell mui-indexed-list-item mui-checkbox f14">
+						<div>
+							<input type="checkbox" name="all" value="{{name}}"/>{{name}}
+						</div>
+						{{#each children}}
+						<li class="mui-table-view-cell mui-indexed-list-item mui-checkbox f14">
+							<div style="text-indent: 10px;">
+								<input type="checkbox" name="first" value="{{name}}"/> {{name}}
+							</div>
+							{{#each children}}
+							<li class="mui-table-view-cell mui-indexed-list-item  f14" >
+								<div style="text-indent: 20px;width: 100%;position: relative;" class="showUserPicker">
+									{{name}}
+									<div class="mui-checkbox" style="position:absolute;right: 0;top: 0;">
+										<input type="checkbox" name="secords" style="right: 5px;top: 0;" value="{{name}}"/> 
+									</div>
+								</div>
+							</li>
+							{{/each}}
+						</li>
+						{{/each}}
+					</li>
+				
+				
+				<!--<div class="mui-checkbox">
+					<input type="checkbox" />
+					<li class="mui-table-view-cell mui-collapse">
+			            <a class="f14" href="#">{{name}}</a>
+			            {{#each children}}
+			            <div class="mui-collapse-content" data-info="" class='showUserPicker' style="border-top: 1px solid #eee;">
+			                <p class="f14">{{name}}</p>
+			            </div>
+			            {{/each}}
+			        </li>
+				</div>-->
+					
+		        {{/each}}
+			</ul>
+		</script>
+		<!--模版-->
+	</body>
+</html>

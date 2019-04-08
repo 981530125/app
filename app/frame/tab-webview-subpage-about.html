@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>首页</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<script type="text/javascript" src="../../js/jquery-1.11.0.min.js"></script>
+		<link rel="stylesheet" href="../../css/mappage.css" />
+		<script type="text/javascript" src="../../common/rem.js"></script>
+		<script type="text/javascript" src="../../common/common.js"></script>
+		<script src="../../js/handlebars.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" href="../../common/css/footer.css" />
+		<link rel="stylesheet" href="../../common/css/print.css" />
+		<!--<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&&key=TDPBZ-RMX6U-YLYVD-2CA46-AQMVF-5QFGR&libraries=convertor"></script>-->
+		
+
+		<script type="text/javascript" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+		<!-- 腾讯获取坐标需要引入的 -->
+		<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=TDPBZ-RMX6U-YLYVD-2CA46-AQMVF-5QFGR"></script>
+		<script type="text/javascript" src="../js/managecenter/getmap.js"></script>
+
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			.title {
+				margin: 20px 15px 10px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="mypop" style="position: relative;display: none;">
+			<div class="mui-backdrop" style="display: block;" id="mypop-mask">
+			</div>
+			<div style="position: fixed;left: 10%;top: 3rem;z-index: 999;height: 4rem;width: 80%;background-color: #fff;border-radius: 10px;overflow: hidden;">
+            	<div class="printf-btn" id="screen">打印当前页面</div>
+            	<div class="printf-btn">打印检查表</div>
+            	<div class="printf-btn hideicon">隐藏图标</div>
+            	<div class="printf-btn tocalcel">取消</div>
+            </div>
+		</div>
+		<div id="touch" class="transit" style="width: 50px;height: 50px;">
+            <img id="simple-menu" src="../../img/print.png" style="width: 32px; height: 32px;" />
+       	</div>
+		<!--遮罩层-->
+		<div class="mui-backdrop" style="display: none;" id="my-mask" style="z-index: 1196;">
+			<div class="mui-loading" style="position: absolute;top: calc(50% - 12px);left: calc(50% - 12px);">
+				<div class="mui-spinner">
+				</div>
+			</div>
+		</div>
+		
+		<div id="content" style="position: fixed;top: 0;left: 0;"></div>
+		<div style="position: fixed;top: 0.58rem;left:calc(50% - 3.51rem);width: 7.02rem;height: 0.98rem;background-color: #fff;">
+			<div class="top-search shopsearch" style="vertical-align: middle;z-index: 5;">
+				<input type="text" placeholder="输入关键词进行搜索" id="keyword" size="27" class="search-input" disabled="disabled"/>
+				<button class="search">
+					<img src="../../img/search.png" alt="" width="15px " />
+				</button>
+			</div>
+		</div>
+		
+		<!--<div class="refresh" style="position: fixed;bottom: 0.78rem;right: 0.7rem;">
+			<div><img src="../../img/resh.png" style="width: 0.64rem;height: 0.64rem;"/><div>
+		</div>-->
+		
+		
+		<div class="mui-backdrop my-mui-mask" id="my-mui-mask"></div>
+		<div id='mask-pop'></div>
+		<script id="shopinfo" type="text/x-handlebars-template">
+			<div class="pop">
+				<div style="width: 7.02rem;margin: 0 auto;">
+					<div style="width: 100%;padding: 0.32rem 0;">
+						<img src="{{#if_eq avatar null}}../../img/shoplogo.png{{else}}{{rooturl}}{{avatar.access_path}}{{/if_eq}}" style="width: 1.58rem;height: 1.35rem;vertical-align: top;" />
+						<div style="display: inline-block;width: 5rem;">
+							<p class="shopname">{{#if_eq corporation_name null}}{{#each licenses}}{{#if_eq @index 0}}{{corp_name}}{{/if_eq}}{{/each}}{{else}}{{corporation_name}}{{/if_eq}}</p>
+							<p class="address">
+								<span class="interval">{{#each licenses}}{{#if_eq @index 0}}
+									{{#if_eq check_level 'null'}}<img src="../../img/selectmessage.png" style="width: 0.32rem;height: 0.32rem;"/>{{/if_eq}}
+									{{#if_eq check_level ''}}<img src="../../img/selectmessage.png" style="width: 0.32rem;height: 0.32rem;"/>{{/if_eq}}
+									{{#if_eq check_level '待评定'}}<img src="../../img/selectmessage.png" style="width: 0.32rem;height: 0.32rem;"/>{{/if_eq}}
+									{{#if_eq check_level '优秀'}}<img src="../../img/selectgood.png" style="width: 0.32rem;height: 0.32rem;"/>{{/if_eq}}
+									{{#if_eq check_level '良好'}}<img src="../../img/selectwell.png" style="width: 0.32rem;height: 0.32rem;"/>{{/if_eq}}
+									{{#if_eq check_level '一般'}}<img src="../../img/selectsoso.png" style="width: 0.32rem;height: 0.32rem;"/>{{/if_eq}}
+									{{#if_eq check_level '整改中'}}<img src="../../img/selectwait.png" style="width: 0.32rem;height: 0.32rem;"/>{{/if_eq}}
+									{{/if_eq}}{{/each}}</span>
+								<span class="interval">{{#if_eq distance null}}{{#each licenses}}{{#if_eq @index 0}}{{decimal distance 2}}{{/if_eq}}{{/each}}{{else}}{{decimal distance 2}}{{/if_eq}}km</span>
+								<span class="mui-ellipsis shop-adress">{{#if_eq corporation_address null}}{{#each licenses}}{{#if_eq @index 0}}{{prod_address}}{{/if_eq}}{{/each}}{{else}}{{corporation_address}}{{/if_eq}}</span>
+							</p>
+							<p class="favourable" style="display: none;">{{stringactitvity}}121</p>
+						</div>
+					</div>
+					<div style="border-top: 1px solid #e0e0e0;border-bottom: 1px solid #e0e0e0;padding: 0.32rem 0;">
+						<div style="font-size: 11px;">
+							<p style="margin: 0;font-size: 12px;color: #999999;">营业时间</p>
+							{{#if_eq weekday ''}}
+								{{#each weekday}}
+								<span style="display: inline-block;margin-right: 20px;color: #333333;font-size: 11px;">{{day}} {{open}}</span>
+								{{/each}}
+							{{else}}
+								<span style="display: inline-block;margin-right: 20px;color: #333333;font-size: 11px;">未设置</span>
+							{{/if_eq}}
+						</div>
+					</div>
+					<div class="select">
+						<a style="text-decoration: none;padding: 5px 0;cursor: pointer;" href="javascript:void(0);" onclick="lookdetail('{{#each licenses}}{{#if_eq @index 0}}{{id}}{{/if_eq}}{{/each}}','{{id}}')"  >
+							<img style="vertical-align: middle;" src="../../img/details.png" width="12" />
+							<span class="lookup">查看详情</span>
+						</a>
+						<a class="record-style" href="javascript:void(0);" style="cursor: pointer;" onclick="writerecords('{{#each licenses}}{{#if_eq @index 0}}{{id}}{{/if_eq}}{{/each}}','{{id}}')">
+							<img style="vertical-align: top;height: 0.24rem;width: 0.24rem;margin-top: 0.24rem;" src="../../img/record.png" />
+							<span class="lookup">监管记录</span>
+						</a>
+						<a class="way-style" id="way-route" href="javascript:void(0);" style="cursor: pointer;">
+							<img style="vertical-align: top;height: 0.24rem;width: 0.2rem;margin-top: 0.24rem;" src="../../img/route.png" />
+							<span class="lookup" style="color: #fff;">导航</span>
+							<input type="hidden" value="{{lat}}" id="way-lat" />
+							<input type="hidden" value="{{lng}}" id="way-lng" />
+							<input type="hidden" value="{{#each licenses}}{{#if_eq @index 0}}{{id}}{{/if_eq}}{{/each}}" id="way-id" />
+							<input type="hidden" value="{{#if_eq corporation_name null}}{{#each licenses}}{{#if_eq @index 0}}{{corp_name}}{{/if_eq}}{{/each}}{{else}}{{corporation_name}}{{/if_eq}}" id="way-name" />
+						</a>
+					</div>
+				</div>
+			</div>
+		</script>
+	</body>
+	<!--截屏打印所需-->
+	<script src="../../common/util.js"></script>
+	<script type="text/javascript" src="../../common/html2canvas.min.js"></script>
+	<!-- 将canvas图片保存成图片 -->
+	<script src="../../common/canvas2image.js"></script>
+	<script src="../../common/base64.js"></script>
+	<script type="text/javascript" src="../../common/immersed.js" ></script>
+	<script type="text/javascript" src="../../common/levitated.js" ></script>
+	<!--截屏打印所需-->
+	<script>
+		$("#my-mask").show();
+		mui.init({
+			swipeBack: true //启用右滑关闭功能
+		});
+		mui.plusReady(function() {
+			//首页返回键处理
+			//处理逻辑：2秒内，连续两次按返回键，则退出应用
+			mui.back = function() {
+		  		var first = null;
+		  		plus.key.addEventListener('backbutton', function(){
+		  			//首次按键，提示‘再按一次退出应用’
+		  			if(!first){
+		  				first = new Date().getTime();
+		  				mui.toast('再按一次退出应用');
+		  				setTimeout(function(){
+		  					first = null;
+		  				},2000);
+		  			} else {
+		  				if(new Date().getTime() - first < 2000){
+		  					plus.runtime.quit();
+		  				}
+		  			}
+		  		}, false);
+		  	}
+		})
+	</script>
+
+</html>

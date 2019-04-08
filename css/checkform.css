@@ -1,0 +1,232 @@
+.f14{
+	font-size: 14px;
+}
+.flex-play{
+	display: flex;
+}
+.flex-info-left{
+	font-size: 16px;
+	color: #000;
+	flex: 1;
+	text-align: left;
+}
+.flex-info-right{
+	font-size: 16px;
+	color: #333333;
+	flex: 2;
+	text-align: right;
+}
+.input-border{
+	border: none;
+}
+.text-note{
+	width: 100%;
+	height: 100%;
+	display: inline-block;
+	line-height: 0.28rem;
+	font-size: 14px;
+}
+.text-area{
+	display: inline-block;
+	height: 100%;
+	border: 0;
+	text-align: left;
+}
+/*单选框*/
+.returnbtn,.calcel{
+	width:100%;
+	height:0.88rem;
+	margin:0 auto;
+	text-align:center;
+	font-size:14px;
+	line-height:0.88rem;
+	font-weight:bold;
+	color:#fff;
+}
+.form-title{
+	display: inline-block;
+	width: 70%;
+	height: 100%;
+}
+.form-title-style{
+	height: 22px;
+	line-height: 22px;
+	font-size: 14px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+/*//遮罩层*/
+.pop{
+	/*position: fixed;
+	bottom: 0.98rem;*/
+	border-radius: 10px 10px 0 0;
+	/*z-index: 1200;*/
+}
+.my-mui-mask{
+	width: 100%;
+	height: 100%;
+	overflow:hidden;
+	/*display: none;*/
+}
+.mask-pop{
+	position: fixed;
+	left: 5%;
+	bottom: 5%;
+	z-index: 1500;
+	width: 90%;
+	height: 90%;
+	background-color: #fff;
+	/*display: none;*/
+}
+.form-content{
+	position: absolute;
+	top: 0;
+	height: 88%;
+	width: 100%;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+.form-btn{
+	flex: 1;
+	display:flex;
+	align-items: center;
+	color: #42c02e;
+	justify-content:center;
+	height: 100%;
+	font-size: 14px;
+}
+.bottom-btn{
+	display: flex;
+	margin: 0;
+	align-items: center;
+	justify-content:center;
+	width: 100%;
+	height: 10%;
+	border-top: 1px solid #dee5e7;
+	background-color: #fff;
+	position: absolute;
+	bottom: 0;
+}
+.addform{
+	color: #007AFF;
+}
+.bordertop{
+	border-top: 1px solid #CCCCCC;
+}
+.list-size-style{
+	font-size: 14px;
+	color: #666666;
+}
+.list-item-right{
+	float: right;
+	margin-right: 0.4rem;
+	padding-top: 4px;
+	color: #b2b2b2;
+}
+.upstyle{
+	width: 7.5rem;
+	height: 0.78rem;
+	line-height: 0.78rem;
+	text-indent: 0.32rem;
+	font-size: 14px;
+	background-color: #ebebeb;
+}
+#addbtn-img,#addbtn-file{
+	font-size: 14px;
+	border-top: 1px solid #ccc;
+	height: 0.8rem;
+	line-height: 0.8rem;
+	text-align: center;
+}
+.filediv{
+	text-align: center;
+	height: 0.78rem;
+	color:#999999;
+	line-height: 0.78rem;
+}
+.downfilestyle{
+	vertical-align: top;
+	width: 0.33rem;
+	height: 0.27rem;
+	margin-top: 0.255rem;
+	margin-right: 0.13rem;
+}
+.addimg-div{
+	width: 1.65rem;
+	height: 1.65rem;
+	border: 1px solid #eee;
+	position: relative;
+	padding: 0;
+	display: inline-block;
+}
+.addicon-style{
+	background: url('../img/addicon.png') no-repeat 0.33rem 0.33rem;
+	background-size: 0.99rem;
+	width: 100%;
+	height: 100%;
+	display: inline-block;
+	margin: 0 auto;
+	border: none;
+}
+.input-item-style{
+	padding: 0.31rem 0.22rem 0.24rem 0.22rem;
+}
+.input-item-title{
+	display:block;
+	font-size: 15px;
+	color: #999999;
+	margin-bottom: 0.4rem;
+}
+.input-item-content{
+	display: block;
+	width: 100%;
+	font-size: 18px;
+	color: #333333;
+}
+/*搜索*/
+.search-icon{
+	width: 0.35rem;
+	height: 0.36rem;
+	position: absolute;
+	top: 0.62rem;
+	right: 0.4rem;
+}
+.search-contentinfo{
+	margin-top: 0.1rem;
+	height: 0.78rem;
+	line-height: 0.78rem;
+	text-indent: 0.25rem;
+}
+.notebgk{
+	padding: 0.32rem;
+	background-color: #f2f8fa;
+	margin-bottom: 0.32rem;
+	border-top: 1px solid #cccccc;
+}
+.notestyle{
+	text-indent: 12px;
+	border-radius: 2px;
+	line-height: 0.32rem;
+	width: 100%;
+	resize:none;
+	height: 1.2rem;
+	font-size: 14px;
+	text-align: left;	
+}
+.deletecheckman{
+	cursor: pointer;
+}
+.getorigin{
+	cursor: pointer;
+}
+.deleteform{
+	flex:1;
+	height: 0.7rem;
+	line-height: 0.7rem;
+	font-size: 16px;
+	text-align: center;
+	color: #FA0000;
+	border:1px solid #FA0000;
+}
+

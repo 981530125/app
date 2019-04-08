@@ -1,0 +1,182 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>管辖商家</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<script type="text/javascript" src="common/rem.js"></script>
+		<link rel="stylesheet" href="css/setbusiness.css" />
+		<link rel="stylesheet" href="common/css/footer.css" />
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="common/common.js"></script>
+		<script src="js/handlebars.js"></script>
+		<script type="text/javascript" src="js/setbusiness.js"></script>
+	</head>
+
+	<body>
+			<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#2ca5db;box-shadow: none;">
+				<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+				<!--<a href="#" class="mui-icon mui-pull-right mui-a-color" style="font-size: 14px;height: 44px;line-height: 44px;padding-top: 0;padding-bottom: 0;color:#fff;">选择</a>-->
+				<h1 class="mui-title" style="color: #fff;font-weight: bold;">我的企业</h1>
+			</header>
+			<div class="mui-content">
+				<!--遮罩层-->
+				<div class="mui-backdrop" style="display: none;" id="my-mask">
+					<div class="mui-loading" style="position: absolute;top: calc(50% - 12px);left: calc(50% - 12px);">
+						<div class="mui-spinner">
+						</div>
+					</div>
+				</div>
+				<div class="mui-input-group input-item-style" style="position: relative;">
+				    <input type="text" id="search-key" class="mui-input-clear input-item-content search-contentinfo" style="border: 1px solid #CCCCCC;" id="addresskey" placeholder="关键字" value="">
+					<img src="img/shopsearch.png" id="searchAddress" class="search-icon"/>
+				</div>
+				<div class="head" >
+					<div style="width: calc(100% - 0.48rem);margin: 0 auto;margin-top: 0.1rem;">
+						<div class="jurisarea">
+							<span class="areacontent">局级</span>
+							<input type="hidden" id="selectareaid" value=""/>
+							<img src="img/cos.png" class="upimg"/>
+						</div>
+						<div class="bad-style">
+							<div class="bad-leftstyle">
+								<select class="bad-rightstyle selectname" id="selectype" name="selectype">
+								</select>
+								<img src="img/cos.png" class="upimg"/>
+							</div>
+							<div class="bad-rightstyle" style="text-indent: 0;">
+								<select class="bad-rightstyle selectname" id="selectlevel" name="check_level">   
+							        <option value="全部" selected="selected">全部</option>
+							        <option value="优秀">优秀</option>
+							        <option value="良好">良好</option>
+							        <option value="一般">一般</option>
+							        <option value="整改中">整改中</option>
+							        <option value="待评定">待评定</option>
+							   </select>
+							   <img src="img/cos.png" class="upimg"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="refreshlist" class="mui-content mui-scroll-wrapper" style="margin-top: 0.15rem;padding-bottom: 2rem;background-color: #fff;">
+					<div class="mui-scroll">
+			            <div class="list-wrapper" id="list-content">
+							<div class="mui-loading" style="position: absolute;top: calc(50% - 12px);left: calc(50% - 12px);">
+								<div class="mui-spinner">
+								</div>
+							</div>
+						</div>
+			        </div>
+				</div>
+			</div>
+		<!--模板-->
+		<script id="example-template" type="text/x-handlebars-template">
+			{{#if data}}
+			<ul class="mui-table-view" style="padding: 0;" id="list">
+				{{#each data}}
+				<div style="display: flex;">
+					<div class="mui-checkbox left-checkbox">
+			       		<input type="checkbox" style="position: static;margin-top: 5px;"/>
+			       	</div>
+					<li class="mui-table-view-cell mui-collapse bussiness-item">
+			            <a class="f14" href="#" >
+			            	<img class="mui-media-object mui-pull-left left-shopimg" src="./img/healthfood.png">
+			            	<div class="mui-media-body">
+			                	<p class='mui-ellipsis mui-text-left item-top-title'>{{#if corporation_name}}{{corporation_name}}{{else}}{{#each licenses}}{{#if @first}}{{corp_name}}{{/if}}{{else}}{{/each}}{{/if}}</p>
+			                	<div style="height: 100%;text-align: left;">
+			                		<span class="interval mui-text-left">{{#if distance}}{{decimal distance 2}}{{else}}{{#each licenses}}{{#if @first}}{{#if distance}}{{decimal distance 2}}{{else}}0{{/if}}{{/if}}{{else}}{{/each}}{{/if}}km</span>
+			                		<p class='mui-ellipsis mui-inline mui-text-left' style="width: 76.4%;">{{isnone corporation_address 0}}</p>
+			                	</div>
+			                	<div style="height: 100%;text-align: left;">
+			                		<span class="mui-text-left item-level">
+			                			<!--<img src="img/selectmessage.png" class="item-level-img"/>-->
+			                			{{#each licenses}}
+				                			{{#if @first}}
+					                			{{#if_eq check_level '优秀'}}
+					                				<img src="img/selectgood.png" class="item-level-img"/>优秀
+					                			{{/if_eq}}
+					                			{{#if_eq check_level '良好'}}
+					                				<img src="img/selectwell.png" class="item-level-img"/>良好
+					                			{{/if_eq}}
+					                			{{#if_eq check_level '一般'}}
+					                				<img src="img/selectsoso.png" class="item-level-img"/>一般
+					                			{{/if_eq}}
+					                			{{#if_eq check_level '整改中'}}
+					                				<img src="img/selectwait.png" class="item-level-img"/>整改中
+					                			{{/if_eq}}
+					                			{{#if_eq check_level ''}}
+					                				<img src="img/selectmessage.png" class="item-level-img"/>待评定
+					                			{{/if_eq}}
+				                			{{/if}}
+			                			{{/each}}
+			                		</span>
+			                		<p class='mui-ellipsis mui-inline mui-text-left item-say'>{{#each licenses}}{{#if @first}}{{type_info.name}}{{/if}}{{else}}无{{/each}}</p>
+			                	</div>
+				            </div>
+			            </a>
+			            <div class="mui-collapse-content pop-top">
+			            	<div class="pop-all">
+			            		<div class="write-btn" style="text-align: left;">
+			            			{{#each licenses}}{{#if @first}}<a href="javascript:void(0);" class="a-btn" style="margin-right: 0.2rem;" ontouchend="lookdetail('{{id}}')">{{/if}}{{else}}无{{/each}}
+										<!--<a href="javascript:void(0);" class="a-btn" style="margin-right: 0.2rem;" onclick="lookdetail({{id}})">-->
+										<img style="vertical-align: middle;" src="img/record.png" width="12" />
+										<span class="lookup">资料编辑</span>
+									</a>
+									<a href="javascript:void(0);" class="a-btn" style="display: none;">
+										<img style="vertical-align: middle;" src="img/recordlist.png" width="12" />
+										<span class="lookup">监管记录</span>
+									</a>
+								</div>
+								<div class="nav-btn" style="display: none;">
+									<a href="javascript:void(0);" class="a-btn" style="background-color: #209fd8;border: none;" >
+										<img style="vertical-align: middle;" src="img/route.png" width="12" />
+										<span class="lookup" style="color: #fff;">导航</span>
+									</a>
+								</div>
+			            	</div>
+			            </div>
+			      	</li>
+				</div>
+				{{/each}}
+			</ul>
+		{{else}}
+		<div>无数据</div>
+		{{/if}}
+		</script>
+		<script id="menu-template" type="text/x-handlebars-template">
+    		<!-- 商家分类data -->
+		  	{{#each data}}
+		  	{{#if_eq root_level 1}}
+		        <div class="mui-control-item mui-active" data-type="{{id}}">
+		            {{name}}
+		        </div>
+		    {{else}}
+		    	<div class="mui-control-item" data-type="{{id}}">
+		            {{name}}
+		        </div>
+	        {{/if_eq}}
+        	{{/each}}
+		</script>
+		
+		<script id="cerbooktype-template" type="text/x-handlebars-template">
+			<select class="bad-rightstyle selectname" id="selectype" name="selectype">
+				{{#each this}}
+				{{#if_eq name '全部'}}
+		        <option value="{{type}}" selected="selected">{{name}}</option>
+		        {{else}}
+		        <option value="{{type}}">{{name}}</option>
+		        {{/if_eq}}
+		        {{/each}}
+		   	</select>
+		</script>
+		<!--模板-->
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+		</script>
+	</body>
+
+</html>

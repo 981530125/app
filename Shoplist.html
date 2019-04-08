@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>附近店铺</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<script type="text/javascript" src="common/rem.js"></script>
+		<link rel="stylesheet" href="css/shoplist.css" />
+		<link rel="stylesheet" href="common/css/footer.css" />
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="common/common.js"></script>
+		<script src="js/handlebars.js"></script>
+		<script type="text/javascript" src="js/arroudshop.js"></script>
+	</head>
+
+	<body>
+		<div>
+			<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#2ca5db;box-shadow: none;">
+				<h1 class="mui-title" style="color: #fff;font-weight: bold;">附近店铺</h1>
+			</header>
+			<div style="height: 44px;"></div>
+			<div class="head">
+				<div style="width: calc(100% - 0.48rem);margin: 0 auto;">
+					<div style="position: relative;vertical-align: top;display: inline-block; width: 75%;padding: 0.08rem 0 0.32rem;">
+						<input class="search" id="search" type="text" size="30" placeholder="输入关键词进行搜索" disabled="disabled"/>
+						<a href="#" class="searchimg"><img class="searchimg search-icon" src="img/search.png"  width="18px" /></a>
+					</div>
+					<div style="display: inline-block;text-align:center;height: 0.78rem;width: 19%;vertical-align: top;margin-top: 0.2rem;">
+						<div style="height: 0.24rem;margin-top: 0.1rem;">
+							<img src="img/sort.png" style="width: 0.33rem;height: 0.24rem;vertical-align:top; display: inline-block;"/>
+						</div>
+						<p class="p2" style="margin: 0;vertical-align:top;text-align: center;">离我最近</p>
+					</div>
+				</div>
+			</div>
+			<div class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted" style="background-color: #fff;">
+			    <div class="mui-scroll" id="menu-list">
+			    	
+			    </div>
+			</div>
+			
+		</div>
+		<div id="shop" style="padding-bottom: 44px;">
+			<ul class="mui-table-view" id="shoplist" style="padding: 0;">
+			</ul>
+		</div>
+		<div class="footer">
+			<div class="footer-tab">
+				<a class="footer-tabitem" href="Mappage.html">
+					<img src="img/homepage.png" class="footer-tabimga"/>
+					<p class="footer-tabtitle" >首页</p>
+				</a>
+			</div>
+			<div class="footer-tab">
+				<a class="footer-tabitem" href="Shoplist.html">
+					<img src="img/nearby2.png" class="footer-tabimgb"/>
+					<p class="footer-tabtitle footer-tab-active" >附近</p>
+				</a>
+			</div>
+			<div class="footer-tab">
+				<a class="footer-tabitem" href="javascript:void(0);" onclick="skipbottom();">
+					<img src="img/mine.png" class="footer-tabimgc"/>
+					<p class="footer-tabtitle" >我的</p>
+				</a>
+			</div>
+		</div>
+		<!--模板-->
+		
+		<script id="example-template" type="text/x-handlebars-template">
+		  <!-- data -->
+		  <!-- 直接使用每个people的数据 -->
+		  {{#each data}}
+			<li class="mui-collapse mui-table-view-cell mui-collapse li-after" style="padding: 3.2%">
+		        <a href="#" style="height: 14%;padding: 0;margin: 0;">
+		            <img class="mui-media-object mui-pull-left" src="./img/healthfood.png" style="max-width: 21%;width: 21%;height: 9.7%;;">
+		            <div class="mui-media-body">
+	                	<p class='mui-ellipsis mui-text-left'>{{corporation_name}}</p>
+	                	<div style="height: 100%;text-align: left;">
+	                		<span class="interval mui-text-left" style="width: 14.7%;font-size: 14px; vertical-align: top;"> 290m</span>
+	                		<p class='mui-ellipsis mui-inline mui-text-left' style="width: 76.4%;">{{corporation_address}}</p>
+	                	</div>
+		                <p class="favourable mui-text-left" style="font-size: 12px;">满30减5,满88减10</p>
+		            </div>
+		        </a>
+		        <div class="mui-collapse-content">
+					<div class="select" style="width:100%;display: flex;justify-content: space-between">
+						<div style="flex: 1;text-align: left;">
+							<a href="javascript:void(0);" style="text-decoration: none;width: 2.18rem;height: 0.72rem;text-align: left;" onclick="lookdetail('{{#each licenses}}{{#if_eq @index 0}}{{id}}{{/if_eq}}{{/each}}','{{id}}')">
+								<img style="vertical-align: middle;" src="img/details.png" width="12" />
+								<span class="lookup">查看详情</span>
+							</a>
+						</div>
+						<div style="flex: 1;">
+							<a class="record-style" href="javascript:void(0);" onclick="writerecords('{{#each licenses}}{{#if_eq @index 0}}{{id}}{{/if_eq}}{{/each}}','{{id}}')">
+								<img style="vertical-align: top;height: 0.24rem;width: 0.24rem;margin-top: 0.24rem;" src="img/record.png"/>
+								<span class="lookup">监管记录</span>
+							</a>
+						</div>
+						<div style="flex: 1;">
+							<a href="ShopPage.html" class="way-style nav-path">
+								<img style="vertical-align: top;height: 0.24rem;width: 0.2rem;margin-top: 0.24rem;" src="img/route.png" width="12" />
+								<span class="lookup" style="color: #fff;">导航</span>
+								<input type="hidden" value="{{lat}}" class="way-lat" />
+								<input type="hidden" value="{{lng}}" class="way-lng" />
+							</a>
+						</div>
+					</div>
+				</div>
+		    </li>
+		  {{/each}}
+		</script>
+		<script id="menu-template" type="text/x-handlebars-template">
+    		<!-- 商家分类data -->
+		  	{{#each data}}
+		  	{{#if_eq root_level 1}}
+		        <div class="mui-control-item mui-active" data-type="{{id}}">
+		            {{name}}
+		        </div>
+		    {{else}}
+		    <div class="mui-control-item" data-type="{{id}}">
+		            {{name}}
+		        </div>
+	        {{/if_eq}}
+        	{{/each}}
+		</script>
+		<!--模板-->
+		<script type="text/javascript" src="js/new_file.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			document.addEventListener('plusready', function() {
+				$(function() {
+					mui.ready(function() {
+						$('#all').addClass('color');
+						$('.subheading').click(function() {
+							$(this).addClass('color').siblings().removeClass('color');
+						});
+						$('.d').click(function() {
+							$('.hide').show();
+							$(this).parent().siblings().children('.hide').hide();
+						});
+					})
+				})
+			});
+		</script>
+	</body>
+
+</html>

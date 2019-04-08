@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>通知消息</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<script type="text/javascript" src="../../common/rem.js"></script>
+		<link rel="stylesheet" href="../../common/css/mui.picker.css" />
+		<link rel="stylesheet" href="../../css/mui.picker.min.css"/>
+		<link rel="stylesheet" href="../../css/notice.css" />
+		<link rel="stylesheet" href="../../common/css/mui.poppicker.css" />
+		<script type="text/javascript" src="../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../common/common.js"></script>
+		<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../common/mui.picker.js"></script>
+		<script src="../../common/mui.poppicker.js"></script>
+		<script type="text/javascript" src="../../js/mui.picker.min.js"></script>
+		<script src="../js/message/messageall.js"></script>
+		<script type="text/javascript">
+			mui.init();
+		</script>
+	</head>
+	<body>
+		<div style="height: 1.2rem;position: fixed;z-index:100;top: 0rem;left: 0;width: 100%;background-color:#fff;">
+			<div style="display: flex;width: 100%;height: 100%;border:1px solid #ccc;">
+				<div style="flex: 1.5;font-size: 14px;line-height: 1.2rem;text-align: center;">
+					<span class="time" style="border:1px solid #ccc;border-radius: 5px;text-align: center;padding: 0.2rem;padding-left: 0.7rem;padding-right: 0.7rem;">开始时间</span>
+					<input type="hidden" class="start_time" name="start" value="">
+				</div>
+				<div style="flex: 1.5;font-size: 14px;line-height: 1.2rem;text-align: center;">
+					<span class="time" style="border:1px solid #ccc;border-radius: 5px;text-align: center;padding: 0.2rem;padding-left: 0.7rem;padding-right: 0.7rem;">结束时间</span>
+					<input type="hidden" class="end_time" name="end" value="">
+				</div>
+			</div>
+		</div>
+		<div style="height: 1.3rem;position: fixed;z-index:100;top: 1.18rem;left: 0;width: 100%;background-color:#fff;border: 1px solid #CCC;text-align: center;">
+			<input type="text" class="searchkey" placeholder="请填写关键字搜索" value="" style="width: 96%;text-indent: 10px;height: 40px;display: inline-block;border: 1px solid #CCC;margin:0 auto;margin-top: 10px;">
+			<div class="search-btn" style="font-size: 14px;width: 40px;height: 40px;line-height: 40px;text-align: center;position: absolute;top: 15px;right: 10px;">
+				<img src="../../img/search.png" style="width: 16px;height: 17px;"/>
+			</div>
+		</div>
+		<a class="mui-icon mui-icon-plusempty" id="add-message" style="width: 0.8rem;height: 0.8rem;line-height: 0.8rem;text-align: center;color: #fff;position: fixed;bottom: 2rem;right: 0.8rem;border-radius: 100%;z-index: 999;background-color: #2ea6db;"></a>
+		<div class="mui-content mui-scroll-wrapper" id="pullrefresh" style="margin-top: 2.5rem;">
+			<div class="menulist f14 mui-scroll" id="notice-content" style="width: 100%;">
+				<!--<form id="change-form">
+				</form>-->
+				<!--插入模板-->
+			</div>
+		</div>	
+		<!--模板-->
+		<script id="notice-template" type="text/x-handlebars-template">
+			<ul class="mui-table-view">
+				{{#each data}}
+		        <li class="mui-table-view-cell getmessage" data-id="{{id}}">
+		            <a class="mui-navigate-right" href="#" style="font-size: 14px;color: #333333;">
+		            	<div style="display: inline-block;width: 100%;height: 100%;">
+		            		<div class="noticetitle">{{#if_eq read_at null}}<span class="dot"></span>{{/if_eq}}{{title}}</div>
+		            		<div style="color: #b2b2b2;font-size: 14px;height: 22px;line-height: 22px;" class="mui-ellipsis">{{content}}</div>
+		            		<div style="color: #b2b2b2;font-size: 12px;height: 22px;line-height: 22px;"><span style="margin-right: 0.3rem;">{{author_name}}</span><span>{{created_at}}</span><span style="float: right;{{#if_eq status 0}}color: #53b6e3;{{/if_eq}}">{{#if_eq status '0'}}{{#if_eq ../admininfo author_name}}已转发{{else}}待处置{{/if_eq}}{{/if_eq}}{{#if_eq status '1'}}已处置{{/if_eq}}</span></div>
+		            	</div>
+		            </a>
+		        </li>
+		        {{/each}}
+		   </ul>
+		</script>
+		<!--模板-->
+	</body>
+</html>

@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>管理中心</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<script type="text/javascript" src="../../js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="../../common/rem.js"></script>
+		<script src="../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../common/common.js"></script>
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" href="../../common/css/footer.css" />
+		<link rel="stylesheet" href="../../css/managecenter.css" />
+		<link rel="stylesheet" href="../../common/css/print.css" />
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			.title {
+				margin: 20px 15px 10px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+			
+			.oa-contact-cell.mui-table .mui-table-cell {
+				padding: 11px 0;
+				vertical-align: middle;
+			}
+			
+			.oa-contact-cell {
+				position: relative;
+				margin: -11px 0;
+			}
+			
+			.oa-contact-avatar {
+				width: 75px;
+			}
+			
+			.oa-contact-avatar img {
+				border-radius: 50%;
+			}
+			
+			.oa-contact-content {
+				width: 100%;
+			}
+			
+			.oa-contact-name {
+				margin-right: 20px;
+			}
+			
+			.oa-contact-name,
+			oa-contact-position {
+				float: left;
+			}
+		</style>
+		<style type="text/css">
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto 4;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				width: auto;
+				height: auto;
+				max-width: 100%;
+				max-height: 100%;
+			}
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+			}
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			p img {
+				max-width: 100%;
+				height: auto;
+			}
+		</style>
+	</head>
+
+	<body>
+		
+		<!--打印图标-->
+		<div class="mypop" style="position: relative;display: none;">
+			<div class="mui-backdrop" style="display: block;" id="mypop-mask">
+			</div>
+			<div style="position: fixed;left: 10%;top: 3rem;z-index: 999;height: 4rem;width: 80%;background-color: #fff;border-radius: 10px;overflow: hidden;">
+            	<div class="printf-btn" id="screen">打印当前页面</div>
+            	<div class="printf-btn">打印检查表</div>
+            	<div class="printf-btn hideicon">隐藏图标</div>
+            	<div class="printf-btn tocalcel">取消</div>
+            </div>
+		</div>
+		<div id="touch" class="transit" style="width: 50px;height: 50px;">
+            <img id="simple-menu" src="../../img/print.png" style="width: 32px; height: 32px;" />
+       	</div>
+       	<!--打印图标-->
+		<!--头部导航条-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll" id="center-content">
+
+			</div>
+		</div>
+		<div class="adsa" style="display: none;">
+			<!--base64打印出的内容-->
+			<!--打印内容获取，可修改样式-->
+            <div id="capture" style="margin: 10px;width: 210px;height: 297px; background: #f5da55;text-align: center;">
+            	<div style="width: 10px;display: inline-block;">
+            		<h4 style="color: #000;font-size: 14px;">Hello world!12</h4>
+            	</div>
+            	<span style="font-size: 18px;">asasas</span>
+			</div>
+			<!--打印内容获取-->
+			<img id="sharecontent"  src="" style="width: 80%;"/>
+		</div>
+		<!--模板-->
+		<script id="content-template" type="text/x-handlebars-template">
+			<div class="top-info">
+				<div class="width-content">
+					<div class="manage-info-style">
+						<img data-preview-src="" data-preview-group="1" src="{{#if_eq user_info.avatar null}}../../img/managelogo.png{{else}}{{#if_eq user_info.avatar.access_path ''}}../../img/managelogo.png{{else}}{{rooturl}}{{user_info.avatar.access_path}}{{/if_eq}}{{/if_eq}}" class="manage-info-logo" onerror="this.onerror=null;this.src='../../img/managelogo.png'">
+						<div class='logo-item' id="notice">
+						    <img src='../../img/leavea.png' class='img-style'/>
+						    <div class="mui-badge num-icon">{{arithmetic stastic.message_number '+' stastic.notify_num}}</div>
+						</div>
+					</div>
+					<p class="manage-info-name">{{user_info.name}}</p>
+					<p class="manage-info-work">{{user_info.role.role_name}}-{{user_info.admin_office.name}}</p>
+					<div style="width: 100%;margin: 0 auto;text-align: center;">
+						<!--暂时隐藏-->
+						<button class="button1" id="shopcenter">
+							<img src="../../img/seller.png" width="15px" style="vertical-align: middle;margin-right: 0.1rem;" />企业中心
+						</button>
+						<button class="button2" id="managecenter">
+							<img src="../../img/manage.png" width="15px" style="vertical-align: middle;margin-right: 0.1rem;" />个人中心
+						</button>
+					</div>
+				</div>
+			</div>
+			<!--我的任务-->
+			<div class="task-item" id="admin-task">
+				<div class="width-content">
+					<div class="task-iten-title"><img src="../../img/task.png" class="task-icon-style" /><span class="task-item-title">我的任务</span></div>
+					<div class="task-flex-all">
+						<div class="task-flex my-task-unitem" data-url="task-wait.html" data-id="0" data-tasktype="wait">
+							<p class="task-flex-num">{{isnull stastic.investigate_task.wait}}</p>
+							<p class="task-flex-type">待处理</p>
+						</div>
+						<div class="task-flex my-task-unitem" data-url="task-process.html" data-id="1" data-tasktype="process">
+							<p class="task-flex-num">{{isnull stastic.investigate_task.process}}</p>
+							<p class="task-flex-type">处理中</p>
+						</div>
+						<div class="task-flex my-task-unitem" data-url="task-finished.html" data-id="2" data-tasktype="finished">
+							<p class="task-flex-num">{{isnull stastic.investigate_task.finished}}</p>
+							<p class="task-flex-type">已完成</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--我的检查记录-->
+			<div class="task-item" id="admin-record">
+				<div class="width-content">
+					<div class="task-iten-title"><img src="../../img/regular-check.png" class="task-icon-style" /><span class="task-item-title">我的检查</span></div>
+					<div class="task-flex-all">
+						<div class="task-flex my-record-unitem" data-url="records-month.html" data-id="0" data-tasktype="month">
+							<p class="task-flex-num check-color">{{isnull stastic.investigate_record.month}}</p>
+							<p class="task-flex-type">本月</p>
+						</div>
+						<div class="task-flex my-record-unitem" data-url="records-year.html" data-id="1" data-tasktype="year">
+							<p class="task-flex-num check-color">{{isnull stastic.investigate_record.year}}</p>
+							<p class="task-flex-type">本年</p>
+						</div>
+						<div class="task-flex my-record-unitem" data-url="records-all.html" data-id="2" data-tasktype="all">
+							<p class="task-flex-num check-color">{{isnull stastic.investigate_record.all}}</p>
+							<p class="task-flex-type">累计</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--我的过期情况-->
+			<div class="task-item" id="admin-company">
+				<div class="width-content">
+					<div class="task-iten-title"><img src="../../img/regular-check.png" class="task-icon-style" /><span class="task-item-title">过期情况</span></div>
+					<div class="task-flex-all">
+						<div class="task-flex my-expire-unitem" data-url="records-month.html" data-id="0" data-type="expire">
+							<p class="task-flex-num check-color">{{isnull stastic.license_expire.expire_num}}</p>
+							<p class="task-flex-type">已过期</p>
+						</div>
+						<div class="task-flex my-expire-unitem" data-url="records-year.html" data-id="1" data-type="monthOne">
+							<p class="task-flex-num check-color">{{isnull stastic.license_expire.expire_in_one_month_num}}</p>
+							<p class="task-flex-type">1月内</p>
+						</div>
+						<div class="task-flex my-expire-unitem" data-url="records-all.html" data-id="2" data-type="monthThree">
+							<p class="task-flex-num check-color">{{isnull stastic.license_expire.expire_in_three_month_num}}</p>
+							<p class="task-flex-type">三月内</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--列表-->
+			<div class="list-top">
+				<div class="list-item">
+					<ul class="mui-table-view list-top">
+						<li class="mui-table-view-cell list-size-style" style="display: none;">
+							<img src="../../img/recondsicon.png" class="list-icon-left icon-styleb" />信息通知
+							<span class="mui-navigate-right list-item-right">{{isnull stastic.message_number}}条</span>
+						</li>
+						<li class="mui-table-view-cell list-size-style tosetbusiness">
+							<img src="../../img/rule.png" class="list-icon-left" style="margin-top:0.1rem;"/>管辖企业
+							<span class="mui-navigate-right list-item-right"></span>
+							<span class="mui-navigate-right list-item-right">{{isnull stastic.shop_number}}家</span>
+							<!--<span class="mui-navigate-right list-item-right">3720家</span>-->
+						</li>
+						<li class="mui-table-view-cell list-size-style shopauxiliary">
+							<img src="../../img/help.png" class="list-icon-left icon-stylea" style="margin-top:0.1rem;"/>我的材料
+							<span class="mui-navigate-right list-item-right"></span>
+							<span class="mui-navigate-right list-item-right">{{isnull stastic.investigate_record_file_number}}份</span>
+						</li>
+						<li class="mui-table-view-cell list-size-style asda" data-url="records-year.html" data-id="1" data-tasktype="year" style="display: none;">
+							<img src="../../img/recondsicon.png" class="list-icon-left icon-styleb" />检查记录
+							<span class="mui-navigate-right list-item-right asd">{{stastic.investigate_record_num}}次</span>
+						</li>
+						<li class="mui-table-view-cell list-size-style newrecords">
+							<img src="../../img/release.png" class="list-icon-left icon-styleb" style="width: 0.32rem;height: 0.32rem;"/>任务发布
+							<span class="mui-navigate-right list-item-right asd"></span>
+						</li>
+						<li class="mui-table-view-cell list-size-style checkcenter">
+							<img src="../../img/newrecord.png" class="list-icon-left icon-styleb" />审核中心
+							<span class="mui-navigate-right list-item-right asd"></span>
+						</li>
+						<li class="mui-table-view-cell list-size-style simple-statistics">
+							<img src="../../img/newrecord.png" class="list-icon-left icon-styleb" />简单统计
+							<span class="mui-navigate-right list-item-right asd"></span>
+						</li>
+						<li class="mui-table-view-cell list-size-style myedit">
+							<img src="../../img/setup.png" style="width: 0.25rem;height: 0.25rem;" class="list-icon-left icon-styleb" />个人设置
+							<span class="mui-navigate-right list-item-right asd"></span>
+						</li>
+						<li class="mui-table-view-cell list-size-style myupdate">
+							<img src="../../img/update.png" class="list-icon-left" style="width: .32rem;height: .32rem;vertical-align: top;margin-top: 0.02rem;"/>检查更新
+							<span class="mui-navigate-right list-item-right asd"></span>
+						</li>
+						<li class="mui-table-view-cell list-size-style myprint" style="display: none;">
+							<img src="../../img/personicon.png" class="list-icon-left icon-styleb" />打印
+							<span class="mui-navigate-right list-item-right asd"></span>
+						</li>
+						<li class="mui-table-view-cell " style="font-size: 16px;">
+							<img src="../../img/print.png" class="list-icon-left icon-styleb" style="width: 0.32rem;height: 0.32rem;vertical-align: top;margin-top: 0.05rem;" />打印
+							<div id="mySwitch" class="mui-switch">
+								<div class="mui-switch-handle"></div>
+							</div>
+						</li>
+						<li class="mui-table-view-cell list-size-style" id="goprint" style="display: none;">
+							<img src="../../img/update.png" class="list-icon-left" style="width: .32rem;height: .32rem;vertical-align: top;margin-top: 0.02rem;"/>截屏
+							<span class="mui-navigate-right list-item-right"></span>
+						</li>
+						<li class="mui-table-view-cell list-size-style" id="asdsa" style="display: none;">
+							<img src="../../img/update.png" class="list-icon-left" style="width: .32rem;height: .32rem;vertical-align: top;margin-top: 0.02rem;"/>快捷输入
+							<span class="mui-navigate-right list-item-right"></span>
+						</li>
+					</ul>
+					<!--<ul class="mui-table-view mui-table-view-chevron">
+						<li class="mui-table-view-cell " style="font-size: 16px;">
+							<img src="../../img/print.png" class="list-icon-left icon-styleb" style="width: 0.32rem;height: 0.32rem;vertical-align: top;margin-top: 0.05rem;" />打印
+							<div id="mySwitch" class="mui-switch">
+								<div class="mui-switch-handle"></div>
+							</div>
+						</li>
+					</ul>-->
+				</div>
+			</div>
+			<div class="list-top" style="display: none;">
+				<div class="list-item">
+					<ul class="mui-table-view list-top">
+						<li class="mui-table-view-cell list-size-style">
+							<img src="../../img/personicon.png" class="list-icon-left icon-stylec" />个人资料
+							<span class="mui-navigate-right list-item-right"></span>
+						</li>
+						<li class="mui-table-view-cell list-size-style">
+							<img src="../../img/changemm.png" class="list-icon-left icon-styled" />密码修改
+							<span class="mui-navigate-right list-item-right"></span>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="list-top">
+				<div class="exit-all">
+					<div class="exit-btn" id="quit">退出登录</div>
+				</div>
+			</div>
+		</script>
+		<!--模板-->
+		<script type="text/javascript" src="../js/managecenter/managecenter.js"></script>
+	</body>
+	<script src="../../js/mui.min.js"></script>
+	<script src="../../common/mui.zoom.js"></script>
+	<script src="../../common/mui.previewimage.js"></script>
+	<script src="../../common/util.js"></script>
+	<script type="text/javascript" src="../../common/html2canvas.min.js"></script>
+	<!-- 将canvas图片保存成图片 -->
+	<script src="../../common/canvas2image.js"></script>
+	<script src="../../common/base64.js"></script>
+	<script type="text/javascript" src="../../common/immersed.js" ></script>
+	<script type="text/javascript" src="../../common/levitated.js" ></script>
+	<script>
+		(function($, owner) {
+		//将BASE 64保存为图片文件
+			owner.baseImgFile = function(uid, base64, quality, callback) {
+		        quality = quality || 10;
+		        callback = callback || $.noop;
+		        var bitmap = new plus.nativeObj.Bitmap();
+		        // 从本地加载Bitmap图片
+		        bitmap.loadBase64Data(base64, function() {
+		            //    console.log('加载图片成功');
+		            bitmap.save("_doc/" + uid + ".jpg", {
+		                overwrite: true,
+		                quality: quality
+		            }, function(i) {
+		                callback(i);
+		                //    console.log('保存图片成功：'+JSON.stringify(i));
+		            }, function(e) {
+		                console.log('保存图片失败：' + JSON.stringify(e));
+		            });
+		        }, function(e) {
+		            console.log('加载图片失败：' + JSON.stringify(e));
+		        });
+		    }
+		}(mui, window.app = {}));
+	</script>
+	<script>
+		mui.init({
+			swipeBack: true //启用右滑关闭功能
+		});
+		
+		$('html').on('click','#asdsa',function(){
+			var tourl = '../shortcut/shortcut.html';
+			mui.openWindow({
+			    url:tourl,
+			    id:tourl,
+			    styles:{
+			      top: '0',//新页面顶部位置
+			      bottom:'0',//新页面底部位置
+			    },
+			    extras:{
+			    	license_id:'ff80808153a906270153ab6ea4e01a8c'
+			    	
+			      //自定义扩展参数，可以用来处理页面间传值
+			    },
+			    createNew:false,//是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+			    show:{
+			      autoShow:true,//页面loaded事件发生后自动显示，默认为true
+			      aniShow:'slide-in-right',//页面显示动画，默认为”slide-in-right“；
+			      duration:100//页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
+			    }
+			})
+		})
+		
+//		$('html').on('click','#screen',function(){
+//			$(".mypop").hide();
+//			setTimeout(function() {
+//				save();
+//			}, 500);
+//		})
+	/*	plus.push.addEventListener('click', function(msg) {
+			if(plus.os.name == "iOS") {
+				var detailUrl = "/Mobile/Event/preview.html?url_crc="+msg.payload.url_crc;
+				alert(detailUrl);
+				window.location.href = detailUrl;
+			}else{
+				alert(msg);
+			}
+		});*/
+		
+		
+//		个推，不知道怎么用
+//		document.addEventListener( "plusready", function(){
+//			console.log();
+//			
+//		    message = document.getElementById("message");
+//		    // 监听点击消息事件
+//		    plus.push.addEventListener("click", function (msg) {
+//	            // 判断是从本地创建还是离线推送的消息
+//	            alert("点击处理消息 " + JSON.stringify(msg));
+//	        }, false);
+//		    
+//		    getPushInfo();
+//		    
+//		    // 监听在线消息事件
+//		    plus.push.addEventListener( "receive", function( msg ) {
+//		        if ( msg.aps ) {  // Apple APNS message
+//		        	alert("接收到在线APNS消息");
+//		        } else {
+//		        	alert("接收到在线透传消息");
+//		        }
+//		        logoutPushMsg( msg );
+//		    }, false );
+//		}, false );
+//		
+//		
+//		
+//		function getPushInfo(){
+//			var info = plus.push.getClientInfo();
+//			console.log('1212推送');
+//		}
+		
+		//	switch切换
+		
+		$("html").on("click",'#mySwitch',function(event){
+			var isActive = $(this).hasClass("mui-active");
+			console.log(isActive);
+			if(isActive){
+				$(this).removeClass('mui-active');
+				$('.transit').fadeOut(1000);
+				localStorage.setItem('print','false');
+			}else{
+				$(this).addClass('mui-active');
+				$('.transit').fadeIn(1000);
+				localStorage.setItem('print','true');
+			}
+			event.stopPropagation();
+		})
+		$('html').on('click','.qieh',function(){
+			var tourl = '../shop/shoplist.html';
+			mui.openWindow({
+			    url:tourl,
+			    id:tourl,
+			    styles:{
+			      top: '0',//新页面顶部位置
+			      bottom:'0',//新页面底部位置
+			    },
+			    extras:{
+			    	license_id:'ff80808153a906270153ab6ea4e01a8c'
+			    	
+			      //自定义扩展参数，可以用来处理页面间传值
+			    },
+			    createNew:false,//是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+			    show:{
+			      autoShow:true,//页面loaded事件发生后自动显示，默认为true
+			      aniShow:'slide-in-right',//页面显示动画，默认为”slide-in-right“；
+			      duration:100//页面动画持续时间，Android平台默认100毫秒，iOS平台默认200毫秒；
+			    }
+			})
+		})
+	</script>
+	<script>
+		mui.previewImage();
+	</script>
+</html>

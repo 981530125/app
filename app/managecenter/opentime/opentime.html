@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>营业时间</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../../css/mui.min.css" />
+		<script type="text/javascript" src="../../../common/rem.js"></script>
+		<link rel="stylesheet" href="../../../css/opentime.css" />
+		<link rel="stylesheet" href="../../../common/css/footer.css" />
+		<script type="text/javascript" src="../../../js/jquery-1.11.0.min.js"></script>
+		<link rel="stylesheet" href="../../../css/mui.picker.min.css" />
+		<script src="../../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../../common/common.js"></script>
+		<script src="../../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../../js/mui.picker.min.js"></script>
+		<script type="text/javascript" src="../../js/managecenter/opentime.js"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#2ca5db;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<a href="#" class="mui-icon mui-pull-right finished" style="color: #fff;font-size: 14px;height: 44px;line-height: 44px;padding-top: 0px;padding-bottom: 0px;">完成</a>
+			<h1 class="mui-title" style="color: #fff;font-weight: bold;">营业时间</h1>
+		</header>
+		<div class="mui-content" >
+			<form id="time-list">
+				
+			</form>
+		</div>
+	</body>
+	<script id="time-template" type="text/x-handlebars-template">
+		{{#each this}}
+		<div class="open-item">
+			<span>周{{#if_eq day_of_week '1'}}一{{/if_eq}}
+			{{#if_eq day_of_week '2'}}二{{/if_eq}}
+			{{#if_eq day_of_week '3'}}三{{/if_eq}}
+			{{#if_eq day_of_week '4'}}四{{/if_eq}}
+			{{#if_eq day_of_week '5'}}五{{/if_eq}}
+			{{#if_eq day_of_week '6'}}六{{/if_eq}}
+			{{#if_eq day_of_week '7'}}日{{/if_eq}}</span>
+			<input type="hidden" name="day_of_week" value="{{day_of_week}}" />
+			<div class="time-item">
+				<div class="time select-time">
+					<span class="time-content">{{open_time}}</span>
+					<input type="hidden" value="{{open_time}}" class="inputtime-content" name="open_time"/>
+				</div>
+				<div style="display: inline-block;margin: 0 0.4rem;">------</div>
+				<div class="time select-time">
+					<span class="time-content">{{close_time}}</span>
+					<input type="hidden" value="{{close_time}}" class="inputtime-content" name="close_time"/>
+				</div>
+			</div>
+		</div>
+		{{/each}}
+	</script>
+</html>

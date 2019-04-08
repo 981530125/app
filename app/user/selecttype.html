@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>类型选择</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<script type="text/javascript" src="../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="../../common/rem.js"></script>
+		<script src="../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../common/common.js"></script>
+		<link rel="stylesheet" href="../../css/selecttype.css" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#2ca5db;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 class="mui-title" style="color: #fff;font-weight: bold;">选择登录</h1>
+		</header>
+		<!--遮罩层-->
+		<div class="myselect">
+			<div class="mui-backdrop" style="display: block;" id="my-mask"></div>
+			<div class="small-content">
+				<div class="btn-close">X</div>
+				<div style="font-size: 16px;margin-top: 10px;">
+					<h2 class="small-title">您还未注册或绑定，请选择</h2>
+					<div>
+						<div class="registe">注册</div>
+						<div class="binding">绑定</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="mui-content">
+			<h1 style="font-size: 24px;font-weight: 100;text-align: center;margin-top: 0.8rem;">请选择当前你进入的身份</h1>
+			<!--<h2>之后你可以在我的-设置中切换</h2>-->
+			<div style="margin-top: 2rem;">
+				<div class="btn-style" data-type='user'>
+					<div>
+						<span style="color: #fff;">选择会员身份</span>
+					</div>
+				</div>
+				<div class="btn-style" data-type='shop'>
+					<div>
+						<span style="color: #fff;">选择企业身份</span>
+					</div>
+				</div>
+				<div class="btn-style" data-type='admin'>
+					<div>
+						<span style="color: #fff;">选择管理身份</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../js/user/selecttype.js"></script>
+	</body>
+</html>

@@ -1,0 +1,135 @@
+body {
+	margin: 0;
+	background-color: white;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+hr {
+	margin-top: 0;
+	border: #E0E0E0 0.5px solid;
+}
+
+.jianguan {
+	display: inline-block;
+	border-bottom: 2px solid #209FD8;
+	color: #209FD8;
+}
+
+.present {
+	font-size: 0.9rem;
+	margin: 0 2px;
+}
+
+.active {
+	background: #209FD8;
+	padding: 10px;
+	height: 80px;
+}
+
+.tupian {
+	text-align: center;
+	margin-bottom: -100px;
+}
+
+.tuer {
+	padding-left: 300px;
+	padding-top: 40px;
+}
+
+.shangjianame {
+	color: black;
+	font-size: 1.1rem;
+	text-align: center;
+	margin-top: 30px;
+	margin-bottom: 0;
+}
+
+.youhui {
+	margin: 0;
+	text-align: center;
+	font-size: 0.8rem;
+	color: #28A3DA;
+}
+
+.juzhong {
+	text-align: center;
+	margin-bottom: 0;
+}
+
+li {
+	list-style: none;
+	display: inline-block;
+}
+
+.kuang {
+	padding: 0 0 0 0px;
+	border-bottom: 1px solid #E0E0E0;
+	padding-bottom: 5px;
+	width: 100%;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.shangjia {
+	vertical-align: middle;
+	width: 43%;
+	display: inline-block;
+	margin-bottom: 10px;
+	margin-top: 10px;
+	text-align: left;
+	padding-left: 3px;
+	color: #E0E0E0;
+}
+
+.mingzi {
+	vertical-align: middle;
+	width: 55%;
+	margin: 0;
+	display: inline-block;
+	text-align: right;
+	font-size: 0.9rem;
+}
+
+.last {
+	border-top: 10px solid #E0E0E0;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	text-align: center;
+}
+
+.kuangz {
+	padding: 0 0 0 0px;
+	border-bottom: 1px solid #E0E0E0;
+	padding-bottom: 5px;
+	width: 100%;
+	vertical-align: middle;
+	display: inline-block;
+	background: white;
+	border: none;
+	font-weight: bold;
+	padding: 0;
+	font-size: 1rem;
+}
+
+.jubao {
+	color: white;
+	background: #ffc000;
+	border: none;
+	padding: 10px 145px;
+	font-size: 1rem;
+	font-weight: bold;
+}
+.p {
+	text-align: center;
+	margin-bottom: -100px;
+	padding-top: 10px;
+}
+
+.p2 {
+	padding-left: 300px;
+	padding-top: 60px;
+}

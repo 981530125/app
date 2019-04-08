@@ -1,0 +1,56 @@
+/*选项卡*/
+.all-item{
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	display: flex;
+}
+.all-item li{
+	list-style-type: none;
+	text-align: center;
+	height: 40px;
+	line-height: 40px;
+	font-size: 16px;
+}
+.all-active{
+	position: relative;
+	font-weight: bold;
+	color: #209fd8;
+}
+.all-active:after{
+	content: '';
+	width: 32px;
+	height: 2px;
+	position: absolute;
+	bottom: 0;
+	left: calc(50% - 16px);
+	background-color: #209fd8;
+}
+.search-icon{
+	width: 0.35rem;
+	height: 0.36rem;
+}
+.bad-rightstyle{
+	width: 25%;
+	background-color: #f0f0f0;
+	display: inline-block;
+	font-size: 13px;
+	height: 0.68rem;
+	line-height: 0.68rem;
+	text-indent: 0.25rem;
+	margin-left: 5%;
+	position: relative;
+}
+.selectname{
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	text-align: left;
+}
+.upimg{
+	width: 0.17rem;
+	height: 0.09rem;
+	position: absolute;
+	top: calc(50% - 0.045rem);
+	right: 0.22rem;
+}

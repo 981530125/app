@@ -1,0 +1,13 @@
+body{
+	margin: 0;
+}.div1{
+	padding: 10px;
+	vertical-align: middle;
+	padding-top: 0;
+}
+.span1{
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 120px;
+	/*color: white;*/
+}

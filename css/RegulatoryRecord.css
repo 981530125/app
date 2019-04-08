@@ -1,0 +1,84 @@
+body {
+	margin: 0;
+	background: white;
+}
+
+.active {
+	background: #209FD8;
+	padding: 0;
+	height: 80px;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+.publicONE {
+	margin-right: 3px;
+}
+
+.jianguan {
+	display: inline-block;
+	border-bottom: 2px solid #209FD8;
+	color: #209FD8;
+}
+
+.favourable {
+	margin-top: 0;
+	margin-bottom: 0;
+	color: #51aedd;
+	text-align: center;
+	font-size: 0.8rem;
+}
+
+.yincang{
+	display: none;
+	padding: 0;
+	margin: 0;
+	border: 0.5px solid #E0E0E0;
+}
+
+.name {
+	color: black;
+	font-size: 1.1rem;
+	text-align: center;
+	margin-top: 30px;
+	margin-bottom: 0;
+}
+
+.eligibility {
+	color: #209FD8;
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.box {
+	display: inline-block;
+/*	padding-left: 5px;*/
+	vertical-align: middle;
+	font-size: 0.9rem;
+}
+
+.xiangqing {
+	display: inline-block;
+	margin-left: 125px;
+	font-size: 0.8rem;
+}
+
+.gongong {
+	display: inline-block;
+	margin: 0;
+}
+
+
+.p {
+	text-align: center;
+	margin-bottom: -100px;
+	padding-top: 10px;
+}
+
+.p2 {
+	padding-left: 300px;
+	padding-top: 60px;
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>审核中心</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../../css/mui.min.css" />
+		<script type="text/javascript" src="../../../common/rem.js"></script>
+		<script src="../../../js/mui.min.js"></script>
+		<link rel="stylesheet" href="../../../css/checkcenter.css" />
+		<link rel="stylesheet" href="../../../common/css/mui.picker.css" />
+		<link rel="stylesheet" href="../../../common/css/mui.poppicker.css" />
+		<link rel="stylesheet" href="../../../css/goodscenter.css" />
+		<script type="text/javascript" src="../../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../../common/common.js"></script>
+		<script src="../../../common/mui.picker.js"></script>
+		<script src="../../../common/mui.poppicker.js"></script>
+		<script type="text/javascript" src="../../js/managecenter/checkcenter.js"></script>	
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#2ca5db;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 class="mui-title" style="color: #fff;font-weight: bold;">菜品审核</h1>
+			<div class="mui-pull-right" style="width: 72px;" id='showUserPicker'>
+				<a href="#" class="mui-icon mui-pull-right mui-icon mui-icon-arrowdown" style="color: #D1F0FD"></a>
+				<a href="#" class="mui-title" id="userResult" style="font-size: 14px;color: #D1F0FD;left: auto;">全部</a>
+			</div>
+		</header>
+		<!--遮罩层-->
+		<div class="mui-backdrop" style="display: none;" id="my-mask">
+			<div class="mui-loading" style="position: absolute;top: calc(50% - 12px);left: calc(50% - 12px);">
+				<div class="mui-spinner">
+				</div>
+			</div>
+		</div>
+		<div class="mui-content" id="pullrefresh" style="background-color: #fff;">
+			<div class="menulist f14" id="wait" style="width: 100%;">
+				<form id="change-form">
+					<div style="display: flex;position: fixed;top: 44px;z-index: 100;width: 100%;background-color: #fff;border-bottom:1px solid #ccc">
+						<div style="flex: 4;">
+							<div style="position: relative;padding: .2rem .32rem;">
+								<input type="text" value="" class="search-key" name="searchkey" style="width: 100%;height: 0.7rem;vertical-align: top;border: 1px solid #ccc;font-size: 16px;">
+								<div class="search-btn">
+									<img src="../../../img/search.png" class="search-icon" />
+								</div>
+							</div>
+						</div>
+						<div style="flex: 1.3;">
+							<div style="border:1px solid #ccc;margin-top: 0.2rem;width: 1.5rem;height: 0.7rem;position: relative;">
+								<select name="is_release" id="myselect" style="border:1px solid #ccc;line-height: 0.65rem;margin: 0;padding: 0;text-indent:15px;vertical-align: top;">
+									<option value="">全部</option>
+									<option value ="0">下架</option>
+									<option value ="1">上架</option>
+								</select>
+								<a class="mui-icon mui-icon-arrowdown" style="position: absolute;top: 4px;right: 2px;color: #ccc;"></a>
+							</div>
+						</div>
+					</div>
+					<div id="goods">
+						
+					</div>
+				</form>
+			</div>
+		</div>
+		<!--插入模板-->
+		<script id="goods-template" type="text/x-handlebars-template">
+			<ul class="mui-table-view mui-table-view-chevron" style="background-color: #ebebeb;margin-top: 1.15rem;">
+				{{#each this}}
+				<div class="mui-card add-card changefood" data-info="{{id}}" style="margin:0;margin-bottom: 10px;box-shadow: 0 0 1px #ccc">
+					<!--<div class="mui-card-header mui-card-media" style="height:40vw;background-image:url(../../img/defaultt.png);">-->
+					<div class="mui-card-header mui-card-media" style="height:40vw;background-image:url('{{#if_eq images null}}../../../img/defaultt.png{{else}}{{#each images}}{{#if_eq @index '0'}}{{#if_eq access_path null}}{{../../rooturl}}{{else}}{{../../rooturl}}{{access_path}}{{/if_eq}}{{/if_eq}}{{/each}}{{/if_eq}}');">	
+					</div>
+					<div class="mui-card-content">
+						<div class="mui-card-content-inner">
+							<p style="color: #333333;font-size: 14px;">{{name}}</p>
+							<p style="color: #333333;font-size: 14px;">{{corporation_name}}</p>
+							<p class="mui-ellipsis">{{introduction}}</p>
+							<p style="color: #ff5339;font-size: 16px;">￥{{price}}</p>
+						</div>
+					</div>
+					<div class="mui-card-footer">
+						{{#if_eq is_release '1'}}
+						<p style="color: #007AFF;margin-bottom: 0;">上架</p>
+						{{else}}
+						<p style="color: #ff5339;margin-bottom: 0;">下架</p>
+						{{/if_eq}}
+						{{#if_eq review_status '0'}}
+						<p style="color: #000;margin-bottom: 0;">待审核</p>
+						{{/if_eq}}
+						{{#if_eq review_status '1'}}
+						<p style="color: #000;margin-bottom: 0;">已通过</p>
+						{{/if_eq}}
+						{{#if_eq review_status '2'}}
+						<p style="color: #000;margin-bottom: 0;">未通过</p>
+						{{/if_eq}}
+					</div>
+				</div>
+				{{/each}}
+			</ul>
+		</script>
+	</body>
+</html>

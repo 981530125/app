@@ -1,0 +1,97 @@
+.down-icon{
+	position: absolute;
+	top: 50%;
+	right: 15px;
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+.addicon-style{
+	background: url('../img/addicon.png') no-repeat 0.33rem 0.33rem;
+	background-size: 0.99rem;
+	display: inline-block;
+	margin: 0 auto;
+	border: none;
+	max-width:1.65rem!important;
+	width: 1.65rem!important;;
+	padding-left:0;
+	height: 1.65rem!important;;
+}
+.title-item{
+	width: 100%;
+	text-align: left;
+	font-weight: bold;
+	color: #000000;
+	font-size: 16px;
+	margin-bottom: 0.2rem;
+}
+.content-item{
+	width: 100%;
+	overflow-x:hidden;
+	font-size: 14px;
+	color: #999999;
+	word-break: break-word;
+	word-wrap: break-word;
+}
+.follow-timeitem{
+	width: 100%;
+	text-align: left;
+	color: #ccc;
+	font-size: 14px;
+}
+.follow-content{
+	width: 100%;
+	margin-top: 0.2rem;
+	overflow-x:hidden;
+	font-size: 14px;
+	color: #333333;
+	word-break: break-word;
+	word-wrap: break-word;
+}
+.follow-name{
+	width: 100%;
+	text-align: left;
+	font-weight: bold;
+	color: #000000;
+	font-size: 16px;
+}
+.follow-item{
+	width: 7.02rem;
+	margin: 0 auto;
+	margin-bottom: 0.6rem;
+}
+.item-title{
+	width: 100%;
+	background-color: #e0e0e0;
+	height: 0.88rem;
+	line-height: 0.88rem;
+	color: #333333;
+	font-size: 14px;
+	text-indent: 0.32rem;
+}
+.textarea-item{
+	width: 100%;
+	margin-top: 0.2rem;
+	text-align: center;
+	margin-bottom: 0.6rem;
+}
+.text-style{
+	width: 7.02rem;
+	margin: 0 auto;
+	display: inline-block;
+	min-height: 3rem;
+}
+.deal-btn{
+	width: 7.02rem;
+	height: 0.88rem;
+	line-break: 0.88rem;
+	height: 0.88rem;
+	margin: 0 auto;
+	text-align: center;
+	margin-top: 0.32rem;
+}
+.deal-icon{
+	width: 0.34rem;
+	height: 0.39rem;
+	vertical-align: top;
+	margin-top: 0.245rem;
+}

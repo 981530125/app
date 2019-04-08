@@ -1,0 +1,203 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>首页</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/RegulatoryRecord.css" />
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript">
+			document.addEventListener('plusready', function() {
+				$('#jian').addClass('jianguan');
+				$('.a').click(function() {
+					$(this).addClass('jianguan').siblings().removeClass('jianguan');
+				})
+				$('.mui-table-view-cell').click(function() {
+					$('.yincang').show();
+					$(this).siblings().children('.yincang').hide();
+				})
+				$('#assignment').click(function() {
+
+				})
+			});
+		</script>
+	</head>
+
+	<body>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<div class="active">
+			<header class="mui-bar mui-bar-nav" style="box-shadow: none;background: none;padding-top: 10px;position: static;">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;margin-right: 230px;padding-top: 0;"></a>
+				<a href="#"><img src="img/route.png" style="margin-right: 3px;" width="16px" /></a>
+				<a href="#"><img src="img/phone2.png" style="margin-right: 5px;" width="20px" /></a>
+				<a href="#"><img src="img/fenxiang.png" style="margin-right: 3px;" width="20px" /></a>
+				<p class="p"><img src="img/healthfood.png" width="70px" /></p>
+				<p class="p2"><img src="img/shoucang.png" width="30px" /></p>
+
+			</header>
+		</div>
+		<p class="name">花季语寿司(新城店)</p>
+		<p class="favourable">满30减5,满88减10</p>
+		<p style="text-align: center;margin-bottom: 0;">
+			<a href="ShopPage.html" class="a">点菜</a>
+			<a href="#" class="a" id="jian" style="margin: 0 80px;">监管任务</a>
+			<a href="MerchantInformation.html" class="a">商家</a>
+		</p>
+		
+		<ul class="mui-table-view">
+			
+			<li class="mui-table-view-cell">
+				<a class="mui-navigate-right" style="font-size: 14px;padding-left: 10px;">
+					<div class="box" style="margin-right: 100px;">
+						<p class="gongong">2018上半年全市质量检查</p><br />
+						<p class="gongong">
+							<span class="eligibility">检验合格</span>
+							<span style="color: #E0E0E0;">2018-08-01</span>
+						</p>
+					</div>
+					查看详情
+				</a>
+				<!--<hr />-->
+				<div class="yincang">
+					<a style="font-size: 14px;" id="assignment" href="Information.html" target="_parent">
+						<div class="box" style="margin-right: 100px;">
+							<p class="gongong">2018上半年全市质量检查</p><br />
+							<p class="gongong">
+								<span class="eligibility">检验合格</span>
+								<span style="color: #E0E0E0;">2018-08-01</span>
+							</p>
+						</div>
+						查看详情
+					</a>
+					<hr style="margin: 0;border: 0.5px solid #E0E0E0;" />
+					<a style="font-size: 14px;" id="assignment" href="#" target="_parent">
+						<div class="box" style="margin-right: 100px;">
+							<p class="gongong">2018上半年全市质量检查</p><br />
+							<p class="gongong">
+								<span class="eligibility">检验合格</span>
+								<span style="color: #E0E0E0;">2018-08-01</span>
+							</p>
+						</div>
+						查看详情
+					</a>
+				</div>
+			</li>
+			
+			<li class="mui-table-view-cell">
+				<a class="mui-navigate-right" style="font-size: 14px;padding-left: 10px;">
+					<div class="box" style="margin-right: 100px;">
+						<p class="gongong">2018上半年全市质量检查</p><br />
+						<p class="gongong">
+							<span class="eligibility">检验合格</span>
+							<span style="color: #E0E0E0;">2018-08-01</span>
+						</p>
+					</div>
+					查看详情
+				</a>
+				<div class="yincang">
+					<a style="font-size: 14px;" href="#" id="assignment" target="_parent">
+						<div class="box" style="margin-right: 100px;">
+							<p class="gongong">2018上半年全市质量检查</p><br />
+							<p class="gongong">
+								<span class="eligibility">检验合格</span>
+								<span style="color: #E0E0E0;">2018-08-01</span>
+							</p>
+						</div>
+						查看详情
+					</a>
+					<hr style="margin: 0;border: 0.5px solid #E0E0E0;" />
+					<a style="font-size: 14px;" href="#" id="assignment" target="_parent">
+						<div class="box" style="margin-right: 100px;">
+							<p class="gongong">2018上半年全市质量检查</p><br />
+							<p class="gongong">
+								<span class="eligibility">检验合格</span>
+								<span style="color: #E0E0E0;">2018-08-01</span>
+							</p>
+						</div>
+						查看详情
+					</a>
+				</div>
+			</li>
+
+			<li class="mui-table-view-cell">
+				<a class="mui-navigate-right" style="font-size: 14px;padding-left: 10px;">
+					<div class="box" style="margin-right: 100px;">
+						<p class="gongong">2018上半年全市质量检查</p><br />
+						<p class="gongong">
+							<span class="eligibility">检验合格</span>
+							<span style="color: #E0E0E0;">2018-08-01</span>
+						</p>
+					</div>
+					查看详情
+				</a>
+				<div class="yincang">
+					<a style="font-size: 14px;" href="#" id="assignment" target="_parent">
+						<div class="box" style="margin-right: 100px;">
+							<p class="gongong">2018上半年全市质量检查</p><br />
+							<p class="gongong">
+								<span class="eligibility">检验合格</span>
+								<span style="color: #E0E0E0;">2018-08-01</span>
+							</p>
+						</div>
+						查看详情
+					</a>
+					<hr style="margin: 0;border: 0.5px solid #E0E0E0;" />
+					<a style="font-size: 14px;" href="#" id="assignment" target="_parent">
+						<div class="box" style="margin-right: 100px;">
+							<p class="gongong">2018上半年全市质量检查</p><br />
+							<p class="gongong">
+								<span class="eligibility">检验合格</span>
+								<span style="color: #E0E0E0;">2018-08-01</span>
+							</p>
+						</div>
+						查看详情
+					</a>
+				</div>
+			</li>
+
+			<li class="mui-table-view-cell">
+				<a class="mui-navigate-right" style="font-size: 14px;padding-left: 10px;">
+					<div class="box" style="margin-right: 100px;">
+						<p class="gongong">2018上半年全市质量检查</p><br />
+						<p class="gongong">
+							<span class="eligibility">检验合格</span>
+							<span style="color: #E0E0E0;">2018-08-01</span>
+						</p>
+					</div>
+					查看详情
+				</a>
+				<div class="yincang">
+					<a style="font-size: 14px;" id href="#" id="assignment" target="_parent">
+						<div class="box" style="margin-right: 100px;">
+							<p class="gongong">2018上半年全市质量检查</p><br />
+							<p class="gongong">
+								<span class="eligibility">检验合格</span>
+								<span style="color: #E0E0E0;">2018-08-01</span>
+							</p>
+						</div>
+						查看详情
+					</a>
+					<hr style="margin: 0;border: 0.5px solid #E0E0E0;" />
+					<a style="font-size: 14px;" href="#" id="assignment" target="_parent">
+						<div class="box" style="margin-right: 100px;">
+							<p class="gongong">2018上半年全市质量检查</p><br />
+							<p class="gongong">
+								<span class="eligibility">检验合格</span>
+								<span style="color: #E0E0E0;">2018-08-01</span>
+							</p>
+						</div>
+						查看详情
+					</a>
+				</div>
+			</li>
+		</ul>
+	</body>
+
+</html>

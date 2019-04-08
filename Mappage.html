@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>首页</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&&key=TDPBZ-RMX6U-YLYVD-2CA46-AQMVF-5QFGR&libraries=convertor"></script>
+		<link rel="stylesheet" href="css/mappage.css" />
+		<link rel="stylesheet" href="common/css/footer.css" />
+		<script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.7/jquery.min.js"></script>
+		<script type="text/javascript" src="common/common.js"></script>
+		<script src="js/handlebars.js"></script>
+	</head>
+	<script type="text/javascript" src="js/mui.min.js"></script>
+
+	<body>
+		<div id="content" style="position: fixed;bottom: 0.98rem;"></div>
+		<div style="position: fixed;top: 0.58rem;left:calc(50% - 3.51rem);width: 7.02rem;height: 0.98rem;background-color: #fff;">
+			<div class="top-search" style="vertical-align: middle;z-index: 5;">
+				<input type="text" placeholder="输入关键词进行搜索" id="keyword" size="27" class="search-input" disabled="disabled" />
+				<button class="search">
+					<img src="img/search.png" alt="" width="15px " />
+				</button>
+			</div>
+			<!--<div style="position: fixed;top: 80%;">
+				<a id="dingwei" href="#"><img src="img/position.png" width="50" /></a>
+			</div>-->
+		</div>
+		<div class="mui-backdrop my-mui-mask" id="my-mui-mask"></div>
+		<div id = 'mask-pop'></div>
+		<div class="footer">
+			<div class="footer-tab">
+				<a class="footer-tabitem" href="javascript:void(0);" onclick="toindex()">
+					<img src="img/home.png" class="footer-tabimga" />
+					<p class="footer-tabtitle footer-tab-active">首页</p>
+				</a>
+			</div>
+			<div class="footer-tab">
+				<a class="footer-tabitem" href="Shoplist.html">
+					<img src="img/nearby.png" class="footer-tabimgb" />
+					<p class="footer-tabtitle">附近</p>
+				</a>
+			</div>
+			<div class="footer-tab">
+				<a class="footer-tabitem" href="javascript:void(0);" onclick="skipbottom();">
+					<img src="img/mine.png" class="footer-tabimgc" />
+					<p class="footer-tabtitle">我的</p>
+				</a>
+			</div>
+		</div>
+		<script id="shopinfo" type="text/x-handlebars-template">
+			<div class="pop">
+				<div style="width: 7.02rem;margin: 0 auto;">
+					<div style="width: 100%;padding: 0.32rem 0;">
+						<img src="img/healthfood.png" style="width: 1.58rem;height: 1.35rem;" />
+						<div style="display: inline-block;width: 5rem;">
+							<p class="shopname">{{corporation_name}}</p>
+							<p class="address">
+								<span class="interval">{{decimal distance 2}}m</span>
+								<span class="mui-ellipsis shop-adress">{{corporation_address}}</span>
+							</p>
+							<p class="favourable">满30减5,满88减10</p>
+						</div>
+					</div>
+					<div style="border-top: 1px solid #e0e0e0;border-bottom: 1px solid #e0e0e0;padding: 0.32rem 0;">
+						<div style="font-size: 11px;">
+							<p style="margin: 0;font-size: 12px;color: #999999;">营业时间</p>
+							<span style="display: inline-block;margin-right: 20px;color: #333333;font-size: 11px;">周一至周五 9:00-21:00</span><span>周六至周日 10:00-22:30</span>
+						</div>
+					</div>
+					<div class="select">
+						<a style="text-decoration: none;padding: 5px 0;" href="javascript:void(0);" onclick="lookdetail({{id}})">
+							<img style="vertical-align: middle;" src="img/details.png" width="12" />
+							<span class="lookup">查看详情</span>
+						</a>
+						<a class="record-style" href="javascript:void(0);" onclick="writerecords({{id}})">
+							<img style="vertical-align: top;height: 0.24rem;width: 0.24rem;margin-top: 0.24rem;" src="img/record.png" />
+							<span class="lookup">监管记录</span>
+						</a>
+						<a class="way-style" id="way-route" href="javascript:void(0);" onclick="calcPlan({{lat}},{{lng}})">
+							<img style="vertical-align: top;height: 0.24rem;width: 0.2rem;margin-top: 0.24rem;" src="img/route.png"/>
+							<span class="lookup" style="color: #fff;">导航</span>
+							<input type="hidden" value="{{lat}}" id="way-lat"/>
+							<input type="hidden" value="{{lng}}" id="way-lng"/>
+						</a>
+					</div>
+				</div>
+			</div>
+		</script>
+		<script type="text/javascript">
+			mui.init();
+			//			var cityLocation, map, marker=null;
+			//			function coordinate(){
+			//				geolocation.getLocation(sucCallback, showErr, options);
+			//			}
+		</script>
+		<!--<script type="text/javascript" src="js/new_file.js"></script>-->
+
+		<script type="text/javascript" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
+		<!-- 腾讯获取坐标需要引入的 -->
+		<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=TDPBZ-RMX6U-YLYVD-2CA46-AQMVF-5QFGR"></script>
+		<script type="text/javascript" src="js/getmap.js"></script>
+		<script type="text/javascript" src="common/rem.js"></script>
+	</body>
+
+</html>

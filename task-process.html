@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>我的任务</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<script type="text/javascript" src="common/rem.js"></script>
+		<script src="js/mui.min.js"></script>
+		<link rel="stylesheet" href="css/managetask.css" />
+		<link rel="stylesheet" href="common/css/mui.picker.css" />
+		<link rel="stylesheet" href="common/css/mui.poppicker.css" />
+		<link rel="stylesheet" href="common/css/footer.css" />
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+		<script src="js/handlebars.js"></script>
+		<script type="text/javascript" src="common/common.js"></script>
+		<script src="common/mui.picker.js"></script>
+		<script src="common/mui.poppicker.js"></script>
+		<script type="text/javascript" src="js/mytaskprocess.js"></script>	
+	</head>
+	<body>
+		<div class="mui-content" id="processrefresh">
+			<div class="menulist" style="width: 100%;">
+				<div class="mui-scroll" id="records">
+					<div style="width: 100%;padding: 2.5rem 0;background-color: #fff;">
+						<div class="mui-loading">
+							<div class="mui-spinner">
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--插入模板-->
+			</div>
+		</div>
+ <!--模板-->
+	<script id="process-template" type="text/x-handlebars-template">
+ 		<ul class="mui-table-view table-item-ul" id="OA_task_2">
+ 			{{#each data}}
+	        <li class="mui-table-view-cell mui-collapse">
+	            <a class="mui-navigate-right mui-slider-handle" href="#" style="font-size: 14px;color: #333333;">
+	            	<div style="display: inline-block;width: 70%;height: 100%;">
+	            		<div style="height: 22px;line-height: 22px;font-size: 14px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis">{{announcement.title}}</div>
+	            		<div style="color: #b2b2b2;font-size: 12px;height: 22px;line-height: 22px;">{{license.corp_name}}</div>
+	            		<div style="color: #b2b2b2;font-size: 12px;height: 22px;line-height: 22px;">{{license.residence}}</div>
+	            		<div style="color: #b2b2b2;font-size: 12px;height: 22px;line-height: 22px;">{{prettifyDate announcement.check_start_at 10}}~{{prettifyDate announcement.check_end_at 10}}</div>
+	            	</div>
+	            	<div style="display: inline-block;width: 30%;height: 44px;line-height: 44px;vertical-align: top;">
+	            		查看详情
+	            	</div>
+	            </a>
+	            {{#each investigate_record}}
+	            <div class="mui-collapse-content bordertop">
+	                <p onclick="getformdetail({{../id}},{{id}})">{{name}}</p>
+	            </div>
+	            {{else}}
+	            <div class="mui-collapse-content bordertop">
+	                <p>暂无记录</p>
+	            </div>
+	            {{/each}}
+	            <div class="mui-collapse-content bordertop" id="userResult" ontouchstart="addform({{id}},'{{license.residence}}','{{license.corp_name}}')">
+	                <p class="addform"><span class="mui-icon mui-icon-plus"></span>添加</p>
+	            </div>
+	            <div class="mui-slider-left mui-disabled">
+					<a class="mui-btn mui-btn-red">查看</a>
+				</div>
+				<div class="mui-slider-right mui-disabled">
+					<a class="mui-btn mui-btn-red">删除</a>
+				</div>
+	        </li>
+	        {{else}}
+	        <div class="noneinfo">暂无任务</div>
+	        {{/each}}
+	   	</ul>
+	   	<script>
+	   		mui.init();
+			(function($) {
+				var btnArray = ['确认', '取消'];
+				//第二个demo，向左拖拽后显示操作图标，释放后自动触发的业务逻辑
+				$('#OA_task_2').on('slideleft', '.mui-table-view-cell', function(event) {
+					var elem = this;
+					mui.confirm('确认删除该条记录？', 'Hello MUI', btnArray, function(e) {
+						if (e.index == 0) {
+							elem.parentNode.removeChild(elem);
+						} else {
+							setTimeout(function() {
+								$.swipeoutClose(elem);
+							}, 0);
+						}
+					});
+				});
+				$('#OA_task_2').on('slideright', '.mui-table-view-cell', function(event) {
+					var elem = this;
+					mui.confirm('确认查看该条记录？', 'Hello MUI', btnArray, function(e) {
+						if (e.index == 0) {
+							elem.parentNode.removeChild(elem);
+						} else {
+							setTimeout(function() {
+								$.swipeoutClose(elem);
+							}, 0);
+						}
+					});
+				});
+			})(mui);
+	   	</script>
+ 	</script>
+	</body>
+</html>

@@ -1,0 +1,57 @@
+#aaa{
+	width: 7.02rem;
+	height: 1rem;
+	background-color: #007AFF;
+	color: #fff;
+	margin: 0 auto;
+	margin-top: 1rem;
+	display: block;
+	border-radius: 3px;
+}
+.submit-btn{
+	width: 7.02rem;
+	height: 1rem;
+	line-height: 1rem;
+	background-color: #FA0000;
+	font-size: 14px;
+	text-align: center;
+	color: #fff;
+	margin: 0 auto;
+	margin-top: 1rem;
+	border-radius: 3px;
+}
+.relay-btn{
+	width: 7.02rem;
+	height: 1rem;
+	line-height: 1rem;
+	background-color: #FA0000;
+	font-size: 14px;
+	text-align: center;
+	color: #fff;
+	margin: 0 auto;
+	margin-top: 1rem;
+	border-radius: 3px;
+}
+.search-btn{
+	width: 0.35rem;
+	height: 0.36rem;
+	position: absolute;
+	top: 0.52rem;
+	right: 0.6rem;
+}
+.searchkey{
+	font-size: 16px!important;
+	height: 0.6rem!important;
+	line-height: 0.6rem!important;
+	margin: 0!important;
+}
+.searchlist{
+	position: absolute;
+	top: 1.21rem;
+	margin: 0;
+	display: none;
+	width: calc(100% - 0.4rem);
+	border: 1px solid #ccc;
+	background-color: #fff;
+	z-index: 100;
+}

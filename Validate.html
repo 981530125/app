@@ -1,0 +1,203 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>首页</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<script type="text/javascript" src="common/rem.js"></script>
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="js/handlebars.js"></script>
+		<script type="text/javascript" src="common/common.js"></script>
+		<link rel="stylesheet" href="css/validate.css" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="box-shadow: none;background-color: #efeff4;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #000;"></a>
+		</header>
+		<div class="mui-content">
+			<form id="form1" style="padding: 0 0.24rem;">
+				<div class="mui-content">
+					<img class="icon" src="img/logo2.png" alt="" width="70px" />
+					<h3 style="margin-top: 0.7rem;">食安滨海</h3>
+					<div style="border-bottom: 1px solid #E0E0E0;margin-top: 0.5rem;">
+						<input type="text" id="mobile" class="importMobile" value="" placeholder="请输入手机号码" />
+					</div>
+					<div style="border-bottom: 1px solid #E0E0E0;text-align: left;display: flex;">
+						<input type="text" id="proving" placeholder="请输入验证码" value="" size="27" style="flex: 3;" class="importValidate" />
+						<button type="button" id="btn" value="发送验证码" style="flex: 1;margin:10px 0;" class="gain">发送验证码</button>
+					</div>
+				</div>
+				<div style="display: flex;justify-content: space-between;margin-top: 1rem;">
+					<div class="btn-slect" data-usertype="user">会员</div>
+					<div class="btn-slect" data-usertype="shop">商家</div>
+					<div class="btn-slect btn-active" data-usertype="admin">管理</div>
+				</div>
+				<input type="hidden" value="admin" name="userType" class="usertype" />
+				<input type="button" value="确认登录" class="btn-submit" style="width: 7.02rem;height: 0.88rem;border-radius: 0.88rem;background-color: #209FD8;color: #fff;margin-top: 1rem;" />
+			</form>
+			<p style="font-size: 14px;margin-top: 0.58rem;">温州经济技术开发区市场监督管理局</p>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui.plusReady(function() {
+				$('html').on('tap', '.btn-slect', function() {
+					for(var b = 0; b < $('.btn-slect').length; b++) {
+						$('.btn-slect').eq(b).removeClass('btn-active');
+					}
+					$(this).addClass('btn-active');
+					var usertype = $(this).attr('data-usertype');
+					$('.usertype').val(usertype);
+				})
+				var self = plus.webview.currentWebview();
+				//	    获取设备uuid和imei
+				var deviceModel = plus.device.model;
+				var clientId = plus.device.uuid;
+				var info = plus.push.getClientInfo();
+				window.notifyCid = info.clientid;
+				//倒计时
+				var countdown = 10;
+
+				function settime(val) {
+					if(countdown == 0) {
+						val.removeAttribute("disabled");
+						val.innerHTML = "获取验证码";
+						clearTimeout(time);
+						countdown = 10;
+						return false;
+					} else {
+						val.setAttribute("disabled", true);
+						val.innerHTML = "重新发送" + countdown + "s";
+						countdown--;
+					}
+					var time = setTimeout(function() {
+						settime(val)
+					}, 1000)
+				}
+				//						发送短信
+				var TEL_REGEXP = /^1([38]\d|5[0-35-9]|7[3678])\d{8}$/;
+				$('.gain').click(function() {
+					var phone = $('#mobile').val();
+					var usertype = $('.usertype').val();
+					if(phone == '' || $.trim(phone).length <= 0) {
+						mui.alert("请输入手机号");
+					} else if(!(TEL_REGEXP.test(phone))) {
+						mui.alert("请输入正确的手机号码")
+					} else {
+						settime(this);
+						var url = rooturl + "Api_apps/getSigninMobilecode";
+						$.ajax({
+							type: "post",
+							url: url,
+							data: {
+								mobile: phone,
+								userType: usertype,
+								clientType: clientType,
+								msgType: "message"
+							},
+							dataType: 'json',
+							async: true,
+							beforeSend: function(xhr) { //beforeSend定义全局变量
+								xhr.setRequestHeader("If-Modified-Since", "0"); //If-Modified-Since HTTP请求头标签,即比较浏览器缓存页面时间
+							},
+							success: function(res) {
+								mui.toast(res.message, {
+									duration: 'short',
+									type: 'div'
+								})
+							},
+							error: function(res) {
+								mui.toast(res.message, {
+									duration: 'long',
+									type: 'div'
+								})
+							}
+						});
+					}
+				})
+
+				//						短信登录
+
+				$('.btn-submit').click(function() {
+					var mobile = $('#mobile').val();
+					var proving = $('#proving').val();
+					var info = plus.push.getClientInfo();
+					var notifyCid = info.clientid;
+					var userType = $('.usertype').val();
+					if(mobile == '' || $.trim(mobile).length <= 0) {
+						mui.alert("请输入手机号");
+					} else if(!(TEL_REGEXP.test(mobile))) {
+						mui.alert("请输入正确的手机号");
+					} else if(proving == '' || $.trim(proving).length <= 0) {
+						mui.alert("请输入验证码");
+					} else {
+						var url = rooturl + 'Api_apps/signInByMobileCode';
+						$.ajax({
+							url: url,
+							data: {
+								mobile: mobile,
+								mobileCode: proving,
+								userType: userType,
+								clientId: clientId,
+								clientType: clientType
+							},
+							type: 'post',
+							dataType: 'json',
+							crossDomain: true,
+							beforeSend: function(xhr) { //beforeSend定义全局变量
+								xhr.setRequestHeader("If-Modified-Since", "0"); //If-Modified-Since HTTP请求头标签,即比较浏览器缓存页面时间
+							},
+							success: function(res) {
+								mui.toast(res.message, {
+									duration: 'long',
+									type: 'div'
+								})
+
+								var accessToken = res.data.accessToken;
+								localStorage.setItem('uuid', plus.device.uuid);
+								console.log(accessToken);
+								var id = res.data.id;
+								localStorage.setItem("userType", userType);
+								if(userType == 'user') {
+									localStorage.setItem("accessToken", accessToken);
+									localStorage.setItem("mobile", mobile);
+									localStorage.setItem('userid', id);
+									localStorage.setItem('userarea_id', area_id);
+								}
+								if(userType == 'admin') {
+									var area_id = res.data.role.area_id;
+									localStorage.setItem("adminaccessToken", accessToken);
+									localStorage.setItem("adminmobile", mobile);
+									localStorage.setItem('adminid', id);
+									localStorage.setItem('adminarea_id', area_id);
+								}
+								if(userType == 'shop') {
+									localStorage.setItem("shopaccessToken", accessToken);
+									localStorage.setItem("shopmobile", mobile);
+									localStorage.setItem("shopid", id);
+									localStorage.setItem('shoparea_id', area_id);
+								}
+								if(accessToken && accessToken.length > 0) {
+									var skipurl = 'app/frame/tab-webview-main.html';
+									console.log(skipurl);
+									location.href = skipurl;
+								}
+							},
+							error: function(res) {
+								mui.toast(res.message, {
+									duration: 'long',
+									type: 'div'
+								})
+							}
+						});
+					}
+				})
+			});
+		</script>
+	</body>
+
+</html>

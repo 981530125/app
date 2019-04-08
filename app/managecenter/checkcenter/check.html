@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>审核中心</title>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../../css/mui.min.css" />
+		<script type="text/javascript" src="../../../common/rem.js"></script>
+		<script src="../../../js/mui.min.js"></script>
+		<link rel="stylesheet" href="../../../common/css/mui.picker.css" />
+		<link rel="stylesheet" href="../../../common/css/mui.poppicker.css" />
+		<link rel="stylesheet" href="../../../css/check.css" />
+		<script type="text/javascript" src="../../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../../js/handlebars.js"></script>
+		<script type="text/javascript" src="../../../common/common.js"></script>
+		<script src="../../../common/mui.picker.js"></script>
+		<script src="../../../common/mui.poppicker.js"></script>
+		<script type="text/javascript" src="../../js/managecenter/check.js"></script>
+		
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-nav-bg" style="background-color:#2ca5db;box-shadow: none;">
+			<a id="icon-menu" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #fff;"></a>
+			<h1 class="mui-title" style="color: #fff;font-weight: bold;">审核中心</h1>
+		</header>
+		<div class="mui-content" style="padding-left: 0.32rem;padding-right: 0.32rem;">
+			<div id="refreshlist" class="mui-content mui-scroll-wrapper" style="margin-top: 0.15rem;padding-bottom: 2rem;">
+				<div class="mui-scroll">
+					<div class="list-wrapper" id="activityandgoods">
+											<!--模板-->
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--模板-->
+		<script id="activityandgoods-template" type="text/x-handlebars-template">
+			<div class="meun-item">
+				<p class="food food-btn" data-type="all" data-id="">菜品审核</p>
+				<div class="item-num">
+					<div class="item-type food-btn" data-type="wait" data-id="0">
+						<p class="num-title">待审核</p>
+						<p class="num-mix">{{goods.a}}</p>
+					</div>
+					<div class="item-type border-lr food-btn" data-type="pass" data-id="1">
+						<p class="num-title">已通过</p>
+						<p class="num-mix">{{goods.b}}</p>
+					</div>
+					<div class="item-type food-btn" data-type="nopass" data-id="2">
+						<p class="num-title">不通过</p>
+						<p class="num-mix">{{goods.c}}</p>
+					</div>
+				</div>
+			</div>
+			<div class="meun-item">
+				<p class="activity activity-btn" data-type="all" data-id="">活动审核</p>
+				<div class="item-num">
+					<div class="item-type activity-btn" data-type="wait" data-id="0">
+						<p class="num-title">待审核</p>
+						<p class="num-mix">{{activity.a}}</p>
+					</div>
+					<div class="item-type border-lr activity-btn" data-type="pass" data-id="1">
+						<p class="num-title">已通过</p>
+						<p class="num-mix">{{activity.b}}</p>
+					</div>
+					<div class="item-type activity-btn" data-type="nopass" data-id="2">
+						<p class="num-title">不通过</p>
+						<p class="num-mix">{{activity.c}}</p>
+					</div>
+				</div>
+			</div>
+		</script>
+		<script id="goods-template" type="text/x-handlebars-template">
+		</script>
+	</body>
+</html>

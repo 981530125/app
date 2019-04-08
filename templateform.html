@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<script type="text/javascript" src="common/rem.js"></script>
+		<link rel="stylesheet" href="css/template.css" />
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+		<script src="js/handlebars.js"></script>
+		<script type="text/javascript" src="common/common.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+		</script>
+	</head>
+	<body>
+		<div class="weui-cells weui-cells_after-title new-none-after">
+		    <div class="weui-cell new-cell">
+		      <div class="weui-cell__bd new-bd">
+		        <div class="table">
+		          <div class="ts title">食品通用检查项目（34项）</div>
+		          <div class="tr">
+		              <div class="thd" style="width: 10%;">检查项目</div>
+		              <div style="width: 90%">
+		                <div style='display: flex;height:100%;'>
+		                  <div class="thd" style="width: 10%;">序号</div>
+		                  <div class="thd" style="width: 60%;">检查内容</div>
+		                  <div class="thd" style="width: 10%;">评价</div>
+		                  <div class="thd" style="width: 20%;border-right: 0;">备注</div>
+		                </div>
+		              </div>
+		          </div>
+		          <div class="tr" wx:for="{{formlist}}">
+		              <div class="thd" style="width: 10%;">{{item.comment}}</div>
+		              <div style='width: 90%;height: 100%' >
+		                <div style='display: flex;' wx:for="{{item.childlist}}" wx:for-item="child">
+		                  <div class="thd" style="width: 10%;"><text style="{{child.is_important == 1? '': 'display:none'}}">*</text>{{child.index}}</div>
+		                  <div class="thd" style="width: 60%;">{{child.name}}</div>
+		                  <!-- <div class="thd" style="width: 10%;">{{child.child.chexkboxval == 1? '是': '否'}}</div> -->
+		                  <div class="thd" style="width: 10%;"><text wx:for="{{child.newcheck}}"  wx:for-item="checkboxnum" style="{{child.chexkboxval == checkboxnum.value? '':'display:none'}}">{{checkboxnum.name}}</text></div>
+		                  <div class="thd" style="width: 20%;border-right: 0;">{{child.note}}</div>
+		                </div>
+		              </div>
+		          </div>
+		        </div>
+		      </div>
+		    </div>
+		  </div>	
+	</body>
+</html>

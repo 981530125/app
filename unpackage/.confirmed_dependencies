@@ -1,0 +1,924 @@
+{
+	"home.html": {
+		"refer": [
+			"index.html",
+			"entry.html",
+			"retrieve.html"
+		],
+		"resources": []
+	},
+	"entry.html": {
+		"refer": [
+			"home.html",
+			"retrieve.html"
+		],
+		"resources": []
+	},
+	"retrieve.html": {
+		"refer": [
+			"entry.html",
+			"home.html"
+		],
+		"resources": []
+	},
+	"index.html": {
+		"refer": [
+			"home.html"
+		],
+		"resources": []
+	},
+	"HomePage.html": {
+		"resources": [
+			"Entry.html",
+			"signup.html"
+		],
+		"refer": [
+			"Entry.html",
+			"Retrieve.html",
+			"Register.html",
+			"signup.html",
+			"Validate.html",
+			"app/frame/tab-webview-main.html"
+		]
+	},
+	"Entry.html": {
+		"refer": [
+			"HomePage.html",
+			"RegulatoryRecord.html",
+			"Register.html",
+			"Shoplist.html",
+			"Retrieve.html",
+			"Mappage.html"
+		],
+		"resources": [
+			"img/logo2.png",
+			"css/entry.css",
+			"css/mui.min.css"
+		]
+	},
+	"ShopPage.html": {
+		"refer": [
+			"RegulatoryRecord.html",
+			"MerchantInformation.html",
+			"Shoplist.html",
+			"Mappage.html",
+			"BusinessQualification.html",
+			"checkform.html"
+		],
+		"resources": [
+			"Shoplist.html",
+			"js/shoppage.js"
+		]
+	},
+	"RegulatoryRecord.html": {
+		"refer": [
+			"ShopPage.html",
+			"MerchantInformation.html",
+			"Entry.html",
+			"Information.html",
+			"Shoplist.html"
+		],
+		"resources": []
+	},
+	"MerchantInformation.html": {
+		"refer": [
+			"RegulatoryRecord.html",
+			"BusinessQualification.html",
+			"ShopPage.html"
+		],
+		"resources": []
+	},
+	"BusinessQualification.html": {
+		"refer": [
+			"MerchantInformation.html",
+			"ShopPage.html"
+		],
+		"resources": []
+	},
+	"Shoplist.html": {
+		"refer": [
+			"RegulatoryRecord.html",
+			"Entry.html",
+			"Register.html",
+			"Individualcenter.html",
+			"Mappage.html",
+			"ShopPage.html",
+			"signup.html",
+			"managecenter.html",
+			"shopcenter.html"
+		],
+		"resources": [
+			"ShopPage.html"
+		]
+	},
+	"Register.html": {
+		"refer": [
+			"HomePage.html",
+			"Entry.html",
+			"Shoplist.html",
+			"signup.html"
+		],
+		"resources": [
+			"common/rem.js",
+			"img/logo2.png",
+			"css/mui.min.css",
+			"css/Register.css"
+		]
+	},
+	"Retrieve.html": {
+		"refer": [
+			"HomePage.html",
+			"Entry.html",
+			"signup.html"
+		],
+		"resources": [
+			"common/rem.js",
+			"css/retrieve.css",
+			"css/mui.min.css"
+		]
+	},
+	"Information.html": {
+		"refer": [
+			"RegulatoryRecord.html"
+		],
+		"resources": []
+	},
+	"Validate.html": {
+		"refer": [
+			"Shoplist.html",
+			"HomePage.html",
+			"app/frame/tab-webview-main.html"
+		],
+		"resources": []
+	},
+	"Mappage.html": {
+		"refer": [
+			"Shoplist.html",
+			"Individualcenter.html",
+			"Entry.html",
+			"signup.html",
+			"ShopPage.html",
+			"managecenter.html",
+			"shopcenter.html"
+		],
+		"resources": []
+	},
+	"Individualcenter.html": {
+		"refer": [
+			"Shoplist.html",
+			"Mappage.html",
+			"signup.html",
+			"managecenter.html",
+			"notice.html",
+			"shopcenter.html"
+		],
+		"resources": []
+	},
+	"signup.html": {
+		"refer": [
+			"Shoplist.html",
+			"Individualcenter.html",
+			"Register.html",
+			"Retrieve.html",
+			"managecenter.html",
+			"shopcenter.html",
+			"app/shopcenter/shopcenter.html",
+			"app/frame/tab-webview-main.html",
+			"HomePage.html",
+			"app/user/selecttype.html",
+			"app/user/newinput.html"
+		],
+		"resources": [
+			"common/rem.js",
+			"img/logo2.png",
+			"css/entry.css",
+			"common/common.js",
+			"css/mui.min.css"
+		]
+	},
+	"managecenter.html": {
+		"refer": [
+			"Mappage.html",
+			"Shoplist.html",
+			"Individualcenter.html",
+			"managetask.html",
+			"managerecord.html",
+			"shopcenter.html",
+			"signup.html",
+			"setbusiness.html",
+			"editmanageinfo.html",
+			"tab-webview-main.html",
+			"mytask.html",
+			"shopauxiliary.html",
+			"myrecords.html",
+			"dome-chat.html",
+			"tab-webview-subpage-chat.html",
+			"app/frame/tab-webview-main.html"
+		],
+		"resources": []
+	},
+	"checkform.html": {
+		"resources": [
+			"js/checkform.js"
+		],
+		"refer": [
+			"checkform.html",
+			"manageselect.html"
+		]
+	},
+	"managetask.html": {
+		"refer": [
+			"checkform.html"
+		],
+		"resources": []
+	},
+	"shopcenter.html": {
+		"refer": [
+			"Shoplist.html",
+			"Mappage.html",
+			"managecenter.html",
+			"Individualcenter.html",
+			"signup.html"
+		],
+		"resources": []
+	},
+	"setbusiness.html": {
+		"refer": [
+			"managecenter.html",
+			"jurisdictionlist.html",
+			"ShopPage.html",
+			"editshop.html",
+			"areaselect.html"
+		],
+		"resources": []
+	},
+	"editshop.html": {
+		"refer": [
+			"material.html"
+		],
+		"resources": []
+	},
+	"tab-webview-main.html": {
+		"resources": [
+			"tab-webview-subpage-about.html"
+		],
+		"refer": [
+			"tab-webview-subpage-about.html",
+			"tab-webview-subpage-chat.html",
+			"tab-webview-subpage-contact.html"
+		]
+	},
+	"mytask.html": {
+		"resources": [
+			"tab-webview-subpage-about.html",
+			"task-wait.html"
+		],
+		"refer": [
+			"tab-webview-subpage-about.html",
+			"tab-webview-subpage-chat.html",
+			"tab-webview-subpage-contact.html",
+			"task-wait.html",
+			"task-process.html",
+			"task-finished.html"
+		]
+	},
+	"task-wait.html": {
+		"refer": [
+			"checkform.html"
+		],
+		"resources": []
+	},
+	"editmanageinfo.html": {
+		"refer": [
+			"changemanpwd.html"
+		],
+		"resources": []
+	},
+	"changemanpwd.html": {
+		"refer": [
+			"signup.html"
+		],
+		"resources": []
+	},
+	"task-process.html": {
+		"refer": [
+			"checkform.html"
+		],
+		"resources": []
+	},
+	"task-finished.html": {
+		"refer": [
+			"checkform.html"
+		],
+		"resources": []
+	},
+	"shopauxiliary.html": {
+		"refer": [
+			"accessorysubmit.html"
+		],
+		"resources": []
+	},
+	"accessorysubmit.html": {
+		"refer": [
+			"accessorysubmit.html"
+		],
+		"resources": []
+	},
+	"myrecords.html": {
+		"resources": [
+			"task-wait.html",
+			"records-month.html",
+			"dome-chat.html"
+		],
+		"refer": [
+			"task-process.html",
+			"task-finished.html",
+			"task-wait.html",
+			"records-year.html",
+			"records-all.html",
+			"records-month.html",
+			"dome-chat.html",
+			"tab-webview-subpage-chat.html"
+		]
+	},
+	"records-year.html": {
+		"refer": [
+			"checkform.html"
+		],
+		"resources": []
+	},
+	"records-all.html": {
+		"refer": [
+			"checkform.html"
+		],
+		"resources": []
+	},
+	"tab-webview-subpage-chat.html": {
+		"refer": [
+			"checkform.html"
+		],
+		"resources": []
+	},
+	"records-month.html": {
+		"refer": [
+			"checkform.html"
+		],
+		"resources": []
+	},
+	"app/frame/tab-webview-main.html": {
+		"resources": [
+			"app/frame/tab-webview-subpage-about.html",
+			"js/mui.min.js",
+			"js/jquery-1.11.0.min.js",
+			"app/frame/tab-webview-subpage-contact.html",
+			"app/shopcenter/shopcenter.html",
+			"app/user/Individualcenter.html",
+			"app/frame/tab-webview-subpage-chat.html"
+		],
+		"refer": [
+			"app/frame/tab-webview-subpage-chat.html",
+			"app/frame/tab-webview-subpage-about.html",
+			"app/frame/tab-webview-subpage-contact.html",
+			"app/managecenter/editinfo/editmanageinfo.html",
+			"app/shopcenter/shopcenter.html",
+			"signup.html",
+			"app/user/Individualcenter.html",
+			"app/shopcenter/twocode.html",
+			"HomePage.html",
+			"app/frame/tab-webview-subpage-nicklogin.html"
+		]
+	},
+	"app/frame/tab-webview-subpage-contact.html": {
+		"refer": [
+			"app/managecenter/mytask.html",
+			"app/managecenter/mytask/mytask.html",
+			"app/managecenter/myrecords/myrecords.html",
+			"app/managecenter/setbusiness/setbusiness.html",
+			"app/managecenter/shopauxiliary/shopauxiliary.html",
+			"signup.html",
+			"app/notice/notice.html",
+			"app/message/notice.html",
+			"app/managecenter/editinfo/editmanageinfo.html",
+			"app/frame/tab-webview-main.html",
+			"app/shop/shoplist.html",
+			"app/managecenter/newrecord/newrecord.html",
+			"app/managecenter/checkcenter/checkcenter.html",
+			"app/managecenter/newrecord/allrecords.html",
+			"app/managecenter/checkcenter/check.html",
+			"app/managecenter/statistics/statistics.html",
+			"app/managecenter/checkcenter/selectdome.html",
+			"app/managecenter/myprint/myprint.html",
+			"app/managecenter/setbusiness/offcanvas-drag-left-plus-main.html",
+			"app/message/message.html",
+			"app/shortcut/shortcut.html"
+		],
+		"resources": [
+			"img/changemm.png",
+			"img/update.png",
+			"img/manage.png",
+			"img/task.png",
+			"fonts/mui.ttf",
+			"img/rule.png",
+			"img/recondsicon.png",
+			"img/personicon.png",
+			"img/leavea.png",
+			"img/regular-check.png",
+			"img/seller.png",
+			"img/release.png",
+			"img/newrecord.png",
+			"img/help.png"
+		]
+	},
+	"app/managecenter/mytask/mytask.html": {
+		"resources": [
+			"app/managecenter/mytask/task-wait.html",
+			"app/managecenter/mytask/task-finished.html",
+			"app/managecenter/mytask/task-process.html",
+			"js/mui.min.js",
+			"js/jquery-1.11.0.min.js"
+		],
+		"refer": [
+			"app/managecenter/mytask/task-finished.html",
+			"app/managecenter/mytask/task-wait.html",
+			"app/managecenter/mytask/task-process.html",
+			"app/managecenter/mytask/addtask.html",
+			"app/managecenter/mytask/selectman.html",
+			"app/managecenter/mytask/selectdome.html"
+		]
+	},
+	"app/managecenter/myrecords/myrecords.html": {
+		"resources": [
+			"app/managecenter/myrecords/records-month.html",
+			"app/managecenter/myrecords/records-year.html",
+			"app/managecenter/myrecords/records-all.html"
+		],
+		"refer": [
+			"app/managecenter/myrecords/records-year.html",
+			"app/managecenter/myrecords/records-all.html",
+			"app/managecenter/myrecords/records-month.html"
+		]
+	},
+	"app/managecenter/setbusiness/setbusiness.html": {
+		"refer": [
+			"app/managecenter/setbusiness/areaselect.html",
+			"app/managecenter/setbusiness/editshop.html",
+			"app/shop/ShopPage.html"
+		],
+		"resources": []
+	},
+	"app/managecenter/setbusiness/editshop.html": {
+		"refer": [
+			"app/managecenter/setbusiness/material.html",
+			"app/shopcenter/healthcertificate.html"
+		],
+		"resources": []
+	},
+	"app/managecenter/shopauxiliary/shopauxiliary.html": {
+		"refer": [
+			"app/managecenter/shopauxiliary/accessorysubmit.html"
+		],
+		"resources": []
+	},
+	"app/managecenter/editinfo/editmanageinfo.html": {
+		"refer": [
+			"app/changepwd/changemanpwd.html",
+			"app/shop/shopmap.html",
+			"app/managecenter/opentime/opentime.html",
+			"app/managecenter/editinfo/shoptype.html"
+		],
+		"resources": []
+	},
+	"app/managecenter/mytask/task-finished.html": {
+		"refer": [
+			"app/managecenter/checkform/checkform.html",
+			"app/managecenter/mytask/sfile.html"
+		],
+		"resources": []
+	},
+	"app/managecenter/mytask/task-process.html": {
+		"refer": [
+			"app/managecenter/checkform/checkform.html",
+			"app/managecenter/mytask/sfile.html"
+		],
+		"resources": []
+	},
+	"app/managecenter/mytask/task-wait.html": {
+		"refer": [
+			"app/managecenter/checkform/checkform.html",
+			"app/managecenter/mytask/sfile.html",
+			"app/managecenter/mytask/offcanvas-drag-left-plus-menu.html"
+		],
+		"resources": []
+	},
+	"app/managecenter/myrecords/records-month.html": {
+		"refer": [
+			"app/managecenter/checkform/checkform.html"
+		],
+		"resources": []
+	},
+	"app/managecenter/checkform/checkform.html": {
+		"refer": [
+			"app/managecenter/checkform/manageselect.html",
+			"app/managecenter/checkform/namelist.html",
+			"app/managecenter/checkform/selectdome.html"
+		],
+		"resources": [
+			"js/mui.picker.min.js",
+			"js/checkform.js"
+		]
+	},
+	"app/managecenter/myrecords/records-all.html": {
+		"refer": [
+			"app/managecenter/checkform/checkform.html"
+		],
+		"resources": []
+	},
+	"app/frame/tab-webview-subpage-about.html": {
+		"refer": [
+			"app/shop/ShopPage.html",
+			"app/shop/mapselect.html",
+			"app/mappilot/mappilot.html"
+		],
+		"resources": []
+	},
+	"app/frame/tab-webview-subpage-chat.html": {
+		"refer": [
+			"app/shop/ShopPage.html",
+			"app/mappilot/mappilot.html"
+		],
+		"resources": []
+	},
+	"app/shopcenter/shopcenter.html": {
+		"refer": [
+			"app/shopcenter/dishmanage.html",
+			"app/shopcenter/foodmanage.html",
+			"app/shopcenter/recordsmanage.html",
+			"app/shopcenter/shopinfo.html",
+			"app/shopcenter/shopcerbook.html",
+			"app/shopcenter/shopmaterial.html",
+			"app/notice/notice.html",
+			"signup.html",
+			"app/shopcenter/barcode.html",
+			"app/frame/tab-webview-main.html",
+			"app/shopcenter/healthcertificate.html",
+			"app/shopmessage/notice.html",
+			"app/managecenter/editinfo/editmanageinfo.html",
+			"app/shopmessage/shopmessage.html"
+		],
+		"resources": []
+	},
+	"app/shopcenter/dishmanage.html": {
+		"refer": [
+			"app/shopcenter/addactivity.html"
+		],
+		"resources": []
+	},
+	"app/shopcenter/foodmanage.html": {
+		"refer": [
+			"app/shopcenter/addfood.html"
+		],
+		"resources": []
+	},
+	"app/shopcenter/recordsmanage.html": {
+		"refer": [
+			"app/shopcenter/addfood.html",
+			"app/managecenter/checkform/checkform.html",
+			"app/managecenter/checkform/shopcheckform.html"
+		],
+		"resources": []
+	},
+	"app/managecenter/checkform/shopcheckform.html": {
+		"refer": [
+			"app/managecenter/checkform/manageselect.html"
+		],
+		"resources": []
+	},
+	"app/notice/notice.html": {
+		"refer": [
+			"app/notice/noticecontent.html",
+			"app/notice/newpush.html",
+			"app/notice/newmessage.html"
+		],
+		"resources": []
+	},
+	"app/shop/ShopPage.html": {
+		"refer": [
+			"app/shop/BusinessQualification.html",
+			"app/managecenter/checkform/checkform.html",
+			"app/shopcenter/twocode.html",
+			"app/mappilot/mappilot.html",
+			"app/shop/shopsalf.html",
+			"app/managecenter/checkform/shopcheckform.html"
+		],
+		"resources": []
+	},
+	"app/shop/BusinessQualification.html": {
+		"refer": [
+			"app/shop/ShopPage.html"
+		],
+		"resources": []
+	},
+	"app/user/Individualcenter.html": {
+		"refer": [
+			"app/changepwd/changemanpwd.html",
+			"app/notice/notice.html",
+			"signup.html",
+			"app/managecenter/editinfo/editmanageinfo.html",
+			"app/notice/usermessage.html"
+		],
+		"resources": [
+			"img/update.png",
+			"img/manage.png",
+			"img/setup.png",
+			"img/phone.png",
+			"img/alter.png",
+			"img/seller.png",
+			"img/leavea.png"
+		]
+	},
+	"app/managecenter/myrecords/records-year.html": {
+		"refer": [
+			"app/managecenter/checkform/checkform.html"
+		],
+		"resources": []
+	},
+	"app/changepwd/changemanpwd.html": {
+		"refer": [
+			"signup.html"
+		],
+		"resources": []
+	},
+	"app/message/notice.html": {
+		"refer": [
+			"app/message/noticecontent.html",
+			"app/message/newmessage.html",
+			"app/message/pushcontent.html",
+			"app/message/newpush.html"
+		],
+		"resources": []
+	},
+	"app/message/newmessage.html": {
+		"refer": [
+			"app/message/namelist.html"
+		],
+		"resources": []
+	},
+	"app/message/noticecontent.html": {
+		"refer": [
+			"app/message/namelist.html"
+		],
+		"resources": []
+	},
+	"app/shop/mapselect.html": {
+		"refer": [
+			"app/shop/ShopPage.html",
+			"app/mappilot/mappilot.html"
+		],
+		"resources": []
+	},
+	"app/mappilot/mappilot.html": {
+		"refer": [
+			"app/shop/ShopPage.html"
+		],
+		"resources": []
+	},
+	"app/shopmessage/notice.html": {
+		"refer": [
+			"app/shopmessage/newmessage.html",
+			"app/shopmessage/noticecontent.html",
+			"app/shopmessage/newpush.html",
+			"app/shopmessage/pushcontent.html"
+		],
+		"resources": []
+	},
+	"app/shopmessage/newmessage.html": {
+		"refer": [
+			"app/shopmessage/namelist.html"
+		],
+		"resources": []
+	},
+	"app/managecenter/mytask/addtask.html": {
+		"refer": [
+			"app/managecenter/setbusiness/areaselect.html",
+			"app/managecenter/newrecord/offcanvas-drag-left-plus-main.html",
+			"app/message/selectdome.html"
+		],
+		"resources": []
+	},
+	"app/shop/shoplist.html": {
+		"refer": [
+			"app/shop/ShopPage.html",
+			"app/mappilot/mappilot.html"
+		],
+		"resources": []
+	},
+	"app/message/newpush.html": {
+		"refer": [
+			"app/message/selectman.html",
+			"app/message/selectdome.html",
+			"app/managecenter/newrecord/offcanvas-drag-left-plus-main.html",
+			"app/message/userlist.html"
+		],
+		"resources": []
+	},
+	"app/managecenter/newrecord/allrecords.html": {
+		"refer": [
+			"app/managecenter/newrecord/recorddetail.html",
+			"app/managecenter/mytask/addtask.html",
+			"app/managecenter/newrecord/newrecord.html",
+			"app/managecenter/newrecord/offcanvas-drag-left-plus-main.html"
+		],
+		"resources": []
+	},
+	"app/managecenter/checkcenter/check.html": {
+		"refer": [
+			"app/managecenter/checkcenter/checkcenter.html",
+			"app/managecenter/checkcenter/activitycheck.html"
+		],
+		"resources": []
+	},
+	"app/managecenter/checkcenter/activitycheck.html": {
+		"refer": [
+			"app/managecenter/checkcenter/activitydetail.html",
+			"app/managecenter/checkcenter/fooddetail.html",
+			"app/managecenter/checkcenter/activitycheck.html"
+		],
+		"resources": []
+	},
+	"app/managecenter/checkcenter/checkcenter.html": {
+		"refer": [
+			"app/managecenter/checkcenter/activitydetail.html",
+			"app/managecenter/checkcenter/fooddetail.html",
+			"app/managecenter/checkcenter/checkcenter.html"
+		],
+		"resources": []
+	},
+	"app/notice/newpush.html": {
+		"refer": [
+			"app/notice/selectdome.html"
+		],
+		"resources": []
+	},
+	"app/shopmessage/newpush.html": {
+		"refer": [
+			"app/shopmessage/selectdome.html"
+		],
+		"resources": []
+	},
+	"app/managecenter/mytask/sfile.html": {
+		"refer": [
+			"app/managecenter/checkform/checkform.html"
+		],
+		"resources": []
+	},
+	"app/managecenter/newrecord/offcanvas-drag-left-plus-main.html": {
+		"refer": [
+			"app/managecenter/newrecord/offcanvas-drag-left-plus-menu.html",
+			"app/shop/ShopPage.html",
+			"app/managecenter/setbusiness/editshop.html",
+			"app/managecenter/setbusiness/areaselect.html",
+			"app/managecenter/newrecord/message.html"
+		],
+		"resources": []
+	},
+	"app/managecenter/setbusiness/offcanvas-drag-left-plus-main.html": {
+		"refer": [
+			"app/managecenter/setbusiness/offcanvas-drag-left-plus-menu.html",
+			"app/managecenter/setbusiness/areaselect.html",
+			"app/managecenter/setbusiness/editshop.html",
+			"app/managecenter/setbusiness/recordslist.html",
+			"app/shop/ShopPage.html",
+			"app/managecenter/setbusiness/message.html",
+			"app/managecenter/setbusiness/updateyear.html"
+		],
+		"resources": []
+	},
+	"app/managecenter/setbusiness/recordslist.html": {
+		"refer": [
+			"app/managecenter/checkform/checkform.html"
+		]
+	},
+	"app/message/message.html": {
+		"resources": [
+			"app/message/messageall.html"
+		],
+		"refer": [
+			"app/message/messageall.html",
+			"app/message/pushnotice.html"
+		]
+	},
+	"app/message/messageall.html": {
+		"refer": [
+			"app/message/noticecontent.html",
+			"app/message/newmessage.html"
+		]
+	},
+	"app/message/pushnotice.html": {
+		"refer": [
+			"app/message/noticecontent.html",
+			"app/message/pushcontent.html",
+			"app/message/newmessage.html",
+			"app/message/newpush.html"
+		]
+	},
+	"app/message/pushcontent.html": {
+		"refer": [
+			"app/message/newmessage.html",
+			"app/message/newpush.html"
+		]
+	},
+	"app/shopmessage/shopmessage.html": {
+		"resources": [
+			"app/shopmessage/messageall.html"
+		],
+		"refer": [
+			"app/shopmessage/messageall.html",
+			"app/shopmessage/pushnotice.html"
+		]
+	},
+	"app/shopmessage/pushnotice.html": {
+		"refer": [
+			"app/shopmessage/newpush.html",
+			"app/shopmessage/pushcontent.html"
+		]
+	},
+	"app/notice/usermessage.html": {
+		"resources": [
+			"app/notice/messageall.html"
+		],
+		"refer": [
+			"app/notice/pushnotice.html",
+			"app/notice/messageall.html"
+		]
+	},
+	"app/notice/messageall.html": {
+		"refer": [
+			"app/notice/newmessage.html"
+		]
+	},
+	"app/shopmessage/messageall.html": {
+		"refer": [
+			"app/shopmessage/newmessage.html",
+			"app/shopmessage/noticecontent.html"
+		]
+	},
+	"app/notice/pushnotice.html": {
+		"refer": [
+			"app/notice/pushcontent.html"
+		]
+	},
+	"app/managecenter/newrecord/recorddetail.html": {
+		"resources": [
+			"common/rem.js",
+			"css/recorddetail.css",
+			"css/areaselectcss/normalize.css",
+			"common/common.js",
+			"js/mui.min.js",
+			"css/areaselectcss/default.css",
+			"js/handlebars.js",
+			"css/mui.min.css",
+			"css/areaselectcss/styles.css",
+			"js/jquery-1.11.0.min.js",
+			"css/areaselectcss/foundation.css"
+		],
+		"refer": [
+			"app/managecenter/newrecord/editrecord.html"
+		]
+	},
+	"app/managecenter/setbusiness/message.html": {
+		"resources": [
+			"app/managecenter/setbusiness/recordslist.html",
+			"app/managecenter/setbusiness/shoptask.html"
+		],
+		"refer": [
+			"app/managecenter/setbusiness/recordslist.html",
+			"app/managecenter/setbusiness/shoptask.html",
+			"app/managecenter/checkform/checkform.html"
+		]
+	},
+	"app/managecenter/setbusiness/shoptask.html": {
+		"refer": [
+			"app/managecenter/checkform/checkform.html",
+			"app/managecenter/setbusiness/sfile.html"
+		]
+	},
+	"app/user/selecttype.html": {
+		"refer": [
+			"Register.html",
+			"app/user/binding.html"
+		]
+	},
+	"app/shortcut/shortcut.html": {
+		"refer": [
+			"app/shortcut/shortlist.html"
+		]
+	},
+	"app/managecenter/newrecord/message.html": {
+		"resources": [
+			"app/managecenter/newrecord/shoptask.html"
+		],
+		"refer": [
+			"app/managecenter/newrecord/shoptask.html"
+		]
+	}
+}
